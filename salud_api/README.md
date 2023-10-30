@@ -8,7 +8,7 @@ npm install
 ## Run
 npx tsc
 
-node dist/app/index.ts
+node dist/app/index.js
 
 
 

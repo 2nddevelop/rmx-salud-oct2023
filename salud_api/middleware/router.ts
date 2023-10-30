@@ -6,9 +6,13 @@ import AvisoController from '../controllers/AvisoController';
 import NoticiaController from '../controllers/NoticiaController';
 import MembresiaController from '../controllers/MembresiaController';
 import ComisionController from '../controllers/ComisionController';
-import AreaController from '../controllers/AreaController';
 import GalponController from '../controllers/GalponController';
 import RegistroController from '../controllers/RegistroController';
+
+import DoctorController from '../controllers/DoctorController';
+import CentroController from '../controllers/CentroController';
+import EspecialidadController from '../controllers/EspecialidadController';
+import PlanificacionController from '../controllers/PlanificacionController';
 import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -111,10 +115,6 @@ router.put('/noticia/:nt_id', authMiddleware, NoticiaController.updateNoticia);
 router.post('/noticia/:nt_id', authMiddleware, NoticiaController.deleteNoticia);
 
 // --- base area
-router.get('/areas', authMiddleware, AreaController.getAllAreas);
-router.post('/area', authMiddleware, AreaController.createArea);
-router.put('/area/:ar_id', authMiddleware, AreaController.updateArea);
-router.post('/area/:ar_id', authMiddleware, AreaController.deleteArea);
 
 // --- base galpon
 router.get('/galpones', authMiddleware, GalponController.getAllGalpones);
@@ -128,5 +128,31 @@ router.get('/registros/:reg_fecha/:reg_ar_id', RegistroController.getAllRegistro
 router.post('/registro', authMiddleware, RegistroController.createRegistro);
 router.put('/registro/:reg_id', authMiddleware, RegistroController.updateRegistro);
 router.post('/registro/:reg_id', authMiddleware, RegistroController.deleteRegistro);
+
+////////////////////////////////Salud
+
+///Centros
+router.get('/centros', authMiddleware, CentroController.getAllCentros);
+router.post('/centro', authMiddleware, CentroController.createCentro);
+router.put('/centro/:cnt_id', authMiddleware, CentroController.updateCentro);
+router.post('/centro/:cnt_id', authMiddleware, CentroController.deleteCentro);
+
+/////Especialidades
+router.get('/especialidades', authMiddleware, EspecialidadController.getAllEspecialidades);
+router.post('/especialidad', authMiddleware, EspecialidadController.createEspecialidad);
+router.put('/especialidad/:esp_id', authMiddleware, EspecialidadController.updateEspecialidad);
+router.post('/especialidad/:esp_id', authMiddleware, EspecialidadController.deleteEspecialidad);
+
+//// doctores
+router.get('/doctores', authMiddleware, DoctorController.getAllDoctores);
+router.post('/doctor', authMiddleware, DoctorController.createDoctor);
+router.put('/doctor/:doc_id', authMiddleware, DoctorController.updateDoctor);
+router.post('/doctor/:doc_id', authMiddleware, DoctorController.deleteDoctor);
+
+//// planificacion
+router.get('/planificaciones', authMiddleware, PlanificacionController.getAllPlanificaciones);
+router.post('/planificacion', authMiddleware, PlanificacionController.createPlanificacion);
+router.put('/planificacion/:pln_id', authMiddleware, PlanificacionController.updatePlanificacion);
+router.post('/planificacion/:pln_id', authMiddleware, PlanificacionController.deletePlanificacion);
 
 export default router;

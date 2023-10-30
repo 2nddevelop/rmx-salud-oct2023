@@ -181,7 +181,7 @@
                 <input
                   v-model="reg.reg_choqueta"
                   class="form-control"
-                  name="choqueta"
+                  fej
                   id="choqueta"
                   placeholder="Choqueta"
                 />

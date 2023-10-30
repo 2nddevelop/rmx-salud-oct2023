@@ -29,21 +29,39 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/areas',
-      name: 'areas',
+      path: '/doctores',
+      name: 'doctores',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AreasView.vue'),
+      component: () => import('../views/Doctores.vue'),
       meta: { requiresAuth: true }
     },
     {
-      path: '/galpones',
-      name: 'galpones',
+      path: '/planificaciones',
+      name: 'planificaciones',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/GalponesView.vue'),
+      component: () => import('../views/Planificaciones.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/centros',
+      name: 'centros',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/parametros/Centros.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/especialidades',
+      name: 'especialidades',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/parametros/Especialidades.vue'),
       meta: { requiresAuth: true }
     },
     {
@@ -53,15 +71,6 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/RegistrosView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/origenes',
-      name: 'origenes',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/OrigenesView.vue'),
       meta: { requiresAuth: true }
     },
     {

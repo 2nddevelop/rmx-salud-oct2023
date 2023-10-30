@@ -19,6 +19,7 @@ const centrosService = {
       throw error;
     }
   },
+  
   async saveData(newRecord) {
     try {
       const tk = localStorage.getItem('token');
@@ -34,7 +35,7 @@ const centrosService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.put(API_URL + `/centro/${record.cnt_id}`, record);
+      const response = await axios.put(API_URL + `/centro/${record.gp_id}`, record);
       return response.data;
     } catch (error) {
       throw error;
@@ -46,7 +47,7 @@ const centrosService = {
       console.log("Delete >>>", record);
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + `/centro/${record.cnt_id}`, record);
+      const response = await axios.post(API_URL + `/centro/${record.gp_id}`, record);
       return response.data;
     } catch (error) {
       throw error;

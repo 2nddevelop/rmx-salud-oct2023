@@ -1,7 +1,7 @@
 
 --
 -- SALUD
--- Base de Datos: rmx_salud
+-- Base de Datos: rmx_salud_2023
 --
 
 create table rmx_sld_centros (

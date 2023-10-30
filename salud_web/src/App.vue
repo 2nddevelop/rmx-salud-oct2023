@@ -12,11 +12,12 @@ import HelloWorld from './components/Encabezado.vue'
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/areas">Areas</RouterLink>
-        <RouterLink to="/galpones">Galpones</RouterLink>
-        <RouterLink to="/registros">Registros</RouterLink>
-        <RouterLink to="/origenes">Origenes</RouterLink>
-        <!--RouterLink to="/avisos">Avisos</RouterLink>
+        <RouterLink to="/planificaciones">Planificaciones</RouterLink>
+        <RouterLink to="/doctores">Doctores</RouterLink>
+        <RouterLink to="/centros">Centros Medicos</RouterLink>
+        <RouterLink to="/especialidades">Especialidades Medicas</RouterLink>
+        <!--RouterLink to="/origenes">Origenes</RouterLink>
+        <RouterLink to="/avisos">Avisos</RouterLink>
         <RouterLink to="/comisiones">Comisiones</RouterLink>
         <RouterLink to="/usuarios">Usuarios</RouterLink-->
           <RouterLink to="/about">About</RouterLink>
