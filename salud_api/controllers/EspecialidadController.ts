@@ -67,25 +67,21 @@ const EspecialidadController = {
     const { esp_usr_id, esp_modificado, esp_estado} = req.body;
 
     try {
-      // Verificar si las Especialidades existe en la base de datos
-      const especialidadesQuery = await pool.query('SELECT * FROM rmx_sld_especialidades WHERE esp_id = $1', [esp_id]);
-      const especialidades = especialidadesQuery.rows[0];
-
-      if (!especialidades) {
-        return res.status(404).json({ message: 'Especialidad no encontrada' });
+      const result = await pool.query(
+        'UPDATE rmx_sld_especialidades SET esp_modificado = 1 esp_estado = $2, esp_usr_id = $3 WHERE esp_id = $4 RETURNING *', 
+        [esp_modificado, esp_estado, esp_usr_id, esp_id]
+      );
+  
+      if (result.rowCount === 0) {
+         return res.status(404).json({ message: 'Especialidad no encontrado' });
       }
-
-      // Eliminar las Especialidades de la base de datos
-      await pool.query('UPDATE rmx_sld_especialidades SET esp_modificado = 1 esp_estado = $2, esp_usr_id = $3 WHERE esp_id = $4 RETURNING *', 
-            [esp_modificado, esp_estado, esp_usr_id, esp_id]);
-
+  
       res.json({ message: 'Especialidad eliminado correctamente' });
     } catch (error) {
       console.error('Error al eliminar el Especialidad:', error);
-      res.status(500).json({ message: 'Error interno del servidor' });
+      res.status(500).json({ message: 'Error interno del servidor', error});
     }
-  },
-
+  }
 };
 
 export default EspecialidadController;

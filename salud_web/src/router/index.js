@@ -28,6 +28,7 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
       meta: { requiresAuth: true }
     },
+    ///////////Salud
     {
       path: '/doctores',
       name: 'doctores',
@@ -64,6 +65,28 @@ const router = createRouter({
       component: () => import('../views/parametros/Especialidades.vue'),
       meta: { requiresAuth: true }
     },
+
+    {
+      path: '/tiposClientes',
+      name: 'tiposClientes',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/parametros/TiposCliente.vue'),
+      meta: { requiresAuth: true }
+    },
+
+    {
+      path: '/clientes',
+      name: 'clientes',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Cliente.vue'),
+      meta: { requiresAuth: true }
+    },
+    
+    ////////////
     {
       path: '/registros',
       name: 'registros',
@@ -71,6 +94,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/RegistrosView.vue'),
+    
       meta: { requiresAuth: true }
     },
     {

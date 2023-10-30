@@ -24,7 +24,6 @@ const CentroController = {
             cnt_modificado, cnt_usr_id, cnt_estado} = req.body;
 
     try {
-      // Crear un nuevo centros en la base de datos
       const newCentros = await pool.query('INSERT INTO rmx_sld_centros' 
       + '(cnt_codigo, cnt_descripcion, cnt_usr_id, cnt_estado)'
       + 'VALUES ($1, $2, $3, $4) RETURNING *', [cnt_codigo, cnt_descripcion, cnt_usr_id, cnt_estado ]);
@@ -41,7 +40,6 @@ const CentroController = {
     const { cnt_codigo, cnt_descripcion, cnt_modificado, cnt_usr_id, cnt_estado} = req.body;
 
     try {
-      // Verificar si el Centros existe en la base de datos
       const centrosQuery = await pool.query('SELECT * FROM rmx_sld_centros WHERE cnt_id = $1', [cnt_id]);
       const centros = centrosQuery.rows[0];
 
@@ -64,28 +62,25 @@ const CentroController = {
 
   deleteCentro: async (req: Request, res: Response) => {
     const { cnt_id } = req.params;
-    const { cnt_usr_id, cnt_modificado, cnt_estado} = req.body;
-
+    const { cnt_usr_id, cnt_modificado, cnt_estado } = req.body;
+  
     try {
-      // Verificar si el Centros existe en la base de datos
-      const centrosQuery = await pool.query('SELECT * FROM rmx_sld_centros WHERE cnt_id = $1', [cnt_id]);
-      const centros = centrosQuery.rows[0];
-
-      if (!centros) {
-        return res.status(404).json({ message: 'Centro no encontrada' });
+      const result = await pool.query(
+        'UPDATE rmx_sld_centros SET cnt_modificado = $1, cnt_estado = $2, cnt_usr_id = $3 WHERE cnt_id = $4 RETURNING *',
+        [cnt_modificado, cnt_estado, cnt_usr_id, cnt_id]
+      );
+  
+      if (result.rowCount === 0) {
+         return res.status(404).json({ message: 'Centro no encontrado' });
       }
-
-      // Eliminar el Centros de la base de datos
-      await pool.query('UPDATE rmx_sld_centros SET cnt_modificado = 1 cnt_estado = $2, cnt_usr_id = $3 WHERE cnt_id = $4 RETURNING *', 
-            [cnt_modificado, cnt_estado, cnt_usr_id, cnt_id]);
-
+  
       res.json({ message: 'Centro eliminado correctamente' });
     } catch (error) {
       console.error('Error al eliminar el Centro:', error);
-      res.status(500).json({ message: 'Error interno del servidor' });
+      res.status(500).json({ message: 'Error interno del servidor', error});
     }
-  },
-
+  }
+  
 };
 
 export default CentroController;

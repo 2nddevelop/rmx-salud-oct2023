@@ -3,7 +3,7 @@ import store from '../store/modules/authModule'
 
 const API_URL = 'http://localhost:3000/api'; // URL de tu API
 
-const centrosService = {
+const tiposClienteService = {
 
   setAuthHeader(token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -13,7 +13,7 @@ const centrosService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.get(API_URL + '/centros');
+      const response = await axios.get(API_URL + '/tiposClientes');
       return response.data;
     } catch (error) {
       throw error;
@@ -24,7 +24,7 @@ const centrosService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + '/centro', newRecord);
+      const response = await axios.post(API_URL + '/tipoCliente', newRecord);
       return response.data;
     } catch (error) {
       throw error;
@@ -35,7 +35,7 @@ const centrosService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.put(API_URL + `/centro/${record.cnt_id}`, record);
+      const response = await axios.put(API_URL + `/tipoCliente/${record.tcli_id}`, record);
       return response.data;
     } catch (error) {
       throw error;
@@ -47,7 +47,7 @@ const centrosService = {
       console.log("Delete >>>", record);
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + `/centro/${record.cnt_id}`, record);
+      const response = await axios.post(API_URL + `/tipoCliente/${record.tcli_id}`, record);
       return response.data;
     } catch (error) {
       throw error;
@@ -55,4 +55,4 @@ const centrosService = {
   },
 };
 
-export default centrosService;
+export default tiposClienteService;

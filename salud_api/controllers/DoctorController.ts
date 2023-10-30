@@ -100,24 +100,16 @@ const DoctorController = {
   },
 
   deleteDoctor: async (req: Request, res: Response) => {
-    console.log('ID: ', req.params);
-    console.log('Delete: ', req.body);
-
     const { doc_id } = req.params;
     const { doc_usr_id, doc_modificado, doc_estado} = req.body;
     try {
-      // Verificar si el Doctores existe en la base de datos
-      const doctoresQuery = await pool.query('SELECT * FROM rmx_sld_doctores WHERE doc_id = $1', [doc_id]);
-      const doctores = doctoresQuery.rows[0];
-
-      if (!doctores) {
+      const result = await pool.query(
+        'UPDATE rmx_sld_doctores SET doc_modificado = $1, doc_estado = $2, doc_usr_id = $3 WHERE doc_id = $4 RETURNING *', 
+        [doc_modificado, doc_estado, doc_usr_id, doc_id]
+      );
+      if (result.rowCount === 0) {
         return res.status(404).json({ message: 'Doctor no encontrado' });
       }
-
-      // Eliminar el Doctores de la base de datos
-      await pool.query('UPDATE rmx_sld_doctores SET doc_modificado = $1, doc_estado = $2, doc_usr_id = $3 WHERE doc_id = $4 RETURNING *', 
-            [doc_modificado, doc_estado, doc_usr_id, doc_id]);
-
       res.json({ message: 'Doctor eliminado correctamente' });
     } catch (error) {
       console.error('Error al eliminar el Doctor:', error);

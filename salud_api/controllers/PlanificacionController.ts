@@ -100,31 +100,24 @@ const PlanificacionController = {
   },
 
   deletePlanificacion: async (req: Request, res: Response) => {
-    console.log('ID: ', req.params);
-    console.log('Delete: ', req.body);
-
     const { pln_id } = req.params;
     const { pln_usr_id, pln_modificado, pln_estado} = req.body;
     try {
-      // Verificar si el Planificaciones existe en la base de datos
-      const planificacionesQuery = await pool.query('SELECT * FROM rmx_sld_planificacion WHERE pln_id = $1', [pln_id]);
-      const planificaciones = planificacionesQuery.rows[0];
-
-      if (!planificaciones) {
-        return res.status(404).json({ message: 'Planificacion no encontrado' });
+      const result = await pool.query(
+        'UPDATE rmx_sld_planificacion SET pln_modificado = $1, pln_estado = $2, pln_usr_id = $3 WHERE pln_id = $4 RETURNING *', 
+        [pln_modificado, pln_estado, pln_usr_id, pln_id]
+      );
+  
+      if (result.rowCount === 0) {
+         return res.status(404).json({ message: 'Planificacion no encontrado' });
       }
-
-      // Eliminar el Planificaciones de la base de datos
-      await pool.query('UPDATE rmx_sld_planificacion SET pln_modificado = $1, pln_estado = $2, pln_usr_id = $3 WHERE pln_id = $4 RETURNING *', 
-            [pln_modificado, pln_estado, pln_usr_id, pln_id]);
-
+  
       res.json({ message: 'Planificacion eliminado correctamente' });
     } catch (error) {
       console.error('Error al eliminar el Planificacion:', error);
-      res.status(500).json({ message: 'Error interno del servidor' });
+      res.status(500).json({ message: 'Error interno del servidor', error});
     }
-  },
-
+  }
 };
 
 export default PlanificacionController;

@@ -13,6 +13,8 @@ import DoctorController from '../controllers/DoctorController';
 import CentroController from '../controllers/CentroController';
 import EspecialidadController from '../controllers/EspecialidadController';
 import PlanificacionController from '../controllers/PlanificacionController';
+import TiposClienteController from '../controllers/TiposClienteController';
+import ClienteController from '../controllers/ClienteController';
 import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -154,5 +156,17 @@ router.get('/planificaciones', authMiddleware, PlanificacionController.getAllPla
 router.post('/planificacion', authMiddleware, PlanificacionController.createPlanificacion);
 router.put('/planificacion/:pln_id', authMiddleware, PlanificacionController.updatePlanificacion);
 router.post('/planificacion/:pln_id', authMiddleware, PlanificacionController.deletePlanificacion);
+
+/////Tipo Cliente
+router.get('/tiposClientes', authMiddleware, TiposClienteController.getAllTiposClientes);
+router.post('/tiposCliente', authMiddleware, TiposClienteController.createTipoCliente);
+router.put('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.updateTipoCliente);
+router.post('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.deleteTipoCliente);
+
+///Clientes
+router.get('/clientes', authMiddleware, ClienteController.getAllClientes);
+router.post('/cliente', authMiddleware, ClienteController.createCliente);
+router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
+router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
 export default router;

@@ -152,3 +152,36 @@ insert into rmx_sld_doctores (doc_cnt_id, doc_esp_id, doc_data, doc_usr_id) valu
 "doc_celular":"77755777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 
 1);
 
+/////////////
+
+create table rmx_gral_tipos_cliente (
+  tcli_id serial primary key,
+  tcli_codigo text not null,
+  tcli_descripcion text not null,
+  tcli_registrado timestamp without time zone NOT NULL DEFAULT now(),
+  tcli_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  tcli_usr_id integer NOT NULL,
+  tcli_estado text default 'A'
+);
+insert into rmx_gral_tipos_cliente (tcli_codigo, tcli_descripcion, tcli_usr_id) values
+('CLR', 'Cliente Regular', 1),
+('INS', 'Institucional', 1),
+('OTR', 'Otro', 1);
+
+
+create table rmx_gral_clientes (
+  cli_id serial primary key,
+  cli_tcli_id integer NOT NULL,
+  cli_data jsonb NOT NULL,
+  cli_registrado timestamp without time zone NOT NULL DEFAULT now(),
+  cli_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  cli_usr_id integer NOT NULL,
+  cli_estado text default 'A'
+);
+insert into rmx_gral_clientes (cli_tcli_id, cli_data, cli_usr_id) values
+( 1, "cli_nombres":"Jorge", "cli_paterno":"Paz", "cli_materno":"Soliz", "cli_nit":"1122334", "cli_telefono":"224455", "cli_celular":"70133444", "cli_direccion":"Arenal #444", "cli_correo":"jorge@gmail.com", "cli_clave":"123456"}', 1),
+( 2, "cli_nombres":"Maria", "cli_paterno":"Romero", "cli_materno":"Perez", "cli_nit":"2233445", "cli_telefono":"773344", "cli_celular":"69709210", "cli_direccion":"Flores #123", "cli_correo":"maria@gmail.com", "cli_clave":"123456"}', 1),
+( 2, "cli_provincia":"Murillo", "cli_nombres":"Luz", "cli_paterno":"Campero", "cli_materno":"Lopez", "cli_nit":"4455443", "cli_telefono":"6424245", "cli_celular":"67789898", "cli_direccion":"Sagarnaga #2222", "cli_correo":"luz@gmail.com", "cli_clave":"123456"}', 1),
+( 1, "cli_nombres":"Luis Miguel", "cli_paterno":"Zamora", "cli_materno":"Velez", "cli_nit":"5656567", "cli_telefono":"", "cli_celular":"70144222", "cli_direccion":"calle El Acre #199", "cli_correo":"luis@gmail.com", "cli_clave":"123456"}', 1),
+( 2, "cli_nombres":"Rolando", "cli_paterno":"Lima", "cli_materno":"Poma", "cli_nit":"5566778", "cli_telefono":"223456", "cli_celular":"76856011", "cli_direccion":"Mendez #113", "cli_correo":"rolando@gmail.com", "cli_clave":"123456"}', 1),
+( 1, "cli_nombres":"Waldo", "cli_paterno":"Romero", "cli_materno":"Romero", "cli_nit":"3344556", "cli_telefono":"223456", "cli_celular":"78899000", "cli_direccion":"Lapachos #113", "cli_correo":"waldo@gmail.com", "cli_clave":"123456"}', 1);

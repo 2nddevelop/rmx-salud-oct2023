@@ -21,7 +21,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(r, index) in regs" :key="r.cnt_id">
+            <tr v-for="(r, index) in regs" :key="r.tcli_id">
               <td width="3%" align="right">{{ index + 1 }}</td>
               <td>
                 <button 
@@ -56,8 +56,8 @@
                   </svg>
                 </button>
               </td>
-              <td align="right">{{ r.cnt_codigo }}</td>
-              <td align="right">{{ r.cnt_descripcion }}</td>
+              <td align="right">{{ r.tcli_codigo }}</td>
+              <td align="right">{{ r.tcli_descripcion }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -112,16 +112,17 @@
     
     <script>
   
-    import centrosService from '../../services/centrosService';
+    import tiposClienteService from '../../services/tiposClienteService';
 
     export default {
       data() {
         return {
           regs: [],
-          reg: {},
-          title: "LISTADO DE CENTROS",
-          plural: "Centros",
-          singular: "Centro",
+          reg: {
+          },
+          title: "LISTADO DE TIPO DE CLIENTE",
+          plural: "Tipos de Clientes",
+          singular: "Tipo de Cliente",
           showModal: false,
           isEditing: false,
         };
@@ -131,7 +132,6 @@
           return this.regs.length;
         }
       },
-
       mounted() {
         // Llama al método por defecto
         this.listarRegistros();
@@ -142,7 +142,7 @@
           //...mapActions('auth/', ['login']),
           async listarRegistros() {
               try {
-              this.regs = await centrosService.getData();
+              this.regs = await tiposClienteService.getData();
               console.log('Registros: ', this.regs);
               } catch (error) {
               // Manejar el error de inicio de sesión aquí
@@ -162,54 +162,44 @@
           
           
           async saveModal() {
-            try {
-              this.reg.cnt_usr_id = 1; // Asignar el ID del usuario
-              this.reg.cnt_estado = this.isEditing ? "A" : "X"; // Actualizar estado según el modo de edición
-
-              if (this.isEditing) {
-                const updatedReg = await centrosService.updateData(this.reg);
-                const index = this.regs.findIndex(item => item.cnt_id === updatedReg.cnt_id);
+            console.log("Reg: ", this.reg);
+            this.reg.tcli_usr_id = 1; // <----- Avito completar
+            this.reg.tcli_estado = "A";
+            if (this.isEditing) {
+              try {
+                const updatedReg = await tiposClienteService.updateData(this.reg);
+                const index = this.regs.findIndex(item => item.tcli_id === updatedReg.tcli_id);
                 if (index !== -1) {
-                  this.regs.splice(index, 1, updatedReg);
+                  this.$set(this.regs, index, updatedReg);
                 }
-              } else {
-                const savedReg = await centrosService.saveData(this.reg);
-                this.regs.push(savedReg);
+                this.closeModal();
+              } catch (error) {
+                console.error('Error al actualizar el registro:', error);
               }
-              this.closeModal();
-            } catch (error) {
-              console.error(this.isEditing ? 'Error al actualizar el registro:' : 'Error al guardar el registro:', error);
-              // Manejar el error, mostrar un mensaje al usuario, etc.
+            } else {
+              try {
+                const savedReg = await tiposClienteService.saveData(this.reg);
+                this.regs.push(savedReg);
+                this.closeModal();
+              } catch (error) {
+                console.error('Error al guardar el registro:', error);
+              }
             }
           },
 
   
           async deleteRegistro(reg) {
-            const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
+            this.reg = { ...reg };
 
-            if (confirmed) {
-              try {
-                const index = this.regs.findIndex(item => item.cnt_id === reg.cnt_id);
+            const indexL = this.regs.findIndex((regX) => reg.tcli_id === regX.tcli_id);
+            console.log("Index: ", indexL);
+            console.log("Data: ", this.regs[indexL]);
 
-                if (index !== -1) {
-                  reg.cnt_usr_id = 1; // Establecer el ID del usuario, si es necesario
-                  reg.cnt_estado = "X"; // Establecer el estado del registro para eliminación
-
-                  await centrosService.deleteData(reg); // Llamar al servicio para eliminar el registro
-
-                  this.regs.splice(index, 1); // Eliminar el registro de la lista localmente
-
-                  // Otra opción: 
-                  // this.regs = this.regs.filter(item => item.cnt_id !== reg.cnt_id);
-                  // Esto crea una nueva lista excluyendo el registro a eliminar
-
-                } else {
-                  console.error('No se encontró el registro para eliminar');
-                }
-              } catch (error) {
-                console.error('Error al eliminar el registro:', error);
-                // Manejar el error, mostrar un mensaje al usuario, etc.
-              }
+            this.reg.tcli_usr_id = 1; // <----- Avito completar
+            this.reg.tcli_estado = "X";
+            if (window.confirm("¿Estás seguro de eliminar este registro?")) {
+              const savedReg = await tiposClienteService.deleteData(this.reg);
+              this.regs.splice(indexL, 1);
             }
           },
           

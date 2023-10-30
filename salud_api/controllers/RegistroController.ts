@@ -57,7 +57,7 @@ const RegistroController = {
 
     try {
       // Crear un nuevo Registro en la base de datos
-      const newOrigen = await pool.query('INSERT INTO prc_registros'
+      const newRegistro = await pool.query('INSERT INTO prc_registros'
         + '(reg_ar_id, reg_gp_id, reg_fecha, '
         + 'reg_chimi, reg_choqueta, reg_comun, reg_elegida_kl, '
         + 'reg_hojeada, reg_hojeada_esp, reg_mediana, reg_mediana_esp, '
@@ -68,7 +68,7 @@ const RegistroController = {
           reg_hojeada, reg_hojeada_esp, reg_mediana, reg_mediana_esp, 
           reg_usr_id, reg_estado ]);
 
-      res.json(newOrigen.rows[0]);
+      res.json(newRegistro.rows[0]);
     } catch (error) {
       console.error('Error al crear el origen:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
