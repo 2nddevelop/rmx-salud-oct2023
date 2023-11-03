@@ -126,26 +126,16 @@
           isEditing: false,
         };
       },
-      computed: {
-        countOfRegs() {
-          return this.regs.length;
-        }
-      },
-
       mounted() {
-        // Llama al método por defecto
         this.listarRegistros();
       },
   
       methods: {
-  
-          //...mapActions('auth/', ['login']),
-          async listarRegistros() {
+            async listarRegistros() {
               try {
               this.regs = await centrosService.getData();
               console.log('Registros: ', this.regs);
               } catch (error) {
-              // Manejar el error de inicio de sesión aquí
               console.error('Error:', error.message);
               }
           },
@@ -162,10 +152,8 @@
           
           
           async saveModal() {
-            try {
-              this.reg.cnt_usr_id = 1; // Asignar el ID del usuario
-              this.reg.cnt_estado = this.isEditing ? "A" : "X"; // Actualizar estado según el modo de edición
-
+                this.reg.cnt_usr_id = 1; 
+                this.reg.cnt_estado = "A";
               if (this.isEditing) {
                 const updatedReg = await centrosService.updateData(this.reg);
                 const index = this.regs.findIndex(item => item.cnt_id === updatedReg.cnt_id);
@@ -177,38 +165,24 @@
                 this.regs.push(savedReg);
               }
               this.closeModal();
-            } catch (error) {
-              console.error(this.isEditing ? 'Error al actualizar el registro:' : 'Error al guardar el registro:', error);
-              // Manejar el error, mostrar un mensaje al usuario, etc.
-            }
           },
 
   
           async deleteRegistro(reg) {
             const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
-
             if (confirmed) {
               try {
                 const index = this.regs.findIndex(item => item.cnt_id === reg.cnt_id);
-
                 if (index !== -1) {
-                  reg.cnt_usr_id = 1; // Establecer el ID del usuario, si es necesario
-                  reg.cnt_estado = "X"; // Establecer el estado del registro para eliminación
-
-                  await centrosService.deleteData(reg); // Llamar al servicio para eliminar el registro
-
-                  this.regs.splice(index, 1); // Eliminar el registro de la lista localmente
-
-                  // Otra opción: 
-                  // this.regs = this.regs.filter(item => item.cnt_id !== reg.cnt_id);
-                  // Esto crea una nueva lista excluyendo el registro a eliminar
-
+                  reg.cnt_usr_id = 1;
+                  reg.cnt_estado = "X"; 
+                  await centrosService.deleteData(reg); 
+                  this.regs.splice(index, 1); 
                 } else {
                   console.error('No se encontró el registro para eliminar');
                 }
               } catch (error) {
                 console.error('Error al eliminar el registro:', error);
-                // Manejar el error, mostrar un mensaje al usuario, etc.
               }
             }
           },

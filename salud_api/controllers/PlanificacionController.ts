@@ -9,62 +9,31 @@ const PlanificacionController = {
   getAllPlanificaciones: async (req: Request, res: Response) => {
     try {
       const planificacionesQuery = await pool.query(
-        "SELECT p.*, c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion "
-        + "FROM rmx_sld_planificacion p "
-        + "INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id "
-        + "INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id "
-        + "WHERE p.pln_estado != 'X' ORDER BY 1 "
-      ); // quitar el plural dela ultima palabra
-      const planificaciones = planificacionesQuery.rows;
-      res.json(planificaciones);
-    } catch (error) {
-      console.error('Error al obtener los Planificaciones:', error);
-      res.status(500).json({ message: 'Error interno del servidor' });
-    }
-  },
-
-  /*getAllPlanificacionesByFechaArea: async (req: Request, res: Response) => {
-    console.log('List PlanificacionesByFechaArea: ', req.params);
-
-    const { reg_fecha, pln_cnt_id } = req.params;
-
-    try {
-      const planificacionesQuery = await pool.query(
-        "SELECT p.*, c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion "
-        + "FROM rmx_sld_planificacion p "
-        + "INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id "
-        + "INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id "
-        + "WHERE p.reg_fecha = $1 AND p.pln_cnt_id = $2 "
-        + " -- AND p.pln_esp_id = $3 "
-        + "  AND p.pln_estado != 'X' ORDER BY 1 ",
-        [reg_fecha, pln_cnt_id]
+        `SELECT p.*, c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion 
+        FROM rmx_sld_planificacion p
+        INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id
+        INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+        WHERE p.pln_estado != 'X' ORDER BY 1`
       );
       const planificaciones = planificacionesQuery.rows;
       res.json(planificaciones);
     } catch (error) {
-      console.error('Error al obtener los Planificaciones:', error);
+      console.error('Error al obtener las Planificaciones:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
-  },*/
+  },
 
   createPlanificacion: async (req: Request, res: Response) => {
-    console.log('Create: ', req.body);
-
-    const { pln_esp_id, pln_cnt_id,pln_data, 
-      pln_modificado, pln_usr_id, pln_estado } = req.body;
-
+    const { pln_esp_id, pln_cnt_id, pln_data, pln_usr_id, pln_estado } = req.body;
     try {
-      // Crear un nuevo Planificacion en la base de datos
-      const newPlanificacion = await pool.query('INSERT INTO rmx_sld_planificacion'
-        + '(pln_cnt_id, pln_esp_id, pln_data '
-        + 'pln_usr_id, pln_estado) '
-        + 'VALUES ($1, $2, $3, $4, $5, ) RETURNING *', 
-        [ pln_cnt_id, pln_esp_id, pln_data, 
-          pln_usr_id, pln_estado ]);
+      const newPlanificacion = await pool.query(
+        'INSERT INTO rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_data, pln_usr_id, pln_estado) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [pln_cnt_id, pln_esp_id, pln_data, pln_usr_id, pln_estado]
+      );
 
       res.json(newPlanificacion.rows[0]);
     } catch (error) {
-      console.error('Error al crear el origen:', error);
+      console.error('Error al crear la Planificación:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },

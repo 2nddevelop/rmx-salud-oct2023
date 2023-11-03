@@ -24,7 +24,7 @@ const tiposClienteService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + '/tipoCliente', newRecord);
+      const response = await axios.post(API_URL + '/tiposCliente', newRecord);
       return response.data;
     } catch (error) {
       throw error;
@@ -35,7 +35,7 @@ const tiposClienteService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.put(API_URL + `/tipoCliente/${record.tcli_id}`, record);
+      const response = await axios.put(API_URL + `/tiposCliente/${record.tcli_id}`, record);
       return response.data;
     } catch (error) {
       throw error;
@@ -47,7 +47,7 @@ const tiposClienteService = {
       console.log("Delete >>>", record);
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + `/tipoCliente/${record.tcli_id}`, record);
+      const response = await axios.post(API_URL + `/tiposCliente/${record.tcli_id}`, record);
       return response.data;
     } catch (error) {
       throw error;

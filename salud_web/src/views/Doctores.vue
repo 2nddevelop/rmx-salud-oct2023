@@ -86,8 +86,8 @@
       </div>
   
       <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay items-center justify-center">
-        <div class="relative w-full max-w-2xl max-h-full">
+      <div v-if="showModal" class="modal-overlay">
+          <div class="modal-content">
           <!-- Modal content -->
           <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
@@ -125,137 +125,65 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6">
-              <div class="grid grid-cols-3 m-0">
-                <div class="p-4 m-0">
-                  <label for="doc_cnt_id">Centro</label>
-                  <select v-model="reg.doc_cnt_id" class="form-control"
-                    name="doc_cnt_id" id="doc_cnt_id"
-                    placeholder="Centro"
-                    required>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
-                  </select>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="form-group">
+                    <label for="doc_cnt_id" class="font-semibold">Centro</label>
+                    <select v-model="reg.doc_cnt_id" class="form-control" name="doc_cnt_id" id="doc_cnt_id" placeholder="Centro" required>
+                      <option value="0">-- seleccione --</option>
+                      <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+                    </select>
                 </div>
-                <div class="p-4 m-0">
-                  <label for="doc_esp_id">Especialidad</label>
-                  <select v-model="reg.doc_esp_id" class="form-control"
-                    name="doc_esp_id" id="doc_esp_id"
-                    placeholder="Especialidad"
-                    required>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
-                  </select>
+                <div class="form-group">
+                    <label for="doc_esp_id" class="font-semibold">Especialidad</label>
+                    <select v-model="reg.doc_esp_id" class="form-control" name="doc_esp_id" id="doc_esp_id" placeholder="Especialidad" required>
+                      <option value="0">-- seleccione --</option>
+                      <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
+                    </select>
                 </div>
               </div>
-              <div>
-                <div class="col-md-6">
+              
+              <div class="grid grid-cols-4 gap-3">
+                <div class="form-group">
                   <label for="paterno">Paterno:</label>
-                  <input
-                    v-model="reg.doc_data.doc_paterno"
-                    class="form-control"
-                    name="paterno"
-                    id="paterno"
-                    placeholder="Paterno"
-                  />
+                  <input v-model="reg.doc_data.doc_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
                 </div>
-                <div class="col-md-6">
+                <div class="form-group">
                   <label for="materno">Materno:</label>
-                  <input
-                    v-model="reg.doc_data.doc_materno"
-                    class="form-control"
-                    name="materno"
-                    id="materno"
-                    placeholder="Materno"
-                  />
+                  <input v-model="reg.doc_data.doc_materno" class="form-control" name="materno" id="materno" placeholder="Materno" />
                 </div>
-                <div class="col-md-6">
+                <div class="form-group">
                   <label for="nombres">Nombres:</label>
-                  <input
-                    v-model="reg.doc_data.doc_nombres"
-                    class="form-control"
-                    name="nombres"
-                    id="nombres"
-                    placeholder="Nombres"
-                  />
+                  <input v-model="reg.doc_data.doc_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" />
                 </div>
-                <div class="col-md-6">
-                  <label for="ci">CI:</label>
-                  <input
-                    v-model="reg.doc_data.doc_ci"
-                    class="form-control"
-                    name="ci"
-                    id="ci"
-                    placeholder="CI"
-                  />
+                <div class="form-group">
+                  <label for="CI">CI:</label>
+                  <input v-model="reg.doc_data.doc_ci" class="form-control" name="ci" id="ci" placeholder="CI" />
                 </div>
-                <div class="col-md-6">
-                  <label for="celular">Celular:</label>
-                  <input
-                    v-model="reg.doc_data.doc_celular"
-                    class="form-control"
-                    name="celular"
-                    id="celular"
-                    placeholder="Celular"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <label for="dias">Dias:</label>
-                  <input
-                    v-model="reg.doc_data.doc_dias"
-                    class="form-control"
-                    name="dias"
-                    id="dias"
-                    placeholder="Dias"
-                  />
-                </div>
+              </div>
+              <div class="form-group">
+                <label for="celular">Celular:</label>
+                <input v-model="reg.doc_data.doc_celular" class="form-control" name="celular" id="celular" placeholder="Celular" />
+              </div>
+              <div class="form-group">
+                <label for="dias">Dias:</label>
+                <input v-model="reg.doc_data.doc_dias" class="form-control" name="dias" id="dias" placeholder="Dias" />
+              </div>
+              <div class="grid grid-cols-2 gap-4">
                 <div class="col-md-6">
                   <label for="horarioini">Horario Inicio:</label>
-                  <input
-                    type="time"
-                    v-model="reg.doc_data.doc_horario_inicio"
-                    class="form-control"
-                    name="horarioini"
-                    id="horarioini"
-                    placeholder="Horario Inicio"
-                  />
+                  <input type="time" v-model="reg.doc_data.doc_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
                 </div>
                 <div class="col-md-6">
                   <label for="horariofin">Horario Fin:</label>
-                  <input
-                    type="time"
-                    v-model="reg.doc_data.doc_horario_fin"
-                    class="form-control"
-                    name="horariofin"
-                    id="horariofin"
-                    placeholder="Horario Fin"
-                  />
+                  <input type="time" v-model="reg.doc_data.doc_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
                 </div>
               </div>
             </div>
             <!-- Modal footer -->
-            <div
-              class="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
-            >
-              <button
-                @click="saveModal"
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded"
-              >
+            <div class="modal-footer">
+              <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
                 {{ isEditing ? "Actualizar" : "Guardar" }}
               </button>
-              <button
-                @click="closeModal()"
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
-              >
-                Cerrar
-              </button>
-              <!--button
-                data-modal-hide="defaultModal"
-                type="button"
-                class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                I accept
-              </button-->
             </div>
           </div>
         </div>
@@ -273,13 +201,23 @@
     data() {
       return {
         regs: [],
-        reg: { doc_data:{} },
+        reg: {            
+           doc_data:{
+              doc_paterno: '',
+              doc_materno: '',
+              doc_nombres: '',
+              doc_ci: '',
+              doc_celular: '',
+              doc_dias: '',
+              doc_horario_inicio: '',
+              doc_horario_fin: ''
+          } 
+        },
         title: "LISTADO DE DOCTORES",
         plural: "Doctores",
         singular: "Doctor",
         showModal: false,
         isEditing: false,
-        // -- otros
         centros: [],
         especialidades: [],
       };
@@ -321,48 +259,61 @@
       },
       newRegistro() {
         this.isEditing = false;
-        this.reg = {};
-        this.openModal(false);
+        this.reg = {
+          doc_data: {
+            doc_paterno: '',
+            doc_materno: '',
+            doc_nombres: '',
+            doc_ci: '',
+            doc_celular: '',
+            doc_dias: '',
+            doc_horario_inicio: '',
+            doc_horario_fin: ''
+          }
+        };
+        this.showModal = true;
       },
       editRegistro(reg) {
         this.isEditing = true;
-        this.reg = { ...reg };
-        this.openModal(true);
-        console.log("Reg >>> ", this.reg);
+        this.reg = Object.assign({}, reg);
+        this.showModal = true;
       },
+
       async saveModal() {
-        console.log("Reg: ", this.reg);
         this.reg.doc_usr_id = 1; 
         this.reg.doc_estado = "A";
         if (this.isEditing) {
           const updatedReg = await doctoresService.updateData(this.reg);
-          this.regs[
-            this.regs.findIndex((reg) => reg.doc_id === updatedReg.doc_id)
-          ] = updatedReg;
-        } else {
-          const savedReg = await doctoresService.saveData(this.reg);
-          this.regs.push(savedReg);
-        }
+          const index = this.regs.findIndex(item => item.doc_id === updatedReg.doc_id);
+            if (index !== -1) {
+              this.regs.splice(index, 1, updatedReg);
+            }
+          } else {
+            const savedReg = await doctoresService.saveData(this.reg);
+            this.regs.push(savedReg);
+          }
         this.closeModal();
       },
+
       async deleteRegistro(reg) {
-        this.reg = { ...reg };
-  
-        const indexL = this.regs.findIndex((regX) => reg.doc_id === regX.doc_id);
-        console.log("Index: ", indexL);
-        console.log("Data: ", this.regs[indexL]);
-  
-        this.reg.doc_usr_id = 1; // <----- Avito completar
-        this.reg.doc_estado = "X";
-        if (window.confirm("¿Estás seguro de eliminar este registro?")) {
-          const savedReg = await doctoresService.deleteData(this.reg);
-          this.regs.splice(indexL, 1);
+        const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
+        if (confirmed) {
+          try {
+            const index = this.regs.findIndex(item => item.doc_id === reg.doc_id);
+            if (index !== -1) {
+              reg.doc_usr_id = 1;
+              reg.doc_estado = "X"; 
+              await doctoresService.deleteData(reg); 
+              this.regs.splice(index, 1); 
+            } else {
+              console.error('No se encontró el registro para eliminar');
+            }
+          } catch (error) {
+            console.error('Error al eliminar el registro:', error);
+          }
         }
       },
-      openModal(editing) {
-        this.showModal = true;
-        this.isEditing = editing;
-      },
+
       closeModal() {
         this.showModal = false;
       },
@@ -469,22 +420,42 @@
     align-items: center;
     justify-content: center;
   }
+
+  <style>
+  /* ... (otros estilos) ... */
   
-  /* Modal content styles */
   .modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Aumenta el ancho máximo del modal */
+    width: 100%; /* Ocupará el 100% del ancho disponible */
   }
   
-  /* Modal title styles */
   .modal-title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .modal-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .modal-footer button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .modal-footer button:hover {
+    background-color: #f0f0f0;
   }
   
   /* Form field styles */
@@ -497,13 +468,6 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
-  
-  /* Modal footer styles */
-  .modal-footer {
-    margin-top: 15px;
-    display: flex;
-    justify-content: flex-end;
   }
   </style>
   

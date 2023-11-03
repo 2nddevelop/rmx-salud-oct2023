@@ -20,8 +20,7 @@ const TiposClienteController = {
   },
 
   createTipoCliente: async (req: Request, res: Response) => {
-    const { tcli_codigo, tcli_descripcion, 
-            tcli_modificado, tcli_usr_id, tcli_estado} = req.body;
+    const { tcli_codigo, tcli_descripcion, tcli_usr_id, tcli_estado} = req.body;
 
     try {
       const newTiposCliente = await pool.query('INSERT INTO rmx_gral_tipos_cliente' 

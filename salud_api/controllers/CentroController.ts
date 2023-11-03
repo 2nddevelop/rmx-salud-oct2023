@@ -20,8 +20,7 @@ const CentroController = {
   },
 
   createCentro: async (req: Request, res: Response) => {
-    const { cnt_codigo, cnt_descripcion, 
-            cnt_modificado, cnt_usr_id, cnt_estado} = req.body;
+    const { cnt_codigo, cnt_descripcion, cnt_usr_id, cnt_estado} = req.body;
 
     try {
       const newCentros = await pool.query('INSERT INTO rmx_sld_centros' 
@@ -47,10 +46,9 @@ const CentroController = {
         return res.status(404).json({ message: 'Centro no encontrada' });
       }
 
-      // Actualizar el Centros en la base de datos
       const updateCentro = await pool.query(
-        'UPDATE rmx_sld_centros SET cnt_codigo = $1, cnt_descripcion = $2, cnt_modificado = $3, cnt_usr_id = $4 WHERE cnt_id = $5 RETURNING *',
-        [cnt_codigo, cnt_descripcion, cnt_modificado, cnt_usr_id, cnt_id]
+        'UPDATE rmx_sld_centros SET cnt_codigo = $1, cnt_descripcion = $2, cnt_modificado = $3, cnt_usr_id = $4, WHERE cnt_id = $5 RETURNING *',
+        [cnt_codigo, cnt_descripcion, cnt_modificado, cnt_usr_id,  cnt_id]
       );
 
       res.json(updateCentro.rows[0]);

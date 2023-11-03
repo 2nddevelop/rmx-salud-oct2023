@@ -44,7 +44,6 @@ const especialidadesService = {
 
   async deleteData(record) {
     try {
-      console.log("Delete >>>", record);
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const response = await axios.post(API_URL + `/especialidad/${record.esp_id}`, record);

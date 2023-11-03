@@ -90,11 +90,11 @@
                 <div class="grid grid-cols-2 m-0">
                   <div>
                     <label for="codigo">Codigo:</label>
-                    <input v-model="reg.cnt_codigo" class="form-control" name="codigo" id="codigo" placeholder="Codigo" />
+                    <input v-model="reg.tcli_codigo" class="form-control" name="codigo" id="codigo" placeholder="Codigo" />
                   </div>
                   <div>
                     <label for="descripcion">Descripcion:</label>
-                    <input v-model="reg.cnt_descripcion" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion" />
+                    <input v-model="reg.tcli_descripcion" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion" />
                   </div>
                 </div>
               </div>
@@ -118,8 +118,7 @@
       data() {
         return {
           regs: [],
-          reg: {
-          },
+          reg: {},
           title: "LISTADO DE TIPO DE CLIENTE",
           plural: "Tipos de Clientes",
           singular: "Tipo de Cliente",
@@ -127,20 +126,12 @@
           isEditing: false,
         };
       },
-      computed: {
-        countOfRegs() {
-          return this.regs.length;
-        }
-      },
       mounted() {
-        // Llama al método por defecto
         this.listarRegistros();
       },
   
       methods: {
-  
-          //...mapActions('auth/', ['login']),
-          async listarRegistros() {
+            async listarRegistros() {
               try {
               this.regs = await tiposClienteService.getData();
               console.log('Registros: ', this.regs);
@@ -162,44 +153,38 @@
           
           
           async saveModal() {
-            console.log("Reg: ", this.reg);
-            this.reg.tcli_usr_id = 1; // <----- Avito completar
+            this.reg.tcli_usr_id = 1; 
             this.reg.tcli_estado = "A";
             if (this.isEditing) {
-              try {
                 const updatedReg = await tiposClienteService.updateData(this.reg);
                 const index = this.regs.findIndex(item => item.tcli_id === updatedReg.tcli_id);
                 if (index !== -1) {
-                  this.$set(this.regs, index, updatedReg);
+                  this.regs.splice(index, 1, updatedReg);
                 }
-                this.closeModal();
-              } catch (error) {
-                console.error('Error al actualizar el registro:', error);
-              }
             } else {
-              try {
                 const savedReg = await tiposClienteService.saveData(this.reg);
                 this.regs.push(savedReg);
-                this.closeModal();
-              } catch (error) {
-                console.error('Error al guardar el registro:', error);
-              }
             }
+            this.closeModal();
           },
 
   
           async deleteRegistro(reg) {
-            this.reg = { ...reg };
-
-            const indexL = this.regs.findIndex((regX) => reg.tcli_id === regX.tcli_id);
-            console.log("Index: ", indexL);
-            console.log("Data: ", this.regs[indexL]);
-
-            this.reg.tcli_usr_id = 1; // <----- Avito completar
-            this.reg.tcli_estado = "X";
-            if (window.confirm("¿Estás seguro de eliminar este registro?")) {
-              const savedReg = await tiposClienteService.deleteData(this.reg);
-              this.regs.splice(indexL, 1);
+            const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
+            if (confirmed) {
+              try {
+                const index = this.regs.findIndex(item => item.tcli_id === reg.tcli_id);
+                if (index !== -1) {
+                  reg.tcli_usr_id = 1;
+                  reg.tcli_estado = "X"; 
+                  await tiposClienteService.deleteData(reg); 
+                  this.regs.splice(index, 1); 
+                } else {
+                  console.error('No se encontró el registro para eliminar');
+                }
+              } catch (error) {
+                console.error('Error al eliminar el registro:', error);
+              }
             }
           },
           

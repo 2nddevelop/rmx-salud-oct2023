@@ -10,7 +10,7 @@ const EspecialidadController = {
     try {
       const especialidadesQuery = await pool.query(
         "SELECT * FROM rmx_sld_especialidades WHERE esp_estado != 'X' ORDER BY 1 "
-      ); // quitar el plural dela ultima palabra
+      ); 
       const especialidades = especialidadesQuery.rows;
       res.json(especialidades);
     } catch (error) {
@@ -20,11 +20,9 @@ const EspecialidadController = {
   },
 
   createEspecialidad: async (req: Request, res: Response) => {
-    const { esp_codigo, esp_descripcion, 
-            esp_modificado, esp_usr_id, esp_estado} = req.body;
+    const { esp_codigo, esp_descripcion, esp_usr_id, esp_estado} = req.body;
 
     try {
-      // Crear un nuevo especialidades en la base de datos
       const newEspecialidades = await pool.query('INSERT INTO rmx_sld_especialidades' 
       + '(esp_codigo, esp_descripcion, esp_usr_id, esp_estado)'
       + 'VALUES ($1, $2, $3, $4) RETURNING *', [esp_codigo, esp_descripcion, esp_usr_id, esp_estado ]);
@@ -68,7 +66,7 @@ const EspecialidadController = {
 
     try {
       const result = await pool.query(
-        'UPDATE rmx_sld_especialidades SET esp_modificado = 1 esp_estado = $2, esp_usr_id = $3 WHERE esp_id = $4 RETURNING *', 
+        'UPDATE rmx_sld_especialidades SET esp_modificado = $1, esp_estado = $2, esp_usr_id = $3 WHERE esp_id = $4 RETURNING *', 
         [esp_modificado, esp_estado, esp_usr_id, esp_id]
       );
   
@@ -83,5 +81,4 @@ const EspecialidadController = {
     }
   }
 };
-
 export default EspecialidadController;

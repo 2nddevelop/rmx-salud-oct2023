@@ -23,12 +23,8 @@ const ClienteController = {
   },
 
   createCliente: async (req: Request, res: Response) => {
-    console.log('Create: ', req.body);
-
     const { cli_tcli_id, cli_data, cli_modificado, cli_usr_id, cli_estado } = req.body;
-
     try {
-      // Crear un nuevo Cliente en la base de datos
       const newCliente = await pool.query('INSERT INTO rmx_gral_clientes'
         + '(cli_tcli_id, cli_data, cli_usr_id, cli_estado) '
         + 'VALUES ($1, $2, $3, $4) RETURNING *', 
@@ -36,20 +32,15 @@ const ClienteController = {
 
       res.json(newCliente.rows[0]);
     } catch (error) {
-      console.error('Error al crear el origen:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },
 
   updateCliente: async (req: Request, res: Response) => {
-    console.log('ID: ', req.params);
-    console.log('Update: ', req.body);
-
     const { cli_id } = req.params;
     const { cli_tcli_id, cli_data, cli_modificado, cli_usr_id, cli_estado } = req.body;
 
     try {
-      // Verificar si el Clientes existe en la base de datos
       const clienteQuery = await pool.query('SELECT * FROM rmx_gral_clientes WHERE cli_id = $1', [cli_id]);
       const clientes = clienteQuery.rows[0];
 

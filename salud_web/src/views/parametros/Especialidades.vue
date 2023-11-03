@@ -1,19 +1,15 @@
 <template>
-  <div class="">
     <div>
-        <div class="grid grid-cols-2">
-            <div class="p-6 m-1">
-                <h1>{{ title }}</h1>
-            </div>
-            <div class="flex justify-end p-6 m-1">
-            <button @click="newRegistro()" 
-              class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded" 
-              title="Nuevo">
-                  + Nuevo
+      <div class="grid grid-cols-2">
+          <div class="p-6 m-1">
+            <h1>{{ title }}</h1>
+          </div>
+          <div class="flex justify-end p-6 m-1">
+            <button @click="newRegistro" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded" title="Nuevo">
+              + Nuevo
             </button>
-            </div>
-        </div>
-    </div>  
+          </div>
+      </div>
       <div style="overflow-x: auto">
         <table class="table table-responsive">
           <thead class="thead-dark">
@@ -41,7 +37,7 @@
                     <path 
                         d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"
                     />
-                  </svg>
+                    </svg>
                 </button>
                 <button @click="deleteRegistro(r)" 
                   class="bg-red-500 hover-bg-red-600 text-white font-bold py-2 px-4 m-1 rounded" 
@@ -71,23 +67,21 @@
           </tfoot>
         </table>
       </div>
-  
       <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay items-center justify-center">
-        <div class="relative w-full max-w-2xl max-h-full">
+      <div v-if="showModal" class="modal-overlay">
+        <div class="modal-content">
           <!-- Modal content -->
           <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
-            <div 
-                class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h2 class="modal-title text-xl font-semibold text-gray-900 dark:text-white">
-                    {{ isEditing ? "Editar " : "Nuevo " }} {{ singular }}
+                  {{ isEditing ? "Editar " : "Nuevo " }} {{ singular }}
                 </h2>
                 <button type="button" @click="closeModal" class="text-gray-400 bg-transparent hover-bg-gray-200 hover-text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover-bg-gray-600 dark:hover-text-white" data-modal-hide="defaultModal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Cerrar modal</span>
+                  </svg>
+                  <span class="sr-only">Cerrar modal</span>
                 </button>
             </div>
             <!-- Modal body -->
@@ -104,11 +98,10 @@
               </div>
             </div>
             <!-- Modal footer -->
-            <div class="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-              <button @click="savemodal" 
-                class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
-                {{ isEditing ? "Actualizar" : "Guardar" }}
-              </button>
+            <div class="modal-footer">
+                <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
+                  {{ isEditing ? "Actualizar" : "Guardar" }}
+                </button>
             </div>
           </div>
         </div>
@@ -131,43 +124,38 @@
         isEditing: false,
       };
     },
-
     mounted() {
-      // Llama al método por defecto
       this.listarRegistros();
     },
 
     methods: {
-
-        //...mapActions('auth/', ['login']),
         async listarRegistros() {
             try {
             this.regs = await especialidadesService.getData();
             console.log('Registros: ', this.regs);
             } catch (error) {
-            // Manejar el error de inicio de sesión aquí
             console.error('Error:', error.message);
             }
         },
         newRegistro() {
             this.isEditing = false;
             this.reg = {};
-            this.openModal = false;
+            this.showModal = true;
         },
         editRegistro(reg) {
             this.isEditing = true;
             this.reg = { ...reg };
-            this.openModal = true;
+            this.showModal = true;
         },
         async saveModal() {
-            console.log("Reg: ", this.reg);
-            this.reg.esp_usr_id = 1; // <----- Avito completar
-            this.reg.esp_estado = "A";
+              this.reg.esp_usr_id = 1; 
+              this.reg.esp_estado = "A";   
             if (this.isEditing) {
                 const updatedReg = await especialidadesService.updateData(this.reg);
-                this.regs[
-                this.regs.findIndex((reg) => reg.esp_id === updatedReg.esp_id)
-                ] = updatedReg;
+                const index = this.regs.findIndex(item => item.esp_id === updatedReg.esp_id);
+                if (index !== -1) {
+                  this.regs.splice(index, 1, updatedReg);
+                }
             } else {
                 const savedReg = await especialidadesService.saveData(this.reg);
                 this.regs.push(savedReg);
@@ -176,29 +164,29 @@
         },
 
         async deleteRegistro(reg) {
-            this.reg = { ...reg };
-
-            const indexL = this.regs.findIndex((regX) => reg.esp_id === regX.esp_id);
-            console.log("Index: ", indexL);
-            console.log("Data: ", this.regs[indexL]);
-
-            this.reg.esp_usr_id = 1; // <----- Avito completar
-            this.reg.esp_estado = "X";
-            if (window.confirm("¿Estás seguro de eliminar este registro?")) {
-                const savedReg = await especialidadesService.deleteData(this.reg);
-                this.regs.splice(indexL, 1);
+          const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
+          if (confirmed) {
+            try {
+              const index = this.regs.findIndex(item => item.esp_id === reg.esp_id);
+              if (index !== -1){
+                reg.esp_usr_id = 1; 
+                reg.esp_estado = "X";
+                await especialidadesService.deleteData(reg); 
+                this.regs.splice(index, 1); 
+                } else {
+                  console.error('No se encontró el registro para eliminar');
+                }
+              } catch (error) {
+                console.error('Error al eliminar el registro:', error);
+              }
             }
-        },
-        openModal(editing) {
-            this.showModal = true;
-            this.isEditing = editing;
-        },
-        closeModal() {
-            this.isEditing = false;
-            this.showModal = false;
-        },
-    },
-  };
+          },
+          closeModal() {
+              this.isEditing = false;
+              this.showModal = false;
+          },
+      },
+    };
 </script>
 
 <style>
@@ -300,22 +288,40 @@
   justify-content: center;
 }
 
-/* Modal content styles */
 .modal-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
 }
 
-/* Modal title styles */
 .modal-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #333;
 }
+
+.modal-footer {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-footer button:hover {
+  background-color: #f0f0f0;
+}
+
 
 /* Form field styles */
 .form-group {
@@ -329,10 +335,10 @@
   border-radius: 4px;
 }
 
-/* Modal footer styles */
+/* Modal footer styles 
 .modal-footer {
   margin-top: 15px;
   display: flex;
   justify-content: flex-end;
-}
+}*/
 </style>
