@@ -5,26 +5,53 @@ import HelloWorld from './components/Encabezado.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" />
 
     <div class="wrapper">
-      <HelloWorld msg="Coca Road" />
-
+      <HelloWorld msg="Plataforma de Salud" />
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/especialidades">Especialidades Medicas</RouterLink>
-        <RouterLink to="/tiposClientes">Tipos de Cliente</RouterLink>
-        <RouterLink to="/centros">Centros Medicos</RouterLink>
-        <RouterLink to="/planificaciones">Planificaciones</RouterLink>
-        <RouterLink to="/doctores">Doctores</RouterLink>
-        <RouterLink to="/clientes">Clientes</RouterLink>
-        <!--RouterLink to="/origenes">Origenes</RouterLink>
-        <RouterLink to="/avisos">Avisos</RouterLink>
-        <RouterLink to="/comisiones">Comisiones</RouterLink>
-        <RouterLink to="/usuarios">Usuarios</RouterLink-->
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/logout">Salir</RouterLink>
-      </nav>
+        <ul>
+          <li class="menu">
+            <RouterLink to="/">Home</RouterLink>
+          </li>
+          <li class="menu">
+            <RouterLink to="/planificaciones">Planificación</RouterLink>
+          </li>
+          <li class="menu"><a href="#">Parametros</a>
+            <div class="submenu">
+            <ul>
+              <li>
+                <RouterLink to="/especialidades">Especialidades</RouterLink>
+              </li>
+              <li>
+                <RouterLink to="/tiposClientes">Tipos Cliente</RouterLink>
+              </li>
+              <li>
+                <RouterLink to="/centros">Centros Medicos</RouterLink>
+              </li>
+            </ul>
+            </div>
+          </li>
+          <li class="menu"><a href="#">Maestros</a>
+            <div class="submenu">
+              <ul>
+                <li>
+                  <RouterLink to="/doctores">Doctores</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/clientes">Clientes</RouterLink>
+                </li>
+                <li class="menu">
+                  <RouterLink to="/usuarios">Usuarios</RouterLink>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="menu">
+            <RouterLink to="/logout">Ingresar</RouterLink>
+          </li>
+        </ul>
+      </nav>    
     </div>
   </header>
 
@@ -32,66 +59,76 @@ import HelloWorld from './components/Encabezado.vue'
 
 </template>
 
+
 <style scoped>
 header {
-  line-height: 1.5;
-  max-height: 100vh;
+line-height: 1.5;
+max-height: 100vh;
 }
 
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+display: block;
+margin: 0 auto 2rem;
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+background-color: #333;
+color: white;
+
+text-align: left;
+margin-left: 0rem;
+font-size: 1rem;
+
+padding: 1rem 0;
+margin-top: 1rem;
+
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+ul {
+list-style-type: none;
+margin: 0;
+padding: 10;
+display: flex;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+li {
+margin: 0 10px;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+a {
+text-decoration: none;
+color: white;
 }
 
-nav a:first-of-type {
-  border: 0;
+/*.menu:hover {
+display: block;
+background-color: white;
+color: black;
+}*/
+
+.submenu {
+display: none;
+position: absolute;
+height: 3rem;
+background-color: gray;
+}
+
+li:hover .submenu {
+display: block;
+background-color: gray;
+}
+
+a:hover {
+filter: blur(1px); 
+color: '#00BD7E';
 }
 
 @media (min-width: 1024px) {
-  header {
-    display: flex;
-    /*place-items: center;*/
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    /*display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;*/
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+header {
+display: flex;
+/*place-items: center;*/
+padding-right: calc(var(--section-gap) / 2);
+}
 }
 </style>
+
