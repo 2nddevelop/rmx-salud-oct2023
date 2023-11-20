@@ -17,7 +17,7 @@ import EspecialidadController from '../controllers/EspecialidadController';
 import PlanificacionController from '../controllers/PlanificacionController';
 import TiposClienteController from '../controllers/TiposClienteController';
 import ClienteController from '../controllers/ClienteController';
-
+import FichaController from '../controllers/FichaController';
 import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -178,4 +178,9 @@ router.get('/signosVitales', authMiddleware, SignosVitalesController.getAllSVs);
 // router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 // router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
+///Fichas
+router.get('/fichas', authMiddleware, FichaController.getAllFichas);
+router.post('/ficha', authMiddleware, FichaController.createFicha);
+router.put('/ficha/:fch_id', authMiddleware, FichaController.updateFicha);
+router.post('/ficha/:fch_id', authMiddleware, FichaController.deleteFicha);
 export default router;

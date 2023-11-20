@@ -38,7 +38,7 @@ import HelloWorld from './components/Encabezado.vue'
               <div class="submenu">
               <ul>
                 <li>
-                  <RouterLink to="/">Generar</RouterLink>
+                  <RouterLink to="/fichas">Generar</RouterLink>
                 </li>
                 <li>
                   <RouterLink to="/">Atender</RouterLink>
