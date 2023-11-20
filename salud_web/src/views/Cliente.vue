@@ -22,15 +22,15 @@
               <tr>
                 <th>#</th>
                 <th></th>
-                <th>TIPO DE CLIENTE</th>
+                <th>Tipo Paciente</th>
                 <th>CI</th>
-                <th>NOMBBRES</th>
-                <th>TELEFONO</th>
-                <th>CELULAR</th>
-                <th>DIRECCION</th>
-                <th>CORREO</th>
-                <th>REGISTRADO</th>
-                <th>ESTADO</th>
+                <th>Nombres</th>
+                <th>Teléfono</th>
+                <th>Celular</th>
+                <th>Dirección</th>
+                <th>Correo</th>
+                <th>Registrado</th>
+                <th>E</th>
               </tr>
             </thead>
             <tbody>

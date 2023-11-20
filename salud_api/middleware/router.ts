@@ -179,7 +179,8 @@ router.get('/signosVitales', authMiddleware, SignosVitalesController.getAllSVs);
 // router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
 ///Fichas
-router.get('/fichas', authMiddleware, FichaController.getAllFichas);
+//router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
+router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
 router.post('/ficha', authMiddleware, FichaController.createFicha);
 router.put('/ficha/:fch_id', authMiddleware, FichaController.updateFicha);
 router.post('/ficha/:fch_id', authMiddleware, FichaController.deleteFicha);

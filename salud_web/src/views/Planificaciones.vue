@@ -89,6 +89,14 @@
           </tr>
         </tfoot>
       </table>
+      <div>
+      <paginator
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        :prev-page="prevPage"
+        :next-page="nextPage"
+      ></paginator>
+      </div>
     </div>
 
     <!-- Modal -->
@@ -192,6 +200,8 @@ import centrosService from '../services/centrosService';
 import especialidadesService from '../services/especialidadesService';
 import planificacionesService from '../services/planificacionesService';
 
+import paginator from './../components/Paginator.vue';
+
 export default {
   data() {
     return {
@@ -212,6 +222,10 @@ export default {
       isEditing: false,
       centros: [],
       especialidades: [],
+
+      // paginator
+      currentPage: 1,
+      itemsPerPage: 10,
     };
   },
 
@@ -306,7 +320,32 @@ export default {
     closeModal() {
       this.showModal = false;
     },
+
+    // paginator
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
   },
+
+  computed: {
+    // paginator
+    totalPages() {
+      return Math.ceil(this.regs.length / this.itemsPerPage);
+    },
+    paginatedRegs() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.regs.slice(startIndex, endIndex);
+    },
+  },
+
 };
 </script>
 

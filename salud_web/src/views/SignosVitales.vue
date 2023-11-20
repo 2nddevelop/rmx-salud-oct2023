@@ -1,9 +1,12 @@
   <template>
       <div class="">
         <div>
-          <div class="grid grid-cols-2">
+          <div class="grid grid-cols-3">
             <div class="p-6 m-1">
               <h1>{{ title }}</h1>
+            </div>
+            <div class="p-6 m-1">
+
             </div>
             <div class="flex justify-end p-6 m-1">
               <button
@@ -137,14 +140,6 @@
               </div>
               <!-- Modal body -->
               <div class="p-6 space-y-6">
-                <!--div class="form-group">
-                  <label for="cli_tcli_id" class="font-semibold">Tipo de Cliente</label>
-                  <select v-model="reg.cli_tcli_id" class="form-control" name="cli_tcli_id" id="cli_tcli_id" placeholder="Tipo de Cliente" required>
-                    <option value="0">-- Seleccione --</option>
-                    <option v-for="tc in tiposClientes" :key="tc.tcli_id" :value="tc.tcli_id">{{ tc.tcli_descripcion }} - {{ tc.tcli_codigo }}</option>
-                  </select>
-
-                </div-->
 
                 <div class="grid grid-cols-4 gap-3">
                   <div class="form-group">

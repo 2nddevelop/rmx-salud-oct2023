@@ -7,13 +7,16 @@ import pool from '../db';
 
 const FichaController = {
   getAllFichas: async (req: Request, res: Response) => {
+    const { fecha } = req.params;
+
     try {
       const fichasQuery = await pool.query(
         `SELECT f.*, c.cli_data, p.pln_data
         FROM rmx_sld_fichas f
         INNER JOIN rmx_gral_clientes c ON c.cli_id = f.fch_cli_id
         INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
-        WHERE f.fch_estado != 'X' ORDER BY 1`
+        WHERE p.pln_data->>'pln_fecha' = $1
+          AND f.fch_estado != 'X' ORDER BY 1`, [fecha]
       );
       const fichas = fichasQuery.rows;
       res.json(fichas);
@@ -25,6 +28,7 @@ const FichaController = {
 
   createFicha: async (req: Request, res: Response) => {
     const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado } = req.body;
+
     try {
       const newFicha = await pool.query(
         'INSERT INTO rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',

@@ -1,11 +1,27 @@
 <template>
     <div class="">
       <div>
-        <div class="grid grid-cols-2">
-          <div class="p-6 m-1">
+        <div class="grid grid-cols-3">
+          <div class="p-4 m-1">
             <h1>{{ title }}</h1>
           </div>
-          <div class="flex justify-end p-6 m-1">
+          <div class="p-4 m-1">
+            <div class="form-group">
+              <label for="kdx">Fecha:</label>
+              <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
+            </div>
+          </div>
+
+          <!--div class="p-4 m-1">
+            <div class="form-group">
+              <label for="fecha" class="font-semibold">Centro de Salud</label>
+              <select v-model="filtro.centroSalud" class="form-control" name="centro" id="centro" placeholder="Fecha" required>
+                <option value="0">-- seleccione --</option>
+                <option v-for="c in centrosSalud" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
+              </select>
+            </div>
+          </div-->
+          <div class="flex justify-end p-4 m-1">
             <button
               @click="newRegistro()"
               class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
@@ -124,7 +140,8 @@
               </button>
             </div>
             <!-- Modal body -->
-            <div class="p-6 space-y-6">
+            <div class="modal-body p-6 space-y-6">
+
               <div class="grid grid-cols-2 gap-3">
                 <div class="form-group">
                   <label for="fch_cli_id" class="font-semibold">Clientes</label>
@@ -153,6 +170,7 @@
                 </div>
               </div>
             </div>
+
             <!-- Modal footer -->
             <div class="modal-footer">
               <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
@@ -176,17 +194,22 @@
       return {
         regs: [],
         reg: { },
-        title: "LISTADO DE FICHAS",
+        title: "FICHAS",
         plural: "Fichas",
         singular: "Ficha",
         showModal: false,
         isEditing: false,
         clientes: [],
         planificaciones: [],
+        // dates
+        currentDate: new Date(),
+        // filtro
+        filtro: { fecha:'', centro:'' }
       };
     },
   
     mounted() {
+      this.dates();
       this.listarRegistros();
       this.listarClientes();
       this.listarPlanificaciones();
@@ -196,7 +219,7 @@
       async listarRegistros() {
         this.regs = [];
         try {
-          this.regs = await fichasService.getData();
+          this.regs = await fichasService.getData(this.filtro.fecha);
           console.log("Fichas: ", this.regs);          
         } catch (error) {
           console.error("Error:", error.message);
@@ -269,6 +292,15 @@
       closeModal() {
         this.showModal = false;
       },
+
+      dates() {
+        const year = this.currentDate.getFullYear();
+        const month = ('0' + (this.currentDate.getMonth() + 1)).slice(-2); // Se agrega 1 ya que los meses van de 0 a 11
+        const day = ('0' + this.currentDate.getDate()).slice(-2);
+
+        this.filtro.fecha = `${year}-${month}-${day}`;
+      },
+
     },
   };
   </script>
