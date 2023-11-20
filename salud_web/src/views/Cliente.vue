@@ -222,8 +222,8 @@
             }
           },
           title: "PACIENTES",
-          plural: "Clientes",
-          singular: "Cliente",
+          plural: "Pacientes",
+          singular: "Paciente",
           showModal: false,
           isEditing: false,
           tiposClientes: [],
