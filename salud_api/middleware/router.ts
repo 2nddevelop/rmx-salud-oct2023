@@ -9,12 +9,15 @@ import ComisionController from '../controllers/ComisionController';
 import GalponController from '../controllers/GalponController';
 import RegistroController from '../controllers/RegistroController';
 
+import SignosVitalesController from '../controllers/SignosVitalesController';
+
 import DoctorController from '../controllers/DoctorController';
 import CentroController from '../controllers/CentroController';
 import EspecialidadController from '../controllers/EspecialidadController';
 import PlanificacionController from '../controllers/PlanificacionController';
 import TiposClienteController from '../controllers/TiposClienteController';
 import ClienteController from '../controllers/ClienteController';
+
 import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -168,5 +171,11 @@ router.get('/clientes', authMiddleware, ClienteController.getAllClientes);
 router.post('/cliente', authMiddleware, ClienteController.createCliente);
 router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
+
+///Clientes
+router.get('/svs', authMiddleware, SignosVitalesController.getAllSVs);
+// router.post('/cliente', authMiddleware, ClienteController.createCliente);
+// router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
+// router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
 export default router;
