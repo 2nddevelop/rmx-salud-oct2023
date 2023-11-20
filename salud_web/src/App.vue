@@ -50,7 +50,7 @@ import HelloWorld from './components/Encabezado.vue'
               <div class="submenu">
               <ul>
                 <li>
-                  <RouterLink to="/">Signos Vitales</RouterLink>
+                  <RouterLink to="/signosVitales">Signos Vitales</RouterLink>
                 </li>
                 <li>
                   <RouterLink to="/">Consulta Externa</RouterLink>

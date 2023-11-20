@@ -11,7 +11,7 @@ const SignosVitalesController = {
         `SELECT sv.*, c.* 
         FROM rmx_sld_sv sv
         INNER JOIN rmx_gral_clientes c ON c.cli_id = sv.sv_cli_id
-        WHERE p.pln_estado != 'X' ORDER BY 1`
+        WHERE sv.sv_estado != 'X' ORDER BY 1`
       );
       const svs = svQuery.rows;
       res.json(svs);
