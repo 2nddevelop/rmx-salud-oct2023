@@ -29,6 +29,7 @@
                 <th>Frec Respiratoria</th>
                 <th>Presión Arterial</th>
                 <th>Sat. Oxigeno</th>
+                <th>Temp. Corporal</th>
                 <th>Talla</th>
                 <th>Peso</th>
                 <th>Registrado</th>
@@ -74,17 +75,18 @@
                     </svg>
                   </button>
                 </td>
-                <td align="right">{{ r.sv_fecha }}</td>
+                <td >{{ r.sv_fecha }}</td>
                 <td >{{ r.cli_data.cli_nit }}</td>
                 <td >{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
                 <td align="right">{{ r.sv_data.sv_frec_cardiaca }}</td>
                 <td align="right">{{ r.sv_data.sv_frec_respiratoria }}</td>
                 <td align="right">{{ r.sv_data.sv_presion_arterial }}</td>
                 <td align="right">{{ r.sv_data.sv_sat_oxigeno }}</td>
+                <td align="right">{{ r.sv_data.sv_temp_corporal }}</td>
                 <td align="right">{{ r.sv_data.sv_talla }}</td>
                 <td align="right">{{ r.sv_data.sv_peso }}</td>
-                <td align="right">{{ r.sv_registado }}</td>
-                <td align="right">{{ r.sv_estado }}</td>
+                <td >{{ r.sv_registado }}</td>
+                <td >{{ r.sv_estado }}</td>
               </tr>
             </tbody>
             <tfoot>
@@ -135,59 +137,70 @@
               </div>
               <!-- Modal body -->
               <div class="p-6 space-y-6">
-                <div class="form-group">
+                <!--div class="form-group">
                   <label for="cli_tcli_id" class="font-semibold">Tipo de Cliente</label>
                   <select v-model="reg.cli_tcli_id" class="form-control" name="cli_tcli_id" id="cli_tcli_id" placeholder="Tipo de Cliente" required>
                     <option value="0">-- Seleccione --</option>
                     <option v-for="tc in tiposClientes" :key="tc.tcli_id" :value="tc.tcli_id">{{ tc.tcli_descripcion }} - {{ tc.tcli_codigo }}</option>
                   </select>
-                </div>
+
+                </div-->
 
                 <div class="grid grid-cols-4 gap-3">
                   <div class="form-group">
+                    <label for="CI">CI:</label>
+                    <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled/>
+                  </div>
+
+                  <div class="form-group">
                     <label for="paterno">Paterno:</label>
-                    <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
+                    <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled/>
                   </div>
 
                   <div class="form-group">
                     <label for="materno">Materno:</label>
-                    <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" />
+                    <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled/>
                   </div>
 
                   <div class="form-group">
                     <label for="nombres">Nombres:</label>
-                    <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="CI">CI:</label>
-                    <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" />
+                    <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled/>
                   </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                   <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input v-model="reg.cli_data.cli_telefono" class="form-control" name="telefono" id="telefono" placeholder="Teléfono" />
+                    <label for="frec_cardiaca">Frecuencia Cardiaca:</label>
+                    <input v-model="reg.sv_data.sv_frec_cardiaca" class="form-control" name="frec_cardiaca" id="frec_cardiaca" placeholder="Frecuencia cardiaca" />
                   </div>
-
-                  <div class="form-group">
-                    <label for="celular">Celular:</label>
-                    <input v-model="reg.cli_data.cli_celular" class="form-control" name="celular" id="celular" placeholder="Celular" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="direccion">Dirección:</label>
-                  <input v-model="reg.cli_data.cli_direccion" class="form-control" name="direccion" id="direccion" placeholder="Dirección" />
+                    <div class="form-group">
+                      <label for="frec_respiratoria">Frecuencia Respiratoria:</label>
+                      <input v-model="reg.sv_data.sv_frec_respiratoria" class="form-control" name="frec_respiratoria" id="frec_respiratoria" placeholder="Frecuencia respiratoria" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                   <div class="form-group">
-                    <label for="correo">Correo:</label>
-                    <input type="email" v-model="reg.cli_data.cli_correo" class="form-control" name="correo" id="correo" placeholder="Correo" />
+                    <label for="presion_arterial">Presion Arterial:</label>
+                    <input v-model="reg.sv_data.sv_presion_arterial" class="form-control" name="presion_arterial" id="presion_arterial" placeholder="Presion Arterial" />
+                  </div>
+                  <div class="form-group">
+                    <label for="sat_oxigeno">Saturacion de Oxigeno:</label>
+                    <input v-model="reg.sv_data.sv_sat_oxigeno" class="form-control" name="sat_oxigeno" id="sat_oxigeno" placeholder="Saturación de oxigeno" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="form-group">
+                    <label for="temp">Temperatura Corporal:</label>
+                    <input v-model="reg.sv_data.sv_temp_corporal" class="form-control" name="temp" id="temp" placeholder="Temperatura corporal" />
                   </div>
 
                   <div class="form-group">
-                    <label for="clave">Clave:</label>
-                    <input type="password" v-model="reg.cli_data.cli_clave" class="form-control" name="clave" id="clave" placeholder="Clave" />
+                    <label for="correo">Talla:</label>
+                    <input v-model="reg.sv_data.sv_talla" class="form-control" name="talla" id="talla" placeholder="Talla" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="peso">Peso:</label>
+                    <input v-model="reg.sv_data.sv_peso" class="form-control" name="peso" id="peso" placeholder="Peso" />
                   </div>
                 </div>
               </div>
@@ -215,6 +228,7 @@
           reg: { 
             sv_cli_id: 0,
             sv_fecha: '',
+            cli_data: [],
             sv_data:{
               sv_talla: '0',
               sv_peso: '0',
@@ -236,7 +250,6 @@
     
       mounted() {
         this.listarRegistros();
-        //this.listarTiposCliente();
       },
     
       methods: {
@@ -249,26 +262,17 @@
             console.error("Error:", error.message);
           }
         },
-        /*
-        async listarTiposCliente() {
-          this.tiposClientes = [];
-          try {
-            this.tiposClientes = await tiposClienteService.getData();
-            console.log("Tipo de Clientes: ", this.tiposClientes);
-          } catch (error) {
-            console.error("Error:", error.message);
-          }
-        },*/
         
         newRegistro() {
           this.isEditing = false;
           this.reg = {
             sv_cli_id: 0,
             sv_fecha: '',
+            cli_data: [],
             sv_data:{
-              sv_talla: '0',
-              sv_peso: '0',
-              sv_temp_corporal: '0',
+              sv_talla: '',
+              sv_peso: '',
+              sv_temp_corporal: '',
               sv_frec_cardiaca: '',
               sv_frec_respiratoria: '',
               sv_presion_arterial: '',
@@ -277,6 +281,7 @@
           };
           this.showModal = true;
         },
+        
         editRegistro(reg) {
           this.isEditing = true;
           this.reg = Object.assign({}, reg);
