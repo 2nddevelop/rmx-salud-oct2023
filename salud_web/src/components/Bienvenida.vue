@@ -24,27 +24,29 @@ import SupportIcon from './icons/IconSupport.vue'
     </template>
     <template #heading>Kardex</template>
 
-    La plataforma mantiene un kardex centralizado de información de Pacientes, sus Historiales Médicos y todo el personal Médico.
+    La plataforma mantiene un kardex centralizado de información de 
+    Pacientes, sus Historiales Médicos y todo el personal Médico.
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
       <EcosystemIcon />
     </template>
-    <template #heading>Galpones</template>
+    <template #heading>Fichas</template>
 
-    El sistema tiene por <a href="#" target="_blank" rel="noopener">objetivo</a>
-    gestionar la información de precios del sistema.
+    La plataforma maneja la generación de fichas a traves de internet y 
+    de manera presencial, tambien permite una fila virtual para la 
+    respectiva atención.
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
       <CommunityIcon />
     </template>
-    <template #heading>Precios</template>
+    <template #heading>Atención</template>
 
-    El sistema tiene por <a href="#" target="_blank" rel="noopener">objetivo</a>
-    gestionar la información de precios del sistema.
+    La plataforma tiene la capacidad de gestionar la toma de Signos Vitales y
+    la Atención de  <a href="#" target="_blank" rel="noopener">Consulta Externa</a>.
   </WelcomeItem>
 
 </template>
