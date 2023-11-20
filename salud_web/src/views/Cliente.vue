@@ -221,7 +221,7 @@
               cli_clave: ''
             }
           },
-          title: "LISTADO DE CLIENTES",
+          title: "PACIENTES",
           plural: "Clientes",
           singular: "Cliente",
           showModal: false,
