@@ -5,53 +5,83 @@ import HelloWorld from './components/Encabezado.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" />
-
     <div class="wrapper">
-      <HelloWorld msg="Plataforma de Salud" />
-      <nav>
-        <ul>
-          <li class="menu">
-            <RouterLink to="/">Home</RouterLink>
-          </li>
-          <li class="menu">
-            <RouterLink to="/planificaciones">Planificación</RouterLink>
-          </li>
-          <li class="menu"><a href="#">Parametros</a>
-            <div class="submenu">
-            <ul>
-              <li>
-                <RouterLink to="/especialidades">Especialidades</RouterLink>
-              </li>
-              <li>
-                <RouterLink to="/tiposClientes">Tipos Cliente</RouterLink>
-              </li>
-              <li>
-                <RouterLink to="/centros">Centros Medicos</RouterLink>
-              </li>
-            </ul>
-            </div>
-          </li>
-          <li class="menu"><a href="#">Maestros</a>
-            <div class="submenu">
+      <div >
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" />
+        <HelloWorld msg="Plataforma de Salud" />
+      </div>
+      <div class="wrapper">
+        <nav>
+          <ul>
+            <li class="menu">
+              <RouterLink to="/">Home</RouterLink>
+            </li>
+            <li class="menu">
+              <RouterLink to="/planificaciones">Planificación</RouterLink>
+            </li>
+            <li class="menu"><a href="#">Kardex</a>
+              <div class="submenu">
               <ul>
+                <li>
+                  <RouterLink to="/clientes">Pacientes</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/">Historial Médico</RouterLink>
+                </li>
                 <li>
                   <RouterLink to="/doctores">Doctores</RouterLink>
                 </li>
+              </ul>
+              </div>
+            </li>
+            <li class="menu"><a href="#">Fichas</a>
+              <div class="submenu">
+              <ul>
                 <li>
-                  <RouterLink to="/clientes">Clientes</RouterLink>
+                  <RouterLink to="/">Generar</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/">Atender</RouterLink>
+                </li>
+              </ul>
+              </div>
+            </li>
+            <li class="menu"><a href="#">Atención</a>
+              <div class="submenu">
+              <ul>
+                <li>
+                  <RouterLink to="/">Signos Vitales</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/">Consulta Externa</RouterLink>
+                </li>
+              </ul>
+              </div>
+            </li>
+            <li class="menu"><a href="#">Parametros</a>
+              <div class="submenu">
+              <ul>
+                <li>
+                  <RouterLink to="/especialidades">Especialidades</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/tiposClientes">Tipos Cliente</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/centros">Centros Medicos</RouterLink>
                 </li>
                 <li class="menu">
                   <RouterLink to="/usuarios">Usuarios</RouterLink>
                 </li>
               </ul>
-            </div>
-          </li>
-          <li class="menu">
-            <RouterLink to="/logout">Ingresar</RouterLink>
-          </li>
-        </ul>
-      </nav>    
+              </div>
+            </li>
+            <li class="menu">
+              <RouterLink to="/logout">Ingresar</RouterLink>
+            </li>
+          </ul>
+        </nav>
+      </div>  
     </div>
   </header>
 

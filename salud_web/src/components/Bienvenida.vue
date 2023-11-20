@@ -12,20 +12,19 @@ import SupportIcon from './icons/IconSupport.vue'
     <template #icon>
       <DocumentationIcon />
     </template>
-    <template #heading>Objetivo</template>
+    <template #heading>Planificación</template>
 
-    El sistema tiene por <a href="#" target="_blank" rel="noopener">objetivo</a>
-    gestionar la información de precios del sistema.
+    La plataforma permite una adecuada planificación en función 
+    de los recursos y capacidades del centro de atención en salud.
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
       <ToolingIcon />
     </template>
-    <template #heading>Áreas</template>
+    <template #heading>Kardex</template>
 
-    El sistema tiene por <a href="#" target="_blank" rel="noopener">objetivo</a>
-    gestionar la información de precios del sistema.
+    La plataforma mantiene un kardex centralizado de información de Pacientes, sus Historiales Médicos y todo el personal Médico.
   </WelcomeItem>
 
   <WelcomeItem>
