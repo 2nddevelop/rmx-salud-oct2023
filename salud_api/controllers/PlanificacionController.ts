@@ -7,13 +7,16 @@ import pool from '../db';
 
 const PlanificacionController = {
   getAllPlanificaciones: async (req: Request, res: Response) => {
+    const { fecha } = req.params;
+
     try {
       const planificacionesQuery = await pool.query(
         `SELECT p.*, c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion 
         FROM rmx_sld_planificacion p
         INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id
         INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
-        WHERE p.pln_estado != 'X' ORDER BY 1`
+        WHERE p.pln_data->>'pln_fecha' = $1
+          AND p.pln_estado != 'X' ORDER BY 1`, [fecha]
       );
       const planificaciones = planificacionesQuery.rows;
       res.json(planificaciones);

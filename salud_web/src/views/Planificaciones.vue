@@ -1,11 +1,19 @@
 <template>
   <div class="">
     <div>
-      <div class="grid grid-cols-2">
-        <div class="p-6 m-1">
+      <div class="grid grid-cols-3">
+        <div class="p-4 m-1">
           <h1>{{ title }}</h1>
         </div>
-        <div class="flex justify-end p-6 m-1">
+
+        <div class="p-4 m-1">
+          <div class="form-group">
+            <label for="kdx">Fecha:</label>
+            <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
+          </div>
+        </div>
+
+        <div class="flex justify-end p-4 m-1">
           <button
             @click="newRegistro()"
             class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
@@ -200,7 +208,7 @@ import centrosService from '../services/centrosService';
 import especialidadesService from '../services/especialidadesService';
 import planificacionesService from '../services/planificacionesService';
 
-import paginator from './../components/Paginator.vue';
+import Paginator from '../components/Paginator.vue';
 
 export default {
   data() {
@@ -215,7 +223,7 @@ export default {
             pln_horario: ''
         } 
       },
-      title: "LISTADO DE PLANIFICACIONES",
+      title: "PLANIFICACIÓN",
       plural: "PLANIFICACIONES",
       singular: "PLANIFICACION",
       showModal: false,
@@ -223,6 +231,10 @@ export default {
       centros: [],
       especialidades: [],
 
+      // dates
+      currentDate: new Date(),
+      // filtro
+      filtro: { fecha:'', centro:'' },
       // paginator
       currentPage: 1,
       itemsPerPage: 10,
@@ -230,6 +242,7 @@ export default {
   },
 
   mounted() {
+    this.dates();
     this.listarRegistros();
     this.listarCentros();
     this.listarEspecialidades();
@@ -239,7 +252,7 @@ export default {
     async listarRegistros() {
       this.regs = [];
       try {
-        this.regs = await planificacionesService.getData();
+        this.regs = await planificacionesService.getData(this.filtro.fecha);
         console.log("plntores: ", this.regs);          
       } catch (error) {
         console.error("Error:", error.message);
@@ -319,6 +332,14 @@ export default {
 
     closeModal() {
       this.showModal = false;
+    },
+
+    dates() {
+      const year = this.currentDate.getFullYear();
+      const month = ('0' + (this.currentDate.getMonth() + 1)).slice(-2); // Se agrega 1 ya que los meses van de 0 a 11
+      const day = ('0' + this.currentDate.getDate()).slice(-2);
+
+      this.filtro.fecha = `${year}-${month}-${day}`;
     },
 
     // paginator

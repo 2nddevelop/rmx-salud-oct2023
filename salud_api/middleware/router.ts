@@ -155,7 +155,7 @@ router.put('/doctor/:doc_id', authMiddleware, DoctorController.updateDoctor);
 router.post('/doctor/:doc_id', authMiddleware, DoctorController.deleteDoctor);
 
 //// planificacion
-router.get('/planificaciones', authMiddleware, PlanificacionController.getAllPlanificaciones);
+router.get('/planificaciones/:fecha', authMiddleware, PlanificacionController.getAllPlanificaciones);
 router.post('/planificacion', authMiddleware, PlanificacionController.createPlanificacion);
 router.put('/planificacion/:pln_id', authMiddleware, PlanificacionController.updatePlanificacion);
 router.post('/planificacion/:pln_id', authMiddleware, PlanificacionController.deletePlanificacion);
