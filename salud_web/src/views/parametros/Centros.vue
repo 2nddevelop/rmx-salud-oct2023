@@ -18,6 +18,8 @@
               <th></th>
               <th>CODIGO</th>
               <th>DESCRIPCION</th>
+              <th>REGISTRADO</th>
+              <th>ESTADO</th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +60,8 @@
               </td>
               <td align="right">{{ r.cnt_codigo }}</td>
               <td align="right">{{ r.cnt_descripcion }}</td>
+              <td align="right">{{ r.cnt_registado }}</td>
+              <td align="right">{{ r.cnt_estado }}</td>
             </tr>
           </tbody>
           <tfoot>

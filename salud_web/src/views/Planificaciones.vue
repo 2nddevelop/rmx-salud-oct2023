@@ -27,6 +27,8 @@
             <th>MAX FICHAS</th>
             <th>FECHA</th>
             <th>HORARIO</th>
+            <th>REGISTRADO</th>
+            <th>ESTADO</th>
           </tr>
         </thead>
         <tbody>
@@ -74,15 +76,11 @@
                 {{ r.pln_data.pln_medico}}<br>
                 {{ r.pln_data.pln_consultorio}}
             </td>
-            <td align="right">
-                {{ r.pln_data.pln_max_fichas}}
-            </td>
-            <td align="right">
-                {{ r.pln_data.pln_fecha}}
-            </td>
-            <td align="right">
-                {{ r.pln_data.pln_horario}}
-            </td>
+            <td align="right">{{ r.pln_data.pln_max_fichas}}</td>
+            <td align="right">{{ r.pln_data.pln_fecha}}</td>
+            <td align="right">{{ r.pln_data.pln_horario}}</td>
+            <td align="right">{{ r.pln_registado}}</td>
+            <td align="right">{{ r.pln_estado}}</td>
           </tr>
         </tbody>
         <tfoot>

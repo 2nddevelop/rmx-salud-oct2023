@@ -28,6 +28,8 @@
               <th>NOMBBRES</th>
               <th>INICIO DE HORARIO</th>
               <th>FIN DE HORARIO</th>
+              <th>REGISTRADO</th>
+              <th>ESTADO</th>
             </tr>
           </thead>
           <tbody>
@@ -75,6 +77,8 @@
               <td align="right">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
               <td align="right">{{ r.doc_data.doc_horario_inicio }}</td>
               <td align="right">{{ r.doc_data.doc_horario_fin }}</td>
+              <td align="right">{{ r.doc_registado }}</td>
+              <td align="right">{{ r.doc_estado }}</td>
             </tr>
           </tbody>
           <tfoot>

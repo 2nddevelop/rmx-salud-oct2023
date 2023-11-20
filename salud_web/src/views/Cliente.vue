@@ -29,6 +29,8 @@
                 <th>CELULAR</th>
                 <th>DIRECCION</th>
                 <th>CORREO</th>
+                <th>REGISTRADO</th>
+                <th>ESTADO</th>
               </tr>
             </thead>
             <tbody>
@@ -77,6 +79,8 @@
                 <td align="right">{{ r.cli_data.cli_celular }}</td>
                 <td align="right">{{ r.cli_data.cli_direccion }}</td>
                 <td align="right">{{ r.cli_data.cli_correo }}</td>
+                <td align="right">{{ r.cli_registado }}</td>
+                <td align="right">{{ r.cli_estado }}</td>
               </tr>
             </tbody>
             <tfoot>
