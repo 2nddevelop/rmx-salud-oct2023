@@ -57,7 +57,7 @@
                 >
                   <i class="fa-solid fa-heart-pulse fa-beat-fade"></i>
                 </button>
-                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce"></i>
+                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
               </td>
               <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.pln_data.pln_horario }} {{ r.pln_data.pln_consultorio }} {{ r.pln_data.pln_medico }} </td>

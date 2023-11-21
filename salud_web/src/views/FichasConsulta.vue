@@ -43,21 +43,15 @@
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <td align="right">{{ index + 1 }}</td>
               <td align="center">
-                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
+                <button v-if="r.fch_estado == 'E'"
                   @click="editRegistro(r)"
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Atención"
                 >
-                  <i class="fa-solid fa-check"></i>
+                  <i class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
                 </button>
-                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
-                  @click="deleteRegistro(r)"
-                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Signos"
-                >
-                  <i class="fa-solid fa-heart-pulse fa-beat-fade"></i>
-                </button>
-                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce"></i>
+                <i v-if="r.fch_estado == 'P'" class="fa-solid fa-check fa-bounce"></i>
+                <i v-if="r.fch_estado == 'S'" class="fa-solid fa-heart-pulse fa-bounce"></i>
               </td>
               <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.pln_data.pln_horario }} {{ r.pln_data.pln_consultorio }} {{ r.pln_data.pln_medico }} </td>
