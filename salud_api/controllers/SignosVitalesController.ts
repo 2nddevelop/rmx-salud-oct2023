@@ -6,12 +6,15 @@ import pool from '../db';
 
 const SignosVitalesController = {
   getAllSVs: async (req: Request, res: Response) => {
+    const { fecha, cnt_id } = req.params;
+
     try {
       const svQuery = await pool.query(
         `SELECT sv.*, c.* 
         FROM rmx_sld_sv sv
         INNER JOIN rmx_gral_clientes c ON c.cli_id = sv.sv_cli_id
-        WHERE sv.sv_estado != 'X' ORDER BY 1`
+        WHERE sv_fecha = $1
+          AND sv.sv_estado != 'X' ORDER BY 1`, [fecha] //cnt_id
       );
       const svs = svQuery.rows;
       res.json(svs);

@@ -38,15 +38,15 @@ import HelloWorld from './components/Encabezado.vue'
               <div class="submenu">
               <ul>
                 <li>
-                  <RouterLink to="/fichas">Generar</RouterLink>
+                  <RouterLink to="/fichasEmision">Emisión</RouterLink>
                 </li>
                 <li>
-                  <RouterLink to="/">Atender</RouterLink>
+                  <RouterLink to="/fichasAtencion">Atención</RouterLink>
                 </li>
               </ul>
               </div>
             </li>
-            <li class="menu"><a href="#">Atención</a>
+            <li class="menu"><a href="#">Consulta</a>
               <div class="submenu">
               <ul>
                 <li>

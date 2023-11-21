@@ -9,11 +9,11 @@ const clientesService = {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   },
 
-  async getData() {
+  async getData(fecha, cnt_id) {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.get(API_URL + '/signosVitales');
+      const response = await axios.get(API_URL + '/signosVitales/' + fecha + '/' + cnt_id);
       return response.data;
     } catch (error) {
       throw error;

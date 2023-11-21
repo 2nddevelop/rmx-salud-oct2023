@@ -174,7 +174,7 @@ router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
 ///Signos Vitales
-router.get('/signosVitales', authMiddleware, SignosVitalesController.getAllSVs);
+router.get('/signosVitales/:fecha/:cnt_id', authMiddleware, SignosVitalesController.getAllSVs);
 // router.post('/cliente', authMiddleware, ClienteController.createCliente);
 // router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 // router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
