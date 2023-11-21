@@ -15,6 +15,7 @@ import DoctorController from '../controllers/DoctorController';
 import CentroController from '../controllers/CentroController';
 import EspecialidadController from '../controllers/EspecialidadController';
 import PlanificacionController from '../controllers/PlanificacionController';
+import ConsultorioController from '../controllers/ConsultorioController';
 import TiposClienteController from '../controllers/TiposClienteController';
 import ClienteController from '../controllers/ClienteController';
 import FichaController from '../controllers/FichaController';
@@ -153,6 +154,12 @@ router.get('/doctores', authMiddleware, DoctorController.getAllDoctores);
 router.post('/doctor', authMiddleware, DoctorController.createDoctor);
 router.put('/doctor/:doc_id', authMiddleware, DoctorController.updateDoctor);
 router.post('/doctor/:doc_id', authMiddleware, DoctorController.deleteDoctor);
+
+//// consultorios
+router.get('/consultorios', authMiddleware, ConsultorioController.getAllConsultorios);
+router.post('/consultorio', authMiddleware, ConsultorioController.createConsultorio);
+router.put('/consultorio/:con_id', authMiddleware, ConsultorioController.updateConsultorio);
+router.post('/consultorio/:con_id', authMiddleware, ConsultorioController.deleteConsultorio);
 
 //// planificacion
 router.get('/planificaciones/:fecha', authMiddleware, PlanificacionController.getAllPlanificaciones);
