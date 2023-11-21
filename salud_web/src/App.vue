@@ -71,6 +71,9 @@ import HelloWorld from './components/Encabezado.vue'
                   <RouterLink to="/centros">Centros Medicos</RouterLink>
                 </li>
                 <li class="menu">
+                  <RouterLink to="/consultorios">Consultorios</RouterLink>
+                </li>
+                <li class="menu">
                   <RouterLink to="/usuarios">Usuarios</RouterLink>
                 </li>
               </ul>
