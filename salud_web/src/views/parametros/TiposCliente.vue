@@ -1,11 +1,13 @@
 <template>
     <div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-4">
         <div class="p-6 m-1">
           <h1>{{ title }}</h1>
         </div>
+        <div></div>
+        <div></div>
         <div class="flex justify-end p-6 m-1">
-          <button @click="newRegistro" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded" title="Nuevo">
+          <button @click="newRegistro" class="form-control bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded" title="Nuevo">
             + Nuevo
           </button>
         </div>
@@ -107,9 +109,9 @@
         return {
           regs: [],
           reg: {},
-          title: "LISTADO DE TIPO DE CLIENTE",
-          plural: "Tipos de Clientes",
-          singular: "Tipo de Cliente",
+          title: "TIPOS PACIENTE",
+          plural: "Tipos de Pacientes",
+          singular: "Tipo de Paciente",
           showModal: false,
           isEditing: false,
         };
