@@ -83,7 +83,7 @@ const PlanificacionController = {
 
       // Actualizar el Planificaciones en la base de datos
       const updatePlanificacion = await pool.query(
-        'UPDATE rmx_sld_planificacion SET pln_cnt_id = $1, pln_esp_id = $2, pln_doc_id = $3, pln_con_id = $4, pln_data = $5, pln_modificado = $6, pln_usr_id = $7, pln_esrado = $8 WHERE pln_id = $9 RETURNING *',
+        'UPDATE rmx_sld_planificacion SET pln_cnt_id = $1, pln_esp_id = $2, pln_doc_id = $3, pln_con_id = $4, pln_data = $5, pln_modificado = $6, pln_usr_id = $7, pln_estado = $8 WHERE pln_id = $9 RETURNING *',
         [pln_cnt_id, pln_esp_id, pln_cnt_id, pln_doc_id, pln_data, pln_modificado, pln_usr_id, pln_estado, pln_id]
       );
 

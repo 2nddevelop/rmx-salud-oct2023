@@ -42,6 +42,7 @@
               <th>#</th>
               <th></th>
               <th>Paciente</th>
+              <th>Datos</th>
               <th>Planificación</th>
               <th>Nro Ficha</th>
               <th>Kardex Médico</th>
@@ -69,6 +70,7 @@
                 </button>
               </td>
               <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
+              <td align="left">{{ r.cnt_codigo }} {{ r.esp_codigo }} {{ r.con_codigo }} </td>
               <td align="left">{{ r.pln_data.pln_horario }} {{ r.pln_data.pln_consultorio }} {{ r.pln_data.pln_medico }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center">{{ r.fch_kdx_medico }}</td>
@@ -250,9 +252,10 @@
       newRegistro() {
         this.listarPlanificaciones();
         this.isEditing = false;
-        this.reg = { fch_kdx_medico: 'a definir' };
+        this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
         this.showModal = true;
       },
+
       editRegistro(reg) {
         this.isEditing = true;
         this.reg = Object.assign({}, reg);

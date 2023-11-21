@@ -39,19 +39,22 @@
           <tr>
             <th>#</th>
             <th></th>
-            <th>CENTRO</th>
-            <th>ESPECIALIDAD / MEDICO / CONSULTORIO</th>
-            <th>MAX FICHAS</th>
-            <th>FECHA</th>
-            <th>HORARIO</th>
-            <th>REGISTRADO</th>
-            <th>ESTADO</th>
+            <th>Centro</th>
+            <th>Especialidad</th>
+            <th>Médico</th>
+            <th>Consultorio</th>
+            <th>Fecha</th>
+            <th>Horario</th>
+            <th>Max<br/>Fichas</th>
+            <th>Max<br/>Virtuales</th>
+            <th>Registrado</th>
+            <th>E</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(r, index) in regs" v-bind:key="r.pln_id">
             <td align="right">{{ index + 1 }}</td>
-            <td>
+            <td align="center">
               <button
                 @click="editRegistro(r)"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
@@ -67,16 +70,16 @@
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
-            <td align="right">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-            <td align="right">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
-            <td align="right">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
-            <td align="right">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
+            <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
+            <td align="left">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
+            <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
+            <td align="left">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
+            <td align="center">{{ r.pln_data.pln_fecha}}</td>
+            <td align="center">{{ r.pln_data.pln_horario}}</td>
             <td align="right">{{ r.pln_data.pln_max_fichas}}</td>
-            <td align="right">{{ r.pln_data.pln_fecha}}</td>
-            <td align="right">{{ r.pln_data.pln_horario}}</td>
             <td align="right">{{ r.pln_data.pln_max_virtuales}}</td>
-            <td align="right">{{ r.pln_registado}}</td>
-            <td align="right">{{ r.pln_estado}}</td>
+            <td align="center">{{ r.pln_registado}}</td>
+            <td align="center">{{ r.pln_estado}}</td>
           </tr>
         </tbody>
         <tfoot>
