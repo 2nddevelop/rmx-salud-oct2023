@@ -135,66 +135,64 @@
       },
   
       methods: {
-            async listarRegistros() {
-              try {
-              this.regs = await centrosService.getData();
-              console.log('Registros: ', this.regs);
-              } catch (error) {
-              console.error('Error:', error.message);
-              }
-          },
-          newRegistro() {
-              this.isEditing = false;
-              this.reg = {};
-              this.showModal = true;
-          },
-          editRegistro(reg) {
-              this.isEditing = true;
-              this.reg = { ...reg };
-              this.showModal = true;
-          },
-          
-          
-          async saveModal() {
-                this.reg.cnt_usr_id = 1; 
-                this.reg.cnt_estado = "A";
-              if (this.isEditing) {
-                const updatedReg = await centrosService.updateData(this.reg);
-                const index = this.regs.findIndex(item => item.cnt_id === updatedReg.cnt_id);
-                if (index !== -1) {
-                  this.regs.splice(index, 1, updatedReg);
-                }
-              } else {
-                const savedReg = await centrosService.saveData(this.reg);
-                this.regs.push(savedReg);
-              }
-              this.closeModal();
-          },
-
-  
-          async deleteRegistro(reg) {
-            const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
-            if (confirmed) {
-              try {
-                const index = this.regs.findIndex(item => item.cnt_id === reg.cnt_id);
-                if (index !== -1) {
-                  reg.cnt_usr_id = 1;
-                  reg.cnt_estado = "X"; 
-                  await centrosService.deleteData(reg); 
-                  this.regs.splice(index, 1); 
-                } else {
-                  console.error('No se encontró el registro para eliminar');
-                }
-              } catch (error) {
-                console.error('Error al eliminar el registro:', error);
-              }
+        async listarRegistros() {
+          try {
+          this.regs = await centrosService.getData();
+          console.log('Registros: ', this.regs);
+          } catch (error) {
+          console.error('Error:', error.message);
+          }
+        },
+        newRegistro() {
+          this.isEditing = false;
+          this.reg = {};
+          this.showModal = true;
+        },
+        editRegistro(reg) {
+          this.isEditing = true;
+          this.reg = { ...reg };
+          this.showModal = true;
+        },
+        
+        async saveModal() {
+          this.reg.cnt_usr_id = 1; 
+          this.reg.cnt_estado = "A";
+          if (this.isEditing) {
+            const updatedReg = await centrosService.updateData(this.reg);
+            const index = this.regs.findIndex(item => item.cnt_id === updatedReg.cnt_id);
+            if (index !== -1) {
+              this.regs.splice(index, 1, updatedReg);
             }
-          },
-          
-          closeModal() {
-              this.isEditing = false;
-              this.showModal = false;
-          },
+          } else {
+            const savedReg = await centrosService.saveData(this.reg);
+            this.regs.push(savedReg);
+          }
+          this.closeModal();
+        },
+
+        async deleteRegistro(reg) {
+          const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
+          if (confirmed) {
+            try {
+              const index = this.regs.findIndex(item => item.cnt_id === reg.cnt_id);
+              if (index !== -1) {
+                reg.cnt_usr_id = 1;
+                reg.cnt_estado = "X"; 
+                await centrosService.deleteData(reg); 
+                this.regs.splice(index, 1); 
+              } else {
+                console.error('No se encontró el registro para eliminar');
+              }
+            } catch (error) {
+              console.error('Error al eliminar el registro:', error);
+            }
+          }
+        },
+        
+        closeModal() {
+          this.isEditing = false;
+          this.showModal = false;
+        },
       },
     };
   </script>

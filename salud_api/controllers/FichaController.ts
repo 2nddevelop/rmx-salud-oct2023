@@ -7,7 +7,7 @@ import pool from '../db';
 
 const FichaController = {
   getAllFichas: async (req: Request, res: Response) => {
-    const { fecha } = req.params;
+    const { fecha, cnt_id } = req.params;
 
     try {
       const fichasQuery = await pool.query(
@@ -16,7 +16,8 @@ const FichaController = {
         INNER JOIN rmx_gral_clientes c ON c.cli_id = f.fch_cli_id
         INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
         WHERE p.pln_data->>'pln_fecha' = $1
-          AND f.fch_estado != 'X' ORDER BY 1`, [fecha]
+          AND p.pln_cnt_id = $2
+          AND f.fch_estado != 'X' ORDER BY 1`, [fecha, cnt_id]
       );
       const fichas = fichasQuery.rows;
       res.json(fichas);

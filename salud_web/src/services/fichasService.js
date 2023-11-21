@@ -9,11 +9,11 @@ const fichasService = {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   },
 
-  async getData(fecha) {
+  async getData(fecha, cnt_id) {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.get(API_URL + '/fichas/' + fecha);
+      const response = await axios.get(API_URL + '/fichas/' + fecha + '/' + cnt_id);
       return response.data;
     } catch (error) {
       throw error;

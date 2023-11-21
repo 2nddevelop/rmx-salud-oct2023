@@ -1,26 +1,28 @@
 <template>
     <div class="">
       <div>
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-4">
           <div class="p-4 m-1">
             <h1>{{ title }}</h1>
           </div>
+
           <div class="p-4 m-1">
             <div class="form-group">
-              <label for="kdx">Fecha:</label>
+              <label for="fecha" class="font-semibold">Fecha</label>
               <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
             </div>
           </div>
 
-          <!--div class="p-4 m-1">
+          <div class="p-4 m-1">
             <div class="form-group">
-              <label for="fecha" class="font-semibold">Centro de Salud</label>
-              <select v-model="filtro.centroSalud" class="form-control" name="centro" id="centro" placeholder="Fecha" required>
+              <label for="centro" class="font-semibold">Centro de Salud</label>
+              <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
                 <option value="0">-- seleccione --</option>
-                <option v-for="c in centrosSalud" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
+                <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
               </select>
             </div>
-          </div-->
+          </div>
+
           <div class="flex justify-end p-4 m-1">
             <button
               @click="newRegistro()"
@@ -141,10 +143,16 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
+              <div class="grid grid-cols-2 gap-3">
+                <div class="form-group">
+                  <label for="fecha2" class="font-semibold">Fecha</label>
+                  <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
+                </div>
+              </div>
 
               <div class="grid grid-cols-2 gap-3">
                 <div class="form-group">
-                  <label for="fch_cli_id" class="font-semibold">Clientes</label>
+                  <label for="fch_cli_id" class="font-semibold">Paciente</label>
                   <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
                     <option value="0">-- seleccione --</option>
                     <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
@@ -154,18 +162,18 @@
                     <label for="fch_pln_id" class="font-semibold">Planificacion</label>
                     <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required>
                       <option value="0">-- seleccione --</option>
-                      <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">{{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }}</option>
+                      <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]</option>
                     </select>
                 </div>
               </div>
               
               <div class="grid grid-cols-2 gap-4">
                 <div class="col-md-6">
-                  <label for="nro">Numero de Ficha:</label>
+                  <label for="nro">Numero Ficha</label>
                   <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
                 </div>
                 <div class="col-md-6">
-                  <label for="kdx">Kardex Medico:</label>
+                  <label for="kdx">Kardex Médico</label>
                   <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
                 </div>
               </div>
@@ -188,7 +196,8 @@
   import clientesService from '../services/clientesService';
   import planificacionesService from '../services/planificacionesService';
   import fichasService from '../services/fichasService';
-  
+  import centrosService from '../services/centrosService';
+
   export default {
     data() {
       return {
@@ -201,10 +210,11 @@
         isEditing: false,
         clientes: [],
         planificaciones: [],
+        centrosSalud: [],
         // dates
         currentDate: new Date(),
         // filtro
-        filtro: { fecha:'', centro:'' }
+        filtro: { fecha:'', centro_id:'' }
       };
     },
   
@@ -212,14 +222,15 @@
       this.dates();
       this.listarRegistros();
       this.listarClientes();
-      this.listarPlanificaciones();
+      // this.listarPlanificaciones();
+      this.listarCentros();
     },
   
     methods: {
       async listarRegistros() {
         this.regs = [];
         try {
-          this.regs = await fichasService.getData(this.filtro.fecha);
+          this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
           console.log("Fichas: ", this.regs);          
         } catch (error) {
           console.error("Error:", error.message);
@@ -237,13 +248,23 @@
       async listarPlanificaciones() {
         this.planificaciones = [];
         try {
-          this.planificaciones = await planificacionesService.getData();
+          this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
           console.log("planificaciones: ", this.planificaciones);
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
+      async listarCentros() {
+        try {
+        this.centrosSalud = await centrosService.getData();
+        console.log('Registros: ', this.regs);
+        } catch (error) {
+        console.error('Error:', error.message);
+        }
+      },
+
       newRegistro() {
+        this.listarPlanificaciones();
         this.isEditing = false;
         this.reg = {};
         this.showModal = true;
@@ -256,7 +277,7 @@
 
       async saveModal() {
         this.reg.fch_usr_id = 1; 
-        this.reg.fch_estado = "A";
+        this.reg.fch_estado = "P";
         if (this.isEditing) {
           const updatedReg = await fichasService.updateData(this.reg);
           const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);

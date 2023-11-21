@@ -26,6 +26,27 @@ const PlanificacionController = {
     }
   },
 
+  getAllPlanificacionesXFechaCntId: async (req: Request, res: Response) => {
+    const { fecha, cnt_id } = req.params;
+
+    try {
+      const planificacionesQuery = await pool.query(
+        `SELECT p.*, c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion 
+        FROM rmx_sld_planificacion p
+        INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id
+        INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+        WHERE p.pln_data->>'pln_fecha' = $1
+          AND c.cnt_id = $2
+          AND p.pln_estado != 'X' ORDER BY 1`, [fecha, cnt_id]
+      );
+      const planificaciones = planificacionesQuery.rows;
+      res.json(planificaciones);
+    } catch (error) {
+      console.error('Error al obtener las Planificaciones:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
   createPlanificacion: async (req: Request, res: Response) => {
     const { pln_esp_id, pln_cnt_id, pln_data, pln_usr_id, pln_estado } = req.body;
     try {

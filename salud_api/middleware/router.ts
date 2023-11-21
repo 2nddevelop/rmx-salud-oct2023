@@ -156,6 +156,7 @@ router.post('/doctor/:doc_id', authMiddleware, DoctorController.deleteDoctor);
 
 //// planificacion
 router.get('/planificaciones/:fecha', authMiddleware, PlanificacionController.getAllPlanificaciones);
+router.get('/planificaciones/:fecha/:cnt_id', authMiddleware, PlanificacionController.getAllPlanificacionesXFechaCntId);
 router.post('/planificacion', authMiddleware, PlanificacionController.createPlanificacion);
 router.put('/planificacion/:pln_id', authMiddleware, PlanificacionController.updatePlanificacion);
 router.post('/planificacion/:pln_id', authMiddleware, PlanificacionController.deletePlanificacion);
@@ -180,7 +181,7 @@ router.get('/signosVitales', authMiddleware, SignosVitalesController.getAllSVs);
 
 ///Fichas
 //router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
-router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
+router.get('/fichas/:fecha/:cnt_id', authMiddleware, FichaController.getAllFichas);
 router.post('/ficha', authMiddleware, FichaController.createFicha);
 router.put('/ficha/:fch_id', authMiddleware, FichaController.updateFicha);
 router.post('/ficha/:fch_id', authMiddleware, FichaController.deleteFicha);
