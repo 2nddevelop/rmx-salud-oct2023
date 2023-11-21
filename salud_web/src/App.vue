@@ -1,99 +1,65 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/Encabezado.vue'
-</script>
-
 <template>
-  <header>
-    <div class="wrapper">
-      <div >
-        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" />
-        <HelloWorld msg="Plataforma de Salud" />
-      </div>
-      <div class="wrapper">
-        <nav>
-          <ul>
-            <li class="menu">
-              <RouterLink to="/">Home</RouterLink>
-            </li>
-            <li class="menu">
-              <RouterLink to="/planificaciones">Planificación</RouterLink>
-            </li>
-            <li class="menu"><a href="#">Kardex</a>
-              <div class="submenu">
-              <ul>
-                <li>
-                  <RouterLink to="/clientes">Pacientes</RouterLink>
-                </li>
-                <li>
-                  <RouterLink to="/">Historial Médico</RouterLink>
-                </li>
-                <li>
-                  <RouterLink to="/doctores">Doctores</RouterLink>
-                </li>
-              </ul>
-              </div>
-            </li>
-            <li class="menu"><a href="#">Fichas</a>
-              <div class="submenu">
-              <ul>
-                <li>
-                  <RouterLink to="/fichasEmision">Emisión</RouterLink>
-                </li>
-                <li>
-                  <RouterLink to="/fichasAtencion">Atención</RouterLink>
-                </li>
-              </ul>
-              </div>
-            </li>
-            <li class="menu"><a href="#">Consulta</a>
-              <div class="submenu">
-              <ul>
-                <li>
-                  <RouterLink to="/signosVitales">Signos Vitales</RouterLink>
-                </li>
-                <li>
-                  <RouterLink to="/fichasConsulta">Consulta Externa</RouterLink>
-                </li>
-              </ul>
-              </div>
-            </li>
-            <li class="menu"><a href="#">Parametros</a>
-              <div class="submenu">
-              <ul>
-                <li>
-                  <RouterLink to="/especialidades">Especialidades</RouterLink>
-                </li>
-                <li>
-                  <RouterLink to="/tiposClientes">Tipos Cliente</RouterLink>
-                </li>
-                <li>
-                  <RouterLink to="/centros">Centros Medicos</RouterLink>
-                </li>
-                <li class="menu">
-                  <RouterLink to="/consultorios">Consultorios</RouterLink>
-                </li>
-                <li class="menu">
-                  <RouterLink to="/usuarios">Usuarios</RouterLink>
-                </li>
-              </ul>
-              </div>
-            </li>
-            <li class="menu">
-              <RouterLink to="/logout">Ingresar</RouterLink>
+  <nav>
+    <div class="grid grid-cols-4 gap-3">
+    <div class="flex justify-start logo-cont_ainer col-md-1">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50">
+    </div>
+    <div class="col-md-11">
+      <ul class="menu">
+        <li v-for="item in menuItems" :key="item.id" class="menu-item">
+          <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
+          <ul v-if="item.children" class="submenu">
+            <li v-for="child in item.children" :key="child.id" class="submenu-item">
+              <a :href="child.link" class="submenu-link">{{ child.label }}</a>
             </li>
           </ul>
-        </nav>
-      </div>  
+          <a v-else :href="item.link" class="menu-link">{{ item.label }}</a>
+        </li>
+      </ul>
     </div>
-  </header>
+    </div>
+  </nav>
 
   <RouterView />
 
 </template>
 
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from './components/Encabezado.vue'
+import { ref } from 'vue';
 
-<style scoped>
+const menuItems = ref([
+  { id: 1, label: 'Home', link: '/' },
+  { id: 2, label: 'Planificación', link: '/planificaciones' },
+  { id: 3, label: 'Kardex', children: [
+    { id: 31, label: 'Pacientes', link: '/clientes' },
+    { id: 32, label: 'Historial Médico', link: '/' },
+    { id: 32, label: 'Doctores', link: '/doctores' },
+  ]},
+  { id: 4, label: 'Fichas', children: [
+    { id: 41, label: 'Emisión', link: '/fichasEmision' },
+    { id: 42, label: 'Atención', link: '/fichasAtencion' },
+  ]},
+  { id: 5, label: 'Consulta Médica', children: [
+    { id: 51, label: 'Signos Vitales', link: '/signosVitales' },
+    { id: 52, label: 'Consulta Externa', link: '/fichasConsulta' },
+  ]},
+  { id: 6, label: 'Consulta Médica', children: [
+    { id: 61, label: 'Signos Vitales', link: '/signosVitales' },
+    { id: 62, label: 'Consulta Externa', link: '/fichasConsulta' },
+  ]},
+  { id: 7, label: 'Parametros', children: [
+    { id: 71, label: 'Especialidades', link: '/especialidades' },
+    { id: 72, label: 'Tipos Cliente', link: '/tiposClientes' },
+    { id: 73, label: 'Centros Medicos', link: '/centros' },
+    { id: 74, label: 'Usuarios', link: '/usuarios' },
+  ]},
+  { id: 3, label: 'Ingresar', link: '/logout' },
+]);
+</script>
+
+<!--style scoped>
 header {
 line-height: 1.5;
 max-height: 100vh;
@@ -163,5 +129,63 @@ display: flex;
 padding-right: calc(var(--section-gap) / 2);
 }
 }
-</style>
+</style-->
 
+<style scoped>
+nav {
+  background-color: #333;
+  color: white;
+}
+
+.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.menu-item {
+  position: relative;
+  margin: 0 10px;
+}
+
+.menu-link,
+.submenu-link {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+  display: block;
+  padding: 10px;
+}
+
+.menu-link:hover,
+.submenu-link:hover {
+  color: #ffd700;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #333;
+  border: 1px solid #555;
+}
+
+.menu-item:hover .submenu {
+  display: block;
+}
+
+.submenu-item {
+  margin: 0;
+}
+
+.submenu-link {
+  padding: 10px;
+  display: block;
+}
+
+.submenu-link:hover {
+  background-color: #555;
+}
+</style>

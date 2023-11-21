@@ -32,6 +32,8 @@
 //import authService from '../services/authService';
 import { mapActions } from 'vuex';
 
+import '@fortawesome/fontawesome-free/css/all.css';
+
 export default {
   data() {
     return {
