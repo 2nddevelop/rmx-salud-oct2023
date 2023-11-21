@@ -63,7 +63,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 60vh;
   }
   
   .login-grid {
@@ -73,7 +73,7 @@ export default {
     max-width: 400px;
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 20px;
   }
   
   .login-logo {

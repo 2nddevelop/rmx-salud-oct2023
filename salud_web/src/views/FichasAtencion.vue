@@ -42,21 +42,22 @@
           <tbody>
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <td align="right">{{ index + 1 }}</td>
-              <td>
-                <button
+              <td align="center">
+                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
                   @click="editRegistro(r)"
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Atención"
                 >
                   <i class="fa-solid fa-check"></i>
                 </button>
-                <button
+                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
                   @click="deleteRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Signos"
                 >
-                  <i class="fa-solid fa-heart-pulse"></i>
+                  <i class="fa-solid fa-heart-pulse fa-beat-fade"></i>
                 </button>
+                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce"></i>
               </td>
               <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.pln_data.pln_horario }} {{ r.pln_data.pln_consultorio }} {{ r.pln_data.pln_medico }} </td>
@@ -195,7 +196,6 @@
       this.dates();
       this.listarRegistros();
       this.listarClientes();
-      // this.listarPlanificaciones();
       this.listarCentros();
     },
   
@@ -252,34 +252,32 @@
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
         if (this.isEditing) {
+          this.reg.fch_estado = "S";
           const updatedReg = await fichasService.updateData(this.reg);
-          const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
-            if (index !== -1) {
-              this.regs.splice(index, 1, updatedReg);
-            }
-          } else {
-            const savedReg = await fichasService.saveData(this.reg);
-            this.regs.push(savedReg);
-          }
+        } else {
+          const savedReg = await fichasService.saveData(this.reg);
+          this.regs.push(savedReg);
+        }
+        this.listarRegistros();
         this.closeModal();
       },
 
       async deleteRegistro(reg) {
-        const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
+        const confirmed = window.confirm("¿Estás seguro de tomar Signos Vitales?");
         if (confirmed) {
           try {
             const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
             if (index !== -1) {
               reg.fch_usr_id = 1;
-              reg.fch_estado = "X"; 
-              await fichasService.deleteData(reg); 
-              this.regs.splice(index, 1); 
+              reg.fch_estado = "E";
+              const updatedReg = await fichasService.updateData(reg);
             } else {
               console.error('No se encontró el registro para eliminar');
             }
           } catch (error) {
             console.error('Error al eliminar el registro:', error);
           }
+          this.listarRegistros();
         }
       },
 

@@ -58,8 +58,9 @@ const FichaController = {
 
       // Actualizar el Fichas en la base de datos
       const updateFicha = await pool.query(
-        'UPDATE rmx_sld_fichas SET fch_pln_id = $1, fch_cli_id = $2, fch_nro_ficha = $3, fch_kdx_medico = $4, fch_modificado = $5, fch_usr_id = $6 WHERE fch_id = $7 RETURNING *',
-        [fch_pln_id, fch_cli_id, fch_nro_ficha, fch_kdx_medico, fch_modificado, fch_usr_id, fch_id]
+        `UPDATE rmx_sld_fichas SET fch_pln_id = $1, fch_cli_id = $2, fch_nro_ficha = $3, 
+          fch_kdx_medico = $4, fch_modificado = $5, fch_usr_id = $6, fch_estado = $7 
+        WHERE fch_id = $8 RETURNING *`, [fch_pln_id, fch_cli_id, fch_nro_ficha, fch_kdx_medico, fch_modificado, fch_usr_id, fch_estado, fch_id, ]
       );
 
       res.json(updateFicha.rows[0]);
