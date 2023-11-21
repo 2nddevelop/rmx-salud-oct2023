@@ -36,7 +36,13 @@ const UserController = {
 
   getAllUsers: async (req: Request, res: Response) => {
     try {
-      const usersQuery = await pool.query('SELECT * FROM base_usuarios');
+      const usersQuery = await pool.query(
+        `SELECT u.*, o.ori_codigo, o.ori_descripcion, t.tme_codigo, t.tme_descripcion 
+        FROM base_usuarios u
+        INNER JOIN base_tipos_membresias t ON t.tme_id = u.usr_tme_id
+        INNER JOIN base_origenes o ON o.ori_id = u.usr_ori_id
+        WHERE u.usr_estado != 'X' ORDER BY 1`
+      );
       const users = usersQuery.rows;
       res.json(users);
     } catch (error) {
