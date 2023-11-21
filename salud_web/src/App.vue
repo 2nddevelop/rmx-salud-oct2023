@@ -53,7 +53,7 @@ import HelloWorld from './components/Encabezado.vue'
                   <RouterLink to="/signosVitales">Signos Vitales</RouterLink>
                 </li>
                 <li>
-                  <RouterLink to="/">Consulta Externa</RouterLink>
+                  <RouterLink to="/fichasConsulta">Consulta Externa</RouterLink>
                 </li>
               </ul>
               </div>
