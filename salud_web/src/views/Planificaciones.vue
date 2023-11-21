@@ -68,14 +68,13 @@
               </button>
             </td>
             <td align="right">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-            <td align="right">
-                <strong>{{ r.esp_descripcion}}</strong><br>
-                {{ r.pln_data.pln_medico}}<br>
-                {{ r.pln_data.pln_consultorio}}
-            </td>
+            <td align="right">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
+            <td align="right">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
+            <td align="right">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
             <td align="right">{{ r.pln_data.pln_max_fichas}}</td>
             <td align="right">{{ r.pln_data.pln_fecha}}</td>
             <td align="right">{{ r.pln_data.pln_horario}}</td>
+            <td align="right">{{ r.pln_data.pln_max_virtuales}}</td>
             <td align="right">{{ r.pln_registado}}</td>
             <td align="right">{{ r.pln_estado}}</td>
           </tr>
@@ -152,20 +151,32 @@
                   </select>
               </div>
             </div>
-            
             <div class="grid grid-cols-2 gap-3">
-              <div class="form-group">
-                  <label for="medico">Medico:</label>
-                  <input v-model="reg.pln_data.pln_medico" class="form-control" name="medico" id="medico" placeholder="Medico" />
+                <div class="form-group">
+                  <label for="pln_doc_id" class="font-semibold">Doctores</label>
+                  <select v-model="reg.pln_doc_id" class="form-control" name="pln_doc_id" id="pln_doc_id" placeholder="Doctores" required >
+                    <option value="0">-- seleccione --</option>
+                    <option v-for="doc in doctores" :key="doc.doc_id" :value="doc.doc_id">{{ doc.doc_data.doc_paterno }} {{ doc.doc_data.doc_materno }} {{ doc.doc_data.doc_nombres }}</option>
+                  </select>
                 </div>
                 <div class="form-group">
-                  <label for="consultorio">Consultorio:</label>
-                  <input v-model="reg.pln_data.pln_consultorio" class="form-control" name="consultorio" id="consultorio" placeholder="Consultorio" />
+                    <label for="pln_con_id" class="font-semibold">Consultorio</label>
+                    <select v-model="reg.pln_con_id" class="form-control" name="pln_con_id" id="pln_con_id" placeholder="Consultorio" required >
+                      <option value="0">-- seleccione --</option>
+                      <option v-for="con in consultorios" :key="con.con_id" :value="con.con_id"> {{ con.con_codigo }}  - {{ con.con_descripcion }}</option>
+                    </select>
                 </div>
-            </div>
-            <div class="form-group">
-              <label for="fichas">Max Fichas:</label>
-              <input type="number" v-model="reg.pln_data.pln_max_fichas" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" />
+              </div>  
+            <div class="grid grid-cols-2 gap-4">
+
+              <div class="form-group">
+                <label for="fichas">Max Fichas:</label>
+                <input type="number" v-model="reg.pln_data.pln_max_fichas" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" />
+              </div>
+              <div class="form-group">
+                <label for="fichas">Max Fichas Virtuales:</label>
+                <input type="number" v-model="reg.pln_data.pln_max_virtuales" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" />
+              </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -199,6 +210,8 @@ import planificacionesService from '../services/planificacionesService';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import Paginator from '../components/Paginator.vue';
+import doctoresService from '../services/doctoresService';
+import consultoriosService from '../services/consultoriosService';
 
 export default {
   data() {
@@ -206,11 +219,10 @@ export default {
       regs: [],
       reg: {            
          pln_data:{
-            pln_medico: '',
-            pln_consultorio: '',
             pln_max_fichas: '',
             pln_fecha: '',
-            pln_horario: ''
+            pln_horario: '',
+            pln_max_virtuales: ''
         } 
       },
       title: "PLANIFICACIÓN",
@@ -220,6 +232,8 @@ export default {
       isEditing: false,
       centros: [],
       especialidades: [],
+      doctores: [],
+      consultorios: [],
 
       // dates
       currentDate: new Date(),
@@ -236,6 +250,8 @@ export default {
     this.listarRegistros();
     this.listarCentros();
     this.listarEspecialidades();
+    this.listarConsultorios();
+    this.listarDoctores();
   },
 
   methods: {
@@ -266,15 +282,34 @@ export default {
         console.error("Error:", error.message);
       }
     },
+
+    async listarConsultorios() {
+      this.consultorios = [];
+      try {
+        this.consultorios = await consultoriosService.getData();
+        console.log("Especialidades: ", this.consultorios);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    },
+
+    async listarDoctores() {
+      this.doctores = [];
+      try {
+        this.doctores = await doctoresService.getData();
+        console.log("Especialidades: ", this.doctores);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    },
     newRegistro() {
       this.isEditing = false;
       this.reg = {
         pln_data: {
-          pln_medico: '',
-          pln_consultorio: '',
           pln_max_fichas: '',
           pln_fecha: '',
-          pln_horario: ''
+          pln_horario: '',
+          pln_max_virtuales: ''
         }
       };
       this.showModal = true;
