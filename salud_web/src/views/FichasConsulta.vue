@@ -31,12 +31,12 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>PACIENTE</th>
-              <th>PLANIFICACION</th>
-              <th>NRO DE FICHA</th>
-              <th>KARDEX MEDICO</th>
-              <th>REGISTRADO</th>
-              <th>ESTADO</th>
+              <th>Paciente</th>
+              <th>Planificación</th>
+              <th>Nro Ficha</th>
+              <th>Kardex Médico</th>
+              <th>Registrado</th>
+              <th>Estado</th>
             </tr>
           </thead>
           <tbody>

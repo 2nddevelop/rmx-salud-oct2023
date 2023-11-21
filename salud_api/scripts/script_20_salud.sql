@@ -45,83 +45,114 @@ insert into rmx_sld_especialidades (esp_codigo, esp_descripcion, esp_usr_id) val
 ('OTL', 'Otorrinolaringología', 1);
 
 
+create table rmx_sld_doctores (
+  doc_id serial primary key,
+  doc_cnt_id integer not null,
+  doc_esp_id integer not null,
+  doc_data jsonb not null default '{}',
+  doc_registrado timestamp without time zone NOT NULL DEFAULT now(),
+  doc_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  doc_usr_id integer NOT NULL,
+  doc_estado text default 'A' 
+);
+insert into rmx_sld_doctores (doc_cnt_id, doc_esp_id, doc_data, doc_usr_id) values
+(1, 1, '{ "doc_paterno":"Davalos", "doc_materno":"Flores", "doc_nombres":"Jose", "doc_ci":"10930841", 
+"doc_celular":"70155777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1),
+(1, 2, '{ "doc_paterno":"Rojas", "doc_materno":"Aliagan", "doc_nombres":"Armando", "doc_ci":"10930841", 
+"doc_celular":"77055777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1),
+(1, 3, '{ "doc_paterno":"Perez", "doc_materno":"Rios", "doc_nombres":"Leonardo", "doc_ci":"10930841", 
+"doc_celular":"78855777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1),
+(1, 4, '{ "doc_paterno":"Llanos", "doc_materno":"Jove", "doc_nombres":"Rolando", "doc_ci":"10930841", 
+"doc_celular":"79155777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1),
+(1, 5, '{ "doc_paterno":"Arce", "doc_materno":"Luna", "doc_nombres":"Narciso", "doc_ci":"10930841", 
+"doc_celular":"73055777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1),
+(1, 6, '{ "doc_paterno":"Rios", "doc_materno":"Dulon", "doc_nombres":"Luis", "doc_ci":"10930841", 
+"doc_celular":"71855777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1),
+(1, 7, '{ "doc_paterno":"Orcko", "doc_materno":"Arias", "doc_nombres":"Genaro", "doc_ci":"10930841", 
+"doc_celular":"71855777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1),
+(1, 8, '{ "doc_paterno":"Linera", "doc_materno":"Flores", "doc_nombres":"Carlos", "doc_ci":"10930841", 
+"doc_celular":"70155777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 1);
+
+
 create table rmx_sld_planificacion (
   pln_id serial primary key,
   pln_cnt_id integer not null,
   pln_esp_id integer not null,
+  pln_doc_id integer not null,
   pln_data jsonb not null default '{}',
   pln_registrado timestamp without time zone NOT NULL DEFAULT now(),
   pln_modificado timestamp without time zone NOT NULL DEFAULT now(),
   pln_usr_id integer NOT NULL,
   pln_estado text default 'A' 
 );
-insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_data, pln_usr_id) values
-(1, 1, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
-(1, 2, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
-(1, 3, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
-(1, 4, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
-(2, 1, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
-(2, 4, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
-(2, 6, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
-(3, 1, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
-(3, 7, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
-(3, 8, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
+insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_data, pln_usr_id) values
+(1, 1, 1, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
+(1, 2, 2, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
+(1, 3, 3, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
+(1, 4, 4, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
+(2, 1, 1, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
+(2, 4, 4, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
+(2, 6, 6, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
+(3, 1, 1, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
+(3, 7, 7, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
+(3, 8, 8, '{ "pln_fecha":"2023-11-20", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
 
-(1, 1, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
-(1, 2, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
-(1, 3, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
-(1, 4, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
-(2, 1, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
-(2, 4, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
-(2, 6, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
-(3, 1, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
-(3, 7, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
-(3, 8, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
+(1, 1, 1, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
+(1, 2, 2, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
+(1, 3, 3, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
+(1, 4, 4, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
+(2, 1, 1, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
+(2, 4, 4, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
+(2, 6, 6, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
+(3, 1, 1, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
+(3, 7, 7, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
+(3, 8, 8, '{ "pln_fecha":"2023-11-21", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
 
-(1, 1, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
-(1, 2, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
-(1, 3, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
-(1, 4, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
-(2, 1, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
-(2, 4, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
-(2, 6, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
-(3, 1, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
-(3, 7, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
-(3, 8, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1);
+(1, 1, 1, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
+(1, 2, 2, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
+(1, 3, 3, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
+(1, 4, 4, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
+(2, 1, 1, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
+(2, 4, 4, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
+(2, 6, 6, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
+(3, 1, 1, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
+(3, 7, 7, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
+(3, 8, 8, '{ "pln_fecha":"2023-11-22", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1);
 
-insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_data, pln_usr_id) values
-(1, 1, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
-(1, 2, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
-(1, 3, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
-(1, 4, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
-(2, 1, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
-(2, 4, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
-(2, 6, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
-(3, 1, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
-(3, 7, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
-(3, 8, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
+insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_data, pln_usr_id) values
+(1, 1, 1, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
+(1, 2, 2, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
+(1, 3, 3, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
+(1, 4, 4, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
+(2, 1, 1, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
+(2, 4, 4, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
+(2, 6, 6, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
+(3, 1, 1, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
+(3, 7, 7, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
+(3, 8, 8, '{ "pln_fecha":"2023-11-23", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
 
-(1, 1, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
-(1, 2, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
-(1, 3, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
-(1, 4, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
-(2, 1, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
-(2, 4, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
-(2, 6, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
-(3, 1, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
-(3, 7, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
-(3, 8, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
+(1, 1, 1, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
+(1, 2, 2, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
+(1, 3, 3, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
+(1, 4, 4, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
+(2, 1, 1, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
+(2, 4, 4, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
+(2, 6, 6, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
+(3, 1, 1, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
+(3, 7, 7, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
+(3, 8, 8, '{ "pln_fecha":"2023-11-24", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1),
 
-(1, 1, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
-(1, 2, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
-(1, 3, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
-(1, 4, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
-(2, 1, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
-(2, 4, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
-(2, 6, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
-(3, 1, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
-(3, 7, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
-(3, 8, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1);
+(1, 1, 1, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Perez",    "pln_max_fichas":"10" }', 1),
+(1, 2, 2, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Pozos",    "pln_max_fichas":"10" }', 1),
+(1, 3, 3, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Villamor", "pln_max_fichas":"10" }', 1),
+(1, 4, 4, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 4", "pln_medico":"Dr. Lopez",    "pln_max_fichas":"10" }', 1),
+(2, 1, 1, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Aramayo",  "pln_max_fichas":"10" }', 1),
+(2, 4, 4, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Cazas",    "pln_max_fichas":"10" }', 1),
+(2, 6, 6, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Ramallo",  "pln_max_fichas":"10" }', 1),
+(3, 1, 1, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 1", "pln_medico":"Dr. Paz",      "pln_max_fichas":"10" }', 1),
+(3, 7, 7, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 2", "pln_medico":"Dr. Arduz",    "pln_max_fichas":"10" }', 1),
+(3, 8, 8, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_consultorio":"Consultorio 3", "pln_medico":"Dr. Leon",     "pln_max_fichas":"10" }', 1);
+
 
 create table rmx_sld_fichas (
   fch_id serial primary key,
@@ -137,20 +168,6 @@ create table rmx_sld_fichas (
 insert into rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id) values
 (1, 5, 'F-1', 'MER-19680709', 1);
 
-create table rmx_sld_doctores (
-  doc_id serial primary key,
-  doc_cnt_id integer not null,
-  doc_esp_id integer not null,
-  doc_data jsonb not null default '{}',
-  doc_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  doc_modificado timestamp without time zone NOT NULL DEFAULT now(),
-  doc_usr_id integer NOT NULL,
-  doc_estado text default 'A' 
-);
-insert into rmx_sld_doctores (doc_cnt_id, doc_esp_id, doc_data, doc_usr_id) values
-(1, 1, '{ "doc_paterno":"Davalos", "doc_materno":"Flores", "doc_nombres":"Pepe", "doc_ci":"10930841", 
-"doc_celular":"77755777", "doc_dias":"Lunes y Jueves", "doc_horario_inicio":"02:00", "doc_horario_fin":"06:00" }', 
-1);
 
 
 --
