@@ -5,6 +5,8 @@
         <div class="p-3 m-1">
           <h1>{{ title }}</h1>
         </div>
+        <div></div>
+        <div></div>
         <div class="flex justify-end p-3 m-1">
           <button
             @click="newRegistro()"

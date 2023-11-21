@@ -53,7 +53,8 @@ const menuItems = ref([
     { id: 71, label: 'Especialidades', link: '/especialidades' },
     { id: 72, label: 'Tipos Cliente', link: '/tiposClientes' },
     { id: 73, label: 'Centros Medicos', link: '/centros' },
-    { id: 74, label: 'Usuarios', link: '/usuarios' },
+    { id: 74, label: 'Consultorios', link: '/consultorios' },
+    { id: 75, label: 'Usuarios', link: '/usuarios' },
   ]},
   { id: 3, label: 'Ingresar', link: '/logout' },
 ]);
