@@ -44,7 +44,7 @@
           </thead>
           <tbody>
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
-              <td align="right">{{ index + 1 }}</td>
+              <td align="right">{{ index + 1 }} - {{ r.fch_id }}</td>
               <td align="center">
                 <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
                   @click="editRegistro(r)"
@@ -64,7 +64,7 @@
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.cnt_codigo }} / {{ r.esp_codigo }} / {{ r.con_codigo }} </td>
-              <td align="left">{{ r.pln_data.pln_horario }} </td>
+              <td align="center">{{ r.pln_data.pln_horario }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
@@ -164,6 +164,116 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal Signos Vitales -->
+      <div v-if="showModalSV" class="modal-overlay">
+        <div class="modal-content">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+            >
+              <h2
+                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
+              >
+                {{ isEditingSV ? "EDITAR " : "NUEVO " }} {{ singularSV }}
+              </h2>
+              <button
+                type="button"
+                @click="closeModalSV()"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="defaultModal"
+              >
+                <svg
+                  class="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+
+              <div class="grid grid-cols-4 gap-3">
+                <div class="form-group">
+                  <label for="CI">CI:</label>
+                  <input v-model="regSV.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled/>
+                </div>
+
+                <div class="form-group">
+                  <label for="paterno">Paterno:</label>
+                  <input v-model="regSV.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled/>
+                </div>
+
+                <div class="form-group">
+                  <label for="materno">Materno:</label>
+                  <input v-model="regSV.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled/>
+                </div>
+
+                <div class="form-group">
+                  <label for="nombres">Nombres:</label>
+                  <input v-model="regSV.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled/>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="form-group">
+                  <label for="frec_cardiaca">Frecuencia Cardiaca:</label>
+                  <input v-model="regSV.sv_data.sv_frec_cardiaca" class="form-control" name="frec_cardiaca" id="frec_cardiaca" placeholder="Frecuencia cardiaca" />
+                </div>
+                  <div class="form-group">
+                    <label for="frec_respiratoria">Frecuencia Respiratoria:</label>
+                    <input v-model="regSV.sv_data.sv_frec_respiratoria" class="form-control" name="frec_respiratoria" id="frec_respiratoria" placeholder="Frecuencia respiratoria" />
+                  </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="form-group">
+                  <label for="presion_arterial">Presión Arterial:</label>
+                  <input v-model="regSV.sv_data.sv_presion_arterial" class="form-control" name="presion_arterial" id="presion_arterial" placeholder="Presion Arterial" />
+                </div>
+                <div class="form-group">
+                  <label for="sat_oxigeno">Saturación de Oxigeno:</label>
+                  <input v-model="regSV.sv_data.sv_sat_oxigeno" class="form-control" name="sat_oxigeno" id="sat_oxigeno" placeholder="Saturación de oxigeno" />
+                </div>
+              </div>
+              <div class="grid grid-cols-3 gap-4">
+                <div class="form-group">
+                  <label for="temp">Temperatura Corporal:</label>
+                  <input v-model="regSV.sv_data.sv_temp_corporal" class="form-control" name="temp" id="temp" placeholder="Temperatura corporal" />
+                </div>
+
+                <div class="form-group">
+                  <label for="correo">Talla:</label>
+                  <input v-model="regSV.sv_data.sv_talla" class="form-control" name="talla" id="talla" placeholder="Talla" />
+                </div>
+
+                <div class="form-group">
+                  <label for="peso">Peso:</label>
+                  <input v-model="regSV.sv_data.sv_peso" class="form-control" name="peso" id="peso" placeholder="Peso" />
+                </div>
+              </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button @click="saveModalSV" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditingSV ? 'Actualizar' : 'Guardar'">
+                {{ isEditingSV ? "Actualizar" : "Guardar" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </template>
   
@@ -184,8 +294,11 @@
         title: "ATENCIÓN FICHAS",
         plural: "Fichas",
         singular: "Ficha",
+        singularSV: "Signos Vitales",
         showModal: false,
+        showModalSV: false,
         isEditing: false,
+        isEditingSV: false,
         clientes: [],
         planificaciones: [],
         centrosSalud: [],
@@ -269,12 +382,16 @@
       async deleteRegistro(reg) {
         const confirmed = window.confirm("¿Estás seguro de tomar Signos Vitales?");
         if (confirmed) {
+          this.isEditingSV = false;
+          this.regSV = { cli_data: {}, sv_data: {} };
+          this.showModalSV = true;
+
           try {
             const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
             if (index !== -1) {
               reg.fch_usr_id = 1;
               reg.fch_estado = "E";
-              const updatedReg = await fichasService.updateData(reg);
+              //const updatedReg = await fichasService.updateData(reg);
             } else {
               console.error('No se encontró el registro para eliminar');
             }
@@ -287,6 +404,10 @@
 
       closeModal() {
         this.showModal = false;
+      },
+
+      closeModalSV() {
+        this.showModalSV = false;
       },
 
       dates() {

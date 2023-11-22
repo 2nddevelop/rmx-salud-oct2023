@@ -22,11 +22,13 @@
                 </select>
               </div>
             </div>
+
             <div class="flex justify-end p-3 m-1">
               <button
                 @click="newRegistro()"
-                class="form-control bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+                class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
                 title="Nuevo"
+                :disabled="filtro.centro_id == '0'"
               >
                 + Nuevo
               </button>

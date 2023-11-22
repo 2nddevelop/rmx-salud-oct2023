@@ -54,14 +54,14 @@
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <td align="right">{{ index + 1 }}</td>
               <td>
-                <button
+                <button v-if="r.fch_estado == 'P'"
                   @click="editRegistro(r)"
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Editar"
                 >
                   <i class="fa-solid fa-pencil"></i>
                 </button>
-                <button
+                <button v-if="r.fch_estado == 'P'"
                   @click="deleteRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Eliminar"
