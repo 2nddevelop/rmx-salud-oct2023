@@ -19,6 +19,7 @@ import ConsultorioController from '../controllers/ConsultorioController';
 import TiposClienteController from '../controllers/TiposClienteController';
 import ClienteController from '../controllers/ClienteController';
 import FichaController from '../controllers/FichaController';
+import HistorialController from '../controllers/HistorialController';
 import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -179,6 +180,12 @@ router.get('/clientes', authMiddleware, ClienteController.getAllClientes);
 router.post('/cliente', authMiddleware, ClienteController.createCliente);
 router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
+
+/////Tipo Cliente
+router.get('/historiales', authMiddleware, HistorialController.getAllHistoriales);
+router.post('/historial', authMiddleware, HistorialController.createHistorial);
+router.put('/historial/:hc_id', authMiddleware, HistorialController.updateHistorial);
+router.post('/historial/:hc_id', authMiddleware, HistorialController.deleteHistorial);
 
 ///Signos Vitales
 router.get('/signosVitales/:fecha/:cnt_id', authMiddleware, SignosVitalesController.getAllSVs);
