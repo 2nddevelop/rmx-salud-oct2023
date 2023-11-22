@@ -181,11 +181,17 @@ router.post('/cliente', authMiddleware, ClienteController.createCliente);
 router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
-/////Tipo Cliente
+/////Historiales
 router.get('/historiales', authMiddleware, HistorialController.getAllHistoriales);
 router.post('/historial', authMiddleware, HistorialController.createHistorial);
 router.put('/historial/:hc_id', authMiddleware, HistorialController.updateHistorial);
 router.post('/historial/:hc_id', authMiddleware, HistorialController.deleteHistorial);
+
+/////Historiales Detalle
+router.get('/historialesDet', authMiddleware, HistorialController.getAllHistorialesDet);
+router.post('/historialDet', authMiddleware, HistorialController.createHistorialDet);
+router.put('/historialDet/:hcd_id', authMiddleware, HistorialController.updateHistorialDet);
+router.post('/historialDet/:hcd_id', authMiddleware, HistorialController.deleteHistorialDet);
 
 ///Signos Vitales
 router.get('/signosVitales/:fecha/:cnt_id', authMiddleware, SignosVitalesController.getAllSVs);
