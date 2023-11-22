@@ -27,21 +27,20 @@
           <tr v-for="(r, index) in regs" v-bind:key="r.usr_id">
             <td align="right">{{ index + 1 }}</td>
             <td align="center">
-              <button v-if="r.usr_estado == 'P' || r.usr_estado == 'S'"
+              <button 
                 @click="editRegistro(r)"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Atención"
               >
                 <i class="fa-solid fa-check"></i>
               </button>
-              <button v-if="r.usr_estado == 'P' || r.usr_estado == 'S'"
+              <button 
                 @click="deleteRegistro(r)"
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Signos"
               >
                 <i class="fa-solid fa-heart-pulse fa-beat-fade"></i>
               </button>
-              <i v-if="r.usr_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
             </td>
             <td align="left">{{ r.ori_codigo }} {{ r.ori_descripcion }}</td>
             <td align="left">{{ r.tme_codigo }} {{ r.tme_descripcion }}</td>
@@ -113,7 +112,7 @@
                 <label for="usr_cli_id" class="font-semibold">Paciente</label>
                 <select v-model="reg.usr_cli_id" class="form-control" name="usr_cli_id" id="usr_cli_id" placeholder="Centro" required disabled>
                   <option value="0">-- seleccione --</option>
-                  <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
+                  <option v-for="c in origenes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
                 </select>
               </div>
               <div class="form-group">
@@ -151,7 +150,8 @@
 
 
 <script>
-import userService from '../services/userService';
+import origenesService from '../../services/origenesService';
+import userService from '../../services/userService';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -159,10 +159,10 @@ export default {
   data() {
     return {
       regs: [],
-      reg: { },
-      title: "ATENCIÓN FICHAS",
-      plural: "Fichas",
-      singular: "Ficha",
+      reg: {},
+      title: "USUARIOS",
+      plural: "Usuarios",
+      singular: "Usuario",
       showModal: false,
       isEditing: false,
     };
@@ -171,7 +171,7 @@ export default {
   mounted() {
     this.dates();
     this.listarRegistros();
-    //this.listarClientes();
+    //this.listarOrigenes();
     //this.listarCentros();
   },
 
@@ -180,47 +180,39 @@ export default {
       this.regs = [];
       try {
         this.regs = await userService.getData();
-        console.log("Fichas: ", this.regs);          
+        console.log("Fichas: ", this.regs);
       } catch (error) {
         console.error("Error:", error.message);
       }
     },
-    async listarClientes() {
-      this.clientes = [];
+    async listarOrigenes() {
+      this.origenes = [];
       try {
-        this.clientes = await clientesService.getData();
-        console.log("Centros: ", this.clientes);
+        this.origenes = await origenesServiceService.getData();
+        console.log("Centros: ", this.origenes);
       } catch (error) {
         console.error("Error:", error.message);
       }
     },
-    async listarPlanificaciones() {
-      this.planificaciones = [];
+
+    async listarTiposMembresia() {
+      this.tiposMembresia = [];
       try {
-        this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
-        console.log("planificaciones: ", this.planificaciones);
-      } catch (error) {
-        console.error("Error:", error.message);
-      }
-    },
-    async listarCentros() {
-      try {
-      this.centrosSalud = await centrosService.getData();
-      console.log('Registros: ', this.regs);
+      this.tiposMembresia = await centrosService.getData();
+      console.log('Registros: ', this.tiposMembresia);
       } catch (error) {
       console.error('Error:', error.message);
       }
     },
 
     newRegistro() {
-      this.listarPlanificaciones();
       this.isEditing = false;
       this.reg = { };
       this.showModal = true;
     },
     editRegistro(reg) {
       this.isEditing = true;
-      this.reg = Object.assign({}, reg);
+      this.reg = { ...reg };
       this.showModal = true;
     },
 

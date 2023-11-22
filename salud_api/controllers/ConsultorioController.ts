@@ -27,7 +27,7 @@ const ConsultorioController = {
 
     try {
       const newConsultorio = await pool.query(
-        'INSERT INTO rmx_sld_consultorios (con_cnt_id, con_codigo, con_descripcion, con_usr_id, con_estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        'INSERT INTO rmx_sld_consultorios (con_cnt_id, con_codigo, con_descripcion, con_usr_id, con_estado) VALUES ($1, $2, $3, $4, $5) RETURNING *',
         [con_cnt_id, con_codigo, con_descripcion, con_usr_id, con_estado]
       );
 

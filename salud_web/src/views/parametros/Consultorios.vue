@@ -126,11 +126,11 @@
             <div class="grid grid-cols-2 gap-3">
               <div class="form-group">
                   <label for="codigo">Codigo:</label>
-                  <input v-model="reg.con_data.con_codigo" class="form-control" name="codigo" id="codigo" placeholder="Codigo" />
+                  <input v-model="reg.con_codigo" class="form-control" name="codigo" id="codigo" placeholder="Codigo" />
                 </div>
                 <div class="form-group">
                   <label for="descripcion">Descripcion:</label>
-                  <input v-model="reg.con_data.con_descripcion" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion" />
+                  <input v-model="reg.con_descripcion" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion" />
                 </div>
             </div>
           </div>
@@ -148,11 +148,9 @@
 
 
 <script>
-import centrosService from '../services/centrosService';
-import consultoriosService from '../services/consultoriosService';
+import centrosService from '../../services/centrosService';
 
-import '@fortawesome/fontawesome-free/css/all.css';
-import Paginator from '../components/Paginator.vue';
+import consultoriosService from '../../services/consultoriosService';
 
 export default {
   data() {
@@ -178,6 +176,7 @@ export default {
 
   methods: {
     async listarRegistros() {
+      this.regs = [];
       try {
         this.regs = await consultoriosService.getData();
         console.log("Registros: ", this.regs);          
@@ -185,6 +184,7 @@ export default {
         console.error("Error:", error.message);
       }
     },
+    
     async listarCentros() {
       this.centros = [];
       try {
