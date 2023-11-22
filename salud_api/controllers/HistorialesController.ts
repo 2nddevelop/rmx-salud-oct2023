@@ -7,12 +7,12 @@ import pool from '../db';
 
 const HistorialController = {
   getAllHistoriales: async (req: Request, res: Response) => {
-    const { fecha, cnt_id } = req.params;
+    // xxx const { fecha, cnt_id } = req.params;
 
     try {
       const historialesQuery = await pool.query(
         `SELECT h.*, c.cli_data
-        FROM rmx_sld_historial h
+        FROM rmx_sld_historiales h
         INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
         WHERE h.hc_estado != 'X' ORDER BY 1`
       );
@@ -29,7 +29,7 @@ const HistorialController = {
 
     try {
       const newHistorial = await pool.query(
-        'INSERT INTO rmx_sld_historial (hc_cli_id, hc_codigo, hc_usr_id, hc_estado) VALUES ($1, $2, $3, $4) RETURNING *',
+        'INSERT INTO rmx_sld_historiales (hc_cli_id, hc_codigo, hc_usr_id, hc_estado) VALUES ($1, $2, $3, $4) RETURNING *',
         [hc_cli_id, hc_codigo, hc_usr_id, hc_estado]
       );
 
@@ -54,7 +54,7 @@ const HistorialController = {
 
       // Actualizar el Historiales en la base de datos
       const updateHistorial = await pool.query(
-        `UPDATE rmx_sld_historial SET hc_cli_id = $1, hc_codigo = $2, hc_modificado = $3, hc_usr_id = $4, hc_estado = $5 
+        `UPDATE rmx_sld_historiales SET hc_cli_id = $1, hc_codigo = $2, hc_modificado = $3, hc_usr_id = $4, hc_estado = $5 
         WHERE hc_id = $6 RETURNING *`, [hc_cli_id, hc_codigo, hc_modificado, hc_usr_id, hc_estado, hc_id, ]
       );
 
@@ -70,7 +70,7 @@ const HistorialController = {
     const { hc_usr_id, hc_modificado, hc_estado} = req.body;
     try {
       const result = await pool.query(
-        'UPDATE rmx_sld_historial SET hc_modificado = $1, hc_estado = $2, hc_usr_id = $3 WHERE hc_id = $4 RETURNING *', 
+        'UPDATE rmx_sld_historiales SET hc_modificado = $1, hc_estado = $2, hc_usr_id = $3 WHERE hc_id = $4 RETURNING *', 
         [hc_modificado, hc_estado, hc_usr_id, hc_id]
       );
       if (result.rowCount === 0) {

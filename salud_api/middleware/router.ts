@@ -19,8 +19,9 @@ import ConsultorioController from '../controllers/ConsultorioController';
 import TiposClienteController from '../controllers/TiposClienteController';
 import ClienteController from '../controllers/ClienteController';
 import FichaController from '../controllers/FichaController';
-import HistorialController from '../controllers/HistorialController';
+import HistorialesController from '../controllers/HistorialesController';
 import authMiddleware from '../middleware/authMiddleware';
+import HistorialesDetController from '../controllers/HistorialesDetController';
 
 const router = express.Router();
 
@@ -182,19 +183,19 @@ router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
 /////Historiales
-router.get('/historiales', authMiddleware, HistorialController.getAllHistoriales);
-router.post('/historial', authMiddleware, HistorialController.createHistorial);
-router.put('/historial/:hc_id', authMiddleware, HistorialController.updateHistorial);
-router.post('/historial/:hc_id', authMiddleware, HistorialController.deleteHistorial);
+router.get('/historiales', authMiddleware, HistorialesController.getAllHistoriales);
+router.post('/historial', authMiddleware, HistorialesController.createHistorial);
+router.put('/historial/:hc_id', authMiddleware, HistorialesController.updateHistorial);
+router.post('/historial/:hc_id', authMiddleware, HistorialesController.deleteHistorial);
 
 /////Historiales Detalle
-router.get('/historialesDet', authMiddleware, HistorialController.getAllHistorialesDet);
-router.post('/historialDet', authMiddleware, HistorialController.createHistorialDet);
-router.put('/historialDet/:hcd_id', authMiddleware, HistorialController.updateHistorialDet);
-router.post('/historialDet/:hcd_id', authMiddleware, HistorialController.deleteHistorialDet);
+router.get('/historialesDet/:hc_id', authMiddleware, HistorialesDetController.getAllHistorialesDetXHcId);
+router.post('/historialDet', authMiddleware, HistorialesDetController.createHistorialDet);
+router.put('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.updateHistorialDet);
+router.post('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.deleteHistorialDet);
 
-///Signos Vitales
-router.get('/signosVitales/:fecha/:cnt_id', authMiddleware, SignosVitalesController.getAllSVs);
+///Signos Vitales borrar
+// router.get('/signosVitales/:fecha/:cnt_id', authMiddleware, SignosVitalesController.getAllSVs);
 // router.post('/cliente', authMiddleware, ClienteController.createCliente);
 // router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 // router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
