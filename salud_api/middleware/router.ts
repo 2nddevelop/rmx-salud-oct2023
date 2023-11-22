@@ -9,8 +9,6 @@ import ComisionController from '../controllers/ComisionController';
 import GalponController from '../controllers/GalponController';
 import RegistroController from '../controllers/RegistroController';
 
-import SignosVitalesController from '../controllers/SignosVitalesController';
-
 import DoctorController from '../controllers/DoctorController';
 import CentroController from '../controllers/CentroController';
 import EspecialidadController from '../controllers/EspecialidadController';
@@ -193,12 +191,6 @@ router.get('/historialesDet/:hc_id', authMiddleware, HistorialesDetController.ge
 router.post('/historialDet', authMiddleware, HistorialesDetController.createHistorialDet);
 router.put('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.updateHistorialDet);
 router.post('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.deleteHistorialDet);
-
-///Signos Vitales borrar
-// router.get('/signosVitales/:fecha/:cnt_id', authMiddleware, SignosVitalesController.getAllSVs);
-// router.post('/cliente', authMiddleware, ClienteController.createCliente);
-// router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
-// router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
 ///Fichas
 //router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
