@@ -207,9 +207,10 @@
     
     
     <script>
-    import tiposClienteService from '../services/tiposClienteService';
     import signosVitalesService from '../services/signosVitalesService';
-    
+    import clientesService from '../services/clientesService';
+    import centrosService from '../services/centrosService';
+
     import '@fortawesome/fontawesome-free/css/all.css';
 
     export default {
@@ -217,9 +218,6 @@
         return {
           regs: [],
           reg: { 
-            sv_cli_id: 0,
-            sv_fecha: '',
-            cli_data: [],
             sv_data:{
               sv_talla: '0',
               sv_peso: '0',
@@ -235,8 +233,8 @@
           singular: "Signo Vital",
           showModal: false,
           isEditing: false,
-          tiposClientes: [],
-
+          clientes: [],
+          centrosSalud: [],
           // dates
           currentDate: new Date(),
           // filtro
@@ -248,6 +246,8 @@
       mounted() {
         this.dates();
         this.listarRegistros();
+        this.listarClientes();
+        this.listarCentros();
       },
     
       methods: {
@@ -261,12 +261,27 @@
           }
         },
         
+        async listarClientes() {
+          this.clientes = [];
+          try {
+            this.clientes = await clientesService.getData();
+            console.log("Centros: ", this.clientes);
+          } catch (error) {
+            console.error("Error:", error.message);
+          }
+        },
+
+        async listarCentros() {
+          try {
+          this.centrosSalud = await centrosService.getData();
+          console.log('Registros: ', this.regs);
+          } catch (error) {
+          console.error('Error:', error.message);
+          }
+        },
         newRegistro() {
           this.isEditing = false;
           this.reg = {
-            sv_cli_id: 0,
-            sv_fecha: '',
-            cli_data: [],
             sv_data:{
               sv_talla: '',
               sv_peso: '',

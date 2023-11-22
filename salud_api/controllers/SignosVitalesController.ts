@@ -13,6 +13,8 @@ const SignosVitalesController = {
         `SELECT sv.*, c.* 
         FROM rmx_sld_sv sv
         INNER JOIN rmx_gral_clientes c ON c.cli_id = sv.sv_cli_id
+        INNER JOIN rmx_sld_centros ce ON ce.cnt_id = sv.sv_cnt_id
+
         WHERE sv_fecha = $1
           AND sv.sv_estado != 'X' ORDER BY 1`, [fecha] //cnt_id
       );
