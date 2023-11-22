@@ -11,10 +11,14 @@ const FichaController = {
 
     try {
       const fichasQuery = await pool.query(
-        `SELECT f.*, c.cli_data, p.pln_data
+        `SELECT f.*, c.cli_data, p.pln_data, ce.*, d.*, e.*, co.*
         FROM rmx_sld_fichas f
         INNER JOIN rmx_gral_clientes c ON c.cli_id = f.fch_cli_id
         INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
+        INNER JOIN rmx_sld_centros ce ON ce.cnt_id = p.pln_cnt_id
+        INNER JOIN rmx_sld_doctores d ON d.doc_id = p.pln_doc_id
+        INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+        INNER JOIN rmx_sld_consultorios co ON co.con_id = p.pln_con_id
         WHERE p.pln_data->>'pln_fecha' = $1
           AND p.pln_cnt_id = $2
           AND f.fch_estado != 'X' ORDER BY 1`, [fecha, cnt_id]

@@ -10,10 +10,12 @@
           <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
           <ul v-if="item.children" class="submenu">
             <li v-for="child in item.children" :key="child.id" class="submenu-item">
-              <a :href="child.link" class="submenu-link">{{ child.label }}</a>
+              <!--a :href="child.link" class="submenu-link">{{ child.label }}</a-->
+              <RouterLink :to="child.link" class="submenu-link">{{ child.label }}</RouterLink>
             </li>
           </ul>
-          <a v-else :href="item.link" class="menu-link">{{ item.label }}</a>
+          <!--a v-else :href="item.link" class="menu-link">{{ item.label }}</a-->
+          <RouterLink v-else :to="item.link" class="menu-link">{{ item.label }}</RouterLink>
         </li>
       </ul>
     </div>
@@ -45,15 +47,15 @@ const menuItems = ref([
     { id: 51, label: 'Signos Vitales', link: '/signosVitales' },
     { id: 52, label: 'Consulta Externa', link: '/fichasConsulta' },
   ]},
-  { id: 6, label: 'Consulta Médica', children: [
-    { id: 61, label: 'Signos Vitales', link: '/signosVitales' },
-    { id: 62, label: 'Consulta Externa', link: '/fichasConsulta' },
+  { id: 5, label: 'Instrumentos', children: [
+    { id: 51, label: 'CIE', link: '/' },
+    { id: 52, label: 'Vademécum General', link: '/' },
   ]},
   { id: 7, label: 'Parametros', children: [
-    { id: 71, label: 'Especialidades', link: '/especialidades' },
-    { id: 72, label: 'Tipos Cliente', link: '/tiposClientes' },
     { id: 73, label: 'Centros Medicos', link: '/centros' },
+    { id: 71, label: 'Especialidades', link: '/especialidades' },
     { id: 74, label: 'Consultorios', link: '/consultorios' },
+    { id: 72, label: 'Tipos Paciente', link: '/tiposClientes' },
     { id: 75, label: 'Usuarios', link: '/users' },
   ]},
   { id: 3, label: 'Ingresar', link: '/logout' },

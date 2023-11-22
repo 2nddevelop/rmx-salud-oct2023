@@ -108,7 +108,7 @@
       return {
         regs: [],
         reg: {},
-        title: "LISTADO DE ESPECIALIDADES",
+        title: "ESPECIALIDADES",
         plural: "Especialidades",
         singular: "Especialidad",
         showModal: false,

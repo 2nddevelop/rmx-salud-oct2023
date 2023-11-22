@@ -109,7 +109,7 @@
         return {
           regs: [],
           reg: {},
-          title: "LISTADO DE CENTROS",
+          title: "CENTROS",
           plural: "Centros",
           singular: "Centro",
           showModal: false,
