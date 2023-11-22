@@ -14,11 +14,11 @@ create table rmx_sld_historial (
 );
 insert into rmx_sld_historial (hc_cli_id, hc_codigo, hc_usr_id) values
 (1, '20001121-SSO', 1),
-(2, '200121-SSO', 1),
-(3, '19901121-SSO', 1),
-(4, '20061121-SSO', 1),
-(5, '20101121-SSO', 1),
-(6, '20001121-SSO', 1);
+(2, '20010111-TKO', 1),
+(3, '19900515-GLO', 1),
+(4, '20060308-NMO', 1),
+(5, '20101113-ANO', 1),
+(6, '20070125-DPO', 1);
 
 
 create table rmx_sld_historial_det (
