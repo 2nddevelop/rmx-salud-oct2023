@@ -200,9 +200,9 @@
               doc_horario_fin: ''
           } 
         },
-        title: "MÉDICOS",
-        plural: "Médicos",
-        singular: "Médico",
+        title: "HISTORIALES MÉDICOS",
+        plural: "Historiales Clínicos",
+        singular: "Historial Clínico",
         showModal: false,
         isEditing: false,
         centros: [],
