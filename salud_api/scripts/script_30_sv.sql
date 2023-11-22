@@ -3,7 +3,7 @@
 -- Base de Datos: rmx_salud_2023
 --
 
-create table rmx_sld_historial (
+create table rmx_sld_historiales (
   hc_id serial primary key,
   hc_cli_id integer not null,
   hc_codigo text not null,
@@ -12,7 +12,7 @@ create table rmx_sld_historial (
   hc_usr_id integer NOT NULL,
   hc_estado text default 'A' 
 );
-insert into rmx_sld_historial (hc_cli_id, hc_codigo, hc_usr_id) values
+insert into rmx_sld_historiales (hc_cli_id, hc_codigo, hc_usr_id) values
 (1, '20001121-SSO', 1),
 (2, '20010111-TKO', 1),
 (3, '19900515-GLO', 1),
@@ -21,7 +21,7 @@ insert into rmx_sld_historial (hc_cli_id, hc_codigo, hc_usr_id) values
 (6, '20070125-DPO', 1);
 
 
-create table rmx_sld_historial_det (
+create table rmx_sld_historiales_det (
   hcd_id serial primary key,
   hcd_hc_id integer not null,
   hcd_fecha date not null,
@@ -33,7 +33,7 @@ create table rmx_sld_historial_det (
   hcd_usr_id integer NOT NULL,
   hcd_estado text default 'A' 
 );
-insert into rmx_sld_historial_det (hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_usr_id) values
+insert into rmx_sld_historiales_det (hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_usr_id) values
 (1, '2023-11-21', '{ "sv_talla":"1.80", 
   "sv_peso":"95", 
   "sv_temp_corporal":"36", 
