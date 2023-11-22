@@ -23,19 +23,16 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>CENTRO</th>
-              <th>ESPECIALIDAD</th>
+              <th>Historial</th>
               <th>CI</th>
-              <th>NOMBBRES</th>
-              <th>INICIO DE HORARIO</th>
-              <th>FIN DE HORARIO</th>
-              <th>REGISTRADO</th>
-              <th>ESTADO</th>
+              <th>Nombres</th>
+              <th>Registrado</th>
+              <th>Estado</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(r, index) in regs" v-bind:key="r.doc_id">
-              <td align="right">{{ index + 1 }}</td>
+              <td align="right">{{ index + 1 }} - {{ r.hc_id }}</td>
               <td>
                 <button
                   @click="editRegistro(r)"
@@ -44,6 +41,7 @@
                 >
                   <i class="fa-solid fa-pencil"></i>
                 </button>
+
                 <button
                   @click="deleteRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
@@ -51,15 +49,20 @@
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
+
+                <button
+                  
+                  class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  title="Ver"
+                >
+                  <i class="fa-solid fa-eye"></i>
+                </button>
               </td>
-              <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-              <td align="left">{{ r.esp_codigo }} - {{ r.esp_descripcion }}</td>
-              <td align="left">{{ r.doc_data.doc_ci }}</td>
-              <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
-              <td align="left">{{ r.doc_data.doc_horario_inicio }}</td>
-              <td align="left">{{ r.doc_data.doc_horario_fin }}</td>
-              <td align="right">{{ r.doc_registado }}</td>
-              <td align="center">{{ r.doc_estado }}</td>
+              <td align="center" style="background: beige;">{{ r.hc_codigo }}</td>
+              <td align="left">{{ r.cli_data.cli_nit }}</td>
+              <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
+              <td align="right">{{ r.hc_registado }}</td>
+              <td align="center">{{ r.hc_estado }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -181,6 +184,7 @@
   import centrosService from '../services/centrosService';
   import especialidadesService from '../services/especialidadesService';
   import doctoresService from '../services/doctoresService';
+  import historialesService from '../services/historialesService';
   
   import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -200,7 +204,7 @@
               doc_horario_fin: ''
           } 
         },
-        title: "HISTORIALES MÉDICOS",
+        title: "HISTORIALES CLÍNICOS",
         plural: "Historiales Clínicos",
         singular: "Historial Clínico",
         showModal: false,
@@ -212,7 +216,7 @@
   
     mounted() {
       this.listarRegistros();
-      this.listarCentros();
+      //this.listarCentros();
       this.listarEspecialidades();
     },
   
@@ -220,8 +224,8 @@
       async listarRegistros() {
         this.regs = [];
         try {
-          this.regs = await doctoresService.getData();
-          console.log("Doctores: ", this.regs);          
+          this.regs = await historialesService.getData();
+          console.log("Historiales: ", this.regs);          
         } catch (error) {
           console.error("Error:", error.message);
         }
