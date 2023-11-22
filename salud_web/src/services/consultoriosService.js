@@ -13,7 +13,7 @@ const consultoriosService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.get(API_URL + '/consultorios');
+      const response = await axios.get(API_URL + '/consultorios/' + cnt_id);
       return response.data;
     } catch (error) {
       throw error;

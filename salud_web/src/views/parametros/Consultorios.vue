@@ -6,7 +6,15 @@
           <h1>{{ title }}</h1>
         </div>
         <div></div>
-        <div></div>
+        <div class="p-4 m-1">
+          <div class="form-group">
+            <label for="centro" class="font-semibold">Centro de Salud</label>
+            <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
+              <option value="0">-- seleccione --</option>
+              <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
+            </select>
+          </div>
+        </div>
         <div class="flex justify-end p-3 m-1">
           <button
             @click="newRegistro()"
@@ -118,7 +126,7 @@
                   <label for="con_cnt_id" class="font-semibold">Centro</label>
                   <select v-model="reg.con_cnt_id" class="form-control" name="con_cnt_id" id="con_cnt_id" placeholder="Centro" required>
                     <option value="0">-- seleccione --</option>
-                    <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+                    <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
                   </select>
               </div>
             </div>
@@ -162,7 +170,7 @@ export default {
       singular: "CONSULTORIO",
       showModal: false,
       isEditing: false,
-      centros: [],
+      centrosSalud: [],
 
       currentPage: 1,
       itemsPerPage: 10,
@@ -186,15 +194,16 @@ export default {
     },
     
     async listarCentros() {
-      this.centros = [];
+      this.centrosSalud = [];
       try {
-        this.centros = await centrosService.getData();
-        console.log("Centros: ", this.centros);
+        this.centrosSalud = await centrosService.getData();
+        console.log("Centros: ", this.centrosSalud);
       } catch (error) {
         console.error("Error:", error.message);
       }
     },
     newRegistro() {
+      this.listarCentros();
       this.isEditing = false;
       this.reg = {};
       this.showModal = true;
