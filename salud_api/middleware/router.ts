@@ -156,7 +156,7 @@ router.put('/doctor/:doc_id', authMiddleware, DoctorController.updateDoctor);
 router.post('/doctor/:doc_id', authMiddleware, DoctorController.deleteDoctor);
 
 //// consultorios
-router.get('/consultorios', authMiddleware, ConsultorioController.getAllConsultorios);
+router.get('/consultorios/:cnt_id', authMiddleware, ConsultorioController.getAllConsultorios);
 router.post('/consultorio', authMiddleware, ConsultorioController.createConsultorio);
 router.put('/consultorio/:con_id', authMiddleware, ConsultorioController.updateConsultorio);
 router.post('/consultorio/:con_id', authMiddleware, ConsultorioController.deleteConsultorio);

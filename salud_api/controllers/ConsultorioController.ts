@@ -7,12 +7,15 @@ import pool from '../db';
 
 const ConsultorioController = {
   getAllConsultorios: async (req: Request, res: Response) => {
+    const { cnt_id } = req.params;
+  
     try {
       const consultoriosQuery = await pool.query(
         `SELECT co.*, c.cnt_codigo, c.cnt_descripcion
         FROM rmx_sld_consultorios co
         INNER JOIN rmx_sld_centros c ON c.cnt_id = co.con_cnt_id
-        WHERE co.con_estado != 'X' ORDER BY 1`
+        WHERE co.con_cnt_id = $1
+        AND co.con_estado != 'X' ORDER BY 1`, [cnt_id]
       );
       const consultorios = consultoriosQuery.rows;
       res.json(consultorios);
