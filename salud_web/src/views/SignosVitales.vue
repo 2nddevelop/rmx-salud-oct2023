@@ -282,6 +282,7 @@
         newRegistro() {
           this.isEditing = false;
           this.reg = {
+            cli_data: {},
             sv_data:{
               sv_talla: '',
               sv_peso: '',

@@ -68,10 +68,17 @@
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
+                <button
+                  @click="printRegistro(r)"
+                  class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  title="Imprimir"
+                >
+                  <i class="fa-solid fa-print"></i>
+                </button>
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.cnt_codigo }} / {{ r.esp_codigo }} / {{ r.con_codigo }} </td>
-              <td align="left">{{ r.pln_data.pln_horario }} {{ r.pln_data.pln_consultorio }} {{ r.pln_data.pln_medico }} </td>
+              <td align="center">{{ r.pln_data.pln_horario }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
@@ -289,6 +296,25 @@
               reg.fch_estado = "X"; 
               await fichasService.deleteData(reg); 
               this.regs.splice(index, 1); 
+            } else {
+              console.error('No se encontró el registro para eliminar');
+            }
+          } catch (error) {
+            console.error('Error al eliminar el registro:', error);
+          }
+        }
+      },
+
+      async printRegistro(reg) {
+        const confirmed = window.confirm("¿Imprimir ficha?");
+        if (confirmed) {
+          try {
+            const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
+            if (index !== -1) {
+              //reg.fch_usr_id = 1;
+              //reg.fch_estado = "X"; 
+              //await fichasService.deleteData(reg); 
+              //this.regs.splice(index, 1); 
             } else {
               console.error('No se encontró el registro para eliminar');
             }

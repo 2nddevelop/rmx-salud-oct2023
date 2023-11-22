@@ -32,11 +32,11 @@ import HelloWorld from './components/Encabezado.vue'
 import { ref } from 'vue';
 
 const menuItems = ref([
-  { id: 1, label: 'Home', link: '/' },
+  { id: 1, label: 'Inicio', link: '/' },
   { id: 2, label: 'Planificación', link: '/planificaciones' },
   { id: 3, label: 'Kardex', children: [
     { id: 31, label: 'Pacientes', link: '/clientes' },
-    { id: 32, label: 'Historial Médico', link: '/' },
+    { id: 32, label: 'Historial_Médico', link: '/' },
     { id: 32, label: 'Doctores', link: '/doctores' },
   ]},
   { id: 4, label: 'Fichas', children: [
@@ -44,18 +44,18 @@ const menuItems = ref([
     { id: 42, label: 'Atención', link: '/fichasAtencion' },
   ]},
   { id: 5, label: 'Consulta Médica', children: [
-    { id: 51, label: 'Signos Vitales', link: '/signosVitales' },
-    { id: 52, label: 'Consulta Externa', link: '/fichasConsulta' },
+    { id: 51, label: 'Signos_Vitales', link: '/signosVitales' },
+    { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta' },
   ]},
   { id: 5, label: 'Instrumentos', children: [
     { id: 51, label: 'CIE', link: '/' },
-    { id: 52, label: 'Vademécum General', link: '/' },
+    { id: 52, label: 'Vademécum_General', link: '/' },
   ]},
   { id: 7, label: 'Parametros', children: [
-    { id: 73, label: 'Centros Medicos', link: '/centros' },
+    { id: 73, label: 'Centros_Médicos', link: '/centros' },
     { id: 71, label: 'Especialidades', link: '/especialidades' },
     { id: 74, label: 'Consultorios', link: '/consultorios' },
-    { id: 72, label: 'Tipos Paciente', link: '/tiposClientes' },
+    { id: 72, label: 'Tipos_Paciente', link: '/tiposClientes' },
     { id: 75, label: 'Usuarios', link: '/users' },
   ]},
   { id: 3, label: 'Ingresar', link: '/logout' },
