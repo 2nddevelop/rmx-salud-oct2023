@@ -41,8 +41,8 @@
             <th></th>
             <th>Centro</th>
             <th>Especialidad</th>
-            <th>Médico</th>
             <th>Consultorio</th>
+            <th>Médico</th>
             <th>Fecha</th>
             <th>Horario</th>
             <th>Max<br/>Fichas</th>
@@ -72,8 +72,8 @@
             </td>
             <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
             <td align="left">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
-            <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
             <td align="left">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
+            <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
             <td align="center">{{ r.pln_data.pln_fecha}}</td>
             <td align="center">{{ r.pln_data.pln_horario}}</td>
             <td align="right">{{ r.pln_data.pln_max_fichas}}</td>

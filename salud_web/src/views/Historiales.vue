@@ -25,6 +25,8 @@
               <th></th>
               <th>Historial</th>
               <th>CI</th>
+              <th>Paterno</th>
+              <th>Materno</th>
               <th>Nombres</th>
               <th>Registrado</th>
               <th>Estado</th>
@@ -51,7 +53,7 @@
                 </button>
 
                 <button
-                  
+                  @click="verRegistroDet(r)"                  
                   class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Ver"
                 >
@@ -59,8 +61,10 @@
                 </button>
               </td>
               <td align="center" style="background: beige;">{{ r.hc_codigo }}</td>
-              <td align="left">{{ r.cli_data.cli_nit }}</td>
-              <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
+              <td align="right">{{ r.cli_data.cli_nit }}</td>
+              <td align="left">{{ r.cli_data.cli_paterno }}</td>
+              <td align="left">{{ r.cli_data.cli_materno }}</td>
+              <td align="left">{{ r.cli_data.cli_nombres }} </td>
               <td align="right">{{ r.hc_registado }}</td>
               <td align="center">{{ r.hc_estado }}</td>
             </tr>
@@ -93,77 +97,36 @@
                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-hide="defaultModal"
               >
-                <svg
-                  class="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
+                <i class="fa-solid fa-close"></i>
                 <span class="sr-only">Close modal</span>
               </button>
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6">
-              <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                    <label for="doc_cnt_id" class="font-semibold">Centro</label>
-                    <select v-model="reg.doc_cnt_id" class="form-control" name="doc_cnt_id" id="doc_cnt_id" placeholder="Centro" required>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="doc_esp_id" class="font-semibold">Especialidad</label>
-                    <select v-model="reg.doc_esp_id" class="form-control" name="doc_esp_id" id="doc_esp_id" placeholder="Especialidad" required>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
-                    </select>
-                </div>
-              </div>
               
               <div class="grid grid-cols-4 gap-3">
                 <div class="form-group">
-                  <label for="paterno">Paterno:</label>
-                  <input v-model="reg.doc_data.doc_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
-                </div>
-                <div class="form-group">
-                  <label for="materno">Materno:</label>
-                  <input v-model="reg.doc_data.doc_materno" class="form-control" name="materno" id="materno" placeholder="Materno" />
-                </div>
-                <div class="form-group">
-                  <label for="nombres">Nombres:</label>
-                  <input v-model="reg.doc_data.doc_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" />
-                </div>
-                <div class="form-group">
-                  <label for="CI">CI:</label>
-                  <input v-model="reg.doc_data.doc_ci" class="form-control" name="ci" id="ci" placeholder="CI" />
+                  <label for="historial">Historial</label>
+                  <input v-model="reg.hc_codigo" style="background:beige;" class="form-control" name="historial" id="historial" placeholder="Historial" />
                 </div>
               </div>
-              <div class="form-group">
-                <label for="celular">Celular:</label>
-                <input v-model="reg.doc_data.doc_celular" class="form-control" name="celular" id="celular" placeholder="Celular" />
-              </div>
-              <div class="form-group">
-                <label for="dias">Dias:</label>
-                <input v-model="reg.doc_data.doc_dias" class="form-control" name="dias" id="dias" placeholder="Dias" />
-              </div>
-              <div class="grid grid-cols-2 gap-4">
-                <div class="col-md-6">
-                  <label for="horarioini">Horario Inicio:</label>
-                  <input type="time" v-model="reg.doc_data.doc_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
+
+              <div class="grid grid-cols-4 gap-3">
+                <div class="form-group">
+                  <label for="CI">CI</label>
+                  <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled />
                 </div>
-                <div class="col-md-6">
-                  <label for="horariofin">Horario Fin:</label>
-                  <input type="time" v-model="reg.doc_data.doc_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
+                <div class="form-group">
+                  <label for="paterno">Paterno</label>
+                  <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled />
+                </div>
+                <div class="form-group">
+                  <label for="materno">Materno</label>
+                  <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled />
+                </div>
+                <div class="form-group">
+                  <label for="nombres">Nombres</label>
+                  <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled />
                 </div>
               </div>
             </div>
@@ -176,6 +139,44 @@
           </div>
         </div>
       </div>
+  
+      <!-- Modal -->
+      <div v-if="showModalDet" class="modal-overlay">
+          <div class="modal-content">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+            >
+              <h2
+                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
+              >
+                {{ isEditingDet ? "EDITAR " : "NUEVO " }} {{ singular }}
+              </h2>
+              <button
+                type="button"
+                @click="closeModalDet()"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="defaultModal"
+              >
+                <i class="fa-solid fa-close"></i>
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+              Aqui todo ok --------
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditingDet ? 'Actualizar' : 'Guardar'">
+                {{ isEditingDet ? "Actualizar" : "Guardar" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </template>
   
@@ -209,6 +210,8 @@
         singular: "Historial Clínico",
         showModal: false,
         isEditing: false,
+        showModalDet: false,
+        isEditingDet: false,
         centros: [],
         especialidades: [],
       };
@@ -248,26 +251,30 @@
           console.error("Error:", error.message);
         }
       },
+
       newRegistro() {
         this.isEditing = false;
         this.reg = {
-          doc_data: {
-            doc_paterno: '',
-            doc_materno: '',
-            doc_nombres: '',
-            doc_ci: '',
-            doc_celular: '',
-            doc_dias: '',
-            doc_horario_inicio: '',
-            doc_horario_fin: ''
+          cli_data: {
+            cli_paterno: '',
+            cli_materno: '',
+            cli_nombres: '',
+            cli_ci: ''
           }
         };
         this.showModal = true;
       },
+
       editRegistro(reg) {
         this.isEditing = true;
         this.reg = Object.assign({}, reg);
         this.showModal = true;
+      },
+
+      verRegistroDet(reg) {
+        this.isEditingDet = true;
+        this.regDet = Object.assign({}, reg);
+        this.showModalDet = true;
       },
 
       async saveModal() {
@@ -308,6 +315,10 @@
 
       closeModal() {
         this.showModal = false;
+      },
+
+      closeModalDet() {
+        this.showModalDet = false;
       },
     },
   };
