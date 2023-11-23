@@ -118,21 +118,7 @@
               class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-hide="defaultModal"
             >
-              <svg
-                class="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
+              <i class="fa-solid fa-close"></i>
               <span class="sr-only">Close modal</span>
             </button>
           </div>
@@ -140,38 +126,39 @@
           <div class="p-6 space-y-6">
             <div class="grid grid-cols-2 gap-3">
               <div class="form-group">
-                  <label for="pln_cnt_id" class="font-semibold">Centro</label>
-                  <select v-model="reg.pln_cnt_id" class="form-control" name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
-                  </select>
+                <label for="pln_cnt_id" class="font-semibold">Centro</label>
+                <select v-model="reg.pln_cnt_id" class="form-control" @change="listarConsultorios" name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+                </select>
               </div>
               <div class="form-group">
-                  <label for="pln_esp_id" class="font-semibold">Especialidad</label>
-                  <select v-model="reg.pln_esp_id" class="form-control" name="pln_esp_id" id="pln_esp_id" placeholder="Especialidad" required>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
-                  </select>
+                <label for="pln_con_id" class="font-semibold">Consultorio</label>
+                <select v-model="reg.pln_con_id" class="form-control" name="pln_con_id" id="pln_con_id" placeholder="Consultorio" required >
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="con in consultorios" :key="con.con_id" :value="con.con_id"> {{ con.con_codigo }}  - {{ con.con_descripcion }}</option>
+                </select>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                  <label for="pln_doc_id" class="font-semibold">Doctores</label>
-                  <select v-model="reg.pln_doc_id" class="form-control" name="pln_doc_id" id="pln_doc_id" placeholder="Doctores" required >
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="doc in doctores" :key="doc.doc_id" :value="doc.doc_id">{{ doc.doc_data.doc_paterno }} {{ doc.doc_data.doc_materno }} {{ doc.doc_data.doc_nombres }}</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                    <label for="pln_con_id" class="font-semibold">Consultorio</label>
-                    <select v-model="reg.pln_con_id" class="form-control" name="pln_con_id" id="pln_con_id" placeholder="Consultorio" required >
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="con in consultorios" :key="con.con_id" :value="con.con_id"> {{ con.con_codigo }}  - {{ con.con_descripcion }}</option>
-                    </select>
-                </div>
-              </div>  
-            <div class="grid grid-cols-2 gap-4">
 
+            <div class="grid grid-cols-2 gap-3">
+              <div class="form-group">
+                <label for="pln_esp_id" class="font-semibold">Especialidad</label>
+                <select v-model="reg.pln_esp_id" class="form-control" name="pln_esp_id" id="pln_esp_id" placeholder="Especialidad" required>
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pln_doc_id" class="font-semibold">Doctores</label>
+                <select v-model="reg.pln_doc_id" class="form-control" name="pln_doc_id" id="pln_doc_id" placeholder="Doctores" required >
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="doc in doctores" :key="doc.doc_id" :value="doc.doc_id">{{ doc.doc_data.doc_paterno }} {{ doc.doc_data.doc_materno }} {{ doc.doc_data.doc_nombres }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
               <div class="form-group">
                 <label for="fichas">Max Fichas:</label>
                 <input type="number" v-model="reg.pln_data.pln_max_fichas" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" />
@@ -242,7 +229,7 @@ export default {
       // dates
       currentDate: new Date(),
       // filtro
-      filtro: { fecha:'', centro:'' },
+      filtro: { fecha: '', centro_id: '' },
       // paginator
       currentPage: 1,
       itemsPerPage: 10,
@@ -254,7 +241,6 @@ export default {
     this.listarRegistros();
     this.listarCentros();
     this.listarEspecialidades();
-    this.listarConsultorios();
     this.listarDoctores();
   },
 
@@ -290,7 +276,7 @@ export default {
     async listarConsultorios() {
       this.consultorios = [];
       try {
-        this.consultorios = await consultoriosService.getData();
+        this.consultorios = await consultoriosService.getData(this.reg.pln_cnt_id);
         console.log("Especialidades: ", this.consultorios);
       } catch (error) {
         console.error("Error:", error.message);
@@ -306,6 +292,7 @@ export default {
         console.error("Error:", error.message);
       }
     },
+    
     newRegistro() {
       this.isEditing = false;
       this.reg = {
@@ -319,6 +306,7 @@ export default {
       this.showModal = true;
     },
     editRegistro(reg) {
+      this.listarConsultorios();
       this.isEditing = true;
       this.reg = Object.assign({}, reg);
       this.showModal = true;
