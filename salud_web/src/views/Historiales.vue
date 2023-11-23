@@ -165,7 +165,62 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6">
-              Aqui todo ok --------
+              <div>
+                <label>Signos Vitales</label>
+                <div class="grid grid-cols-8 gap-3" style="background:#00bd7e; color:white;">
+                  <div>Fecha</div>
+                  <div>Frec Cardiaca</div>
+                  <div>Frec Respiratoria</div>
+                  <div>Presion Arterial</div>
+                  <div>Sat Oxigeno</div>
+                  <div>Temp Corp</div>
+                  <div>Talla</div>
+                  <div>Peso</div>
+                </div>
+                <div class="grid grid-cols-8 gap-3"  style="background:beige;"
+                  v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                  <div>{{ rd.hcd_fecha.substring(0, 10) }}<br>{{ rd.hcd_fecha.substring(11, 19) }}</div>
+                  <div>{{ rd.hcd_data_sv.sv_frec_cardiaca }}</div>
+                  <div>{{ rd.hcd_data_sv.sv_frec_respiratoria }}</div>
+                  <div>{{ rd.hcd_data_sv.sv_presion_arterial }}</div>
+                  <div>{{ rd.hcd_data_sv.sv_sat_oxigeno }}</div>
+                  <div>{{ rd.hcd_data_sv.sv_temp_corporal }}</div>
+                  <div>{{ rd.hcd_data_sv.sv_talla }}</div>
+                  <div>{{ rd.hcd_data_sv.sv_peso }}</div>
+                </div>
+              </div>
+              <div>
+                <label>Consulta Externa</label>
+                <div >
+                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                    <div class="grid grid-cols-4 gap-3" style="background:#00bd7e; color:white;">
+                      <div>Fecha</div>
+                      <div>Frec Cardiaca</div>
+                      <div>Frec Respiratoria</div>
+                      <div>Presión Arterial</div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-3"  style="background:beige;">
+                      <div>{{ rd.hcd_fecha.substring(0, 10) }}<br>{{ rd.hcd_fecha.substring(11, 19) }}</div>
+                      <div>{{ rd.hcd_data_sv.sv_frec_cardiaca }}</div>
+                      <div>{{ rd.hcd_data_sv.sv_frec_respiratoria }}</div>
+                      <div>{{ rd.hcd_data_sv.sv_presion_arterial }}</div>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-3" style="background:#00bd7e; color:white;">
+                      <div>Sat Oxígeno</div>
+                      <div>Temp Corp</div>
+                      <div>Talla</div>
+                      <div>Peso</div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-3"  style="background:beige;">
+                      <div>{{ rd.hcd_data_sv.sv_sat_oxigeno }}</div>
+                      <div>{{ rd.hcd_data_sv.sv_temp_corporal }}</div>
+                      <div>{{ rd.hcd_data_sv.sv_talla }}</div>
+                      <div>{{ rd.hcd_data_sv.sv_peso }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
@@ -186,6 +241,7 @@
   import especialidadesService from '../services/especialidadesService';
   import doctoresService from '../services/doctoresService';
   import historialesService from '../services/historialesService';
+  import historialesDetService from '../services/historialesDetService';
   
   import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -194,15 +250,10 @@
       return {
         regs: [],
         reg: {            
-           doc_data:{
-              doc_paterno: '',
-              doc_materno: '',
-              doc_nombres: '',
-              doc_ci: '',
-              doc_celular: '',
-              doc_dias: '',
-              doc_horario_inicio: '',
-              doc_horario_fin: ''
+          hc_cli_id: '',
+          hc_codigo: '',
+          hc_fecha: '',
+          hc_data:  {
           } 
         },
         title: "HISTORIALES CLÍNICOS",
@@ -229,6 +280,15 @@
         try {
           this.regs = await historialesService.getData();
           console.log("Historiales: ", this.regs);          
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
+      },
+      async listarRegistrosDet(reg) {
+        this.regsDet = [];
+        try {
+          this.regsDet = await historialesDetService.getData(reg.hc_id);
+          console.log("2 regDet: ", this.regsDet);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -272,9 +332,13 @@
       },
 
       verRegistroDet(reg) {
-        this.isEditingDet = true;
-        this.regDet = Object.assign({}, reg);
-        this.showModalDet = true;
+        console.log('1 reg', reg);
+        this.listarRegistrosDet(reg);
+        setTimeout(() => {
+          this.isEditingDet = true;
+          //this.regDet = Object.assign({}, reg);
+          this.showModalDet = true;          
+        }, 500);
       },
 
       async saveModal() {

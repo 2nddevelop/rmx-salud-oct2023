@@ -11,10 +11,11 @@ const HistorialesDetController = {
 
     try {
       const historialesDetQuery = await pool.query(
-        `SELECT h.*, c.cli_data
-        FROM rmx_sld_historiales_det h
-        INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
-        WHERE h.hc_estado != 'X' ORDER BY 1`
+        `SELECT hcdet.* --, c.cli_data
+        FROM rmx_sld_historiales_det hcdet
+        -- INNER JOIN rmx_gral_clientes c ON c.cli_id = det.hcd_cli_id
+        WHERE hcdet.hcd_hc_id = $1
+          AND hcdet.hcd_estado != 'X' ORDER BY 1`, [hc_id]
       );
       const historiales = historialesDetQuery.rows;
       res.json(historiales);
