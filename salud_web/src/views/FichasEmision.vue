@@ -80,7 +80,7 @@
               <td align="left">{{ r.cnt_codigo }} / {{ r.esp_codigo }} / {{ r.con_codigo }} </td>
               <td align="center">{{ r.pln_data.pln_horario }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
-              <td align="center">{{ r.fch_kdx_medico }}</td>
+              <td align="left" style="background: beige">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
               <td align="center">{{ r.fch_estado }}</td>
             </tr>
