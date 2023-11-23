@@ -143,20 +143,9 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/parametros/UsuariosView.vue'),
-    
       meta: { requiresAuth: true }
     },
-    ////////////
-    {
-      path: '/registros',
-      name: 'registros',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/RegistrosView.vue'),
-    
-      meta: { requiresAuth: true }
-    },
+
     {
       path: '/logout',
       name: 'logout',

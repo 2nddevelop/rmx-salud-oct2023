@@ -1,14 +1,7 @@
 // middleware/router.ts
 import express from 'express';
 import UserController from '../controllers/UserController';
-import OrigenController from '../controllers/OrigenController';
-import AvisoController from '../controllers/AvisoController';
-import NoticiaController from '../controllers/NoticiaController';
 import MembresiaController from '../controllers/MembresiaController';
-import ComisionController from '../controllers/ComisionController';
-import GalponController from '../controllers/GalponController';
-import RegistroController from '../controllers/RegistroController';
-
 import DoctorController from '../controllers/DoctorController';
 import CentroController from '../controllers/CentroController';
 import EspecialidadController from '../controllers/EspecialidadController';
@@ -90,60 +83,19 @@ router.get('/users', authMiddleware, UserController.getAllUsers);
 //router.put('/users/:id', authMiddleware, UserController.updateUser);
 //router.delete('/users/:id', authMiddleware, UserController.deleteUser);
 
-// --- base_origenes ------------------------------------------------------------------
-router.get('/origenes', authMiddleware, OrigenController.getAllOrigenes);
-router.post('/origen', authMiddleware, OrigenController.createOrigen);
-router.put('/origen/:ori_id', authMiddleware, OrigenController.updateOrigen);
-router.post('/origen/:ori_id', authMiddleware, OrigenController.deleteOrigen);
-
 // --- base_membresias ------------------------------------------------------------------
 router.get('/tiposmembresias', MembresiaController.getAllTiposMembresias);
 router.post('/tipomembresia', authMiddleware, MembresiaController.createTipoMembresia);
 router.put('/tipomembresia/:tme_id', authMiddleware, MembresiaController.updateTipoMembresia);
 router.post('/tipomembresia/:tme_id', authMiddleware, MembresiaController.deleteTipoMembresia);
 
-// --- base_avisos ------------------------------------------------------------------
-router.get('/avisos', authMiddleware, AvisoController.getAllAvisos);
-router.post('/aviso', authMiddleware, AvisoController.createAviso);
-router.put('/aviso/:avi_id', authMiddleware, AvisoController.updateAviso);
-router.post('/aviso/:avi_id', authMiddleware, AvisoController.deleteAviso);
-
-// --- base_comisiones ------------------------------------------------------------------
-router.get('/comisiones', ComisionController.getAllComisiones);
-router.post('/comision', authMiddleware, ComisionController.createComision);
-router.put('/comision/:com_id', authMiddleware, ComisionController.updateComision);
-router.post('/comision/:com_id', authMiddleware, ComisionController.deleteComision);
-
-// --- base noticias
-router.get('/noticias', authMiddleware, NoticiaController.getAllNoticias);
-router.post('/noticia', authMiddleware, NoticiaController.createNoticia);
-router.put('/noticia/:nt_id', authMiddleware, NoticiaController.updateNoticia);
-router.post('/noticia/:nt_id', authMiddleware, NoticiaController.deleteNoticia);
-
-// --- base area
-
-// --- base galpon
-router.get('/galpones', authMiddleware, GalponController.getAllGalpones);
-router.post('/galpon', authMiddleware, GalponController.createGalpon);
-router.put('/galpon/:gp_id', authMiddleware, GalponController.updateGalpon);
-router.post('/galpon/:gp_id', authMiddleware, GalponController.deleteGalpon);
-
-// --- base registros
-router.get('/registros', authMiddleware, RegistroController.getAllRegistros);
-router.get('/registros/:reg_fecha/:reg_ar_id', RegistroController.getAllRegistrosByFechaArea);
-router.post('/registro', authMiddleware, RegistroController.createRegistro);
-router.put('/registro/:reg_id', authMiddleware, RegistroController.updateRegistro);
-router.post('/registro/:reg_id', authMiddleware, RegistroController.deleteRegistro);
-
-////////////////////////////////Salud
-
-///Centros
+//// Centros
 router.get('/centros', authMiddleware, CentroController.getAllCentros);
 router.post('/centro', authMiddleware, CentroController.createCentro);
 router.put('/centro/:cnt_id', authMiddleware, CentroController.updateCentro);
 router.post('/centro/:cnt_id', authMiddleware, CentroController.deleteCentro);
 
-/////Especialidades
+//// Especialidades
 router.get('/especialidades', authMiddleware, EspecialidadController.getAllEspecialidades);
 router.post('/especialidad', authMiddleware, EspecialidadController.createEspecialidad);
 router.put('/especialidad/:esp_id', authMiddleware, EspecialidadController.updateEspecialidad);
@@ -168,34 +120,35 @@ router.post('/planificacion', authMiddleware, PlanificacionController.createPlan
 router.put('/planificacion/:pln_id', authMiddleware, PlanificacionController.updatePlanificacion);
 router.post('/planificacion/:pln_id', authMiddleware, PlanificacionController.deletePlanificacion);
 
-/////Tipo Cliente
+//// Tipos Cliente
 router.get('/tiposClientes', authMiddleware, TiposClienteController.getAllTiposClientes);
 router.post('/tiposCliente', authMiddleware, TiposClienteController.createTipoCliente);
 router.put('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.updateTipoCliente);
 router.post('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.deleteTipoCliente);
 
-///Clientes
+//// Clientes
 router.get('/clientes', authMiddleware, ClienteController.getAllClientes);
 router.post('/cliente', authMiddleware, ClienteController.createCliente);
 router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
 
-/////Historiales
+//// Historiales
 router.get('/historiales', authMiddleware, HistorialesController.getAllHistoriales);
 router.post('/historial', authMiddleware, HistorialesController.createHistorial);
 router.put('/historial/:hc_id', authMiddleware, HistorialesController.updateHistorial);
 router.post('/historial/:hc_id', authMiddleware, HistorialesController.deleteHistorial);
 
-/////Historiales Detalle
+//// Historiales Detalle
 router.get('/historialesDet/:hc_id', authMiddleware, HistorialesDetController.getAllHistorialesDetXHcId);
 router.post('/historialDet', authMiddleware, HistorialesDetController.createHistorialDet);
 router.put('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.updateHistorialDet);
 router.post('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.deleteHistorialDet);
 
-///Fichas
+//// Fichas
 //router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
 router.get('/fichas/:fecha/:cnt_id', authMiddleware, FichaController.getAllFichas);
 router.post('/ficha', authMiddleware, FichaController.createFicha);
 router.put('/ficha/:fch_id', authMiddleware, FichaController.updateFicha);
 router.post('/ficha/:fch_id', authMiddleware, FichaController.deleteFicha);
+
 export default router;
