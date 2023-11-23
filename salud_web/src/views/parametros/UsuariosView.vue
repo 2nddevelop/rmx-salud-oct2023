@@ -136,7 +136,6 @@
 
 
 <script>
-import origenesService from '../../services/origenesService';
 import userService from '../../services/userService';
 
 import '@fortawesome/fontawesome-free/css/all.css';
