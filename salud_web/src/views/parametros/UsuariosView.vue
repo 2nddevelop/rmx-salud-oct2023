@@ -14,8 +14,8 @@
             <th>#</th>
             <th></th>
             <th>ORIGEN</th>
-            <th>TIPO DE MEMBRESIA</th>
-            <th>NOMBRE y APELLIDO</th>
+            <th>TIPO</th>
+            <th>NOMBRES</th>
             <th>DIRECCION</th>
             <th>CELULAR</th>
             <th>CORREO</th>
