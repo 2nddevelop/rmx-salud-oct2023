@@ -37,7 +37,7 @@
             <tbody>
               <tr v-for="(r, index) in regs" v-bind:key="r.cli_id">
                 <td align="right">{{ index + 1 }}</td>
-                <td>
+                <td align="center">
                   <button
                     @click="editRegistro(r)"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
@@ -53,15 +53,15 @@
                     <i class="fa-solid fa-trash"></i>
                 </button>
                 </td>
-                <td align="right">{{ r.tcli_codigo }} - {{ r.tcli_descripcion }}</td>
+                <td align="left">{{ r.tcli_codigo }} - {{ r.tcli_descripcion }}</td>
                 <td align="right">{{ r.cli_data.cli_nit }}</td>
-                <td align="right">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
+                <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
                 <td align="right">{{ r.cli_data.cli_telefono }}</td>
                 <td align="right">{{ r.cli_data.cli_celular }}</td>
-                <td align="right">{{ r.cli_data.cli_direccion }}</td>
-                <td align="right">{{ r.cli_data.cli_correo }}</td>
-                <td align="right">{{ r.cli_registado }}</td>
-                <td align="right">{{ r.cli_estado }}</td>
+                <td align="left">{{ r.cli_data.cli_direccion }}</td>
+                <td align="left">{{ r.cli_data.cli_correo }}</td>
+                <td align="center">{{ r.cli_registado }}</td>
+                <td align="center">{{ r.cli_estado }}</td>
               </tr>
             </tbody>
             <tfoot>
