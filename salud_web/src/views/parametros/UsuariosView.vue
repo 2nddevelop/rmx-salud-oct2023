@@ -165,6 +165,9 @@ export default {
       singular: "Usuario",
       showModal: false,
       isEditing: false,
+
+      currentDate: new Date(),
+      filtro: {}
     };
   },
 
@@ -237,7 +240,7 @@ export default {
           const index = this.regs.findIndex(item => item.usr_id === reg.usr_id);
           if (index !== -1) {
             reg.usr_usr_id = 1;
-            reg.usr_estado = "E";
+            reg.usr_estado = "X";
             const updatedReg = await userService.updateData(reg);
           } else {
             console.error('No se encontró el registro para eliminar');

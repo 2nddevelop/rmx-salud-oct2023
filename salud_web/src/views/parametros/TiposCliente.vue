@@ -27,7 +27,7 @@
           <tbody>
             <tr v-for="(r, index) in regs" :key="r.tcli_id">
               <td width="3%" align="right">{{ index + 1 }}</td>
-              <td>
+              <td align="center">
                 <button
                     @click="editRegistro(r)"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
@@ -43,10 +43,10 @@
                     <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
-              <td align="right">{{ r.tcli_codigo }}</td>
-              <td align="right">{{ r.tcli_descripcion }}</td>
-              <td align="right">{{ r.tcli_registado }}</td>
-              <td align="right">{{ r.tcli_estado }}</td>
+              <td align="center">{{ r.tcli_codigo }}</td>
+              <td align="left">{{ r.tcli_descripcion }}</td>
+              <td align="center">{{ r.tcli_registado }}</td>
+              <td align="center">{{ r.tcli_estado }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -121,67 +121,74 @@
       },
   
       methods: {
-            async listarRegistros() {
-              try {
-              this.regs = await tiposClienteService.getData();
-              console.log('Registros: ', this.regs);
-              } catch (error) {
-              // Manejar el error de inicio de sesión aquí
-              console.error('Error:', error.message);
+        async listarRegistros() {
+          try {
+          this.regs = await tiposClienteService.getData();
+          console.log('Registros: ', this.regs);
+          } catch (error) {
+          // Manejar el error de inicio de sesión aquí
+          console.error('Error:', error.message);
+          }
+        },
+        newRegistro() {
+            this.isEditing = false;
+            this.reg = {};
+            this.showModal = true;
+        },
+        editRegistro(reg) {
+            this.isEditing = true;
+            this.reg = { ...reg };
+            this.showModal = true;
+        },
+        
+        async saveModal() {
+          this.reg.tcli_usr_id = 1; 
+          this.reg.tcli_estado = "A";
+          if (this.isEditing) {
+              const updatedReg = await tiposClienteService.updateData(this.reg);
+              const index = this.regs.findIndex(item => item.tcli_id === updatedReg.tcli_id);
+              if (index !== -1) {
+                this.regs.splice(index, 1, updatedReg);
               }
-          },
-          newRegistro() {
-              this.isEditing = false;
-              this.reg = {};
-              this.showModal = true;
-          },
-          editRegistro(reg) {
-              this.isEditing = true;
-              this.reg = { ...reg };
-              this.showModal = true;
-          },
-          
-          
-          async saveModal() {
-            this.reg.tcli_usr_id = 1; 
-            this.reg.tcli_estado = "A";
-            if (this.isEditing) {
-                const updatedReg = await tiposClienteService.updateData(this.reg);
-                const index = this.regs.findIndex(item => item.tcli_id === updatedReg.tcli_id);
-                if (index !== -1) {
-                  this.regs.splice(index, 1, updatedReg);
-                }
-            } else {
-                const savedReg = await tiposClienteService.saveData(this.reg);
-                this.regs.push(savedReg);
-            }
-            this.closeModal();
-          },
+          } else {
+              const savedReg = await tiposClienteService.saveData(this.reg);
+              this.regs.push(savedReg);
+          }
+          this.closeModal();
+        },
 
-  
-          async deleteRegistro(reg) {
-            const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
-            if (confirmed) {
-              try {
-                const index = this.regs.findIndex(item => item.tcli_id === reg.tcli_id);
-                if (index !== -1) {
-                  reg.tcli_usr_id = 1;
-                  reg.tcli_estado = "X"; 
-                  await tiposClienteService.deleteData(reg); 
-                  this.regs.splice(index, 1); 
-                } else {
-                  console.error('No se encontró el registro para eliminar');
-                }
-              } catch (error) {
-                console.error('Error al eliminar el registro:', error);
+        async deleteRegistro(reg) {
+          const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
+          if (confirmed) {
+            try {
+              const index = this.regs.findIndex(item => item.tcli_id === reg.tcli_id);
+              if (index !== -1) {
+                reg.tcli_usr_id = 1;
+                reg.tcli_estado = "X"; 
+                await tiposClienteService.deleteData(reg); 
+                this.regs.splice(index, 1); 
+              } else {
+                console.error('No se encontró el registro para eliminar');
               }
+            } catch (error) {
+              console.error('Error al eliminar el registro:', error);
             }
-          },
-          
-          closeModal() {
-              this.isEditing = false;
-              this.showModal = false;
-          },
+          }
+        },
+        
+        closeModal() {
+            this.isEditing = false;
+            this.showModal = false;
+        },
+
+        dates() {
+          const year = this.currentDate.getFullYear();
+          const month = ('0' + (this.currentDate.getMonth() + 1)).slice(-2); // Se agrega 1 ya que los meses van de 0 a 11
+          const day = ('0' + this.currentDate.getDate()).slice(-2);
+
+          this.filtro.fecha = `${year}-${month}-${day}`;
+        },
+
       },
     };
   </script>

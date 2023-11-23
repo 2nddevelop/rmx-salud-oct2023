@@ -9,7 +9,7 @@ const consultoriosService = {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   },
 
-  async getData() {
+  async getData(cnt_id) {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);

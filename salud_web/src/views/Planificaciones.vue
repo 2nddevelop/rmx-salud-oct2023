@@ -210,11 +210,12 @@
 import centrosService from '../services/centrosService';
 import especialidadesService from '../services/especialidadesService';
 import planificacionesService from '../services/planificacionesService';
-
-import '@fortawesome/fontawesome-free/css/all.css';
-import Paginator from '../components/Paginator.vue';
 import doctoresService from '../services/doctoresService';
 import consultoriosService from '../services/consultoriosService';
+
+import '@fortawesome/fontawesome-free/css/all.css';
+
+import Paginator from '../components/Paginator.vue';
 
 export default {
   data() {

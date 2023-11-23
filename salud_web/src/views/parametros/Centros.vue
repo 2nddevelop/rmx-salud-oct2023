@@ -27,7 +27,7 @@
           <tbody>
             <tr v-for="(r, index) in regs" :key="r.cnt_id">
               <td width="3%" align="right">{{ index + 1 }}</td>
-              <td>
+              <td align="center">
                 <button
                     @click="editRegistro(r)"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
@@ -43,10 +43,10 @@
                     <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
-              <td align="right">{{ r.cnt_codigo }}</td>
-              <td align="right">{{ r.cnt_descripcion }}</td>
-              <td align="right">{{ r.cnt_registado }}</td>
-              <td align="right">{{ r.cnt_estado }}</td>
+              <td align="center">{{ r.cnt_codigo }}</td>
+              <td align="left">{{ r.cnt_descripcion }}</td>
+              <td align="center">{{ r.cnt_registado }}</td>
+              <td align="center">{{ r.cnt_estado }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -109,7 +109,7 @@
         return {
           regs: [],
           reg: {},
-          title: "CENTROS",
+          title: "CENTROS MÉDICOS",
           plural: "Centros",
           singular: "Centro",
           showModal: false,

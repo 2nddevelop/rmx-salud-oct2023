@@ -58,11 +58,11 @@
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
-            <td align="right">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-            <td align="right">{{ r.con_codigo}}</td>
-            <td align="right">{{ r.con_descripcion}}</td>
-            <td align="right">{{ r.con_registado}}</td>
-            <td align="right">{{ r.con_estado}}</td>
+            <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
+            <td align="center">{{ r.con_codigo}}</td>
+            <td align="left">{{ r.con_descripcion}}</td>
+            <td align="center">{{ r.con_registado}}</td>
+            <td align="center">{{ r.con_estado}}</td>
           </tr>
         </tbody>
         <tfoot>
@@ -157,8 +157,9 @@
 
 <script>
 import centrosService from '../../services/centrosService';
-
 import consultoriosService from '../../services/consultoriosService';
+
+import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
   data() {
@@ -172,6 +173,7 @@ export default {
       isEditing: false,
       centrosSalud: [],
 
+      filtro: {centro_id: '0'},
       currentPage: 1,
       itemsPerPage: 10,
     };
@@ -186,7 +188,7 @@ export default {
     async listarRegistros() {
       this.regs = [];
       try {
-        this.regs = await consultoriosService.getData();
+        this.regs = await consultoriosService.getData(this.filtro.centro_id);
         console.log("Registros: ", this.regs);          
       } catch (error) {
         console.error("Error:", error.message);
