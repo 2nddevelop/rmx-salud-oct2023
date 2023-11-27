@@ -114,19 +114,62 @@
               <div class="grid grid-cols-4 gap-3">
                 <div class="form-group">
                   <label for="CI">CI</label>
-                  <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled />
+                  <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" />
                 </div>
                 <div class="form-group">
                   <label for="paterno">Paterno</label>
-                  <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled />
+                  <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno"  />
                 </div>
                 <div class="form-group">
                   <label for="materno">Materno</label>
-                  <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled />
+                  <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno"  />
                 </div>
                 <div class="form-group">
                   <label for="nombres">Nombres</label>
-                  <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled />
+                  <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres"  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div class="form-group">
+                  <label for="mtcon">Motivo de Consulta</label>
+                  <textarea v-model="reg.hcd_data_consulta.con_mt_con" class="form-control" name="mtcon" id="mtcon" placeholder="Motivo de Consulta">
+                  </textarea>
+                </div>
+                <div class="form-group">
+                  <label for="exmfis">Examen Fisico</label>
+                  <textarea v-model="reg.hcd_data_consulta.con_exm_fsc" class="form-control" name="exmfis" id="exmfis" placeholder="Examen Fisico">
+                  </textarea>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="form-group">
+                  <label for="estnut">Estado Nutricional</label>
+                  <input v-model="reg.hcd_data_consulta.con_est_nut" class="form-control" name="estnut" id="estnut" placeholder="Estado Nutricional">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="form-group">
+                  <label for="diades">Diagnostico Descriptivo</label>
+                  <textarea v-model="reg.hcd_data_consulta.con_dia_des" class="form-control" name="diades" id="diades" placeholder="Diagnostico Descriptivo">
+                  </textarea>
+                </div>
+                <div class="form-group">
+                  <label for="diacie">Diagnostico CIE 10</label>
+                  <textarea v-model="reg.hcd_data_consulta.con_dia_cie" class="form-control" name="diacie" id="diacie" placeholder="Diagnostico CIE 10" >
+                  </textarea>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="form-group">
+                  <label for="ttm">Tratamiento</label>
+                  <textarea v-model="reg.hcd_data_consulta.con_ttm" class="form-control" name="ttm" id="ttm" placeholder="Tratamiento">
+                  </textarea>
+                </div>
+                <div class="form-group">
+                  <label for="obv">Observaciones</label>
+                  <textarea v-model="reg.hcd_data_consulta.con_obv" class="form-control" name="obv" id="obv" placeholder="Observaciones">
+                  </textarea>
                 </div>
               </div>
             </div>
@@ -190,34 +233,57 @@
                 </div>
               </div>
               <div>
-                <label>Consulta Externa</label>
+                <label>Anamnesis</label>
+                <div >
+                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                    <div class="grid grid-cols-2 gap-3" style="background:#00bd7e; color:white;">
+                      <div>Motivo de Consulta</div>
+                      <div>Examen Fisico</div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3"  style="background:beige;">
+                      <div>{{ rd.hcd_data_consulta.cns_mt_con }}</div>
+                      <div>{{ rd.hcd_data_consulta.cns_exm_fsc }}</div>
+                    </div>                    
+                  </div>
+                </div>
+                
+                <label>Estado Nutricional</label>
                 <div >
                   <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
                     <div class="grid grid-cols-4 gap-3" style="background:#00bd7e; color:white;">
-                      <div>Fecha</div>
-                      <div>Frec Cardiaca</div>
-                      <div>Frec Respiratoria</div>
-                      <div>Presión Arterial</div>
+                      <div>Estado Nutricional</div>
                     </div>
                     <div class="grid grid-cols-4 gap-3"  style="background:beige;">
-                      <div>{{ rd.hcd_fecha.substring(0, 10) }}<br>{{ rd.hcd_fecha.substring(11, 19) }}</div>
-                      <div>{{ rd.hcd_data_sv.sv_frec_cardiaca }}</div>
-                      <div>{{ rd.hcd_data_sv.sv_frec_respiratoria }}</div>
-                      <div>{{ rd.hcd_data_sv.sv_presion_arterial }}</div>
+                      <div>{{ rd.hcd_data_consulta.cns_est_nut }}</div>
                     </div>
+                  </div>
+                </div>
 
-                    <div class="grid grid-cols-4 gap-3" style="background:#00bd7e; color:white;">
-                      <div>Sat Oxígeno</div>
-                      <div>Temp Corp</div>
-                      <div>Talla</div>
-                      <div>Peso</div>
+                <label>Diagnostico</label>
+                <div >
+                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                    <div class="grid grid-cols-2 gap-3" style="background:#00bd7e; color:white;">
+                      <div>Diagnostico Descriptivo</div>
+                      <div>Diagnostico CIE 10</div>
                     </div>
-                    <div class="grid grid-cols-4 gap-3"  style="background:beige;">
-                      <div>{{ rd.hcd_data_sv.sv_sat_oxigeno }}</div>
-                      <div>{{ rd.hcd_data_sv.sv_temp_corporal }}</div>
-                      <div>{{ rd.hcd_data_sv.sv_talla }}</div>
-                      <div>{{ rd.hcd_data_sv.sv_peso }}</div>
+                    <div class="grid grid-cols-2 gap-3"  style="background:beige;">
+                      <div>{{ rd.hcd_data_consulta.cns_dia_des }}</div>
+                      <div>{{ rd.hcd_data_consulta.cns_dia_cie }}</div>
+                    </div>                    
+                  </div>
+                </div>
+
+                <label>Tratamiento</label>
+                <div >
+                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                    <div class="grid grid-cols-2 gap-3" style="background:#00bd7e; color:white;">
+                      <div>Tratamiento</div>
+                      <div>Observaciones</div>
                     </div>
+                    <div class="grid grid-cols-2 gap-3"  style="background:beige;">
+                      <div>{{ rd.hcd_data_consulta.cns_ttm }}</div>
+                      <div>{{ rd.hcd_data_consulta.cns_obv }}</div>
+                    </div>                    
                   </div>
                 </div>
               </div>
@@ -254,7 +320,24 @@
           hc_codigo: '',
           hc_fecha: '',
           hc_data:  {
-          } 
+          },
+          hcd_data_sv:{
+              sv_peso: '',
+              sv_temp_corporal: '',
+              sv_frec_cardiaca: '',
+              sv_frec_respiratoria: '',
+              sv_presion_arterial: '',
+              sv_sat_oxigeno: ''
+          },
+          hcd_data_consulta:{
+              con_mt_con: '',
+              con_exm_fsc: '',
+              con_est_nut: '',
+              con_dia_des: '',
+              con_dia_cie: '',
+              con_ttm: '',
+              con_obv: ''
+          }
         },
         title: "HISTORIALES CLÍNICOS",
         plural: "Historiales Clínicos",
@@ -320,6 +403,23 @@
             cli_materno: '',
             cli_nombres: '',
             cli_ci: ''
+          },
+          // hcd_data_sv:{
+          //    sv_peso: '',
+          //    sv_temp_corporal: '',
+          //    sv_frec_cardiaca: '',
+          //    sv_frec_respiratoria: '',
+          //    sv_presion_arterial: '',
+          //    sv_sat_oxigeno: ''
+          //},
+          hcd_data_consulta:{
+              con_mt_con: '',
+              con_exm_fsc: '',
+              con_est_nut: '',
+              con_dia_des: '',
+              con_dia_cie: '',
+              con_ttm: '',
+              con_obv: ''
           }
         };
         this.showModal = true;
@@ -345,13 +445,13 @@
         this.reg.doc_usr_id = 1; 
         this.reg.doc_estado = "A";
         if (this.isEditing) {
-          const updatedReg = await doctoresService.updateData(this.reg);
-          const index = this.regs.findIndex(item => item.doc_id === updatedReg.doc_id);
+          const updatedReg = await historialesDetService.updateData(this.reg);
+          const index = this.regs.findIndex(item => item.hcd_id === updatedReg.hcd_id);
             if (index !== -1) {
               this.regs.splice(index, 1, updatedReg);
             }
         } else {
-          const savedReg = await doctoresService.saveData(this.reg);
+          const savedReg = await historialesDetService.saveData(this.reg);
           this.regs.push(savedReg);
         }
         this.listarRegistros();
