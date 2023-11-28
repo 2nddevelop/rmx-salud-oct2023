@@ -205,6 +205,42 @@ insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_i
 (3, 7, 7, 2, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 (3, 8, 8, 3, '{ "pln_fecha":"2023-11-25", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
 
+insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
+(1, 1, 1, 1, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 1, 1, 1, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 4, 4, 2, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 6, 6, 3, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 1, 1, 1, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 7, 7, 2, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 8, 8, 3, '{ "pln_fecha":"2023-11-28", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
+
+insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
+(1, 1, 1, 1, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 1, 1, 1, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 4, 4, 2, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 6, 6, 3, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 1, 1, 1, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 7, 7, 2, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 8, 8, 3, '{ "pln_fecha":"2023-11-29", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
+
+insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
+(1, 1, 1, 1, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 1, 1, 1, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 4, 4, 2, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(2, 6, 6, 3, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 1, 1, 1, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 7, 7, 2, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(3, 8, 8, 3, '{ "pln_fecha":"2023-11-30", "pln_horario":"08-12", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
+
 
 create table rmx_sld_fichas (
   fch_id serial primary key,

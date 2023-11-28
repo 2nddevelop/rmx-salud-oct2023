@@ -41,6 +41,8 @@ const menuItems = ref([
   ]},
   { id: 4, label: 'Fichas', children: [
     { id: 41, label: 'Emisión', link: '/fichasEmision' },
+    { id: 42, label: 'Fichero', link: '/fichasFichero' },
+    { id: 42, label: 'Pantalla', link: '/fichasPantalla' },
     { id: 42, label: 'Atención', link: '/fichasAtencion' },
   ]},
   { id: 5, label: 'Consulta Médica', children: [
