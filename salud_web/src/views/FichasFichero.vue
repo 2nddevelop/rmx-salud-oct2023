@@ -1,38 +1,45 @@
 <template>
     <div class="">
       <div>
-        <div class="grid grid-cols-4">
-          <div class="p-4 m-1">
-            <h1>{{ title }}</h1>
-          </div>
+        <div class="grid grid-cols-5">
+          <div class="p-4 m-1"></div>
 
-          <div class="p-4 m-1">
-            <div class="form-group">
-              <label for="fecha" class="font-semibold">Fecha</label>
-              <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
+          <div class="p-4 m1 col-span-3" style="font-size: 24px;">
+            <div class="p-4 m-1">
+              <h1>{{ title }}</h1>
+            </div>
+
+            <div class="p-4 m-1">
+              <div class="form-group">
+                <label for="fecha" class="font-semibold">Fecha</label>
+                <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
+              </div>
+            </div>
+
+            <div class="p-4 m-1">
+              <div class="form-group">
+                <label for="centro" class="font-semibold">Centro de Salud</label>
+                <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex justify-end p-4 m-1">
+              <button
+                @click="newRegistro()"
+                class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+                title="Nuevo"
+                :disabled="filtro.centro_id == '0'"
+              >
+                + Nuevo
+              </button>
             </div>
           </div>
 
-          <div class="p-4 m-1">
-            <div class="form-group">
-              <label for="centro" class="font-semibold">Centro de Salud</label>
-              <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
-                <option value="0">-- seleccione --</option>
-                <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
-              </select>
-            </div>
-          </div>
+          <div class="p-4 m-1"></div>
 
-          <div class="flex justify-end p-4 m-1">
-            <button
-              @click="newRegistro()"
-              class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
-              title="Nuevo"
-              :disabled="filtro.centro_id == '0'"
-            >
-              + Nuevo
-            </button>
-          </div>
         </div>
       </div>
       <!--div style="overflow-x: auto">
@@ -336,7 +343,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 40px;
-    font-size: x-small;
+    /*font-size: x-small;*/
   }
   
   .table th {

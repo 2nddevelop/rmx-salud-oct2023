@@ -1,68 +1,67 @@
 <template>
     <div class="">
-      <div>
-        <div class="grid grid-cols-4">
-          <div class="p-4 m-1">
-            <h1>{{ title }}</h1>
-          </div>
-
-          <div class="p-4 m-1">
-            <div class="form-group">
-              <label for="fecha" class="font-semibold">Fecha</label>
-              <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
-            </div>
-          </div>
-
-          <div class="p-4 m-1">
-            <div class="form-group">
-              <label for="centro" class="font-semibold">Centro de Salud</label>
-              <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
-                <option value="0">-- seleccione --</option>
-                <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
-              </select>
-            </div>
-          </div>
-
-          <!--div class="flex justify-end p-4 m-1">
-            <button
-              @click="newRegistro()"
-              class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
-              title="Nuevo"
-              :disabled="filtro.centro_id == '0'"
-            >
-              + Nuevo
-            </button>
-          </div-->
+      <div class="grid grid-cols-4">
+        <div class="p-4 m-1">
+          <h1>{{ title }}</h1>
         </div>
+
+        <div class="p-4 m-1">
+          <div class="form-group">
+            <label for="fecha" class="font-semibold">Fecha</label>
+            <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
+          </div>
+        </div>
+
+        <div class="p-4 m-1">
+          <div class="form-group">
+            <label for="centro" class="font-semibold">Centro de Salud</label>
+            <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
+              <option value="0">-- seleccione --</option>
+              <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-4 m-1"></div>
       </div>
-      <div style="overflow-x: auto">
-        <table class="table table-responsive">
-          <thead class="thead-dark">
-            <tr>
-              <th>#</th>
-              <th>CI / Paciente</th>
-              <th>Centro / Esp / Consultorio</th>
-              <th>Planificación</th>
-              <th>Nro Ficha</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
-              <td align="right">{{ index + 1 }}</td>
-              <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
-              <td align="left">{{ r.cnt_codigo }} / {{ r.esp_codigo }} / {{ r.con_codigo }} </td>
-              <td align="center">{{ r.pln_data.pln_horario }} </td>
-              <td align="center">{{ r.fch_nro_ficha }}</td>
-              <td align="center">{{ r.fch_estado }}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="13">Son n {{ plural }}</td>
-            </tr>
-          </tfoot>
-        </table>
+    </div>
+    <div class="">
+      <div class="grid grid-cols-6">
+        <div class="p-4 m-1"></div>
+
+        <div class="col-span-4 p-4 m-1" style="overflow-x: auto; font-size: 20px;">
+          <table class="table table-responsive">
+            <thead class="">
+              <tr>
+                <th>CI / Paciente</th>
+                <th>Nro Ficha</th>
+                <th></th>
+                <th>Especialidad Consultorio</th>
+                <th>Planificación</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
+                <template v-if="r.fch_estado !== 'P'">
+                <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
+                <td align="center">{{ r.fch_nro_ficha }}</td>
+                <td align="center"><i class="fa-solid fa-arrow-right fa-2xl"></i></td>
+                <td align="left">{{ r.esp_descripcion }}<br>{{ r.con_descripcion }} </td>
+                <td align="center">{{ r.pln_data.pln_horario }} </td>
+                <td align="center">{{ r.fch_estado }}</td>
+                </template>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr style="background: beige;">
+                <td colspan="13"><p>En pantalla solo se listan las fichas llamadas a Signos Vitales o Consulta.</p></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="p-4 m-1"></div>
       </div>
   
       <!-- Modal -->
@@ -308,7 +307,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 40px;
-    font-size: x-small;
+    /*font-size: x-small;*/
   }
   
   .table th {
