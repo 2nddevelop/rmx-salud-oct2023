@@ -44,7 +44,8 @@
             <th>Consultorio</th>
             <th>Médico</th>
             <th>Fecha</th>
-            <th>Horario</th>
+            <th>H. Inicio</th>
+            <th>H. Fin</th>
             <th>Max<br/>Fichas</th>
             <th>Max<br/>Virtuales</th>
             <th>Registrado</th>
@@ -75,7 +76,8 @@
             <td align="left">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
             <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
             <td align="center">{{ r.pln_data.pln_fecha}}</td>
-            <td align="center">{{ r.pln_data.pln_horario}}</td>
+            <td align="center">{{ r.pln_data.pln_horario_inicio}}</td>
+            <td align="center">{{ r.pln_data.pln_horario_fin  }}</td>
             <td align="right">{{ r.pln_data.pln_max_fichas}}</td>
             <td align="right">{{ r.pln_data.pln_max_virtuales}}</td>
             <td align="center">{{ r.pln_registado}}</td>
@@ -172,11 +174,17 @@
             <div class="grid grid-cols-2 gap-4">
               <div class="col-md-6">
                 <label for="fecha">Fecha:</label>
-                <input type="date" v-model="reg.pln_data.pln_fecha" class="form-control" name="fecha" id="fecha" placeholder="Horario Inicio" />
+                <input type="date" v-model="reg.pln_data.pln_fecha" class="form-control" name="fecha" id="fecha" placeholder="Fecha" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="col-md-6">
+                <label for="horarioini">Horario Inicio:</label>
+                <input type="time" v-model="reg.pln_data.pln_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
               </div>
               <div class="col-md-6">
-                <label for="horario">Horario:</label>
-                <input v-model="reg.pln_data.pln_horario" class="form-control" name="horario" id="horario" placeholder="Horario Fin" />
+                <label for="horariofin">Horario Fin:</label>
+                <input type="time" v-model="reg.pln_data.pln_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
               </div>
             </div>
           </div>
@@ -212,7 +220,8 @@ export default {
          pln_data:{
             pln_max_fichas: '',
             pln_fecha: '',
-            pln_horario: '',
+            pln_horario_inicio: '',
+            pln_horario_fin: '',
             pln_max_virtuales: ''
         } 
       },
@@ -299,7 +308,8 @@ export default {
         pln_data: {
           pln_max_fichas: '',
           pln_fecha: '',
-          pln_horario: '',
+          pln_horario_inicio: '',
+          pln_horario_fin: '',
           pln_max_virtuales: ''
         }
       };
