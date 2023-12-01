@@ -37,7 +37,6 @@
                 <th>Nro Ficha</th>
                 <th></th>
                 <th>Especialidad Consultorio</th>
-                <th>Planificación</th>
                 <th>Estado</th>
               </tr>
             </thead>
@@ -48,7 +47,6 @@
                 <td align="center">{{ r.fch_nro_ficha }}</td>
                 <td align="center"><i class="fa-solid fa-arrow-right fa-2xl"></i></td>
                 <td align="left">{{ r.esp_descripcion }}<br>{{ r.con_descripcion }} </td>
-                <td align="center">{{ r.pln_data.pln_horario }} </td>
                 <td align="center">{{ r.fch_estado }}</td>
                 </template>
               </tr>

@@ -107,7 +107,7 @@
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <!-- Modal header -->
           <div
-            class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+            class="model-header flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
           >
             <h2
               class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
@@ -125,7 +125,7 @@
             </button>
           </div>
           <!-- Modal body -->
-          <div class="p-6 space-y-6">
+          <div class="modal-body p-6 space-y-6">
             <div class="grid grid-cols-2 gap-3">
               <div class="form-group">
                 <label for="pln_cnt_id" class="font-semibold">Centro</label>

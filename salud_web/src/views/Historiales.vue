@@ -232,10 +232,13 @@
                   <div>{{ rd.hcd_data_sv.sv_peso }}</div>
                 </div>
               </div>
-              <div>
+              <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                <h1>
+                  <strong> {{ rd.hcd_fecha.substring(0, 10) }} </strong>
+                </h1>
                 <label>Anamnesis</label>
                 <div >
-                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                  <div >
                     <div class="grid grid-cols-2 gap-3" style="background:#00bd7e; color:white;">
                       <div>Motivo de Consulta</div>
                       <div>Examen Fisico</div>
@@ -249,7 +252,7 @@
                 
                 <label>Estado Nutricional</label>
                 <div >
-                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                  <div>
                     <div class="grid grid-cols-4 gap-3" style="background:#00bd7e; color:white;">
                       <div>Estado Nutricional</div>
                     </div>
@@ -261,7 +264,7 @@
 
                 <label>Diagnostico</label>
                 <div >
-                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                  <div >
                     <div class="grid grid-cols-2 gap-3" style="background:#00bd7e; color:white;">
                       <div>Diagnostico Descriptivo</div>
                       <div>Diagnostico CIE 10</div>
@@ -275,7 +278,7 @@
 
                 <label>Tratamiento</label>
                 <div >
-                  <div v-for="(rd, index) in regsDet" v-bind:key="rd.hcd_id">
+                  <div >
                     <div class="grid grid-cols-2 gap-3" style="background:#00bd7e; color:white;">
                       <div>Tratamiento</div>
                       <div>Observaciones</div>

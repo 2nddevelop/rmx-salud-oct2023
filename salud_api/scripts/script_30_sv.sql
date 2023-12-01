@@ -55,3 +55,19 @@ insert into rmx_sld_historiales_det (hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data
     "cns_dia_cie": "555", 
     "cns_ttm": "666", 
     "cns_obv": "777"}', '{}', 11);
+
+insert into rmx_sld_historiales_det (hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_usr_id) values
+(2, '2023-12-01', '{ "sv_talla":"1.60", 
+  "sv_peso":"65", 
+  "sv_temp_corporal":"36", 
+  "sv_frec_cardiaca":"60", 
+  "sv_frec_respiratoria":"12", 
+  "sv_presion_arterial":"90/60", 
+  "sv_sat_oxigeno":"100%" }', 
+  '{"cns_mt_con": "111", 
+    "cns_exm_fsc": "222", 
+    "cns_est_nut": "333", 
+    "cns_dia_des": "444", 
+    "cns_dia_cie": "555", 
+    "cns_ttm": "666", 
+    "cns_obv": "777"}', '{}', 11);
