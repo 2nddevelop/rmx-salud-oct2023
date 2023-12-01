@@ -274,6 +274,7 @@
         } else {
           const savedReg = await fichasService.saveData(this.reg);
           this.regs.push(savedReg);
+          this.printRegistro( this.reg );
         }
         this.listarRegistros();
         this.closeModal();
@@ -298,23 +299,30 @@
         }
       },
 
+    
+
       async printRegistro(reg) {
-        const confirmed = window.confirm("¿Imprimir ficha?");
-        if (confirmed) {
-          try {
-            const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
-            if (index !== -1) {
-              //reg.fch_usr_id = 1;
-              //reg.fch_estado = "X"; 
-              //await fichasService.deleteData(reg); 
-              //this.regs.splice(index, 1); 
-            } else {
-              console.error('No se encontró el registro para eliminar');
-            }
-          } catch (error) {
-            console.error('Error al eliminar el registro:', error);
-          }
-        }
+        var html = '';
+        console.log("Mensaje",reg);
+        html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
+        html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
+        html += '<td colspan="2" align="right">FICHA No. ' + reg.fch_id + '</td></tr>';
+        html += '<tr><td colspan="3"><hr></td></tr>';
+        html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
+        html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
+        html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
+        html += '<tr><td colspan="3"><hr></td></tr>';
+        html += '<tr><td align="center" colspan="3">FELIZ NAVIDAD 2023</td></tr>';
+        html += '<tr><td colspan="3"><hr></td></tr>';
+        html += '</table>';
+        var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
+        win.document.body.innerHTML = html;
+        setTimeout(function () {
+            win.document.close();
+            win.focus();
+            win.print();
+            win.close();    
+        }, 1000);
       },
 
       closeModal() {
