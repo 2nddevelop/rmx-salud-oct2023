@@ -31,6 +31,29 @@ const FichaController = {
     }
   },
 
+  getFicha: async (req: Request, res: Response) => {
+    const { fch_id } = req.params;
+
+    try {
+      const fichasQuery = await pool.query(
+        `SELECT f.*, c.cli_data, p.pln_data, ce.*, d.*, e.*, co.*
+        FROM rmx_sld_fichas f
+        INNER JOIN rmx_gral_clientes c ON c.cli_id = f.fch_cli_id
+        INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
+        INNER JOIN rmx_sld_centros ce ON ce.cnt_id = p.pln_cnt_id
+        INNER JOIN rmx_sld_doctores d ON d.doc_id = p.pln_doc_id
+        INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+        INNER JOIN rmx_sld_consultorios co ON co.con_id = p.pln_con_id
+        WHERE f.fch_id = $1 ORDER BY 1`, [fch_id]
+      );
+      const fichas = fichasQuery.rows;
+      res.json(fichas);
+    } catch (error) {
+      console.error('Error al obtener los Fichas:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
   createFicha: async (req: Request, res: Response) => {
     const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado } = req.body;
 
@@ -42,7 +65,7 @@ const FichaController = {
 
       res.json(newFicha.rows[0]);
     } catch (error) {
-      console.error('Error al crear el Ficha:', error);
+      console.error('Error al crear la Ficha:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },

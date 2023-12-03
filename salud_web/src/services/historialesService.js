@@ -19,7 +19,7 @@ const historialesService = {
       throw error;
     }
   },
-
+  
   async saveData(newRecord) {
     try {
       const tk = localStorage.getItem('token');

@@ -11,14 +11,16 @@ const PlanificacionController = {
 
     try {
       const planificacionesQuery = await pool.query(
-        `SELECT p.*,cn.con_codigo, cn.con_descripcion, d.doc_data, c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion 
-        FROM rmx_sld_planificacion p
-        INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id
-        INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
-        INNER JOIN rmx_sld_doctores d ON d.doc_id = p.pln_doc_id
-        INNER JOIN rmx_sld_consultorios cn ON cn.con_id = p.pln_con_id
-        WHERE p.pln_data->>'pln_fecha' = $1
-          AND p.pln_estado != 'X' ORDER BY 1`, [fecha]
+        `SELECT p.*, c.cnt_codigo, c.cnt_descripcion, d.doc_data, 
+            c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion, cn.con_codigo, cn.con_descripcion
+          FROM rmx_sld_planificacion p
+          INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id
+          INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+          INNER JOIN rmx_sld_consultorios cn ON cn.con_id = p.pln_con_id
+          INNER JOIN rmx_sld_doctores d ON d.doc_id = p.pln_doc_id
+          WHERE p.pln_data->>'pln_fecha' = $1
+            AND p.pln_estado != 'X' 
+          ORDER BY p.pln_cnt_id, p.pln_esp_id, p.pln_con_id `, [fecha]
       );
       const planificaciones = planificacionesQuery.rows;
       res.json(planificaciones);
@@ -33,13 +35,16 @@ const PlanificacionController = {
 
     try {
       const planificacionesQuery = await pool.query(
-        `SELECT p.*, c.cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion 
-        FROM rmx_sld_planificacion p
-        INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id
-        INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
-        WHERE p.pln_data->>'pln_fecha' = $1
-          AND c.cnt_id = $2
-          AND p.pln_estado != 'X' ORDER BY 1`, [fecha, cnt_id]
+        `SELECT p.*, c.cnt_codigo, c.cnt_descripcion, d.doc_data, 
+            cnt_codigo, c.cnt_descripcion, e.esp_codigo, e.esp_descripcion, cn.con_codigo, cn.con_descripcion
+          FROM rmx_sld_planificacion p
+          INNER JOIN rmx_sld_centros c ON c.cnt_id = p.pln_cnt_id
+          INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+          INNER JOIN rmx_sld_consultorios cn ON cn.con_id = p.pln_con_id
+          INNER JOIN rmx_sld_doctores d ON d.doc_id = p.pln_doc_id
+          WHERE p.pln_data->>'pln_fecha' = $1
+            AND c.cnt_id = $2
+            AND p.pln_estado != 'X' ORDER BY 1`, [fecha, cnt_id]
       );
       const planificaciones = planificacionesQuery.rows;
       res.json(planificaciones);

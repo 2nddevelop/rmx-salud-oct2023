@@ -71,9 +71,9 @@
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
-            <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-            <td align="left">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
-            <td align="left">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
+            <td align="left" style="background-color: beige;">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
+            <td align="left" style="background-color: beige;">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
+            <td align="left" style="background-color: beige;">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
             <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
             <td align="center">{{ r.pln_data.pln_fecha}}</td>
             <td align="center">{{ r.pln_data.pln_horario_inicio}}</td>
@@ -258,7 +258,6 @@ export default {
       this.regs = [];
       try {
         this.regs = await planificacionesService.getData(this.filtro.fecha);
-        console.log("plntores: ", this.regs);          
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -267,7 +266,6 @@ export default {
       this.centros = [];
       try {
         this.centros = await centrosService.getData();
-        console.log("Centros: ", this.centros);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -276,7 +274,6 @@ export default {
       this.especialidades = [];
       try {
         this.especialidades = await especialidadesService.getData();
-        console.log("Especialidades: ", this.especialidades);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -286,7 +283,6 @@ export default {
       this.consultorios = [];
       try {
         this.consultorios = await consultoriosService.getData(this.reg.pln_cnt_id);
-        console.log("Especialidades: ", this.consultorios);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -296,7 +292,6 @@ export default {
       this.doctores = [];
       try {
         this.doctores = await doctoresService.getData();
-        console.log("Especialidades: ", this.doctores);
       } catch (error) {
         console.error("Error:", error.message);
       }

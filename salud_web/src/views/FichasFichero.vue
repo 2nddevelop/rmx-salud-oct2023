@@ -124,6 +124,7 @@
                 <span class="sr-only">Close modal</span>
               </button>
             </div>
+
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
               <div class="grid grid-cols-2 gap-3">
@@ -132,8 +133,7 @@
                   <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
                 </div>
               </div>
-
-              <div class="grid grid-cols-2 gap-3">
+              <div class="grid grid-cols-1 gap-3">
                 <div class="form-group">
                   <label for="fch_cli_id" class="font-semibold">Paciente</label>
                   <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
@@ -141,15 +141,7 @@
                     <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
                   </select>
                 </div>
-                <div class="form-group">
-                    <label for="fch_pln_id" class="font-semibold">Planificacion</label>
-                    <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]</option>
-                    </select>
-                </div>
               </div>
-              
               <div class="grid grid-cols-2 gap-4">
                 <div class="col-md-6">
                   <label for="nro">Numero Ficha</label>
@@ -161,13 +153,17 @@
                   <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" disabled />
                 </div>
               </div>
+              <div class="grid grid-cols-2 gap-1">                
+                <div v-for="p in planificaciones" class="form-group">
+                    <button @click="saveModal(p.pln_id)" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded"> 
+                      [{{ p.cnt_descripcion }}] {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                    </button>
+                </div>
+              </div>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
-                {{ isEditing ? "Actualizar" : "Guardar" }}
-              </button>
             </div>
           </div>
         </div>
@@ -262,41 +258,19 @@
         this.showModal = true;
       },
 
-      async saveModal() {
+      async saveModal(pln_id) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
+        this.reg.fch_pln_id = pln_id;
         if (this.isEditing) {
           const updatedReg = await fichasService.updateData(this.reg);
-          const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
-          if (index !== -1) {
-            this.regs.splice(index, 1, updatedReg);
-          }
         } else {
           const savedReg = await fichasService.saveData(this.reg);
-          this.regs.push(savedReg);
-          this.printRegistro( this.reg );
+          console.log("Insert devuelve: ",savedReg);
+          this.printRegistro( savedReg );
         }
-        this.listarRegistros();
+        //this.listarRegistros();
         this.closeModal();
-      },
-
-      async deleteRegistro(reg) {
-        const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
-        if (confirmed) {
-          try {
-            const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
-            if (index !== -1) {
-              reg.fch_usr_id = 1;
-              reg.fch_estado = "X"; 
-              await fichasService.deleteData(reg); 
-              this.regs.splice(index, 1); 
-            } else {
-              console.error('No se encontró el registro para eliminar');
-            }
-          } catch (error) {
-            console.error('Error al eliminar el registro:', error);
-          }
-        }
       },
 
     
@@ -306,7 +280,8 @@
         console.log("Mensaje",reg);
         html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
         html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
-        html += '<td colspan="2" align="right">FICHA No. ' + reg.fch_id + '</td></tr>';
+        html += '<td colspan="2" align="right">ID: ' + reg.fch_id + '</td></tr>';
+        html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha+ '</td></tr>';
         html += '<tr><td colspan="3"><hr></td></tr>';
         html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
         html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';

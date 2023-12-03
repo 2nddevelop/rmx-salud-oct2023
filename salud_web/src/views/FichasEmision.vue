@@ -119,14 +119,14 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-2 gap-3">
+              <div class="grid grid-cols-2 gap-1">
                 <div class="form-group">
                   <label for="fecha2" class="font-semibold">Fecha</label>
                   <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
                 </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-3">
+              <div class="grid grid-cols-1 gap-1">
                 <div class="form-group">
                   <label for="fch_cli_id" class="font-semibold">Paciente</label>
                   <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
