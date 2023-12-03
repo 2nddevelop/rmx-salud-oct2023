@@ -262,12 +262,22 @@
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
         this.reg.fch_pln_id = pln_id;
+        let that = this;
         if (this.isEditing) {
-          const updatedReg = await fichasService.updateData(this.reg);
+          const updatedReg = await fichasService.updateData(this.reg)
+            .then((value) => {
+              console.log('>>>>>> ', value);
+            });          
         } else {
-          const savedReg = await fichasService.saveData(this.reg);
-          console.log("Insert devuelve: ",savedReg);
-          this.printRegistro( savedReg );
+          const savedReg = await fichasService.saveData(this.reg)
+          .then(async (value) => {
+              that.reg = await fichasService.getFicha(value.fch_id);
+              console.log("Ficha: ", that.reg);
+              setTimeout(() => {
+                console.log("reg >>> ", that.reg);
+                this.printRegistro( that.reg[0] );
+              }, 500);
+            });          
         }
         //this.listarRegistros();
         this.closeModal();
@@ -277,7 +287,7 @@
 
       async printRegistro(reg) {
         var html = '';
-        console.log("Mensaje",reg);
+        console.log("Imprimir este reg",reg);
         html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
         html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
         html += '<td colspan="2" align="right">ID: ' + reg.fch_id + '</td></tr>';
