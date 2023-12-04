@@ -25,6 +25,26 @@ const HistorialesDetController = {
     }
   },
 
+  getHistorialDet: async (req: Request, res: Response) => {
+    const { hcd_id } = req.params; 
+
+    try {
+      const historialDetQuery = await pool.query(
+        `SELECT hcdet.*, c.cli_data
+        FROM rmx_sld_historiales_det hcdet
+        INNER JOIN rmx_sld_historiales hc ON hc.hc_id = hcdet.hcd_id
+        INNER JOIN rmx_gral_clientes c ON c.cli_id = hc.hc_cli_id
+        WHERE hcdet.hcd_hc_id = $1
+          AND hcdet.hcd_estado != 'X' ORDER BY 1`, [hcd_id]
+      );
+      const historialesDet = historialDetQuery.rows;
+      res.json(historialesDet);
+    } catch (error) {
+      console.error('Error al obtener el Historial Detalle:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
   createHistorialDet: async (req: Request, res: Response) => {
     const { hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_modificado, hcd_usr_id, hcd_estado, hcd_id  } = req.body;
 

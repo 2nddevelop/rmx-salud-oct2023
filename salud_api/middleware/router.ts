@@ -140,6 +140,7 @@ router.post('/historial/:hc_id', authMiddleware, HistorialesController.deleteHis
 
 //// Historiales Detalle
 router.get('/historialesDet/:hc_id', authMiddleware, HistorialesDetController.getAllHistorialesDetXHcId);
+router.get('/historialesDet/buscar/:hcd_id', authMiddleware, HistorialesDetController.getHistorialDet);
 router.post('/historialDet', authMiddleware, HistorialesDetController.createHistorialDet);
 router.put('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.updateHistorialDet);
 router.post('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.deleteHistorialDet);
