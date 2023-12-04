@@ -259,9 +259,8 @@ insert into rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medic
 
 
 --
+-- PACIENTES
 --
---
-
 create table rmx_gral_tipos_cliente (
   tcli_id serial primary key,
   tcli_codigo text not null,
@@ -293,3 +292,4 @@ insert into rmx_gral_clientes (cli_tcli_id, cli_data, cli_usr_id) values
 ( 1, '{"cli_nombres":"Luis Miguel", "cli_paterno":"Zamora", "cli_materno":"Velez", "cli_nit":"5656567", "cli_telefono":"", "cli_celular":"70144222", "cli_direccion":"calle El Acre #199", "cli_correo":"luis@gmail.com", "cli_clave":"123456"}', 1),
 ( 2, '{"cli_nombres":"Rolando", "cli_paterno":"Lima", "cli_materno":"Poma", "cli_nit":"5566778", "cli_telefono":"223456", "cli_celular":"76856011", "cli_direccion":"Mendez #113", "cli_correo":"rolando@gmail.com", "cli_clave":"123456"}', 1),
 ( 1, '{"cli_nombres":"Waldo", "cli_paterno":"Romero", "cli_materno":"Romero", "cli_nit":"3344556", "cli_telefono":"223456", "cli_celular":"78899000", "cli_direccion":"Lapachos #113", "cli_correo":"waldo@gmail.com", "cli_clave":"123456"}', 1);
+

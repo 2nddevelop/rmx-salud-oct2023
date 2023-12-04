@@ -20,6 +20,18 @@ const historialesService = {
     }
   },
   
+  async getBuscar(cli_nit, cli_paterno, cli_materno, cli_nombres) {
+    try {
+      const tk = localStorage.getItem('token');
+      this.setAuthHeader(tk);
+      const patron = {cli_nit: cli_nit, cli_paterno: cli_paterno, cli_materno: cli_materno, cli_nombres: cli_nombres}
+      const response = await axios.get(API_URL + '/historiales/buscar', patron);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async saveData(newRecord) {
     try {
       const tk = localStorage.getItem('token');

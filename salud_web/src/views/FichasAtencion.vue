@@ -34,7 +34,7 @@
               <th>#</th>
               <th></th>
               <th>CI / Paciente</th>
-              <th>Centro / Esp / Consultorio</th>
+              <th>Esp / Consultorio</th>
               <th>Planificación</th>
               <th>Nro Ficha</th>
               <th>Kardex Médico</th>
@@ -51,19 +51,19 @@
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Atención"
                 >
-                  <i class="fa-solid fa-check"></i>
+                  <i class="fa-regular fa-folder fa-xl"></i>
                 </button>
                 <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
-                  @click="deleteRegistro(r)"
+                  @click="svRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Signos"
                 >
-                  <i class="fa-solid fa-heart-pulse fa-beat-fade"></i>
+                  <i class="fa-solid fa-heart-pulse fa-beat-fade fa-xl"></i>
                 </button>
                 <i v-if="r.fch_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
-              <td align="left">{{ r.cnt_codigo }} / {{ r.esp_codigo }} / {{ r.con_codigo }} </td>
+              <td align="left">{{ r.esp_descripcion }} / {{ r.con_codigo }} </td>
               <td align="center">{{ r.pln_data.pln_horario }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center">{{ r.fch_kdx_medico }}</td>
@@ -158,7 +158,7 @@
           <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
             <div
-              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+              class="modal-header flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
             >
               <h2
                 class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
@@ -176,33 +176,33 @@
               </button>
             </div>
             <!-- Modal body -->
-            <div class="p-6 space-y-6">
+            <div class="modal-body p-6 space-y-6">
 
               <div class="grid grid-cols-4 gap-3">
                 <div class="form-group">
                   <label for="CI">CI:</label>
-                  <input v-model="regSV.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled/>
+                  <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled/>
                 </div>
 
                 <div class="form-group">
                   <label for="paterno">Paterno:</label>
-                  <input v-model="regSV.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled/>
+                  <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled/>
                 </div>
 
                 <div class="form-group">
                   <label for="materno">Materno:</label>
-                  <input v-model="regSV.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled/>
+                  <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled/>
                 </div>
 
                 <div class="form-group">
                   <label for="nombres">Nombres:</label>
-                  <input v-model="regSV.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled/>
+                  <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled/>
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-4">
+              <!--div class="grid grid-cols-2 gap-4">
                 <div class="form-group">
                   <label for="frec_cardiaca">Frecuencia Cardiaca:</label>
-                  <input v-model="regSV.sv_data.sv_frec_cardiaca" class="form-control" name="frec_cardiaca" id="frec_cardiaca" placeholder="Frecuencia cardiaca" />
+                  <input v-model="reg.sv_data.sv_frec_cardiaca" class="form-control" name="frec_cardiaca" id="frec_cardiaca" placeholder="Frecuencia cardiaca" />
                 </div>
                   <div class="form-group">
                     <label for="frec_respiratoria">Frecuencia Respiratoria:</label>
@@ -212,29 +212,29 @@
               <div class="grid grid-cols-2 gap-4">
                 <div class="form-group">
                   <label for="presion_arterial">Presión Arterial:</label>
-                  <input v-model="regSV.sv_data.sv_presion_arterial" class="form-control" name="presion_arterial" id="presion_arterial" placeholder="Presion Arterial" />
+                  <input v-model="reg.sv_data.sv_presion_arterial" class="form-control" name="presion_arterial" id="presion_arterial" placeholder="Presion Arterial" />
                 </div>
                 <div class="form-group">
                   <label for="sat_oxigeno">Saturación de Oxigeno:</label>
-                  <input v-model="regSV.sv_data.sv_sat_oxigeno" class="form-control" name="sat_oxigeno" id="sat_oxigeno" placeholder="Saturación de oxigeno" />
+                  <input v-model="reg.sv_data.sv_sat_oxigeno" class="form-control" name="sat_oxigeno" id="sat_oxigeno" placeholder="Saturación de oxigeno" />
                 </div>
               </div>
               <div class="grid grid-cols-3 gap-4">
                 <div class="form-group">
                   <label for="temp">Temperatura Corporal:</label>
-                  <input v-model="regSV.sv_data.sv_temp_corporal" class="form-control" name="temp" id="temp" placeholder="Temperatura corporal" />
+                  <input v-model="reg.sv_data.sv_temp_corporal" class="form-control" name="temp" id="temp" placeholder="Temperatura corporal" />
                 </div>
 
                 <div class="form-group">
                   <label for="correo">Talla:</label>
-                  <input v-model="regSV.sv_data.sv_talla" class="form-control" name="talla" id="talla" placeholder="Talla" />
+                  <input v-model="reg.sv_data.sv_talla" class="form-control" name="talla" id="talla" placeholder="Talla" />
                 </div>
 
                 <div class="form-group">
                   <label for="peso">Peso:</label>
                   <input v-model="regSV.sv_data.sv_peso" class="form-control" name="peso" id="peso" placeholder="Peso" />
                 </div>
-              </div>
+              </div-->
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
@@ -336,6 +336,13 @@
         this.reg = Object.assign({}, reg);
         this.showModal = true;
       },
+      svRegistro(reg) {
+        console.log("reg SV", reg);
+        this.isEditingSV = true;
+        
+        this.reg = Object.assign({}, reg);
+        this.showModalSV = true;
+      },
 
       async saveModal() {
         this.reg.fch_usr_id = 1; 
@@ -349,29 +356,6 @@
         }
         this.listarRegistros();
         this.closeModal();
-      },
-
-      async deleteRegistro(reg) {
-        const confirmed = window.confirm("¿Estás seguro de tomar Signos Vitales?");
-        if (confirmed) {
-          this.isEditingSV = false;
-          this.regSV = { cli_data: {}, sv_data: {} };
-          this.showModalSV = true;
-
-          try {
-            const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
-            if (index !== -1) {
-              reg.fch_usr_id = 1;
-              reg.fch_estado = "E";
-              //const updatedReg = await fichasService.updateData(reg);
-            } else {
-              console.error('No se encontró el registro para eliminar');
-            }
-          } catch (error) {
-            console.error('Error al eliminar el registro:', error);
-          }
-          this.listarRegistros();
-        }
       },
 
       closeModal() {

@@ -213,7 +213,6 @@
         this.regs = [];
         try {
           this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);          
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -222,7 +221,6 @@
         this.clientes = [];
         try {
           this.clientes = await clientesService.getData();
-          console.log("Centros: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -231,17 +229,15 @@
         this.planificaciones = [];
         try {
           this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
-          console.log("planificaciones: ", this.planificaciones);
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
       async listarCentros() {
         try {
-        this.centrosSalud = await centrosService.getData();
-        console.log('Registros: ', this.regs);
+          this.centrosSalud = await centrosService.getData();
         } catch (error) {
-        console.error('Error:', error.message);
+          console.error('Error:', error.message);
         }
       },
 
@@ -272,11 +268,9 @@
           const savedReg = await fichasService.saveData(this.reg)
           .then(async (value) => {
               that.reg = await fichasService.getFicha(value.fch_id);
-              console.log("Ficha: ", that.reg);
               setTimeout(() => {
-                console.log("reg >>> ", that.reg);
                 this.printRegistro( that.reg[0] );
-              }, 500);
+              }, 200);
             });          
         }
         //this.listarRegistros();

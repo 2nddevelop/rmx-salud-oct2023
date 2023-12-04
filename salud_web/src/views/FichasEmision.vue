@@ -42,7 +42,7 @@
               <th>#</th>
               <th></th>
               <th>CI / Paciente</th>
-              <th>Centro / Esp / Consultorio</th>
+              <th>Esp / Consultorio</th>
               <th>Planificación</th>
               <th>Nro Ficha</th>
               <th>Kardex Médico</th>
@@ -77,7 +77,7 @@
                 </button>
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
-              <td align="left">{{ r.cnt_codigo }} / {{ r.esp_codigo }} / {{ r.con_codigo }} </td>
+              <td align="left">{{ r.esp_descripcion }} / {{ r.con_codigo }} </td>
               <td align="center">{{ r.pln_data.pln_horario }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>

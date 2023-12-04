@@ -24,6 +24,32 @@ const HistorialController = {
     }
   },
 
+  getAllHistorialesXCIPatMatNombres: async (req: Request, res: Response) => {
+    // xxx const { fecha, cnt_id } = req.params;
+    const { cli_nit, cli_paterno, cli_materno, cli_nombres } = req.body;
+
+    const nit = cli_nit !== "" ? " AND cli_nit like '$1' " : "";
+    const pat = cli_paterno !== "" ? " AND cli_paterno like '$2' " : "";
+    const mat = cli_materno !== "" ? " AND cli_materno like '$3' " : "";
+    const noms = cli_nombres !== "" ? " AND cli_nombres like '$4' " : "";
+    
+    console.log(">>> ", nit, pat, mat, noms);
+
+    try {
+      const historialesQuery = await pool.query(
+        `SELECT h.*, c.cli_data
+        FROM rmx_sld_historiales h
+        INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
+        WHERE h.hc_estado != 'X' ORDER BY 1`
+      );
+      const historiales = historialesQuery.rows;
+      res.json(historiales);
+    } catch (error) {
+      console.error('Error al obtener los Historiales:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
   createHistorial: async (req: Request, res: Response) => {
     const { hc_cli_id, hc_codigo, hc_usr_id, hc_estado } = req.body;
 

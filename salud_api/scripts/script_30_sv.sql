@@ -13,12 +13,12 @@ create table rmx_sld_historiales (
   hc_estado text default 'A' 
 );
 insert into rmx_sld_historiales (hc_cli_id, hc_codigo, hc_usr_id) values
-(1, '20001121-SSO', 1),
-(2, '20010111-TKO', 1),
-(3, '19900515-GLO', 1),
-(4, '20060308-NMO', 1),
-(5, '20101113-ANO', 1),
-(6, '20070125-DPO', 1);
+(1, 1, '20001121-SSO', 1),
+(2, 2, '20010111-TKO', 1),
+(3, 3, '19900515-GLO', 1),
+(4, 4, '20060308-NMO', 1),
+(5, 5, '20101113-ANO', 1);
+-- pendiente (6, 6, '20070125-DPO', 1);
 
 
 create table rmx_sld_historiales_det (

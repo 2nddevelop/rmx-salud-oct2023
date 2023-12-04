@@ -135,6 +135,7 @@ router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente)
 //// Historiales
 router.get('/historiales', authMiddleware, HistorialesController.getAllHistoriales);
 router.post('/historial', authMiddleware, HistorialesController.createHistorial);
+router.post('/historiales/buscar', authMiddleware, HistorialesController.getAllHistorialesXCIPatMatNombres);
 router.put('/historial/:hc_id', authMiddleware, HistorialesController.updateHistorial);
 router.post('/historial/:hc_id', authMiddleware, HistorialesController.deleteHistorial);
 

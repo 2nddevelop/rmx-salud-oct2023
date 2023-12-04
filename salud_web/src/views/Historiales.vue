@@ -24,10 +24,10 @@
               <th>#</th>
               <th></th>
               <th>Historial</th>
-              <th>CI</th>
-              <th>Paterno</th>
-              <th>Materno</th>
-              <th>Nombres</th>
+              <th>CI<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_nit" class="form-control input"></th>
+              <th>Paterno<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_paterno" class="form-control input"></th>
+              <th>Materno<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_materno" class="form-control input"></th>
+              <th>Nombres<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_nombres" class="form-control input"></th>
               <th>Registrado</th>
               <th>Estado</th>
             </tr>
@@ -130,7 +130,7 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-3">
+              <!--div class="grid grid-cols-2 gap-3">
                 <div class="form-group">
                   <label for="mtcon">Motivo de Consulta</label>
                   <textarea v-model="reg.hcd_data_consulta.con_mt_con" class="form-control" name="mtcon" id="mtcon" placeholder="Motivo de Consulta">
@@ -171,7 +171,7 @@
                   <textarea v-model="reg.hcd_data_consulta.con_obv" class="form-control" name="obv" id="obv" placeholder="Observaciones">
                   </textarea>
                 </div>
-              </div>
+              </div-->
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
@@ -351,6 +351,7 @@
         isEditingDet: false,
         centros: [],
         especialidades: [],
+        filtro: { cli_nit: "", cli_paterno: "", cli_materno: "", cli_nombres: "" }
       };
     },
   
@@ -365,6 +366,15 @@
         this.regs = [];
         try {
           this.regs = await historialesService.getData();
+          console.log("Historiales: ", this.regs);          
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
+      },
+      async buscarRegistros() {
+        this.regs = [];
+        try {
+          this.regs = await historialesService.getBuscar(filtro.cli_nit, filtro.cli_paterno, filtro.cli_materno, filtro.cli_nombres);
           console.log("Historiales: ", this.regs);          
         } catch (error) {
           console.error("Error:", error.message);
@@ -497,6 +507,10 @@
     box-sizing: border-box;
   }
   
+  .input {
+    color: black;
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;
@@ -590,9 +604,6 @@
     align-items: center;
     justify-content: center;
   }
-
-  <style>
-  /* ... (otros estilos) ... */
   
   .modal-content {
     background-color: #fff;
