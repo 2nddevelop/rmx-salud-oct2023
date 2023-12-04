@@ -25,7 +25,8 @@ const historialesService = {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const patron = {cli_nit: cli_nit, cli_paterno: cli_paterno, cli_materno: cli_materno, cli_nombres: cli_nombres}
-      const response = await axios.get(API_URL + '/historiales/buscar', patron);
+      console.log("patron: ", patron);
+      const response = await axios.post(API_URL + '/historiales/buscar', patron);
       return response.data;
     } catch (error) {
       throw error;

@@ -374,7 +374,7 @@
       async buscarRegistros() {
         this.regs = [];
         try {
-          this.regs = await historialesService.getBuscar(filtro.cli_nit, filtro.cli_paterno, filtro.cli_materno, filtro.cli_nombres);
+          this.regs = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
           console.log("Historiales: ", this.regs);          
         } catch (error) {
           console.error("Error:", error.message);
