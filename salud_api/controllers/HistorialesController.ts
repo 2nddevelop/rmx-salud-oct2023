@@ -28,34 +28,24 @@ const HistorialController = {
     // xxx const { fecha, cnt_id } = req.params;
     const { cli_nit, cli_paterno, cli_materno, cli_nombres } = req.body;
 
-    const nit = cli_nit !== "" ? " AND c.cli_data->>'cli_nit' like '" + cli_nit + "%' " : "";
-    const pat = cli_paterno !== "" ? " AND c.cli_data->>'cli_paterno' like '" + cli_paterno + "%' " : "";
-    const mat = cli_materno !== "" ? " AND c.cli_data->>'cli_materno' like '" + cli_materno + "%' " : "";
-    const noms = cli_nombres !== "" ? " AND c.cli_data->>'cli_nombres' like '" + cli_nombres + "%' " : "";
+    const nit = cli_nit !== "" ? " AND c.cli_data->>'cli_nit' like '" + cli_nit + "%' " : " ";
+    const pat = cli_paterno !== "" ? " AND c.cli_data->>'cli_paterno' like '" + cli_paterno + "%' " : " ";
+    const mat = cli_materno !== "" ? " AND c.cli_data->>'cli_materno' like '" + cli_materno + "%' " : " ";
+    const noms = cli_nombres !== "" ? " AND c.cli_data->>'cli_nombres' like '" + cli_nombres + "%' " : " ";
 
-    console.log(">>> ", nit, pat, mat, noms);
+    console.log(">>> ", nit);
+    console.log(">>> ", pat);
+    console.log(">>> ", mat);
+    console.log(">>> ", noms);
 
     try {
-      console.log(
-        `SELECT h.*, c.cli_data
-        FROM rmx_sld_historiales h
-        INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
-        WHERE h.hc_estado != 'X' `
-        + nit +
-        + pat +
-        + mat +
-        + noms 
-      );
-      const historialesQuery = await pool.query(
-        `SELECT h.*, c.cli_data
-        FROM rmx_sld_historiales h
-        INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
-        WHERE h.hc_estado != 'X' `
-        + nit +
-        + pat +
-        + mat +
-        + noms +
-        ` ORDER BY 1`
+      const sql = `SELECT h.*, c.cli_data
+      FROM rmx_sld_historiales h
+      INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
+      WHERE h.hc_estado != 'X' ${nit} ${pat} ${mat} ${noms} ORDER BY 1 `;
+      console.log('SQL >>> ', sql);
+      const historialesQuery = await pool.query( 
+        sql
       );
       const historiales = historialesQuery.rows;
       res.json(historiales);
