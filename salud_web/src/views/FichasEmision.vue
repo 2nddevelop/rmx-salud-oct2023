@@ -302,7 +302,9 @@
               console.log("Mensaje",reg);
               html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
               html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
-              html += '<td colspan="2" align="right">FICHA No. ' + reg.fch_id + '</td></tr>';
+              html += '<td colspan="2" align="right">ID ' + reg.fch_id + '</td></tr>';
+              html += '<tr><td colspan="3"><hr></td></tr>';
+              html += '<td colspan="2" align="center">FICHA No. ' + reg.fch_nro_ficha + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
@@ -310,6 +312,7 @@
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<tr><td align="center" colspan="3">FELIZ NAVIDAD 2023</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
+              html += '<td colspan="2" align="center">' + reg.fch_registrado + '</td></tr>';
               html += '</table>';
               var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
               win.document.body.innerHTML = html;

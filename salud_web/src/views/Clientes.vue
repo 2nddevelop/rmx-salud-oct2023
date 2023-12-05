@@ -25,6 +25,8 @@
                 <th></th>
                 <th>Tipo Paciente</th>
                 <th>CI</th>
+                <th>Paterno</th>
+                <th>Materno</th>
                 <th>Nombres</th>
                 <th>Teléfono</th>
                 <th>Celular</th>
@@ -53,9 +55,11 @@
                     <i class="fa-solid fa-trash"></i>
                 </button>
                 </td>
-                <td align="left">{{ r.tcli_codigo }} - {{ r.tcli_descripcion }}</td>
+                <td align="left">{{ r.tcli_codigo }}</td>
                 <td align="right">{{ r.cli_data.cli_nit }}</td>
-                <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
+                <td align="left">{{ r.cli_data.cli_paterno }}</td>
+                <td align="left">{{ r.cli_data.cli_materno }}</td>
+                <td align="left">{{ r.cli_data.cli_nombres }}</td>
                 <td align="right">{{ r.cli_data.cli_telefono }}</td>
                 <td align="right">{{ r.cli_data.cli_celular }}</td>
                 <td align="left">{{ r.cli_data.cli_direccion }}</td>

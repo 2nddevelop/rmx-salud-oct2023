@@ -28,10 +28,10 @@ const HistorialController = {
     // xxx const { fecha, cnt_id } = req.params;
     const { cli_nit, cli_paterno, cli_materno, cli_nombres } = req.body;
 
-    const nit = cli_nit !== "" ? " AND c.cli_data->>'cli_nit' like '" + cli_nit + "%' " : " ";
-    const pat = cli_paterno !== "" ? " AND c.cli_data->>'cli_paterno' like '" + cli_paterno + "%' " : " ";
-    const mat = cli_materno !== "" ? " AND c.cli_data->>'cli_materno' like '" + cli_materno + "%' " : " ";
-    const noms = cli_nombres !== "" ? " AND c.cli_data->>'cli_nombres' like '" + cli_nombres + "%' " : " ";
+    const nit = cli_nit !== "" ? " AND UPPER(c.cli_data->>'cli_nit') like '" + cli_nit.toUpperCase() + "%' " : " ";
+    const pat = cli_paterno !== "" ? " AND UPPER(c.cli_data->>'cli_paterno') like '" + cli_paterno.toUpperCase() + "%' " : " ";
+    const mat = cli_materno !== "" ? " AND UPPER(c.cli_data->>'cli_materno') like '" + cli_materno.toUpperCase() + "%' " : " ";
+    const noms = cli_nombres !== "" ? " AND UPPER(c.cli_data->>'cli_nombres') like '" + cli_nombres.toUpperCase() + "%' " : " ";
 
     console.log(">>> ", nit);
     console.log(">>> ", pat);

@@ -24,10 +24,14 @@
               <th>#</th>
               <th></th>
               <th>Historial</th>
-              <th>CI<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_nit" class="form-control input"></th>
-              <th>Paterno<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_paterno" class="form-control input"></th>
-              <th>Materno<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_materno" class="form-control input"></th>
-              <th>Nombres<br><input type="text" @change="buscarRegistros" v-model="filtro.cli_nombres" class="form-control input"></th>
+              <th>CI<br>
+                <input type="text" @change="buscarRegistros" v-model="filtro.cli_nit" class="form-control input"></th>
+              <th>Paterno<br>
+                <input type="text" @change="buscarRegistros" v-model="filtro.cli_paterno" class="form-control input"></th>
+              <th>Materno<br>
+                <input type="text" @change="buscarRegistros" v-model="filtro.cli_materno" class="form-control input"></th>
+              <th>Nombres<br>
+                <input type="text" @change="buscarRegistros" v-model="filtro.cli_nombres" class="form-control input"></th>
               <th>Registrado</th>
               <th>Estado</th>
             </tr>

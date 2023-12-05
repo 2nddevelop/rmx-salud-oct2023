@@ -23,14 +23,16 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>CENTRO</th>
-              <th>ESPECIALIDAD</th>
+              <th>Centro</th>
+              <th>Especialidad</th>
               <th>CI</th>
-              <th>NOMBBRES</th>
-              <th>INICIO DE HORARIO</th>
-              <th>FIN DE HORARIO</th>
-              <th>REGISTRADO</th>
-              <th>ESTADO</th>
+              <th>Paterno</th>
+              <th>Materno</th>
+              <th>Nombres</th>
+              <th>Horario Inicio</th>
+              <th>Horario Fin</th>
+              <th>Registrado</th>
+              <th>E</th>
             </tr>
           </thead>
           <tbody>
@@ -55,7 +57,9 @@
               <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
               <td align="left">{{ r.esp_codigo }} - {{ r.esp_descripcion }}</td>
               <td align="left">{{ r.doc_data.doc_ci }}</td>
-              <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
+              <td align="left">{{ r.doc_data.doc_paterno }}</td>
+              <td align="left">{{ r.doc_data.doc_materno }}</td>
+              <td align="left">{{ r.doc_data.doc_nombres }}</td>
               <td align="left">{{ r.doc_data.doc_horario_inicio }}</td>
               <td align="left">{{ r.doc_data.doc_horario_fin }}</td>
               <td align="right">{{ r.doc_registado }}</td>
