@@ -211,7 +211,7 @@
               </button>
             </div>
             <!-- Modal body -->
-            <div class="p-6 space-y-6">
+            <div class="p-6 space-y-6" style="overflow-y: auto; max-height: 600px;">
               <div>
                 <label>Signos Vitales</label>
                 <div class="grid grid-cols-8 gap-3" style="background:#00bd7e; color:white;">

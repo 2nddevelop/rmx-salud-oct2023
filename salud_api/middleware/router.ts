@@ -131,6 +131,7 @@ router.get('/clientes', authMiddleware, ClienteController.getAllClientes);
 router.post('/cliente', authMiddleware, ClienteController.createCliente);
 router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);
 router.post('/cliente/:cli_id', authMiddleware, ClienteController.deleteCliente);
+router.post('/clientes/buscar', authMiddleware, ClienteController.getAllClientesXCIPatMatNombres);
 
 //// Historiales
 router.get('/historiales', authMiddleware, HistorialesController.getAllHistoriales);

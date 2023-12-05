@@ -22,6 +22,38 @@ const ClienteController = {
     }
   },
 
+
+  getAllClientesXCIPatMatNombres: async (req: Request, res: Response) => {
+    // xxx const { fecha, cnt_id } = req.params;
+    const { cli_nit, cli_paterno, cli_materno, cli_nombres } = req.body;
+
+    const nit = cli_nit !== "" ? " AND UPPER(c.cli_data->>'cli_nit') like '" + cli_nit.toUpperCase() + "%' " : " ";
+    const pat = cli_paterno !== "" ? " AND UPPER(c.cli_data->>'cli_paterno') like '" + cli_paterno.toUpperCase() + "%' " : " ";
+    const mat = cli_materno !== "" ? " AND UPPER(c.cli_data->>'cli_materno') like '" + cli_materno.toUpperCase() + "%' " : " ";
+    const noms = cli_nombres !== "" ? " AND UPPER(c.cli_data->>'cli_nombres') like '" + cli_nombres.toUpperCase() + "%' " : " ";
+
+    console.log(">>> ", nit);
+    console.log(">>> ", pat);
+    console.log(">>> ", mat);
+    console.log(">>> ", noms);
+
+    try {
+      const sql = `SELECT c.*
+      FROM rmx_gral_clientes c
+      WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} ORDER BY 1 `;
+      console.log('SQL >>> ', sql);
+      const clientesQuery = await pool.query( 
+        sql
+      );
+      const clientes = clientesQuery.rows;
+      res.json(clientes);
+    } catch (error) {
+      console.error('Error al obtener los Clientes:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
+
   createCliente: async (req: Request, res: Response) => {
     const { cli_tcli_id, cli_data, cli_modificado, cli_usr_id, cli_estado } = req.body;
     try {

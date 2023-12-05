@@ -24,10 +24,14 @@
                 <th>#</th>
                 <th></th>
                 <th>Tipo Paciente</th>
-                <th>CI</th>
-                <th>Paterno</th>
-                <th>Materno</th>
-                <th>Nombres</th>
+                <th>CI<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_nit" class="form-control input"></th>
+                <th>Paterno<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_paterno" class="form-control input"></th>
+                <th>Materno<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_materno" class="form-control input"></th>
+                <th>Nombres<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_nombres" class="form-control input"></th>
                 <th>Teléfono</th>
                 <th>Celular</th>
                 <th>Dirección</th>
@@ -200,6 +204,7 @@
           showModal: false,
           isEditing: false,
           tiposClientes: [],
+          filtro: { cli_nit: "", cli_paterno: "", cli_materno: "", cli_nombres: "" }
         };
       },
     
@@ -213,6 +218,15 @@
           this.regs = [];
           try {
             this.regs = await clientesService.getData();
+            console.log("Clientes: ", this.regs);          
+          } catch (error) {
+            console.error("Error:", error.message);
+          }
+        },
+        async buscarRegistros() {
+          this.regs = [];
+          try {
+            this.regs = await clientesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
             console.log("Clientes: ", this.regs);          
           } catch (error) {
             console.error("Error:", error.message);
