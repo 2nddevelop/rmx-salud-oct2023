@@ -106,6 +106,7 @@ router.get('/doctores', authMiddleware, DoctorController.getAllDoctores);
 router.post('/doctor', authMiddleware, DoctorController.createDoctor);
 router.put('/doctor/:doc_id', authMiddleware, DoctorController.updateDoctor);
 router.post('/doctor/:doc_id', authMiddleware, DoctorController.deleteDoctor);
+router.post('/doctores/buscar', authMiddleware, DoctorController.getAllDoctoresXCIPatMatNombres);
 
 //// consultorios
 router.get('/consultorios/:cnt_id', authMiddleware, ConsultorioController.getAllConsultorios);

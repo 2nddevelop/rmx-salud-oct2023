@@ -23,6 +23,38 @@ const DoctorController = {
     }
   },
 
+
+  getAllDoctoresXCIPatMatNombres: async (req: Request, res: Response) => {
+    // xxx const { fecha, cnt_id } = req.params;
+    const { doc_ci, doc_paterno, doc_materno, doc_nombres } = req.body;
+
+    const ci = doc_ci !== "" ? " AND UPPER(d.doc_data->>'doc_ci') like '" + doc_ci.toUpperCase() + "%' " : " ";
+    const pat = doc_paterno !== "" ? " AND UPPER(d.doc_data->>'doc_paterno') like '" + doc_paterno.toUpperCase() + "%' " : " ";
+    const mat = doc_materno !== "" ? " AND UPPER(d.doc_data->>'doc_materno') like '" + doc_materno.toUpperCase() + "%' " : " ";
+    const noms = doc_nombres !== "" ? " AND UPPER(d.doc_data->>'doc_nombres') like '" + doc_nombres.toUpperCase() + "%' " : " ";
+
+    console.log(">>> ", ci);
+    console.log(">>> ", pat);
+    console.log(">>> ", mat);
+    console.log(">>> ", noms);
+
+    try {
+      const sql = `SELECT d.*
+      FROM rmx_sld_doctores d
+      WHERE d.doc_estado != 'X' ${ci} ${pat} ${mat} ${noms} ORDER BY 1 `;
+      console.log('SQL >>> ', sql);
+      const doctoresQuery = await pool.query( 
+        sql
+      );
+      const doctores = doctoresQuery.rows;
+      res.json(doctores);
+    } catch (error) {
+      console.error('Error al obtener los Doctores:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
+
   createDoctor: async (req: Request, res: Response) => {
     const { doc_esp_id, doc_cnt_id, doc_data, doc_usr_id, doc_estado } = req.body;
     try {

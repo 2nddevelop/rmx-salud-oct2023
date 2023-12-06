@@ -20,6 +20,20 @@ const doctoresService = {
     }
   },
 
+  async getBuscar(doc_ci, doc_paterno, doc_materno, doc_nombres) {
+    try {
+      const tk = localStorage.getItem('token');
+      this.setAuthHeader(tk);
+      const patron = {doc_ci: doc_ci, doc_paterno: doc_paterno, doc_materno: doc_materno, doc_nombres: doc_nombres}
+      console.log("patron: ", patron);
+      const response = await axios.post(API_URL + '/doctores/buscar', patron);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+
   async saveData(newRecord) {
     try {
       const tk = localStorage.getItem('token');
