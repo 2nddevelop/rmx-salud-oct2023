@@ -13,7 +13,7 @@ const HistorialController = {
       const historialesQuery = await pool.query(
         `SELECT h.*, c.cli_data
         FROM rmx_sld_historiales h
-        INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
+        left outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
         WHERE h.hc_estado != 'X' ORDER BY 1`
       );
       const historiales = historialesQuery.rows;
@@ -41,7 +41,7 @@ const HistorialController = {
     try {
       const sql = `SELECT h.*, c.cli_data
       FROM rmx_sld_historiales h
-      INNER JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
+      left outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
       WHERE h.hc_estado != 'X' ${nit} ${pat} ${mat} ${noms} ORDER BY 1 `;
       console.log('SQL >>> ', sql);
       const historialesQuery = await pool.query( 
