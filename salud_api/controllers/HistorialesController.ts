@@ -13,8 +13,9 @@ const HistorialController = {
       const historialesQuery = await pool.query(
         `SELECT h.*, c.cli_data
         FROM rmx_sld_historiales h
-        left outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
-        WHERE h.hc_estado != 'X' ORDER BY 1`
+        right outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
+        WHERE c.cli_estado != 'X' 
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `
       );
       const historiales = historialesQuery.rows;
       res.json(historiales);
@@ -41,8 +42,9 @@ const HistorialController = {
     try {
       const sql = `SELECT h.*, c.cli_data
       FROM rmx_sld_historiales h
-      left outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
-      WHERE h.hc_estado != 'X' ${nit} ${pat} ${mat} ${noms} ORDER BY 1 `;
+      right outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
+      WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} 
+      ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
       console.log('SQL >>> ', sql);
       const historialesQuery = await pool.query( 
         sql

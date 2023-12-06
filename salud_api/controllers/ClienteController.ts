@@ -8,11 +8,11 @@ import pool from '../db';
 const ClienteController = {
   getAllClientes: async (req: Request, res: Response) => {
     try {
-      const clienteQuery = await pool.query(
-        "SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion " +
-        "FROM rmx_gral_clientes c " +
-        "INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id " +
-        "WHERE c.cli_estado != 'X' ORDER BY 1 "
+      const clienteQuery = await pool.query(`SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion 
+        FROM rmx_gral_clientes c 
+        INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
+        WHERE c.cli_estado != 'X' 
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `
       ); 
       const clientes = clienteQuery.rows;
       res.json(clientes);
@@ -40,7 +40,8 @@ const ClienteController = {
     try {
       const sql = `SELECT c.*
       FROM rmx_gral_clientes c
-      WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} ORDER BY 1 `;
+      WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} 
+      ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
       console.log('SQL >>> ', sql);
       const clientesQuery = await pool.query( 
         sql
