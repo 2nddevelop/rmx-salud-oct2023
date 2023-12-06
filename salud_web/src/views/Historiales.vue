@@ -40,7 +40,7 @@
           <tr v-for="(r, index) in regs" v-bind:key="r.doc_id">
             <td align="right">{{ index + 1 }} - {{ r.hc_id }}</td>
             <td>
-              <button
+              <button v-if="r.hc_estado == 'A'"
                 @click="editRegistro(r)"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Editar"
@@ -48,7 +48,7 @@
                 <i class="fa-solid fa-pencil"></i>
               </button>
 
-              <button
+              <button v-if="r.hc_estado == 'A'"
                 @click="deleteRegistro(r)"
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Eliminar"
@@ -56,7 +56,7 @@
                 <i class="fa-solid fa-trash"></i>
               </button>
 
-              <button
+              <button v-if="r.hc_estado == 'A'"
                 @click="verRegistroDet(r)"                  
                 class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Ver"
