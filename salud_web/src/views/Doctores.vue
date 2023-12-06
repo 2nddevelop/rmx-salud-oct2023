@@ -25,10 +25,15 @@
               <th></th>
               <th>Centro</th>
               <th>Especialidad</th>
-              <th>CI</th>
-              <th>Paterno</th>
-              <th>Materno</th>
-              <th>Nombres</th>
+              <th>CI<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_ci" class="form-control input"></th>
+                <th>Paterno<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_paterno" class="form-control input"></th>
+                <th>Materno<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_materno" class="form-control input"></th>
+                <th>Nombres<br>
+                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_nombres" class="form-control input"></th>
+                <th>Teléfono</th>
               <th>Horario Inicio</th>
               <th>Horario Fin</th>
               <th>Registrado</th>
@@ -197,6 +202,7 @@
         isEditing: false,
         centros: [],
         especialidades: [],
+        filtro: { doc_ci: "", doc_paterno: "", doc_materno: "", doc_nombres: "" }
       };
     },
   
@@ -216,6 +222,20 @@
           console.error("Error:", error.message);
         }
       },
+      async buscarRegistros() {
+          console.log('Buscando registros...');
+          console.log('CI:', this.filtro.doc_ci);
+          console.log('Paterno:', this.filtro.doc_paterno);
+          console.log('Materno:', this.filtro.doc_materno);
+          console.log('Nombres:', this.filtro.doc_nombres);
+          this.regs = [];
+          try {
+            this.regs = await doctoresService.getBuscar(this.filtro.doc_ci, this.filtro.doc_paterno, this.filtro.doc_materno, this.filtro.doc_nombres);
+            console.log("Clientes: ", this.regs);          
+          } catch (error) {
+            console.error("Error:", error.message);
+          }
+        },
       async listarCentros() {
         this.centros = [];
         try {

@@ -224,6 +224,11 @@
           }
         },
         async buscarRegistros() {
+          console.log('Buscando registros...');
+          console.log('CI:', this.filtro.cli_nit);
+          console.log('Paterno:', this.filtro.cli_paterno);
+          console.log('Materno:', this.filtro.cli_materno);
+          console.log('Nombres:', this.filtro.cli_nombres);
           this.regs = [];
           try {
             this.regs = await clientesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
