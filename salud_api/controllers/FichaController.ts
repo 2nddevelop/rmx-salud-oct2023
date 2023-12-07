@@ -21,7 +21,8 @@ const FichaController = {
         INNER JOIN rmx_sld_consultorios co ON co.con_id = p.pln_con_id
         WHERE p.pln_data->>'pln_fecha' = $1
           AND p.pln_cnt_id = $2
-          AND f.fch_estado != 'X' ORDER BY 1`, [fecha, cnt_id]
+          AND f.fch_estado != 'X' 
+        ORDER BY ce.cnt_descripcion, e.esp_codigo, co.con_codigo `, [fecha, cnt_id]
       );
       const fichas = fichasQuery.rows;
       res.json(fichas);
