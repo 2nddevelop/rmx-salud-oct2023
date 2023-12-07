@@ -21,6 +21,55 @@ const ClienteController = {
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },
+  
+
+  getClientesXCliId: async (req: Request, res: Response) => {
+    // xxx const { fecha, cnt_id } = req.params;
+    const { cli_id } = req.body;
+
+    try {
+      const sql = `SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion 
+        FROM rmx_gral_clientes c
+        INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
+        WHERE c.cli_estado != 'X'
+          AND c.cli_id = $1
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
+      console.log('SQL >>> ', sql);
+      const clientesQuery = await pool.query( 
+        sql, [cli_id]
+      );
+      const clientes = clientesQuery.rows;
+      res.json(clientes);
+    } catch (error) {
+      console.error('Error al obtener los Clientes:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
+
+
+  getClientesXCI: async (req: Request, res: Response) => {
+    // xxx const { fecha, cnt_id } = req.params;
+    const { cli_nit } = req.body;
+
+    try {
+      const sql = `SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion 
+        FROM rmx_gral_clientes c
+        INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
+        WHERE c.cli_estado != 'X'
+          AND c.cli_data->>'cli_nit' = $1
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
+      console.log('SQL >>> ', sql);
+      const clientesQuery = await pool.query( 
+        sql, [cli_nit]
+      );
+      const clientes = clientesQuery.rows;
+      res.json(clientes);
+    } catch (error) {
+      console.error('Error al obtener los Clientes:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
 
 
   getAllClientesXCIPatMatNombres: async (req: Request, res: Response) => {
@@ -38,8 +87,10 @@ const ClienteController = {
     console.log(">>> ", noms);
 
     try {
-      const sql = `SELECT c.*
+      const sql = `SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion 
       FROM rmx_gral_clientes c
+      INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
+      INNER JOIN rmx_sld_historiales h ON h.hc_cli_id = c.cli_id
       WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} 
       ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
       console.log('SQL >>> ', sql);
@@ -59,7 +110,7 @@ const ClienteController = {
     // xxx const { fecha, cnt_id } = req.params;
     const { cli_id } = req.body;
 
-console.log("controller id: ", cli_id);
+    console.log("controller id: ", cli_id);
     try {
       const sql = `SELECT c.*, h.*
       FROM rmx_gral_clientes c

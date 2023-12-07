@@ -60,9 +60,7 @@
           <!-- Modal content -->
           <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
-            <div
-              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
-            >
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
               <h2
                 class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
               >
@@ -92,12 +90,19 @@
                   <label for="ci" class="font-semibold">C.I.</label>
                   <input v-model="ci" class="form-control" name="ci" id="ci" placeholder="Carnet de identidad"  />
                 </div>
+                <div class="form-group">
+                  <br>
+                  <button @click="buscarClienteXCI(this)" 
+                    class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" >
+                    <i class="fa-solid fa-search"></i> Buscar
+                  </button>
+                </div>
               </div>
               <div class="grid grid-cols-1 gap-3">
                 <div class="form-group">
                   <label for="fch_cli_id" class="font-semibold">Paciente</label>
                   <select v-model="reg.fch_cli_id" @change="buscarHistorial(this)" 
-                    class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
+                    class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" size="3" required>
                     <option value="0">-- seleccione --</option>
                     <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
                   </select>
@@ -207,6 +212,8 @@
       newRegistro() {
         this.listarPlanificaciones();
         this.isEditing = false;
+        this.clientes = []; // aumentado
+        this.ci = ''; //aumentado
         this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
         this.showModal = true;
       },
@@ -249,7 +256,19 @@
           this.reg.fch_kdx_medico = historial[0].hc_codigo;
         } else {
           this.reg.fch_kdx_medico = 'a definir';
-          const confirmed = window.alert("No tiene Kardex Médico");
+          const confirmed = window.alert("No tiene Kardex Médico !");
+        }
+      },
+
+      async buscarClienteXCI(registro) {
+        const cli_nit = registro.ci;
+        const clientes = await clientesService.getBuscarClienteXCI(cli_nit); 
+        console.log("Clientes x CI: ", clientes);
+        if (Object.keys(clientes).length) {
+          this.clientes = clientes;
+        } else {
+          this.clientes = [];
+          const confirmed = window.alert("El CI indicado NO existe !");
         }
       },
 

@@ -33,6 +33,19 @@ const clientesService = {
     }
   },
 
+  async getBuscarClienteXCI(cli_nit) {
+    try {
+      const tk = localStorage.getItem('token');
+      this.setAuthHeader(tk);
+      const patron = {cli_nit: cli_nit}
+      console.log("patron: ", patron);
+      const response = await axios.post(API_URL + '/clientes/buscarXCI', patron);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getBuscarHistorial(cli_id) {
     try {
       const tk = localStorage.getItem('token');

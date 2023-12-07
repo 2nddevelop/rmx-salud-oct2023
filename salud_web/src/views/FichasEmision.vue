@@ -129,13 +129,13 @@
               <div class="grid grid-cols-1 gap-1">
                 <div class="grid grid-cols-3 gap-1">
                   <div class="form-group">
-                    <input class="form-control" @change="buscarPaciente" name="paterno" id="paterno" placeholder="Paterno" >
+                    <input class="form-control" @change="buscarPacienteXNombres" name="paterno" id="paterno" placeholder="Paterno" >
                   </div>
                   <div class="form-group">
-                    <input class="form-control" @change="buscarPaciente" name="materno" id="materno" placeholder="Materno" >
+                    <input class="form-control" @change="buscarPacienteXNombres" name="materno" id="materno" placeholder="Materno" >
                   </div>
                   <div class="form-group">
-                    <input class="form-control" @change="buscarPaciente" name="nombres" id="nombres" placeholder="Nombres" >
+                    <input class="form-control" @change="buscarPacienteXNombres" name="nombres" id="nombres" placeholder="Nombres" >
                   </div>
                 </div>
                 <div class="form-group">
@@ -173,7 +173,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover-bg-gre___en-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
+              <button @click="saveModal" class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                 :title="isEditing ? 'Actualizar' : 'Guardar'"
                 :disabled="reg.fch_kdx_medico == 'a definir'">
                 {{ isEditing ? "Actualizar" : "Guardar" }}
