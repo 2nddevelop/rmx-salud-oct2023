@@ -105,7 +105,7 @@
               <h2
                 class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
               >
-                {{ isEditing ? "EDITAR " : "NUEVO " }} {{ singular }}
+                {{ isEditing ? "EDITAR " : "NUEVA " }} {{ singular }}
               </h2>
               <button
                 type="button"
@@ -119,46 +119,63 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-2 gap-1">
+              <!--div class="grid grid-cols-2 gap-1">
                 <div class="form-group">
                   <label for="fecha2" class="font-semibold">Fecha</label>
                   <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
                 </div>
-              </div>
+              </div-->
 
               <div class="grid grid-cols-1 gap-1">
+                <div class="grid grid-cols-3 gap-1">
+                  <div class="form-group">
+                    <input class="form-control" @change="buscarPaciente" name="paterno" id="paterno" placeholder="Paterno" >
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" @change="buscarPaciente" name="materno" id="materno" placeholder="Materno" >
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" @change="buscarPaciente" name="nombres" id="nombres" placeholder="Nombres" >
+                  </div>
+                </div>
                 <div class="form-group">
                   <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                  <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
+                  <select v-model="reg.fch_cli_id" @change="buscarHistorial(this)" 
+                    class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" size="5" required>
                     <option value="0">-- seleccione --</option>
-                    <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
+                    <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
+                      {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
-                    <label for="fch_pln_id" class="font-semibold">Planificacion</label>
-                    <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]</option>
-                    </select>
+                  <label for="fch_pln_id" class="font-semibold">Planificación</label>
+                  <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" size="5" required>
+                    <option value="0">-- seleccione --</option>
+                    <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> 
+                      [{{ p.esp_descripcion }}] {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                    </option>
+                  </select>
                 </div>
-              </div>
-              
-              <div class="grid grid-cols-2 gap-4">
-                <div class="col-md-6">
-                  <label for="nro">Numero Ficha</label>
-                  <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
-                  <span style="font-size: x-small; color: red;">Automático</span>
-                </div>
-                <div class="col-md-6">
-                  <label for="kdx">Kardex Médico</label>
-                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" disabled />
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="nro">Número Ficha</label>
+                    <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
+                    <span style="font-size: x-small; color: red;">Automático</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="kdx">Kardex Médico</label>
+                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
+              <button @click="saveModal" class="bg-green-500 hover-bg-gre___en-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
+                :title="isEditing ? 'Actualizar' : 'Guardar'"
+                :disabled="reg.fch_kdx_medico == 'a definir'">
                 {{ isEditing ? "Actualizar" : "Guardar" }}
               </button>
             </div>
@@ -209,8 +226,10 @@
       async listarRegistros() {
         this.regs = [];
         try {
+          this.listarPlanificaciones();
+
           this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);          
+          console.log("Fichas: ", this.regs);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -219,7 +238,7 @@
         this.clientes = [];
         try {
           this.clientes = await clientesService.getData();
-          console.log("Centros: ", this.clientes);
+          console.log("Pacientes: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -288,6 +307,18 @@
           } catch (error) {
             console.error('Error al eliminar el registro:', error);
           }
+        }
+      },
+
+      async buscarHistorial(registro) {
+        const cli_id = registro.reg.fch_cli_id;
+        console.log("original cli_id", cli_id);
+        const historial = await clientesService.getBuscarHistorial(cli_id); 
+        console.log("Cliente Historial: ", historial);
+        if (Object.keys(historial).length) {
+          this.reg.fch_kdx_medico = historial[0].hc_codigo;
+        } else {
+          this.reg.fch_kdx_medico = 'a definir';
         }
       },
 

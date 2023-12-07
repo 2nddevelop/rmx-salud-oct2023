@@ -33,6 +33,19 @@ const clientesService = {
     }
   },
 
+  async getBuscarHistorial(cli_id) {
+    try {
+      const tk = localStorage.getItem('token');
+      this.setAuthHeader(tk);
+      const patron = {cli_id: cli_id}
+      console.log("patron: ", patron);
+      const response = await axios.post(API_URL + '/cliente/buscarHistorial', patron);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async saveData(newRecord) {
     try {
       const tk = localStorage.getItem('token');

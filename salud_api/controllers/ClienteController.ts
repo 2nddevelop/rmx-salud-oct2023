@@ -55,6 +55,30 @@ const ClienteController = {
   },
 
 
+  getClienteHistorialXCliId: async (req: Request, res: Response) => {
+    // xxx const { fecha, cnt_id } = req.params;
+    const { cli_id } = req.body;
+
+console.log("controller id: ", cli_id);
+    try {
+      const sql = `SELECT c.*, h.*
+      FROM rmx_gral_clientes c
+      INNER JOIN rmx_sld_historiales h ON h.hc_cli_id = c.cli_id
+      WHERE c.cli_estado != 'X'
+        AND c.cli_id = $1 `;
+      console.log('SQL >>> ', sql);
+      const clientesQuery = await pool.query( 
+        sql, [ cli_id ]
+      );
+      const clientes = clientesQuery.rows;
+      res.json(clientes);
+    } catch (error) {
+      console.error('Error al obtener el Cliente y su Historial:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
+
   createCliente: async (req: Request, res: Response) => {
     const { cli_tcli_id, cli_data, cli_modificado, cli_usr_id, cli_estado } = req.body;
     try {
@@ -108,7 +132,7 @@ const ClienteController = {
       }
       res.json({ message: 'Cliente eliminado correctamente' });
     } catch (error) {
-      console.error('Error al eliminar el Cliente:', error);
+      console.error('Error al yyy eliminar el Cliente:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },

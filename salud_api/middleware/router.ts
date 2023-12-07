@@ -128,6 +128,8 @@ router.put('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.upda
 router.post('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.deleteTipoCliente);
 
 //// Clientes
+router.post('/cliente/buscarHistorial', authMiddleware, ClienteController.getClienteHistorialXCliId); // lo puse aqui por tema del compilador tsc, tema en las rutas
+
 router.get('/clientes', authMiddleware, ClienteController.getAllClientes);
 router.post('/cliente', authMiddleware, ClienteController.createCliente);
 router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);

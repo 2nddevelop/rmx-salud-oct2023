@@ -45,7 +45,7 @@
           <tbody>
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <td align="right">{{ index + 1 }} - {{ r.fch_id }}</td>
-              <td align="center">
+              <td align="left">
                 <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
                   @click="editRegistro(r)"
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
@@ -53,7 +53,7 @@
                 >
                   <i class="fa-regular fa-folder fa-xl"></i>
                 </button>
-                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
+                <button v-if="r.fch_estado == 'S'"
                   @click="svRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Signos"
@@ -66,7 +66,7 @@
               <td align="left">{{ r.esp_descripcion }} / {{ r.con_codigo }} </td>
               <td align="center">{{ r.pln_data.pln_horario }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
-              <td align="center">{{ r.fch_kdx_medico }}</td>
+              <td align="center" style="background: beige;">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
               <td align="center">{{ r.fch_estado }}</td>
             </tr>
@@ -105,38 +105,44 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                  <label for="fecha2" class="font-semibold">Fecha</label>
-                  <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
+              <div class="grid grid-cols-1 gap-1">
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="form-group">
+                    <label for="fecha2" class="font-semibold">Fecha</label>
+                    <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
+                  </div>
                 </div>
-              </div>
 
-              <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                  <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                  <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required disabled>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                    <label for="fch_pln_id" class="font-semibold">Planificacion</label>
-                    <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required disabled>
+                <div class="grid grid-cols-1 gap-3">
+                  <div class="form-group">
+                    <label for="fch_cli_id" class="font-semibold">Paciente</label>
+                    <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required disabled>
                       <option value="0">-- seleccione --</option>
-                      <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]</option>
+                      <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
+                        {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
+                      </option>
                     </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="fch_pln_id" class="font-semibold">Planificación</label>
+                      <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required disabled>
+                        <option value="0">-- seleccione --</option>
+                        <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
+                          [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]
+                        </option>
+                      </select>
+                  </div>
                 </div>
-              </div>
-              
-              <div class="grid grid-cols-2 gap-4">
-                <div class="col-md-6">
-                  <label for="nro">Numero Ficha</label>
-                  <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" disabled />
-                </div>
-                <div class="col-md-6">
-                  <label for="kdx">Kardex Médico</label>
-                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
+                
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="col-md-6">
+                    <label for="nro">Número Ficha</label>
+                    <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" disabled />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="kdx">Kardex Médico</label>
+                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -284,6 +290,7 @@
     mounted() {
       this.dates();
       this.listarRegistros();
+      this.listarPlanificaciones();
       this.listarClientes();
       this.listarCentros();
     },
@@ -293,7 +300,9 @@
         this.regs = [];
         try {
           this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);          
+          console.log("Fichas: ", this.regs);
+
+          this.listarPlanificaciones();
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -325,12 +334,6 @@
         }
       },
 
-      newRegistro() {
-        this.listarPlanificaciones();
-        this.isEditing = false;
-        this.reg = { };
-        this.showModal = true;
-      },
       editRegistro(reg) {
         this.isEditing = true;
         this.reg = Object.assign({}, reg);

@@ -33,7 +33,18 @@
                 title="Nuevo"
                 :disabled="filtro.centro_id == '0'"
               >
-                + Nuevo
+                + Nueva Ficha
+              </button>
+            </div>
+            <div class="flex justify-end p-4 m-1">
+              <button
+                @click="reimprimirRegistro()"
+                class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+                title="Nuevo"
+                :disabled="filtro.centro_id == '0'"
+              >
+                <i class="fa-solid fa-print"></i>
+                Reimprimir Ficha
               </button>
             </div>
           </div>
@@ -42,63 +53,6 @@
 
         </div>
       </div>
-      <!--div style="overflow-x: auto">
-        <table class="table table-responsive">
-          <thead class="thead-dark">
-            <tr>
-              <th>#</th>
-              <th></th>
-              <th>CI / Paciente</th>
-              <th>Centro / Esp / Consultorio</th>
-              <th>Planificación</th>
-              <th>Nro Ficha</th>
-              <th>Kardex Médico</th>
-              <th>Registrado</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
-              <td align="right">{{ index + 1 }}</td>
-              <td>
-                <button v-if="r.fch_estado == 'P'"
-                  @click="editRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Editar"
-                >
-                  <i class="fa-solid fa-pencil"></i>
-                </button>
-                <button v-if="r.fch_estado == 'P'"
-                  @click="deleteRegistro(r)"
-                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Eliminar"
-                >
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-                <button
-                  @click="printRegistro(r)"
-                  class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Imprimir"
-                >
-                  <i class="fa-solid fa-print"></i>
-                </button>
-              </td>
-              <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
-              <td align="left">{{ r.cnt_codigo }} / {{ r.esp_codigo }} / {{ r.con_codigo }} </td>
-              <td align="center">{{ r.pln_data.pln_horario }} </td>
-              <td align="center">{{ r.fch_nro_ficha }}</td>
-              <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>
-              <td align="center">{{ r.fch_registrado }}</td>
-              <td align="center">{{ r.fch_estado }}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="13">Son n {{ plural }}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div-->
   
       <!-- Modal -->
       <div v-if="showModal" class="modal-overlay">
@@ -112,7 +66,7 @@
               <h2
                 class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
               >
-                {{ isEditing ? "EDITAR " : "NUEVO " }} {{ singular }}
+                {{ isEditing ? "EDITAR " : "NUEVA " }} {{ singular }}
               </h2>
               <button
                 type="button"
@@ -133,10 +87,17 @@
                   <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
                 </div>
               </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="form-group">
+                  <label for="ci" class="font-semibold">C.I.</label>
+                  <input v-model="ci" class="form-control" name="ci" id="ci" placeholder="Carnet de identidad"  />
+                </div>
+              </div>
               <div class="grid grid-cols-1 gap-3">
                 <div class="form-group">
                   <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                  <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
+                  <select v-model="reg.fch_cli_id" @change="buscarHistorial(this)" 
+                    class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
                     <option value="0">-- seleccione --</option>
                     <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
                   </select>
@@ -150,12 +111,14 @@
                 </div>
                 <div class="col-md-6">
                   <label for="kdx">Kardex Médico</label>
-                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" disabled />
+                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-1">                
                 <div v-for="p in planificaciones" class="form-group">
-                    <button @click="saveModal(p.pln_id)" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded"> 
+                    <button @click="saveModal(p.pln_id)" 
+                      class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
+                      :disabled="reg.fch_kdx_medico == 'a definir'"> 
                       [{{ p.cnt_descripcion }}] {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
                     </button>
                 </div>
@@ -277,7 +240,18 @@
         this.closeModal();
       },
 
-    
+      async buscarHistorial(registro) {
+        const cli_id = registro.reg.fch_cli_id;
+        console.log("original cli_id", cli_id);
+        const historial = await clientesService.getBuscarHistorial(cli_id); 
+        console.log("Cliente Historial: ", historial);
+        if (Object.keys(historial).length) {
+          this.reg.fch_kdx_medico = historial[0].hc_codigo;
+        } else {
+          this.reg.fch_kdx_medico = 'a definir';
+          const confirmed = window.alert("No tiene Kardex Médico");
+        }
+      },
 
       async printRegistro(reg) {
         var html = '';
@@ -293,6 +267,7 @@
         html += '<tr><td colspan="3"><hr></td></tr>';
         html += '<tr><td align="center" colspan="3">FELIZ NAVIDAD 2023</td></tr>';
         html += '<tr><td colspan="3"><hr></td></tr>';
+        html += '<td colspan="2" align="center">' + reg.fch_registrado + '</td></tr>';
         html += '</table>';
         var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
         win.document.body.innerHTML = html;
