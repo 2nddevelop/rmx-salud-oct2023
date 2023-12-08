@@ -138,25 +138,24 @@
                     <input class="form-control" @change="buscarPacienteXNombres" name="nombres" id="nombres" placeholder="Nombres" >
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                  <select v-model="reg.fch_cli_id" @change="buscarHistorial(this)" 
-                    class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" size="5" required>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
-                      {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="fch_pln_id" class="font-semibold">Planificación</label>
-                  <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" size="5" required>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> 
-                      [{{ p.esp_descripcion }}] {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
-                    </option>
-                  </select>
-                </div>
+                
+                <label for="fch_cli_id" class="font-semibold">Paciente</label>
+                <select v-model="reg.fch_cli_id" @change="buscarHistorial(this)" 
+                  class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" size="5" required>
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
+                    {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
+                  </option>
+                </select>
+                
+                <label for="fch_pln_id" class="font-semibold">Planificación</label>
+                <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" size="5" required>
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> 
+                    [{{ p.esp_descripcion }}] {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                  </option>
+                </select>
+                
                 <div class="grid grid-cols-2 gap-4">
                   <div class="form-group">
                     <label for="nro">Número Ficha</label>
@@ -319,6 +318,7 @@
           this.reg.fch_kdx_medico = historial[0].hc_codigo;
         } else {
           this.reg.fch_kdx_medico = 'a definir';
+          const confirmed = window.alert("El Paciente NO tiene Historial !");
         }
       },
 

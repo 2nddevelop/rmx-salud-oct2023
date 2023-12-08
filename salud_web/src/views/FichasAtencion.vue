@@ -64,7 +64,9 @@
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.esp_descripcion }} / {{ r.con_codigo }} </td>
-              <td align="center">{{ r.pln_data.pln_horario }} </td>
+              <td align="center">{{ r.pln_data.pln_horario }} 
+                [{{ r.hc_id }}][{{ r.hcd_id }}]
+              </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center" style="background: beige;">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
@@ -103,6 +105,7 @@
                 <span class="sr-only">Close modal</span>
               </button>
             </div>
+
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
               <div class="grid grid-cols-1 gap-1">
@@ -181,38 +184,35 @@
                 <span class="sr-only">Close modal</span>
               </button>
             </div>
+
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
 
               <div class="grid grid-cols-4 gap-3">
                 <div class="form-group">
-                  <label for="CI">CI:</label>
-                  <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled/>
+                  <label for="CI"><strong>CI</strong><br>{{ reg.cli_data.cli_nit }}</label>
                 </div>
 
                 <div class="form-group">
-                  <label for="paterno">Paterno:</label>
-                  <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled/>
+                  <label for="paterno"><strong>Paterno</strong><br>{{ reg.cli_data.cli_paterno }}</label>
                 </div>
 
                 <div class="form-group">
-                  <label for="materno">Materno:</label>
-                  <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled/>
+                  <label for="materno"><strong>Materno</strong><br>{{ reg.cli_data.cli_materno }}</label>
                 </div>
 
                 <div class="form-group">
-                  <label for="nombres">Nombres:</label>
-                  <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled/>
+                  <label for="nombres"><strong>Nombres</strong><br>{{ reg.cli_data.cli_nombres }}</label>
                 </div>
               </div>
-              <!--div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-2 gap-4">
                 <div class="form-group">
                   <label for="frec_cardiaca">Frecuencia Cardiaca:</label>
                   <input v-model="reg.sv_data.sv_frec_cardiaca" class="form-control" name="frec_cardiaca" id="frec_cardiaca" placeholder="Frecuencia cardiaca" />
                 </div>
                   <div class="form-group">
                     <label for="frec_respiratoria">Frecuencia Respiratoria:</label>
-                    <input v-model="regSV.sv_data.sv_frec_respiratoria" class="form-control" name="frec_respiratoria" id="frec_respiratoria" placeholder="Frecuencia respiratoria" />
+                    <input v-model="reg.sv_data.sv_frec_respiratoria" class="form-control" name="frec_respiratoria" id="frec_respiratoria" placeholder="Frecuencia respiratoria" />
                   </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
@@ -238,13 +238,14 @@
 
                 <div class="form-group">
                   <label for="peso">Peso:</label>
-                  <input v-model="regSV.sv_data.sv_peso" class="form-control" name="peso" id="peso" placeholder="Peso" />
+                  <input v-model="reg.sv_data.sv_peso" class="form-control" name="peso" id="peso" placeholder="Peso" />
                 </div>
-              </div-->
+              </div>
             </div>
+
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button @click="saveModalSV" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditingSV ? 'Actualizar' : 'Guardar'">
+              <button @click="saveModalSV" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditingSV ? 'Actualizar' : 'Guardar'">
                 {{ isEditingSV ? "Actualizar" : "Guardar" }}
               </button>
             </div>
@@ -299,7 +300,7 @@
       async listarRegistros() {
         this.regs = [];
         try {
-          this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
+          this.regs = await fichasService.getFichasHistoriales(this.filtro.fecha, this.filtro.centro_id);
           console.log("Fichas: ", this.regs);
 
           this.listarPlanificaciones();
@@ -344,6 +345,9 @@
         this.isEditingSV = true;
         
         this.reg = Object.assign({}, reg);
+        if (!this.reg.sv_data) {
+          this.reg.sv_data = {sv_frec_cardiaca:'.', sv_frec_respiratoria:'..'};
+        }
         this.showModalSV = true;
       },
 
@@ -357,6 +361,18 @@
           const savedReg = await fichasService.saveData(this.reg);
           this.regs.push(savedReg);
         }
+        this.listarRegistros();
+        this.closeModal();
+      },
+
+      async saveModalSV() {
+        //this.reg.fch_usr_id = 1;
+        //this.reg.fch_estado = "P";
+        console.log('HC: ', this.reg.hc_id);
+        console.log('HCD: ', this.reg.hcd_id);
+        
+        const updatedReg = await historialService.updateAllData(this.reg);
+      
         this.listarRegistros();
         this.closeModal();
       },
