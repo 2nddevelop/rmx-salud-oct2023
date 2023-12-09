@@ -46,21 +46,39 @@
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <td align="right">{{ index + 1 }} - {{ r.fch_id }}</td>
               <td align="left">
-                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
-                  @click="editRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Atención"
-                >
-                  <i class="fa-regular fa-folder fa-xl"></i>
-                </button>
-                <button v-if="r.fch_estado == 'S' || r.fch_estado == 'E'"
+                <button v-if="r.fch_estado == 'E'"
                   @click="svRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Signos Vitales"
                 >
                   <i class="fa-solid fa-heart-pulse fa-beat-fade fa-xl"></i>
                 </button>
-                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
+
+
+
+                <button v-if="r.fch_estado == 'E'"
+                  @click="cnsRegistro(r)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  title="Atención"
+                >
+                  <i class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
+                </button>
+                <button v-if="r.fch_estado == 'E'"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  title="Derivación / Reconsulta"
+                >
+                  <i class="fa-solid fa-arrow-right fa-xl"></i>       
+                </button>
+                <button v-if="r.fch_estado == 'E'"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  title="Recetario"
+                >
+                  <i class="fa-solid fa-pills fa-xl"></i>       
+                </button>
+
+                <i v-if="r.fch_estado == 'P'" class="fa-solid fa-check fa-bounce"></i>
+                <i v-if="r.fch_estado == 'S'" class="fa-solid fa-heart-pulse fa-bounce"></i>
+
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.esp_descripcion }} / {{ r.con_codigo }} </td>
@@ -80,85 +98,7 @@
           </tfoot>
         </table>
       </div>
-  
-      <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay">
-          <div class="modal-content">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div
-              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
-            >
-              <h2
-                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
-              >
-                {{ isEditing ? "EDITAR " : "NUEVO " }} {{ singular }}
-              </h2>
-              <button
-                type="button"
-                @click="closeModal()"
-                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="defaultModal"
-              >
-                <i class="fa-solid fa-close"></i>
-                <span class="sr-only">Close modal</span>
-              </button>
-            </div>
 
-            <!-- Modal body -->
-            <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-1 gap-1">
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="form-group">
-                    <label for="fecha2" class="font-semibold">Fecha</label>
-                    <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-3">
-                  <div class="form-group">
-                    <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                    <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required disabled>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
-                        {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="fch_pln_id" class="font-semibold">Planificación</label>
-                      <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required disabled>
-                        <option value="0">-- seleccione --</option>
-                        <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
-                          [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]
-                        </option>
-                      </select>
-                  </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="col-md-6">
-                    <label for="nro">Número Ficha</label>
-                    <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" disabled />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="kdx">Kardex Médico</label>
-                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
-                {{ isEditing ? "Actualizar" : "Guardar" }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Modal Signos Vitales -->
       <div v-if="showModalSV" class="modal-overlay">
@@ -253,6 +193,105 @@
         </div>
       </div>
 
+
+      <!-- Modal Consultas -->
+      <div v-if="showModalCNS" class="modal-overlay">
+        <div class="modal-content">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+              class="modal-header flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+            >
+              <h2
+                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
+              >
+                {{ isEditingCNS ? "EDITAR " : "NUEVO " }} {{ singularCNS }}
+              </h2>
+              <button
+                type="button"
+                @click="closeModalCNS()"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="defaultModal"
+              >
+                <i class="fa-solid fa-close"></i>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-6 space-y-1">
+
+              <div class="grid grid-cols-4 gap-1">
+                <div class="form-group">
+                  <label for="CI"><strong>CI</strong><br>{{ reg.cli_data.cli_nit }}</label>
+                </div>
+
+                <div class="form-group">
+                  <label for="paterno"><strong>Paterno</strong><br>{{ reg.cli_data.cli_paterno }}</label>
+                </div>
+
+                <div class="form-group">
+                  <label for="materno"><strong>Materno</strong><br>{{ reg.cli_data.cli_materno }}</label>
+                </div>
+
+                <div class="form-group">
+                  <label for="nombres"><strong>Nombres</strong><br>{{ reg.cli_data.cli_nombres }}</label>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="cns_mt_con">Motivo Consulta:</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_mt_con" class="form-control" name="cns_mt_con" id="cns_mt_con" placeholder="Motivo consulta" ></textarea>
+                </div>
+                  <div class="form-group">
+                    <label for="cns_exm_fsc">Examen Físico:</label>
+                    <textarea v-model="reg.hcd_data_consulta.cns_exm_fsc" class="form-control" name="cns_exm_fsc" id="cns_exm_fsc" placeholder="Examen físico" ></textarea>
+                  </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="presion_arterial">Estado Nutricional:</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_est_nut" class="form-control" name="cns_est_nut" id="cns_est_nut" placeholder="Estado nutricional" ></textarea>
+                </div>
+                <div class="form-group">
+
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="temp">Diagnóstico Descriptivo</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_dia_des" class="form-control" name="temp" id="temp" placeholder="Diagnóstico descriptivo" ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="correo">Diagnóstico CIE 10</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_dia_cie" class="form-control" name="talla" id="talla" placeholder="Diagnóstico CIE 10" ></textarea>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="cns_ttm">Tratamiento</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_ttm" class="form-control" name="cns_ttm" id="cns_ttm" placeholder="Tratamiento" ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="cns_obv">Observaciones</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_obv" class="form-control" name="cns_obv" id="cns_obv" placeholder="Observaciones" ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button @click="saveModalCNS" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditingCNS ? 'Actualizar' : 'Guardar'">
+                {{ isEditingCNS ? "Actualizar" : "Guardar" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </template>
   
@@ -271,14 +310,17 @@
       return {
         regs: [],
         reg: { },
-        title: "ATENCIÓN FICHAS",
-        plural: "Fichas",
-        singular: "Ficha",
+        title: "CONSULTA EXTERNA B",
+        plural: "Consultas",
+        singular: "Consulta Externa",
         singularSV: "Signos Vitales",
+        singularCNS: "Consulta Externa",
         showModal: false,
         showModalSV: false,
+        showModalCNS: false,
         isEditing: false,
         isEditingSV: false,
+        isEditingCNS: false,
         clientes: [],
         planificaciones: [],
         centrosSalud: [],
@@ -303,7 +345,6 @@
         try {
           this.regs = await fichasService.getFichasHistoriales(this.filtro.fecha, this.filtro.centro_id);
           console.log("Fichas: ", this.regs);
-
           this.listarPlanificaciones();
         } catch (error) {
           console.error("Error:", error.message);
@@ -329,10 +370,10 @@
       },
       async listarCentros() {
         try {
-        this.centrosSalud = await centrosService.getData();
-        console.log('Registros: ', this.regs);
+          this.centrosSalud = await centrosService.getData();
+          console.log('Registros: ', this.regs);
         } catch (error) {
-        console.error('Error:', error.message);
+          console.error('Error:', error.message);
         }
       },
 
@@ -341,8 +382,8 @@
         this.reg = Object.assign({}, reg);
         this.showModal = true;
       },
+
       svRegistro(reg) {
-        console.log("reg SV", reg);
         this.isEditingSV = true;
         
         this.reg = Object.assign({}, reg);
@@ -356,6 +397,23 @@
           this.reg.hcd_data_recetario = {};
         }
         this.showModalSV = true;
+      },
+
+      cnsRegistro(reg) {
+        console.log("reg CNS", reg);
+        this.isEditingSV = true;
+        
+        this.reg = Object.assign({}, reg);
+        if (!this.reg.hcd_data_sv) {
+          this.reg.hcd_data_sv = {sv_frec_cardiaca:'', sv_frec_respiratoria:''};
+        }
+        if (!this.reg.hcd_data_consulta) {
+          this.reg.hcd_data_consulta = {};
+        }
+        if (!this.reg.hcd_data_recetario) {
+          this.reg.hcd_data_recetario = {};
+        }
+        this.showModalCNS = true;
       },
 
       async saveModal() {
@@ -376,20 +434,30 @@
         this.reg.hcd_modificado = this.filtro.fecha;
         this.reg.hcd_usr_id = 11;
         this.reg.hcd_estado = "A";
-        console.log('HC: ', this.reg.hc_id);
-        console.log('HCD: ', this.reg.hcd_id);
         this.reg.hcd_fecha = this.filtro.fecha;
         //this.reg.hcd_data_sv = ;
         if (!this.reg.hcd_id) {
-          console.log('NEW');
           const updatedReg = await historialesDetService.saveData(this.reg);
         } else {
-          console.log('EDIT');
           const updatedReg = await historialesDetService.updateData(this.reg);
         }
-      
         this.listarRegistros();
         this.closeModalSV();
+      },
+
+      async saveModalCNS() {
+        this.reg.hcd_modificado = this.filtro.fecha;
+        this.reg.hcd_usr_id = 11;
+        this.reg.hcd_estado = "A";
+        this.reg.hcd_fecha = this.filtro.fecha;
+        //this.reg.hcd_data_sv = ;
+        if (!this.reg.hcd_id) {
+          const updatedReg = await historialesDetService.saveData(this.reg);
+        } else {
+          const updatedReg = await historialesDetService.updateData(this.reg);
+        }
+        this.listarRegistros();
+        this.closeModalCNS();
       },
 
       closeModal() {
@@ -398,6 +466,10 @@
 
       closeModalSV() {
         this.showModalSV = false;
+      },
+
+      closeModalCNS() {
+        this.showModalCNS = false;
       },
 
       dates() {
@@ -499,7 +571,7 @@
       border-bottom: 1px solid;
     }
   }
-  
+    
   .modal-overlay {
     position: fixed;
     top: 0;

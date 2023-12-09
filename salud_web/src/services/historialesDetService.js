@@ -24,7 +24,7 @@ const historialesDetService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + '/historial', newRecord);
+      const response = await axios.post(API_URL + '/historialDet', newRecord);
       return response.data;
     } catch (error) {
       throw error;
@@ -35,7 +35,7 @@ const historialesDetService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.put(API_URL + `/historial/${record.fch_id}`, record);
+      const response = await axios.put(API_URL + `/historialDet/${record.hcd_id}`, record);
       return response.data;
     } catch (error) {
       throw error;
@@ -47,7 +47,7 @@ const historialesDetService = {
       console.log("Delete >>>", record);
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + `/historial/${record.fch_id}`, record);
+      const response = await axios.post(API_URL + `/historialDet/${record.fch_id}`, record);
       return response.data;
     } catch (error) {
       throw error;

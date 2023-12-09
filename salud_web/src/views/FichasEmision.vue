@@ -144,7 +144,7 @@
                   class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" size="5" required>
                   <option value="0">-- seleccione --</option>
                   <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
-                    {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
+                    {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }} &nbsp; &nbsp; {{ c.cli_data.cli_nit }}
                   </option>
                 </select>
                 
@@ -217,7 +217,7 @@
       this.dates();
       this.listarRegistros();
       this.listarClientes();
-      // this.listarPlanificaciones();
+      //this.listarPlanificaciones();
       this.listarCentros();
     },
   
@@ -276,6 +276,8 @@
       async saveModal() {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
+        this.reg.filtro_fecha = this.filtro.fecha;
+        this.reg.filtro_centro_id = this.filtro.centro_id;
         if (this.isEditing) {
           const updatedReg = await fichasService.updateData(this.reg);
           const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
@@ -311,9 +313,7 @@
 
       async buscarHistorial(registro) {
         const cli_id = registro.reg.fch_cli_id;
-        console.log("original cli_id", cli_id);
         const historial = await clientesService.getBuscarHistorial(cli_id); 
-        console.log("Cliente Historial: ", historial);
         if (Object.keys(historial).length) {
           this.reg.fch_kdx_medico = historial[0].hc_codigo;
         } else {
@@ -479,15 +479,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 999; 
   }
   
   .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px; /* Aumenta el ancho máximo del modal */
-    width: 100%; /* Ocupará el 100% del ancho disponible */
+    width: 80%; 
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
   }
   
   .modal-title {

@@ -37,26 +37,27 @@ const menuItems = ref([
   { id: 3, label: 'Kardex', children: [
     { id: 31, label: 'Pacientes', link: '/clientes' },
     { id: 32, label: 'Historial_Médico', link: '/historiales' },
-    { id: 32, label: 'Médicos', link: '/doctores' },
+    { id: 33, label: 'Médicos', link: '/doctores' },
   ]},
   { id: 4, label: 'Fichas', children: [
     { id: 41, label: 'Emisión', link: '/fichasEmision' },
     { id: 42, label: 'Fichero', link: '/fichasFichero' },
     { id: 42, label: 'Pantalla', link: '/fichasPantalla' },
-    { id: 42, label: 'Atención', link: '/fichasAtencion' },
   ]},
   { id: 5, label: 'Consulta Médica', children: [
+    { id: 51, label: 'Atención', link: '/fichasAtencion' },
     { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta' },
+    { id: 53, label: 'Consulta_Externa_B', link: '/fichasConsultaB' },
   ]},
   { id: 5, label: 'Instrumentos', children: [
     { id: 51, label: 'CIE', link: '/' },
     { id: 52, label: 'Vademécum_General', link: '/' },
   ]},
   { id: 7, label: 'Parametros', children: [
-    { id: 73, label: 'Centros_Médicos', link: '/centros' },
-    { id: 71, label: 'Especialidades', link: '/especialidades' },
-    { id: 74, label: 'Consultorios', link: '/consultorios' },
-    { id: 72, label: 'Tipos_Paciente', link: '/tiposClientes' },
+    { id: 71, label: 'Centros_Médicos', link: '/centros' },
+    { id: 72, label: 'Especialidades', link: '/especialidades' },
+    { id: 73, label: 'Consultorios', link: '/consultorios' },
+    { id: 74, label: 'Tipos_Paciente', link: '/tiposClientes' },
     { id: 75, label: 'Usuarios', link: '/users' },
   ]},
   { id: 3, label: 'Ingresar', link: '/logout' },

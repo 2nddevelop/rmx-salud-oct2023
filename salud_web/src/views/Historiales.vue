@@ -130,19 +130,19 @@
             <div class="grid grid-cols-4 gap-3">
               <div class="form-group">
                 <label for="CI">CI</label>
-                <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" />
+                <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled />
               </div>
               <div class="form-group">
                 <label for="paterno">Paterno</label>
-                <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno"  />
+                <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" disabled />
               </div>
               <div class="form-group">
                 <label for="materno">Materno</label>
-                <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno"  />
+                <input v-model="reg.cli_data.cli_materno" class="form-control" name="materno" id="materno" placeholder="Materno" disabled />
               </div>
               <div class="form-group">
                 <label for="nombres">Nombres</label>
-                <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres"  />
+                <input v-model="reg.cli_data.cli_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled />
               </div>
             </div>
 
@@ -400,7 +400,7 @@ export default {
       this.regsDet = [];
       try {
         this.regsDet = await historialesDetService.getData(reg.hc_id);
-        console.log("2 regDet: ", this.regsDet);
+        console.log("2 regsDet: ", this.regsDet);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -462,16 +462,16 @@ export default {
       this.listarRegistrosDet(reg);
       setTimeout(() => {
         this.isEditingDet = true;
-        //this.regDet = Object.assign({}, reg);
+        //this.regsDet = Object.assign({}, reg);
         this.showModalDet = true;          
-      }, 500);
+      }, 1000);
     },
 
     async saveModal() {
       this.reg.hc_usr_id = 1; 
       this.reg.hc_estado = "A";
       if (this.isEditing) {
-        const updatedReg = await historialesDetService.updateData(this.reg);
+        const updatedReg = await historialesService.updateData(this.reg);
         const index = this.regs.findIndex(item => item.hcd_id === updatedReg.hcd_id);
           if (index !== -1) {
             this.regs.splice(index, 1, updatedReg);
@@ -479,7 +479,7 @@ export default {
       } else {
         console.log('cliente: ', this.reg);
         this.reg.hc_cli_id = this.reg.cli_id
-        const savedReg = await historialesDetService.saveData(this.reg);
+        const savedReg = await historialesService.saveData(this.reg);
         this.regs.push(savedReg);
       }
       this.listarRegistros();
@@ -618,15 +618,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999; 
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px; /* Aumenta el ancho máximo del modal */
-  width: 100%; /* Ocupará el 100% del ancho disponible */
+  width: 80%; 
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
 }
 
 .modal-title {

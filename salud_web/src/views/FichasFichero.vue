@@ -228,6 +228,9 @@
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
         this.reg.fch_pln_id = pln_id;
+        this.reg.filtro_fecha = this.filtro.fecha;
+        this.reg.filtro_centro_id = this.filtro.centro_id;
+
         let that = this;
         if (this.isEditing) {
           const updatedReg = await fichasService.updateData(this.reg)
