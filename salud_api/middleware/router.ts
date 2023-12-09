@@ -153,6 +153,8 @@ router.post('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.de
 
 //// Fichas
 //router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
+router.get('/fichas/historiales/:fecha/:cnt_id', authMiddleware, FichaController.getAllFichasHistoriales);
+
 router.get('/fichas/:fecha/:cnt_id', authMiddleware, FichaController.getAllFichas);
 router.post('/ficha', authMiddleware, FichaController.createFicha);
 router.get('/ficha/buscar/:fch_id', authMiddleware, FichaController.getFicha);

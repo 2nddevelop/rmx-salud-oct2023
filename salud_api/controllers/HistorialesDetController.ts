@@ -46,12 +46,13 @@ const HistorialesDetController = {
   },
 
   createHistorialDet: async (req: Request, res: Response) => {
-    const { hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_modificado, hcd_usr_id, hcd_estado, hcd_id  } = req.body;
+    const { hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_usr_id, hcd_estado, hc_id  } = req.body;
 
     try {
       const newHistorialesDet = await pool.query(
-        'INSERT INTO rmx_sld_historiales_det (hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_usr_id, hc_estado) VALUES ($1, $2, $3, $4) RETURNING *',
-        [hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_modificado, hcd_usr_id, hcd_estado, hcd_id ]
+        `INSERT INTO rmx_sld_historiales_det (hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_usr_id, hcd_estado) VALUES 
+        ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+        [hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_usr_id, hcd_estado ]
       );
 
       res.json(newHistorialesDet.rows[0]);
@@ -63,7 +64,7 @@ const HistorialesDetController = {
 
   updateHistorialDet: async (req: Request, res: Response) => {
     const { hcd_id } = req.params;
-    const { hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_modificado, hcd_usr_id, hcd_estado } = req.body;
+    const { hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_modificado, hcd_usr_id, hcd_estado, hc_id  } = req.body;
 
     try {
       const historialesDetQuery = await pool.query('SELECT * FROM rmx_sld_historiales_det WHERE hcd_id = $1', [hcd_id]);
@@ -75,9 +76,10 @@ const HistorialesDetController = {
 
       // Actualizar el Historiales en la base de datos
       const updateHistorialesDet = await pool.query(
-        `UPDATE rmx_sld_historiales_det SET hcd_hc_id = $1, hcd_fecha = $2, hcd_data_sv = $3, hcd_data_consulta = $4, 
-          hcd_data_recetario = $5, hcd_modificado = $6, hcd_usr_id = $7, hcd_estado = $8 
-        WHERE hc_id = $9 RETURNING *`, [hcd_hc_id, hcd_fecha, hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_modificado, hcd_usr_id, hcd_estado, hcd_id ]
+        `UPDATE rmx_sld_historiales_det SET hcd_data_sv = $1, hcd_data_consulta = $2, 
+          hcd_data_recetario = $3, hcd_modificado = $4, hcd_usr_id = $5, hcd_estado = $6 
+        WHERE hcd_id = $7 RETURNING *`, 
+        [hcd_data_sv, hcd_data_consulta, hcd_data_recetario, hcd_modificado, hcd_usr_id, hcd_estado, hcd_id ]
       );
 
       res.json(updateHistorialesDet.rows[0]);

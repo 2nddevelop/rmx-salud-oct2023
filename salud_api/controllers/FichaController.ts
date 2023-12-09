@@ -32,6 +32,34 @@ const FichaController = {
     }
   },
 
+  getAllFichasHistoriales: async (req: Request, res: Response) => {
+    const { fecha, cnt_id } = req.params;
+
+    try {
+      const fichasQuery = await pool.query(
+        `SELECT f.*, c.cli_data, p.pln_data, ce.*, d.*, e.*, co.*, h.*, hcd.*
+        FROM rmx_sld_fichas f
+        INNER JOIN rmx_gral_clientes c ON c.cli_id = f.fch_cli_id
+        INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
+        INNER JOIN rmx_sld_centros ce ON ce.cnt_id = p.pln_cnt_id
+        INNER JOIN rmx_sld_doctores d ON d.doc_id = p.pln_doc_id
+        INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+        INNER JOIN rmx_sld_consultorios co ON co.con_id = p.pln_con_id
+        left outer join rmx_sld_historiales h ON h.hc_codigo = f.fch_kdx_medico
+        left outer join rmx_sld_historiales_det hcd ON hcd.hcd_hc_id = h.hc_id
+        WHERE p.pln_data->>'pln_fecha' = $1
+          AND p.pln_cnt_id = $2
+          AND f.fch_estado != 'X' 
+        ORDER BY ce.cnt_descripcion, e.esp_codigo, co.con_codigo `, [fecha, cnt_id]
+      );
+      const fichas = fichasQuery.rows;
+      res.json(fichas);
+    } catch (error) {
+      console.error('Error al obtener los Fichas:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
+
   getFicha: async (req: Request, res: Response) => {
     const { fch_id } = req.params;
 
@@ -56,12 +84,37 @@ const FichaController = {
   },
 
   createFicha: async (req: Request, res: Response) => {
-    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado } = req.body;
+    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado, filtro_fecha, filtro_centro_id } = req.body;
 
     try {
+      const nextFicha = await pool.query(
+        `SELECT e.esp_codigo, COUNT(f.*) AS next_ficha 
+          FROM rmx_sld_fichas f
+          INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
+          INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+          WHERE p.pln_data->>'pln_fecha' = $1
+          AND p.pln_cnt_id = $2
+          AND p.pln_id = $3
+          AND f.fch_estado != 'X'
+          GROUP BY e.esp_codigo 
+          ORDER BY e.esp_codigo 
+        `, [filtro_fecha, filtro_centro_id, fch_pln_id]
+      );
+
+      let numero_ficha = 0;
+      let codigo_ficha = 'FFF';
+      if (Object.keys(nextFicha.rows).length > 0) {
+        codigo_ficha = nextFicha.rows[0].esp_codigo;
+        numero_ficha = parseInt(nextFicha.rows[0].next_ficha) + 1;
+      } else {
+        numero_ficha = 1;
+      }
+      codigo_ficha = `${codigo_ficha}-${numero_ficha}`;
       const newFicha = await pool.query(
-        'INSERT INTO rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado]
+        `INSERT INTO rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, 
+          fch_kdx_medico, fch_usr_id, fch_estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+        [fch_cli_id, fch_pln_id, codigo_ficha, //fch_nro_ficha, 
+          fch_kdx_medico, fch_usr_id, fch_estado]
       );
 
       res.json(newFicha.rows[0]);
