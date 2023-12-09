@@ -53,7 +53,7 @@
                 >
                   <i class="fa-regular fa-folder fa-xl"></i>
                 </button>
-                <button v-if="r.fch_estado == 'S' || r.fch_estado == 'E'"
+                <button v-if="r.fch_estado == 'S'"
                   @click="svRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Signos Vitales"
@@ -152,7 +152,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
+              <button @click="saveModal" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
                 {{ isEditing ? "Actualizar" : "Guardar" }}
               </button>
             </div>
@@ -360,7 +360,7 @@
 
       async saveModal() {
         this.reg.fch_usr_id = 1; 
-        this.reg.fch_estado = "P";
+        this.reg.fch_estado = "E";
         if (this.isEditing) {
           this.reg.fch_estado = "S";
           const updatedReg = await fichasService.updateData(this.reg);
@@ -372,7 +372,27 @@
         this.closeModal();
       },
 
+      async saveModalActivarCE() {
+        this.reg.fch_usr_id = 1; 
+        this.reg.fch_estado = "E";
+        if (this.isEditing) {
+          this.reg.fch_estado = "E";
+          const updatedReg = await fichasService.updateData(this.reg);
+        } else {
+          const savedReg = await fichasService.saveData(this.reg);
+          this.regs.push(savedReg);
+        }
+        // 777 this.listarRegistros();
+        // 777 this.closeModal();
+      },
+
       async saveModalSV() {
+        // registrar Ficha
+        this.isEditing = true;
+        this.saveModalActivarCE();
+        console.log('activado aaaaaaaaaaa');
+
+        // registrar SV
         this.reg.hcd_modificado = this.filtro.fecha;
         this.reg.hcd_usr_id = 11;
         this.reg.hcd_estado = "A";
@@ -547,7 +567,7 @@
   }
   
   .modal-footer button:hover {
-    background-color: #f0f0f0;
+    b___ackground-color: #f0f0f0;
   }
   
   /* Form field styles */

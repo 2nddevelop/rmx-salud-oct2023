@@ -127,7 +127,10 @@
               </div-->
 
               <div class="grid grid-cols-1 gap-1">
-                <div class="grid grid-cols-3 gap-1">
+                <div class="grid grid-cols-5 gap-1">
+                  <div class="form-group">
+                    <input class="form-control" @change="buscarPacienteXNombres" name="ci" id="ci" placeholder="CI" >
+                  </div>
                   <div class="form-group">
                     <input class="form-control" @change="buscarPacienteXNombres" name="paterno" id="paterno" placeholder="Paterno" >
                   </div>
@@ -136,6 +139,13 @@
                   </div>
                   <div class="form-group">
                     <input class="form-control" @change="buscarPacienteXNombres" name="nombres" id="nombres" placeholder="Nombres" >
+                  </div>
+                  <div>
+                    <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
+                      title="Buscar">
+                      {{ Buscar }}
+                      <i class="fa-solid fa-search"></i>
+                    </button>
                   </div>
                 </div>
                 
@@ -487,13 +497,13 @@
     padding: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 80%; 
-    max-width: 700px;
+    width: 70%; 
+    max-width: 80vw;
     max-height: 80vh;
     overflow-y: auto;
     position: relative;
   }
-  
+
   .modal-title {
     font-size: 24px;
     font-weight: bold;
@@ -516,7 +526,7 @@
   }
   
   .modal-footer button:hover {
-    background-color: #f0f0f0;
+    b___ackground-color: #f0f0f0;
   }
   
   /* Form field styles */

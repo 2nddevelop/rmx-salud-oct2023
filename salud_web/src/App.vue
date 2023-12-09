@@ -46,8 +46,8 @@ const menuItems = ref([
   ]},
   { id: 5, label: 'Consulta Médica', children: [
     { id: 51, label: 'Atención', link: '/fichasAtencion' },
-    { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta' },
-    { id: 53, label: 'Consulta_Externa_B', link: '/fichasConsultaB' },
+  //  { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta' },
+    { id: 53, label: 'Consulta_Externa', link: '/fichasConsultaB' },
   ]},
   { id: 5, label: 'Instrumentos', children: [
     { id: 51, label: 'CIE', link: '/' },

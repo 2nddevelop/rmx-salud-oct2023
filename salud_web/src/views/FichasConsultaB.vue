@@ -46,7 +46,7 @@
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <td align="right">{{ index + 1 }} - {{ r.fch_id }}</td>
               <td align="left">
-                <button v-if="r.fch_estado == 'E'"
+                <button v-if="r.fch_estado == 'S' || r.fch_estado == 'E'"
                   @click="svRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Signos Vitales"
@@ -76,7 +76,7 @@
                   <i class="fa-solid fa-pills fa-xl"></i>       
                 </button>
 
-                <i v-if="r.fch_estado == 'P'" class="fa-solid fa-check fa-bounce"></i>
+                <i v-if="r.fch_estado == 'P'" class="fa-regular fa-folder fa-bounce"></i>
                 <i v-if="r.fch_estado == 'S'" class="fa-solid fa-heart-pulse fa-bounce"></i>
 
               </td>
