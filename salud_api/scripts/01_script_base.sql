@@ -28,7 +28,7 @@ INSERT INTO base_origenes (ori_codigo, ori_descripcion, ori_usr_id, ori_estado) 
 
 CREATE TABLE base_usuarios (
   usr_id serial PRIMARY KEY,
-  usr_cnt_id integer NOT NULL, // centro de salud
+  usr_cnt_id integer NOT NULL,    // centro de salud de pertenencia
   usr_nombres text NOT NULL,
   usr_primer_apellido text NOT NULL,
   usr_segundo_apellido text NOT null,
@@ -41,8 +41,8 @@ CREATE TABLE base_usuarios (
   usr_registrado timestamp NOT NULL DEFAULT now(),
   usr_actualizado timestamp,
   usr_usr_id text NOT NULL, 
-  usr_estado text NOT NULL DEFAULT 'A',
-  FOREIGN KEY (usr_ori_id) REFERENCES base_origenes(ori_id)
+  usr_estado text NOT NULL DEFAULT 'A'
+  -- FOREIGN KEY (usr_cnt_id) REFERENCES base_origenes(ori_id)    // luego se implementa
 );
 INSERT INTO base_usuarios (usr_ori_id, usr_tme_id, usr_nombres, 
   usr_primer_apellido, usr_segundo_apellido, usr_direccion, usr_celular, usr_email, 
@@ -69,12 +69,13 @@ INSERT INTO base_roles (rol_codigo, rol_descripcion, rol_usr_id, rol_estado) VAL
 CREATE TABLE base_usuarios_roles (
   urol_id serial PRIMARY KEY,
   urol_usr_id text NOT NULL,
+  urol_rol_id text NOT NULL,
   urol_registrado timestamp NOT NULL DEFAULT now(),
   urol_actualizado timestamp,
   urol_usr_id text NOT NULL, 
   urol_estado text NOT NULL DEFAULT 'A',
-  FOREIGN KEY (usr_ori_id) REFERENCES base_origenes(ori_id),
-  FOREIGN KEY (usr_tme_id) REFERENCES base_tipos_membresias(tme_id)
+  FOREIGN KEY (urol_usr_id) REFERENCES base_usuarios(usr_id),
+  FOREIGN KEY (urol_rol_id) REFERENCES base_roles(rol_id)
 );
 INSERT INTO base_roles (urol_usr_id, urol_usr_id, urol_estado) VALUES 
   (1, 11, 'A');
