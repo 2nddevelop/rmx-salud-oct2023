@@ -78,7 +78,7 @@
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left">{{ r.esp_descripcion }} / {{ r.con_codigo }} </td>
-              <td align="center">{{ r.pln_data.pln_horario }} </td>
+              <td align="center">{{ r.fch_hora }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
@@ -180,7 +180,7 @@
                 
                 <div class="grid grid-cols-5 gap-0">
 
-                  <div v-show="1" v-for="d in disponibles">
+                  <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
                     <template v-if="d.pln_fch_id == 0">
                       <button @click="saveModal(d.pln_fch_id, d.pln_hora)"
                         class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded">
@@ -305,7 +305,8 @@
         this.showModal = true;
       },
 
-      async saveModal(hora) {
+      async saveModal(ficha, hora) {
+        console.log('para salvar', ficha, hora);
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
         this.reg.filtro_fecha = this.filtro.fecha;
@@ -355,40 +356,42 @@
         }
       },
 
-      sumarMinutosAHora(hora, minutosASumar) {
-        var partesHora = hora.split(":");
-        var horas = parseInt(partesHora[0]);
-        var minutos = parseInt(partesHora[1]);
-        
-        minutos += minutosASumar;
-        horas += Math.floor(minutos / 60);
-        minutos = minutos % 60;
-        horas = horas % 24;
-        var horaResultante = (horas < 10 ? "0" : "") + horas + ":" + (minutos < 10 ? "0" : "") + minutos;
-        
-        return horaResultante;
-      },
+      // sumarMinutosAHora(hora, minutosASumar) {
+      //   var partesHora = hora.split(":");
+      //   var horas = parseInt(partesHora[0]);
+      //   var minutos = parseInt(partesHora[1]);
+      //   
+      //   minutos += minutosASumar;
+      //   horas += Math.floor(minutos / 60);
+      //   minutos = minutos % 60;
+      //   horas = horas % 24;
+      //   var horaResultante = (horas < 10 ? "0" : "") + horas + ":" + (minutos < 10 ? "0" : "") + minutos;
+      //   
+      //   return horaResultante;
+      // },
 
       async mostrarFicha(registro) {
         console.log('>>>', registro);
         console.log('Planificacion >>>', registro.reg.fch_pln_id);
         const sel = registro.reg.fch_pln_id;
         const pln = this.planificaciones.find((element) => element.pln_id == sel);
-        let hora = pln.pln_data.pln_horario_inicio;
+        this.disponibles = pln.pln_data_disponibles;
+        console.log(this.disponibles);
+        // let hora = pln.pln_data.pln_horario_inicio;
 
-        this.disponibles = [];
-        console.log('planificacion: ', pln);
-        for(let i = 0; i < pln.pln_data.pln_max_fichas; i++) {
-          let item = {};
-          if ( i == 6) {
-            item = {pln_fch_id: 1, pln_hora: hora};
-          } else {
-            item = {pln_fch_id: 0, pln_hora: hora};
-          }
-          this.disponibles.push(item);
-          console.log('-> ', item);
-          hora = this.sumarMinutosAHora(hora, this.lapso);
-        }
+        // this.disponibles = [];
+        // console.log('planificacion: ', pln);
+        // for(let i = 0; i < pln.pln_data.pln_max_fichas; i++) {
+        //   let item = {};
+        //   if ( i == 6) {
+        //     item = {pln_fch_id: 1, pln_hora: hora};
+        //   } else {
+        //     item = {pln_fch_id: 0, pln_hora: hora};
+        //   }
+        //   this.disponibles.push(item);
+        //   console.log('-> ', item);
+        //   hora = this.sumarMinutosAHora(hora, this.lapso);
+        // }
       },
 
       async printRegistro(reg) {

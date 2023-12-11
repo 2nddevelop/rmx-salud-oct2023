@@ -22,7 +22,7 @@ const FichaController = {
         WHERE p.pln_data->>'pln_fecha' = $1
           AND p.pln_cnt_id = $2
           AND f.fch_estado != 'X' 
-        ORDER BY ce.cnt_descripcion, e.esp_codigo, co.con_codigo `, [fecha, cnt_id]
+        ORDER BY ce.cnt_descripcion, e.esp_codigo, co.con_codigo, f.fch_hora `, [fecha, cnt_id]
       );
       const fichas = fichasQuery.rows;
       res.json(fichas);
@@ -84,7 +84,8 @@ const FichaController = {
   },
 
   createFicha: async (req: Request, res: Response) => {
-    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado, filtro_fecha, filtro_centro_id } = req.body;
+    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado, filtro_fecha, 
+      filtro_centro_id, fch_hora } = req.body;
 
     try {
       const nextFicha = await pool.query(
@@ -112,9 +113,16 @@ const FichaController = {
       codigo_ficha = `${codigo_ficha}-${numero_ficha}`;
       const newFicha = await pool.query(
         `INSERT INTO rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, 
-          fch_kdx_medico, fch_usr_id, fch_estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+          fch_kdx_medico, fch_usr_id, fch_estado, fch_hora) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING * `,
         [fch_cli_id, fch_pln_id, codigo_ficha, //fch_nro_ficha, 
-          fch_kdx_medico, fch_usr_id, fch_estado]
+          fch_kdx_medico, fch_usr_id, fch_estado, fch_hora]
+      );
+
+      const upd = await pool.query(
+        `UPDATE rmx_sld_planificacion pln_data_disponibles = $1 
+          WHERE pln_id = $2 RETURNING * `,
+        [fch_cli_id, fch_pln_id, codigo_ficha, //fch_nro_ficha, 
+          fch_kdx_medico, fch_usr_id, fch_estado, fch_hora]
       );
 
       res.json(newFicha.rows[0]);
