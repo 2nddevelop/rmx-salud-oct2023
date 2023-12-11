@@ -290,10 +290,8 @@
             updatedFicha.pln_fch_id = 1;
             this.disponibles.splice(indexFicha, 1, updatedFicha);
           }
-          console.log('aquiiiiiii modificado: ', this.disponibles);
           this.reg.pln_data_disponibles = this.disponibles;
           //this.reg.pln_id = this.pln_id;
-          console.log('reg : ', this.reg);
           const savedReg = await fichasService.saveData(this.reg);
           this.regs.push(savedReg);
         }
@@ -304,9 +302,7 @@
 
       async buscarHistorial(registro) {
         const cli_id = registro.reg.fch_cli_id;
-        console.log("original cli_id", cli_id);
         const historial = await clientesService.getBuscarHistorial(cli_id); 
-        console.log("Cliente Historial: ", historial);
         if (Object.keys(historial).length) {
           this.reg.fch_kdx_medico = historial[0].hc_codigo;
         } else {
@@ -328,13 +324,10 @@
       },
 
       async mostrarFicha(registro, pln_id) {
-        console.log("this: ", registro);
-        console.log("pln_id: ", pln_id);
         registro.reg.fch_pln_id = pln_id;
         const sel = registro.reg.fch_pln_id;        
         const pln = this.planificaciones.find((element) => element.pln_id == sel);
         this.disponibles = pln.pln_data_disponibles;
-        console.log('Disponibles: ', this.disponibles);
       },
 
 
@@ -343,8 +336,9 @@
         console.log("Imprimir este reg",reg);
         html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
         html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
-        html += '<td colspan="2" align="right">ID: ' + reg.fch_id + '</td></tr>';
+        html += '<td colspan="2" align="right">ID: </td></tr>';
         html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha+ '</td></tr>';
+        html += '<tr><td colspan="3" align="center">Hora: ' + reg.fch_hora+ '</td></tr>';
         html += '<tr><td colspan="3"><hr></td></tr>';
         html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
         html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';

@@ -325,10 +325,8 @@
             updatedFicha.pln_fch_id = 1;
             this.disponibles.splice(indexFicha, 1, updatedFicha);
           }
-          console.log('aquiiiiiii modificado: ', this.disponibles);
           this.reg.pln_data_disponibles = this.disponibles;
           //this.reg.pln_id = this.pln_id;
-          console.log('reg : ', this.reg);
           const savedReg = await fichasService.saveData(this.reg);
           this.regs.push(savedReg);
         }
@@ -370,7 +368,6 @@
         const sel = registro.reg.fch_pln_id;        
         const pln = this.planificaciones.find((element) => element.pln_id == sel);
         this.disponibles = pln.pln_data_disponibles;
-        console.log('Disponibles: ', this.disponibles);
       },
 
       async printRegistro(reg) {
@@ -386,8 +383,8 @@
               html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
               html += '<td colspan="2" align="right"></td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<td colspan="2" align="center">FICHA No. ' + reg.fch_nro_ficha + '</td></tr>';
-              html += '<td colspan="2" align="center">HORA ' + reg.fch_hora + '</td></tr>';
+              html += '<td colspan="2" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
+              html += '<td colspan="2" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
