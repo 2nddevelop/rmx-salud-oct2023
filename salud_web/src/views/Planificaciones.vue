@@ -129,7 +129,7 @@
             <div class="grid grid-cols-2 gap-3">
               <div class="form-group">
                 <label for="pln_cnt_id" class="font-semibold">Centro</label>
-                <select v-model="reg.pln_cnt_id" class="form-control" @change="listarConsultorios" name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
+                <select v-model="reg.pln_cnt_id" class="form-control" @change="listarConsultorios(reg.pln_cnt_id)" name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
                   <option value="0">-- seleccione --</option>
                   <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
                 </select>
@@ -242,8 +242,9 @@ export default {
       // paginator
       currentPage: 1,
       itemsPerPage: 10,
+
       //disponibles horas
-      disponibles: []
+      lapso: 20 // 20 minutos
     };
   },
 
@@ -281,10 +282,10 @@ export default {
       }
     },
 
-    async listarConsultorios() {
+    async listarConsultorios(cnt_id) {
       this.consultorios = [];
       try {
-        this.consultorios = await consultoriosService.getData(this.reg.pln_cnt_id);
+        this.consultorios = await consultoriosService.getData(cnt_id);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -313,7 +314,7 @@ export default {
       this.showModal = true;
     },
     editRegistro(reg) {
-      this.listarConsultorios();
+      this.listarConsultorios(reg.pln_cnt_id);
       this.isEditing = true;
       this.reg = Object.assign({}, reg);
       this.showModal = true;
@@ -329,44 +330,35 @@ export default {
       minutos = minutos % 60;
       horas = horas % 24;
       var horaResultante = (horas < 10 ? "0" : "") + horas + ":" + (minutos < 10 ? "0" : "") + minutos;
-      
       return horaResultante;
     },
 
     async saveModal() {
-      reg.pln_data_disponibles = [];
-      /*
-        let hora = pln.pln_data.pln_horario_inicio;
-
-        this.disponibles = [];
-        console.log('planificacion: ', pln);
-        for(let i = 0; i < pln.pln_data.pln_max_fichas; i++) {
-          let item = {};
-          if ( i == 6) {
-            item = {pln_fch_id: 1, pln_hora: hora};
-          } else {
-            item = {pln_fch_id: 0, pln_hora: hora};
-          }
-          this.disponibles.push(item);
-          console.log('-> ', item);
-          hora = this.sumarMinutosAHora(hora, this.lapso);
-        }
-      */
-      console.log('reg: ', this.reg);
-      //console.log('--->>> ', this.pln_data_disponibles);
-
+      // calcula horas
+      this.reg.pln_data_disponibles = [];
+      let hora = this.reg.pln_data.pln_horario_inicio;
+      let disponibles = [];
+      for(let i = 0; i < this.reg.pln_data.pln_max_fichas; i++) {
+        let item = {};
+        item = {pln_fch_id: 0, pln_hora: hora};
+        disponibles.push(item);
+        hora = this.sumarMinutosAHora(hora, this.lapso);
+      }
+console.log('dispo', disponibles);
+      // actualiza
+      this.reg.pln_data_disponibles = disponibles;
       this.reg.pln_usr_id = 1; 
       this.reg.pln_estado = "A";
       if (this.isEditing) {
         const updatedReg = await planificacionesService.updateData(this.reg);
         const index = this.regs.findIndex(item => item.pln_id === updatedReg.pln_id);
-          if (index !== -1) {
-            this.regs.splice(index, 1, updatedReg);
-          }
-        } else {
-          const savedReg = await planificacionesService.saveData(this.reg);
-          this.regs.push(savedReg);
+        if (index !== -1) {
+          this.regs.splice(index, 1, updatedReg);
         }
+      } else {
+        const savedReg = await planificacionesService.saveData(this.reg);
+        this.regs.push(savedReg);
+      }
       this.listarRegistros();
       this.closeModal();
     },
@@ -528,15 +520,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999; 
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px; /* Aumenta el ancho máximo del modal */
-  width: 100%; /* Ocupará el 100% del ancho disponible */
+  width: 70%; 
+  max-width: 80vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
 }
 
 .modal-title {

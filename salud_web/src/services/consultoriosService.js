@@ -10,6 +10,7 @@ const consultoriosService = {
   },
 
   async getData(cnt_id) {
+    console.log('llego centro:', cnt_id);
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);

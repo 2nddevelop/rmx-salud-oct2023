@@ -55,11 +55,12 @@ const PlanificacionController = {
   },
 
   createPlanificacion: async (req: Request, res: Response) => {
-    const { pln_esp_id, pln_cnt_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id, pln_estado } = req.body;
+    const { pln_esp_id, pln_cnt_id, pln_doc_id, pln_con_id, pln_data, pln_data_disponibles, pln_usr_id, pln_estado } = req.body;
     try {
       const newPlanificacion = await pool.query(
-        'INSERT INTO rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id, pln_estado) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id, pln_estado]
+        `INSERT INTO rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_data_disponibles, pln_usr_id, pln_estado) 
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * `,
+        [pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, JSON.stringify(pln_data_disponibles), pln_usr_id, pln_estado]
       );
 
       res.json(newPlanificacion.rows[0]);
@@ -70,13 +71,14 @@ const PlanificacionController = {
   },
 
   updatePlanificacion: async (req: Request, res: Response) => {
-    console.log('ID: ', req.params);
-    console.log('Update: ', req.body);
-
     const { pln_id } = req.params;
-    const { pln_esp_id, pln_cnt_id, pln_doc_id, pln_con_id, pln_data, 
+    const { pln_esp_id, pln_cnt_id, pln_doc_id, pln_con_id, pln_data, pln_data_disponibles,
           pln_modificado, pln_usr_id, pln_estado } = req.body;
-
+    console.log(pln_id);
+    console.log('---');
+    console.log( pln_esp_id, pln_cnt_id, pln_doc_id, pln_con_id, pln_data, pln_data_disponibles,
+            pln_modificado, pln_usr_id, pln_estado );
+  
     try {
       // Verificar si el Planificaciones existe en la base de datos
       const planificacionesQuery = await pool.query('SELECT * FROM rmx_sld_planificacion WHERE pln_id = $1', [pln_id]);
@@ -88,13 +90,15 @@ const PlanificacionController = {
 
       // Actualizar el Planificaciones en la base de datos
       const updatePlanificacion = await pool.query(
-        'UPDATE rmx_sld_planificacion SET pln_cnt_id = $1, pln_esp_id = $2, pln_doc_id = $3, pln_con_id = $4, pln_data = $5, pln_modificado = $6, pln_usr_id = $7, pln_estado = $8 WHERE pln_id = $9 RETURNING *',
-        [pln_cnt_id, pln_esp_id, pln_cnt_id, pln_doc_id, pln_data, pln_modificado, pln_usr_id, pln_estado, pln_id]
+        `UPDATE rmx_sld_planificacion SET pln_cnt_id = $1, pln_esp_id = $2, pln_con_id = $3, pln_doc_id = $4, 
+          pln_data = $5, pln_data_disponibles = $6, pln_modificado = $7, pln_usr_id = $8, pln_estado = $9 WHERE pln_id = $10 RETURNING * `,
+        [pln_cnt_id, pln_esp_id, pln_con_id, pln_doc_id, 
+          pln_data,  JSON.stringify(pln_data_disponibles), pln_modificado, pln_usr_id, pln_estado, pln_id]
       );
 
       res.json(updatePlanificacion.rows[0]);
     } catch (error) {
-      console.error('Error al actualizar el Planificacion:', error);
+      console.error('Error al actualizar la Planificacion:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },
@@ -114,7 +118,7 @@ const PlanificacionController = {
   
       res.json({ message: 'Planificacion eliminado correctamente' });
     } catch (error) {
-      console.error('Error al eliminar el Planificacion:', error);
+      console.error('Error al eliminar la Planificacion:', error);
       res.status(500).json({ message: 'Error interno del servidor', error});
     }
   }
