@@ -1,30 +1,4 @@
--- script base
-
-
-
-CREATE TABLE base_origenes (
-  ori_id serial PRIMARY KEY,
-  ori_codigo text NOT NULL,
-  ori_descripcion text NOT NULL,
-  ori_registrado timestamp NOT NULL DEFAULT now(),
-  ori_actualizado timestamp,
-  ori_usr_id text NOT NULL, 
-  ori_estado text NOT NULL DEFAULT 'A'
-);
-INSERT INTO base_origenes (ori_codigo, ori_descripcion, ori_usr_id, ori_estado) VALUES 
-  ('F1', 'F. Uno', 11, 'A'),
-  ('F2', 'F. Dos', 11, 'A'),
-  ('F3', 'F. Tres', 11, 'A'),
-  ('F4', 'F. Cuatro', 11, 'I'),
-  ('F5', 'F. Cinco', 11, 'I'),
-  ('F6', 'F. Seis', 11, 'I'),
-  ('OT1', 'Intermediario', 11, 'A'),
-  ('OT2', 'Comerciante', 11, 'A'),
-  ('OT2', 'Comisionista', 11, 'A'),
-  ('OT2', 'Tramitador', 11, 'A'),
-  ('OT3', 'Otros', 11, 'A');
-
-
+-- Script base
 CREATE TABLE base_usuarios (
   usr_id serial PRIMARY KEY,
   usr_cnt_id integer NOT NULL,    -- centro de salud de pertenencia

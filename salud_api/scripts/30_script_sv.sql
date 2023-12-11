@@ -13,7 +13,7 @@ create table rmx_sld_historiales (
   hc_usr_id integer NOT NULL,
   hc_estado text default 'A' 
 );
-insert into rmx_sld_historiales (hc_cli_id, hc_codigo, hc_usr_id) values
+-- insert into rmx_sld_historiales (hc_cli_id, hc_codigo, hc_usr_id) values
 -- (1, 1, '20001121-SSO', 1),
 -- (2, 2, '20010111-TKO', 1),
 -- (3, 3, '19900515-GLO', 1),

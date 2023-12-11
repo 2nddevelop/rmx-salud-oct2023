@@ -143,7 +143,6 @@
                   <div>
                     <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                       title="Buscar">
-                      {{ Buscar }}
                       <i class="fa-solid fa-search"></i>
                     </button>
                   </div>
@@ -159,9 +158,10 @@
                 </select>
                 
                 <label for="fch_pln_id" class="font-semibold">Planificación</label>
-                <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" size="5" required>
+                <select v-model="reg.fch_pln_id" @change="mostrarFicha(this)"
+                  class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" size="5" required>
                   <option value="0">-- seleccione --</option>
-                  <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> 
+                  <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
                     [{{ p.esp_descripcion }}] {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
                   </option>
                 </select>
@@ -177,16 +177,35 @@
                     <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
                   </div>
                 </div>
+                
+                <div class="grid grid-cols-5 gap-0">
+
+                  <div v-show="1" v-for="d in disponibles">
+                    <template v-if="d.pln_fch_id == 0">
+                      <button @click="saveModal(d.pln_fch_id, d.pln_hora)"
+                        class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded">
+                        {{ d.pln_hora }}
+                      </button>
+                    </template>
+                    <template v-else>
+                      <button
+                        class="bg-gray-200 hover:bg-gray-100 text-gray font-bold py-2 px-4 m-1 rounded">
+                        {{ d.pln_hora }}
+                      </button>
+                    </template>
+                  </div>
+                </div>
+                
               </div>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
+              <!--button @click="saveModal" class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                 :title="isEditing ? 'Actualizar' : 'Guardar'"
                 :disabled="reg.fch_kdx_medico == 'a definir'">
                 {{ isEditing ? "Actualizar" : "Guardar" }}
-              </button>
+              </button-->
             </div>
           </div>
         </div>
@@ -219,7 +238,10 @@
         // dates
         currentDate: new Date(),
         // filtro
-        filtro: { fecha:'', centro_id:'0' }
+        filtro: { fecha:'', centro_id:'0' },
+        // horas
+        disponibles: [],
+        lapso: 20 //lapso de consulta
       };
     },
   
@@ -283,11 +305,12 @@
         this.showModal = true;
       },
 
-      async saveModal() {
+      async saveModal(hora) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
         this.reg.filtro_fecha = this.filtro.fecha;
         this.reg.filtro_centro_id = this.filtro.centro_id;
+        this.reg.fch_hora = hora;
         if (this.isEditing) {
           const updatedReg = await fichasService.updateData(this.reg);
           const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
@@ -329,6 +352,42 @@
         } else {
           this.reg.fch_kdx_medico = 'a definir';
           const confirmed = window.alert("El Paciente NO tiene Historial !");
+        }
+      },
+
+      sumarMinutosAHora(hora, minutosASumar) {
+        var partesHora = hora.split(":");
+        var horas = parseInt(partesHora[0]);
+        var minutos = parseInt(partesHora[1]);
+        
+        minutos += minutosASumar;
+        horas += Math.floor(minutos / 60);
+        minutos = minutos % 60;
+        horas = horas % 24;
+        var horaResultante = (horas < 10 ? "0" : "") + horas + ":" + (minutos < 10 ? "0" : "") + minutos;
+        
+        return horaResultante;
+      },
+
+      async mostrarFicha(registro) {
+        console.log('>>>', registro);
+        console.log('Planificacion >>>', registro.reg.fch_pln_id);
+        const sel = registro.reg.fch_pln_id;
+        const pln = this.planificaciones.find((element) => element.pln_id == sel);
+        let hora = pln.pln_data.pln_horario_inicio;
+
+        this.disponibles = [];
+        console.log('planificacion: ', pln);
+        for(let i = 0; i < pln.pln_data.pln_max_fichas; i++) {
+          let item = {};
+          if ( i == 6) {
+            item = {pln_fch_id: 1, pln_hora: hora};
+          } else {
+            item = {pln_fch_id: 0, pln_hora: hora};
+          }
+          this.disponibles.push(item);
+          console.log('-> ', item);
+          hora = this.sumarMinutosAHora(hora, this.lapso);
         }
       },
 

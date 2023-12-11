@@ -190,7 +190,7 @@
           </div>
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
+            <button @click="saveModal" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
               {{ isEditing ? "Actualizar" : "Guardar" }}
             </button>
           </div>
@@ -242,6 +242,8 @@ export default {
       // paginator
       currentPage: 1,
       itemsPerPage: 10,
+      //disponibles horas
+      disponibles: []
     };
   },
 
@@ -317,7 +319,42 @@ export default {
       this.showModal = true;
     },
 
+    sumarMinutosAHora(hora, minutosASumar) {
+      var partesHora = hora.split(":");
+      var horas = parseInt(partesHora[0]);
+      var minutos = parseInt(partesHora[1]);
+      
+      minutos += minutosASumar;
+      horas += Math.floor(minutos / 60);
+      minutos = minutos % 60;
+      horas = horas % 24;
+      var horaResultante = (horas < 10 ? "0" : "") + horas + ":" + (minutos < 10 ? "0" : "") + minutos;
+      
+      return horaResultante;
+    },
+
     async saveModal() {
+      reg.pln_data_disponibles = [];
+      /*
+        let hora = pln.pln_data.pln_horario_inicio;
+
+        this.disponibles = [];
+        console.log('planificacion: ', pln);
+        for(let i = 0; i < pln.pln_data.pln_max_fichas; i++) {
+          let item = {};
+          if ( i == 6) {
+            item = {pln_fch_id: 1, pln_hora: hora};
+          } else {
+            item = {pln_fch_id: 0, pln_hora: hora};
+          }
+          this.disponibles.push(item);
+          console.log('-> ', item);
+          hora = this.sumarMinutosAHora(hora, this.lapso);
+        }
+      */
+      console.log('reg: ', this.reg);
+      //console.log('--->>> ', this.pln_data_disponibles);
+
       this.reg.pln_usr_id = 1; 
       this.reg.pln_estado = "A";
       if (this.isEditing) {
@@ -493,9 +530,6 @@ export default {
   justify-content: center;
 }
 
-<style>
-/* ... (otros estilos) ... */
-
 .modal-content {
   background-color: #fff;
   padding: 20px;
@@ -527,7 +561,7 @@ export default {
 }
 
 .modal-footer button:hover {
-  background-color: #f0f0f0;
+  b___ackground-color: #f0f0f0;
 }
 
 /* Form field styles */

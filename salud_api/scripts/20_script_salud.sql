@@ -14,7 +14,7 @@ create table rmx_sld_centros (
   cnt_estado text default 'A'
 );
 insert into rmx_sld_centros (cnt_codigo, cnt_descripcion, cnt_usr_id) values
-('CS01', 'C. de Salud Palmarcito', 1);
+('HDN-01', 'Hospital del Niño', 1);
 -- ('CS02', 'C. de Salud San Jorge', 1),
 -- ('CS03', 'C. de Salud Guadalquivir', 1),
 -- ('CS04', 'C. de Salud San Luis', 1),
@@ -132,27 +132,28 @@ create table rmx_sld_planificacion (
   pln_doc_id integer not null,
   pln_con_id integer not null,
   pln_data jsonb not null default '{}',
+  pln_data_disponibles jsonb not null default '[]',
   pln_registrado timestamp without time zone NOT NULL DEFAULT now(),
   pln_modificado timestamp without time zone NOT NULL DEFAULT now(),
   pln_usr_id integer NOT NULL,
   pln_estado text default 'A' 
 );
-insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
-(1, 1, 1, 1, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(1, 2, 2, 2, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(1, 3, 3, 3, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(1, 4, 4, 4, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(2, 1, 1, 1, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(2, 4, 4, 2, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(2, 6, 6, 3, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(3, 1, 1, 1, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(3, 7, 7, 2, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
-(3, 8, 8, 3, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1);
+insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_data_disponibles, pln_usr_id) values
+(1, 1, 1, 1, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', '[]', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', '[]', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', '[]', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', '[]', 1),
+-- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
+-- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
+-- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
+-- (3, 1, 1, 1, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
+-- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1),
+-- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-08", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5"}', 1);
 
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 1, 1, 1, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 -- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
@@ -160,22 +161,21 @@ insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_i
 -- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-09", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 1, 1, 1, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 -- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (3, 1, 1, 1, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
+-- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-10", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 
--- insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 1, 1, 1, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 -- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
@@ -183,10 +183,10 @@ insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_i
 -- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-11", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 1, 1, 1, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 -- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
@@ -194,10 +194,10 @@ insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_i
 -- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-12", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
+(1, 1, 1, 1, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 2, 2, 2, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 3, 3, 3, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 4, 4, 4, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1);
 -- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
@@ -205,48 +205,13 @@ insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_i
 -- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
 -- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-13", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
 
--- insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 1, 1, 1, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-14", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
-
--- insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 1, 1, 1, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-15", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
-
--- insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_id, pln_data, pln_usr_id) values
--- (1, 1, 1, 1, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 2, 2, 2, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 3, 3, 3, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (1, 4, 4, 4, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 1, 1, 1, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 4, 4, 2, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (2, 6, 6, 3, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 1, 1, 1, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1),
--- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-16", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', 1);
-
 
 create table rmx_sld_fichas (
   fch_id serial primary key,
   fch_cli_id integer not null,
   fch_pln_id integer not null,
   fch_nro_ficha text not null,
+  fch_hora text null,
   fch_kdx_medico text not null,
   fch_registrado timestamp without time zone NOT NULL DEFAULT now(),
   fch_modificado timestamp without time zone NOT NULL DEFAULT now(),
