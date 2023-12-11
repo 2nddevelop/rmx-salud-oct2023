@@ -23,25 +23,14 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>Centro</th>
-              <th>Especialidad</th>
-              <th>CI<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_ci" class="form-control input"></th>
-                <th>Paterno<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_paterno" class="form-control input"></th>
-                <th>Materno<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_materno" class="form-control input"></th>
-                <th>Nombres<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_nombres" class="form-control input"></th>
-                <th>Teléfono</th>
-              <th>Horario Inicio</th>
-              <th>Horario Fin</th>
+              <th>Usuario</th>
+              <th>Rol</th>
               <th>Registrado</th>
               <th>E</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(r, index) in regs" v-bind:key="r.doc_id">
+            <tr v-for="(r, index) in regs" v-bind:key="r.urol_id">
               <td align="right">{{ index + 1 }}</td>
               <td>
                 <button
@@ -59,16 +48,10 @@
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
-              <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-              <td align="left">{{ r.esp_codigo }} - {{ r.esp_descripcion }}</td>
-              <td align="left">{{ r.doc_data.doc_ci }}</td>
-              <td align="left">{{ r.doc_data.doc_paterno }}</td>
-              <td align="left">{{ r.doc_data.doc_materno }}</td>
-              <td align="left">{{ r.doc_data.doc_nombres }}</td>
-              <td align="left">{{ r.doc_data.doc_horario_inicio }}</td>
-              <td align="left">{{ r.doc_data.doc_horario_fin }}</td>
-              <td align="right">{{ r.doc_registado }}</td>
-              <td align="center">{{ r.doc_estado }}</td>
+              <td align="left">{{ r.usr_email }}</td>
+              <td align="left">{{ r.rol_codigo }} - {{ r.rol_descripcion }}</td>
+              <td align="right">{{ r.urol_registrado }}</td>
+              <td align="center">{{ r.urol_estado }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -107,55 +90,18 @@
             <div class="p-6 space-y-6">
               <div class="grid grid-cols-2 gap-3">
                 <div class="form-group">
-                    <label for="doc_cnt_id" class="font-semibold">Centro</label>
-                    <select v-model="reg.doc_cnt_id" class="form-control" name="doc_cnt_id" id="doc_cnt_id" placeholder="Centro" required>
+                    <label for="urol_usuario_id" class="font-semibold">Usuario</label>
+                    <select v-model="reg.urol_usuario_id" class="form-control" name="urol_usuario_id" id="urol_usuario_id" placeholder="Usuario" required>
                       <option value="0">-- seleccione --</option>
-                      <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+                      <option v-for="u in users" :key="u.usr_id" :value="u.usr_id">{{ u.usr_email }}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="doc_esp_id" class="font-semibold">Especialidad</label>
-                    <select v-model="reg.doc_esp_id" class="form-control" name="doc_esp_id" id="doc_esp_id" placeholder="Especialidad" required>
+                    <label for="urol_rol_id" class="font-semibold">Rol</label>
+                    <select v-model="reg.urol_rol_id" class="form-control" name="urol_rol_id" id="urol_rol_id" placeholder="Rol" required>
                       <option value="0">-- seleccione --</option>
-                      <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
+                      <option v-for="r in roles" :key="r.rol_id" :value="r.rol_id">{{ r.rol_descripcion }} - {{ r.rol_codigo }}</option>
                     </select>
-                </div>
-              </div>
-              
-              <div class="grid grid-cols-4 gap-3">
-                <div class="form-group">
-                  <label for="paterno">Paterno:</label>
-                  <input v-model="reg.doc_data.doc_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
-                </div>
-                <div class="form-group">
-                  <label for="materno">Materno:</label>
-                  <input v-model="reg.doc_data.doc_materno" class="form-control" name="materno" id="materno" placeholder="Materno" />
-                </div>
-                <div class="form-group">
-                  <label for="nombres">Nombres:</label>
-                  <input v-model="reg.doc_data.doc_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" />
-                </div>
-                <div class="form-group">
-                  <label for="CI">CI:</label>
-                  <input v-model="reg.doc_data.doc_ci" class="form-control" name="ci" id="ci" placeholder="CI" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="celular">Celular:</label>
-                <input v-model="reg.doc_data.doc_celular" class="form-control" name="celular" id="celular" placeholder="Celular" />
-              </div>
-              <div class="form-group">
-                <label for="dias">Dias:</label>
-                <input v-model="reg.doc_data.doc_dias" class="form-control" name="dias" id="dias" placeholder="Dias" />
-              </div>
-              <div class="grid grid-cols-2 gap-4">
-                <div class="col-md-6">
-                  <label for="horarioini">Horario Inicio:</label>
-                  <input type="time" v-model="reg.doc_data.doc_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
-                </div>
-                <div class="col-md-6">
-                  <label for="horariofin">Horario Fin:</label>
-                  <input type="time" v-model="reg.doc_data.doc_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
                 </div>
               </div>
             </div>
@@ -173,9 +119,9 @@
   
   
   <script>
-  import centrosService from '../services/centrosService';
-  import especialidadesService from '../services/especialidadesService';
-  import doctoresService from '../services/doctoresService';
+  import userService from '../../services/userService';
+  import rolesService from '../../services/rolesService';
+  import usuariosrolService from '../../services/usuariosrolService';
   
   import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -183,107 +129,71 @@
     data() {
       return {
         regs: [],
-        reg: {            
-           doc_data:{
-              doc_paterno: '',
-              doc_materno: '',
-              doc_nombres: '',
-              doc_ci: '',
-              doc_celular: '',
-              doc_dias: '',
-              doc_horario_inicio: '',
-              doc_horario_fin: ''
-          } 
-        },
-        title: "MÉDICOS",
-        plural: "Médicos",
-        singular: "Médico",
+        reg: { },
+        title: "USUARIOS ROLES",
+        plural: "Usuarios Roles",
+        singular: "Usuario Rol",
         showModal: false,
         isEditing: false,
-        centros: [],
-        especialidades: [],
-        filtro: { doc_ci: "", doc_paterno: "", doc_materno: "", doc_nombres: "" }
+        users: [],
+        roles: [],
       };
     },
   
     mounted() {
       this.listarRegistros();
-      this.listarCentros();
-      this.listarEspecialidades();
+      this.listarUsuarios();
+      this.listarRoles();
     },
   
     methods: {
       async listarRegistros() {
         this.regs = [];
         try {
-          this.regs = await doctoresService.getData();
+          this.regs = await usuariosrolService.getData();
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
-      async buscarRegistros() {
-          console.log('Buscando registros...');
-          console.log('CI:', this.filtro.doc_ci);
-          console.log('Paterno:', this.filtro.doc_paterno);
-          console.log('Materno:', this.filtro.doc_materno);
-          console.log('Nombres:', this.filtro.doc_nombres);
-          this.regs = [];
-          try {
-            this.regs = await doctoresService.getBuscar(this.filtro.doc_ci, this.filtro.doc_paterno, this.filtro.doc_materno, this.filtro.doc_nombres);
-            console.log("Clientes: ", this.regs);          
-          } catch (error) {
-            console.error("Error:", error.message);
-          }
-        },
-      async listarCentros() {
-        this.centros = [];
+      
+      async listarUsuarios() {
+        this.users = [];
         try {
-          this.centros = await centrosService.getData();
+          this.users = await userService.getData();
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
-      async listarEspecialidades() {
-        this.especialidades = [];
+      async listarRoles() {
+        this.roles = [];
         try {
-          this.especialidades = await especialidadesService.getData();
+          this.roles = await rolesService.getData();
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
       newRegistro() {
         this.isEditing = false;
-        this.reg = {
-          doc_data: {
-            doc_paterno: '',
-            doc_materno: '',
-            doc_nombres: '',
-            doc_ci: '',
-            doc_celular: '',
-            doc_dias: '',
-            doc_horario_inicio: '',
-            doc_horario_fin: ''
-          }
-        };
+        this.reg = {  };
         this.showModal = true;
       },
       editRegistro(reg) {
         this.isEditing = true;
-        this.reg = Object.assign({}, reg);
+        this.reg = { ...reg };
         this.showModal = true;
       },
 
       async saveModal() {
-        this.reg.doc_usr_id = 1; 
-        this.reg.doc_estado = "A";
+        this.reg.urol_usr_id = 1; 
+        this.reg.urol_estado = "A";
         if (this.isEditing) {
-          const updatedReg = await doctoresService.updateData(this.reg);
-          const index = this.regs.findIndex(item => item.doc_id === updatedReg.doc_id);
+          const updatedReg = await usuariosrolService.updateData(this.reg);
+          const index = this.regs.findIndex(item => item.urol_id === updatedReg.urol_id);
             if (index !== -1) {
               this.regs.splice(index, 1, updatedReg);
             }
         } else {
-          const savedReg = await doctoresService.saveData(this.reg);
+          const savedReg = await usuariosrolService.saveData(this.reg);
           this.regs.push(savedReg);
         }
         this.listarRegistros();
@@ -294,11 +204,11 @@
         const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
         if (confirmed) {
           try {
-            const index = this.regs.findIndex(item => item.doc_id === reg.doc_id);
+            const index = this.regs.findIndex(item => item.urol_id === reg.urol_id);
             if (index !== -1) {
-              reg.doc_usr_id = 1;
-              reg.doc_estado = "X"; 
-              await doctoresService.deleteData(reg); 
+              reg.urol_usr_id = 1;
+              reg.urol_estado = "X"; 
+              await usuariosrolService.deleteData(reg); 
               this.regs.splice(index, 1); 
             } else {
               console.error('No se encontró el registro para eliminar');

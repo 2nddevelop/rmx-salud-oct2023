@@ -13,6 +13,8 @@ import FichaController from '../controllers/FichaController';
 import HistorialesController from '../controllers/HistorialesController';
 import authMiddleware from '../middleware/authMiddleware';
 import HistorialesDetController from '../controllers/HistorialesDetController';
+import RolController from '../controllers/RolController';
+import UsuarioRolController from '../controllers/UsuarioRolController';
 
 const router = express.Router();
 
@@ -79,9 +81,22 @@ router.post('/login', UserController.login);
  *                 $ref: '#/components/schemas/User'
  */
 router.get('/users', authMiddleware, UserController.getAllUsers);
-//router.post('/users', authMiddleware, UserController.createUser);
-//router.put('/users/:id', authMiddleware, UserController.updateUser);
-//router.delete('/users/:id', authMiddleware, UserController.deleteUser);
+router.post('/user', authMiddleware, UserController.createUser);
+router.put('/user/:usr_id', authMiddleware, UserController.updateUser);
+router.delete('/user/:usr_id', authMiddleware, UserController.deleteUser);
+
+// --- roles ------------------------------------------------------------------
+router.get('/roles', RolController.getAllRoles);
+router.post('/rol', authMiddleware, RolController.createRol);
+router.put('/rol/:rol_id', authMiddleware, RolController.updateRol);
+router.post('/rol/:rol_id', authMiddleware, RolController.deleteRol);
+
+// --- usuarios roles ------------------------------------------------------------------
+router.get('/usuariosrol', UsuarioRolController.getAllUsuariosRol);
+router.post('/usuariorol', authMiddleware, UsuarioRolController.createUsuarioRol);
+router.put('/usuariorol/:urol_id', authMiddleware, UsuarioRolController.updateUsuarioRol);
+router.post('/usuariorol/:urol_id', authMiddleware, UsuarioRolController.deleteUsuarioRol);
+
 
 // --- base_membresias ------------------------------------------------------------------
 router.get('/tiposmembresias', MembresiaController.getAllTiposMembresias);

@@ -1,9 +1,19 @@
 <template>
   <div class="">
     <div>
-      <div class="grid grid-cols-4">
-        <div class="p-4 m-1">
+      <div class="grid grid-cols-3">
+        <div class="p-6 m-1">
           <h1>{{ title }}</h1>
+        </div>
+        <div></div>
+        <div class="flex justify-end p-6 m-1">
+          <button
+            @click="newRegistro()"
+            class="form-control bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+            title="Nuevo"
+          >
+            + Nuevo
+          </button>
         </div>
       </div>
     </div>
@@ -13,8 +23,7 @@
           <tr>
             <th>#</th>
             <th></th>
-            <th>ORIGEN</th>
-            <th>TIPO</th>
+            <th>CENTRO</th>
             <th>NOMBRES</th>
             <th>DIRECCION</th>
             <th>CELULAR</th>
@@ -32,18 +41,17 @@
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Atención"
               >
-                <i class="fa-solid fa-check"></i>
+                <i class="fa-solid fa-pencil"></i>
               </button>
               <button 
                 @click="deleteRegistro(r)"
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Signos"
               >
-                <i class="fa-solid fa-heart-pulse fa-beat-fade"></i>
+                <i class="fa-solid fa-trash"></i>
               </button>
             </td>
-            <td align="left">{{ r.ori_codigo }} {{ r.ori_descripcion }}</td>
-            <td align="left">{{ r.tme_codigo }} {{ r.tme_descripcion }}</td>
+            <td align="left">{{ r.cnt_codigo }} {{ r.cnt_descripcion }}</td>
             <td align="left">{{ r.usr_primer_apellido }} {{ r.usr_segundo_apellido }} {{ r.usr_nombres }} </td>
             <td align="left">{{ r.usr_direccion }} </td>
             <td align="center">{{ r.usr_celular }}</td>
@@ -88,38 +96,63 @@
           <div class="modal-body p-6 space-y-6">
             <div class="grid grid-cols-2 gap-3">
               <div class="form-group">
-                <label for="fecha2" class="font-semibold">Fecha</label>
-                <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-              <div class="form-group">
-                <label for="usr_cli_id" class="font-semibold">Paciente</label>
-                <select v-model="reg.usr_cli_id" class="form-control" name="usr_cli_id" id="usr_cli_id" placeholder="Centro" required disabled>
+                <label for="usr_cnt_id" class="font-semibold">Centro</label>
+                <select v-model="reg.usr_cnt_id" class="form-control" name="usr_cnt_id" id="usr_cnt_id" placeholder="Centro" required >
                   <option value="0">-- seleccione --</option>
-                  <option v-for="c in origenes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
+                  <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }} </option>
                 </select>
-              </div>
-              <div class="form-group">
-                  <label for="usr_pln_id" class="font-semibold">Planificacion</label>
-                  <select v-model="reg.usr_pln_id" class="form-control" name="usr_pln_id" id="usr_pln_id" placeholder="Planificacion" required disabled>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]</option>
-                  </select>
               </div>
             </div>
             
             <div class="grid grid-cols-2 gap-4">
               <div class="col-md-6">
-                <label for="nro">Numero Ficha</label>
-                <input v-model="reg.usr_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" disabled />
+                <label for="paterno">Paterno</label>
+                <input v-model="reg.usr_primer_apellido" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
               </div>
               <div class="col-md-6">
-                <label for="kdx">Kardex Médico</label>
-                <input v-model="reg.usr_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
+                <label for="materno">Materno</label>
+                <input v-model="reg.usr_segundo_apellido" class="form-control" name="materno" id="materno" placeholder="Materno" />
+              </div>
+
+              <div class="col-md-6">
+                <label for="nombres">Nombres</label>
+                <input v-model="reg.usr_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" />
               </div>
             </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="col-md-6">
+                <label for="direccion">Direccion</label>
+                <input v-model="reg.usr_direccion" class="form-control" name="direccion" id="direccion" placeholder="Direccion" />
+              </div>
+              <div class="col-md-6">
+                <label for="celular">Celular</label>
+                <input v-model="reg.usr_celular" class="form-control" name="celular" id="celular" placeholder="Celular" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="col-md-6">
+                <label for="latitud">Latitud</label>
+                <input v-model="reg.usr_lat" class="form-control" name="latitud" id="latitud" placeholder="Latitud" />
+              </div>
+              <div class="col-md-6">
+                <label for="longitud">Longitud</label>
+                <input v-model="reg.usr_lng" class="form-control" name="longitud" id="longitud" placeholder="Longitud" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="col-md-6">
+                <label for="email">Email</label>
+                <input type="email" v-model="reg.usr_email" class="form-control" name="email" id="email" placeholder="Email" />
+              </div>
+              <div class="col-md-6">
+                <label for="password">Password</label>
+                <input type="password" v-model="reg.usr_clave" class="form-control" name="password" id="password" placeholder="Password" />
+              </div>
+            </div>
+
           </div>
 
           <!-- Modal footer -->
@@ -137,7 +170,7 @@
 
 <script>
 import userService from '../../services/userService';
-
+import centrosService from '../../services/centrosService';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
@@ -150,7 +183,7 @@ export default {
       singular: "Usuario",
       showModal: false,
       isEditing: false,
-
+      centros: [],
       currentDate: new Date(),
       filtro: {}
     };
@@ -160,7 +193,7 @@ export default {
     this.dates();
     this.listarRegistros();
     //this.listarOrigenes();
-    //this.listarCentros();
+    this.listarCentros();
   },
 
   methods: {
@@ -168,28 +201,16 @@ export default {
       this.regs = [];
       try {
         this.regs = await userService.getData();
-        console.log("Fichas: ", this.regs);
       } catch (error) {
         console.error("Error:", error.message);
       }
     },
-    async listarOrigenes() {
-      this.origenes = [];
+    async listarCentros() {
+      this.centros = [];
       try {
-        this.origenes = await origenesServiceService.getData();
-        console.log("Centros: ", this.origenes);
+        this.centros = await centrosService.getData();
       } catch (error) {
         console.error("Error:", error.message);
-      }
-    },
-
-    async listarTiposMembresia() {
-      this.tiposMembresia = [];
-      try {
-      this.tiposMembresia = await centrosService.getData();
-      console.log('Registros: ', this.tiposMembresia);
-      } catch (error) {
-      console.error('Error:', error.message);
       }
     },
 
@@ -210,13 +231,18 @@ export default {
       if (this.isEditing) {
         this.reg.usr_estado = "S";
         const updatedReg = await userService.updateData(this.reg);
-      } else {
-        const savedReg = await userService.saveData(this.reg);
-        this.regs.push(savedReg);
-      }
-      this.listarRegistros();
-      this.closeModal();
-    },
+        const index = this.regs.findIndex(item => item.cnt_id === updatedReg.cnt_id);
+            if (index !== -1) {
+              this.regs.splice(index, 1, updatedReg);
+            }
+        } else {
+          const savedReg = await userService.saveData(this.reg);
+          this.regs.push(savedReg);
+        }
+        this.listarRegistros();
+        this.closeModal();
+      },
+
 
     async deleteRegistro(reg) {
       const confirmed = window.confirm("¿Estás seguro de tomar Signos Vitales?");

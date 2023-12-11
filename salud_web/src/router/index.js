@@ -177,6 +177,26 @@ const router = createRouter({
     },
 
     {
+      path: '/roles',
+      name: 'roles',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/parametros/Roles.vue'),
+      meta: { requiresAuth: true }
+    },
+
+    {
+      path: '/usuariosrol',
+      name: 'usuariosrol',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/parametros/Usuariosrol.vue'),
+      meta: { requiresAuth: true }
+    },
+
+    {
       path: '/logout',
       name: 'logout',
       // route level code-splitting
