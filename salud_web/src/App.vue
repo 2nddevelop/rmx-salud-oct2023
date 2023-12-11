@@ -45,7 +45,7 @@ const menuItems = ref([
     { id: 42, label: 'Pantalla', link: '/fichasPantalla' },
   ]},
   { id: 5, label: 'Consulta Médica', children: [
-    { id: 51, label: 'Llama_Fichas', link: '/fichasAtencion' },
+    { id: 51, label: 'Llamada_Fichas', link: '/fichasAtencion' },
   //  { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta' },
     { id: 53, label: 'Consulta_Externa', link: '/fichasConsultaB' },
   ]},
