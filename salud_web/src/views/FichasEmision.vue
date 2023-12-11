@@ -387,7 +387,7 @@
               html += '<td colspan="2" align="right"></td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<td colspan="2" align="center">FICHA No. ' + reg.fch_nro_ficha + '</td></tr>';
-              html += '<td colspan="2" align="center">FICHA No. ' + reg.fch_hora + '</td></tr>';
+              html += '<td colspan="2" align="center">HORA ' + reg.fch_hora + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';

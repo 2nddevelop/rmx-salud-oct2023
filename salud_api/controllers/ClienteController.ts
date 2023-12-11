@@ -34,7 +34,6 @@ const ClienteController = {
         WHERE c.cli_estado != 'X'
           AND c.cli_id = $1
         ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
-      console.log('SQL >>> ', sql);
       const clientesQuery = await pool.query( 
         sql, [cli_id]
       );
@@ -59,7 +58,6 @@ const ClienteController = {
         WHERE c.cli_estado != 'X'
           AND c.cli_data->>'cli_nit' = $1
         ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
-      console.log('SQL >>> ', sql);
       const clientesQuery = await pool.query( 
         sql, [cli_nit]
       );
@@ -81,11 +79,6 @@ const ClienteController = {
     const mat = cli_materno !== "" ? " AND UPPER(c.cli_data->>'cli_materno') like '" + cli_materno.toUpperCase() + "%' " : " ";
     const noms = cli_nombres !== "" ? " AND UPPER(c.cli_data->>'cli_nombres') like '" + cli_nombres.toUpperCase() + "%' " : " ";
 
-    console.log(">>> ", nit);
-    console.log(">>> ", pat);
-    console.log(">>> ", mat);
-    console.log(">>> ", noms);
-
     try {
       const sql = `SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion 
       FROM rmx_gral_clientes c
@@ -93,7 +86,6 @@ const ClienteController = {
       INNER JOIN rmx_sld_historiales h ON h.hc_cli_id = c.cli_id
       WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} 
       ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
-      console.log('SQL >>> ', sql);
       const clientesQuery = await pool.query( 
         sql
       );
@@ -110,14 +102,12 @@ const ClienteController = {
     // xxx const { fecha, cnt_id } = req.params;
     const { cli_id } = req.body;
 
-    console.log("controller id: ", cli_id);
     try {
       const sql = `SELECT c.*, h.*
       FROM rmx_gral_clientes c
       INNER JOIN rmx_sld_historiales h ON h.hc_cli_id = c.cli_id
       WHERE c.cli_estado != 'X'
         AND c.cli_id = $1 `;
-      console.log('SQL >>> ', sql);
       const clientesQuery = await pool.query( 
         sql, [ cli_id ]
       );

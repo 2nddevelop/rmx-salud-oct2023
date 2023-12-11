@@ -79,13 +79,11 @@
 
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-2 gap-3">
+              <div class="grid grid-cols-3 gap-3">
                 <div class="form-group">
                   <label for="fecha2" class="font-semibold">Fecha</label>
                   <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
                 </div>
-              </div>
-              <div class="grid grid-cols-2 gap-3">
                 <div class="form-group">
                   <label for="ci" class="font-semibold">C.I.</label>
                   <input v-model="ci" class="form-control" name="ci" id="ci" placeholder="Carnet de identidad"  />
@@ -121,11 +119,28 @@
               </div>
               <div class="grid grid-cols-2 gap-1">                
                 <div v-for="p in planificaciones" class="form-group">
-                    <button @click="saveModal(p.pln_id)" 
+                    <button @click="mostrarFicha(this, p.pln_id)" 
                       class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
                       :disabled="reg.fch_kdx_medico == 'a definir'"> 
-                      [{{ p.cnt_descripcion }}] {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                      {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
                     </button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-5 gap-0">
+                <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
+                  <template v-if="d.pln_fch_id == 0">
+                    <button @click="saveModal(d.pln_fch_id, d.pln_hora)"
+                      class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded">
+                      {{ d.pln_hora }}
+                    </button>
+                  </template>
+                  <template v-else>
+                    <button
+                      class="bg-gray-200 hover:bg-gray-100 text-gray font-bold py-2 px-4 m-1 rounded">
+                      {{ d.pln_hora }}
+                    </button>
+                  </template>
                 </div>
               </div>
             </div>
@@ -164,7 +179,12 @@
         // dates
         currentDate: new Date(),
         // filtro
-        filtro: { fecha:'', centro_id:'0' }
+        filtro: { fecha:'', centro_id:'0' },
+        // horas
+        disponibles: [],
+        pln_id: 0,
+        lapso: 20 //lapso de consulta
+
       };
     },
   
@@ -224,7 +244,7 @@
         this.showModal = true;
       },
 
-      async saveModal(pln_id) {
+      async saveModalXXX(pln_id) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
         this.reg.fch_pln_id = pln_id;
@@ -250,6 +270,38 @@
         this.closeModal();
       },
 
+
+      async saveModal(ficha, hora) {
+        this.reg.fch_usr_id = 1; 
+        this.reg.fch_estado = "P";
+        this.reg.filtro_fecha = this.filtro.fecha;
+        this.reg.filtro_centro_id = this.filtro.centro_id;
+        this.reg.fch_hora = hora;
+        if (this.isEditing) {
+          const updatedReg = await fichasService.updateData(this.reg);
+          const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
+          if (index !== -1) {
+            this.regs.splice(index, 1, updatedReg);
+          }
+        } else {
+          const indexFicha = this.disponibles.findIndex(item => item.pln_hora === hora );
+          if (indexFicha !== -1) {
+            let updatedFicha = this.disponibles[indexFicha];
+            updatedFicha.pln_fch_id = 1;
+            this.disponibles.splice(indexFicha, 1, updatedFicha);
+          }
+          console.log('aquiiiiiii modificado: ', this.disponibles);
+          this.reg.pln_data_disponibles = this.disponibles;
+          //this.reg.pln_id = this.pln_id;
+          console.log('reg : ', this.reg);
+          const savedReg = await fichasService.saveData(this.reg);
+          this.regs.push(savedReg);
+        }
+        this.listarRegistros();
+        this.closeModal();
+      },
+
+
       async buscarHistorial(registro) {
         const cli_id = registro.reg.fch_cli_id;
         console.log("original cli_id", cli_id);
@@ -274,6 +326,17 @@
           const confirmed = window.alert("El CI indicado NO existe !");
         }
       },
+
+      async mostrarFicha(registro, pln_id) {
+        console.log("this: ", registro);
+        console.log("pln_id: ", pln_id);
+        registro.reg.fch_pln_id = pln_id;
+        const sel = registro.reg.fch_pln_id;        
+        const pln = this.planificaciones.find((element) => element.pln_id == sel);
+        this.disponibles = pln.pln_data_disponibles;
+        console.log('Disponibles: ', this.disponibles);
+      },
+
 
       async printRegistro(reg) {
         var html = '';
