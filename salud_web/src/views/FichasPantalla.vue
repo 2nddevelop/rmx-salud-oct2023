@@ -44,7 +44,7 @@
               <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
                 <template v-if="r.fch_estado !== 'P'">
                 <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
-                <td align="center">{{ r.fch_nro_ficha }}</td>
+                <td align="center">{{ r.fch_nro_ficha }} {{ r.fch_nro_ficha }}</td>
                 <td align="center"><i class="fa-solid fa-arrow-right fa-2xl"></i></td>
                 <td align="left">{{ r.esp_descripcion }}<br>{{ r.con_descripcion }} </td>
                 <td align="center">{{ r.fch_estado }}</td>

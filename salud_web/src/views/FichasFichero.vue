@@ -79,7 +79,7 @@
 
             <!-- Modal body -->
             <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-3 gap-3">
+              <div class="grid grid-cols-3 gap-1">
                 <div class="form-group">
                   <label for="fecha2" class="font-semibold">Fecha</label>
                   <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
@@ -96,7 +96,7 @@
                   </button>
                 </div>
               </div>
-              <div class="grid grid-cols-1 gap-3">
+              <div class="grid grid-cols-1 gap-1">
                 <div class="form-group">
                   <label for="fch_cli_id" class="font-semibold">Paciente</label>
                   <select v-model="reg.fch_cli_id" @change="buscarHistorial(this)" 
@@ -106,11 +106,10 @@
                   </select>
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-2 gap-1">
                 <div class="col-md-6">
                   <label for="nro">Numero Ficha</label>
                   <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
-                  <span style="font-size: x-small; color: red;">Automático</span>
                 </div>
                 <div class="col-md-6">
                   <label for="kdx">Kardex Médico</label>

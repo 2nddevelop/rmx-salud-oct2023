@@ -178,7 +178,7 @@
               </div>
             </div>
             <div class="grid grid-cols-2 gap-4">
-              <div class="col-md-6">
+              <div >
                 <label for="horarioini">Horario Inicio:</label>
                 <input type="time" v-model="reg.pln_data.pln_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
               </div>
@@ -187,12 +187,29 @@
                 <input type="time" v-model="reg.pln_data.pln_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
               </div>
             </div>
+            <div class="grid grid-cols-1 gap-1">
+              <div class="col-md-6"  style="font-size: x-small; display: flex;">
+                <div v-for="(r, index) in reg.pln_data_disponibles" class="grid grid-cols-5 gap-1" style="display: flex;" v-bind:key="index">
+                  <template v-if="r.pln_fch_id == 0">
+                    <button class="bg-green-400 text-white font-bold py-2 px-4 m-1 rounded">
+                      {{ r.pln_hora }}
+                    </button>
+                  </template>
+                  <template v-else>
+                    <button class="bg-gray-300 text-black font-bold py-2 px-4 m-1 rounded">
+                      {{ r.pln_hora }}
+                    </button>
+                  </template>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- Modal footer -->
           <div class="modal-footer">
             <button @click="saveModal" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
               {{ isEditing ? "Actualizar" : "Guardar" }}
             </button>
+            <lavel></lavel>
           </div>
         </div>
       </div>

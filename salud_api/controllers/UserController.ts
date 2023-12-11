@@ -25,7 +25,7 @@ const UserController = {
       }
   
       // Generar un token JWT
-      const token = jwt.sign({ userId: user.usr_id }, 'secreto', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: user.usr_id }, 'secreto', { expiresIn: '6h' });
   
       res.json({ token });
     } catch (error) {
