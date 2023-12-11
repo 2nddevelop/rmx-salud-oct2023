@@ -74,10 +74,6 @@ const PlanificacionController = {
     const { pln_id } = req.params;
     const { pln_esp_id, pln_cnt_id, pln_doc_id, pln_con_id, pln_data, pln_data_disponibles,
           pln_modificado, pln_usr_id, pln_estado } = req.body;
-    console.log(pln_id);
-    console.log('---');
-    console.log( pln_esp_id, pln_cnt_id, pln_doc_id, pln_con_id, pln_data, pln_data_disponibles,
-            pln_modificado, pln_usr_id, pln_estado );
   
     try {
       // Verificar si el Planificaciones existe en la base de datos

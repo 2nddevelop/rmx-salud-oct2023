@@ -11,7 +11,7 @@ const FichaController = {
 
     try {
       const fichasQuery = await pool.query(
-        `SELECT f.*, c.cli_data, p.pln_data, ce.*, d.*, e.*, co.*
+        `SELECT f.*, c.cli_data, p.pln_id, p.pln_data, ce.*, d.*, e.*, co.*
         FROM rmx_sld_fichas f
         INNER JOIN rmx_gral_clientes c ON c.cli_id = f.fch_cli_id
         INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
@@ -85,8 +85,8 @@ const FichaController = {
 
   createFicha: async (req: Request, res: Response) => {
     const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado, filtro_fecha, 
-      filtro_centro_id, fch_hora } = req.body;
-
+      filtro_centro_id, fch_hora, pln_data_disponibles } = req.body;
+console.log("Disponibles: ", pln_data_disponibles);
     try {
       const nextFicha = await pool.query(
         `SELECT e.esp_codigo, COUNT(f.*) AS next_ficha 
@@ -119,10 +119,9 @@ const FichaController = {
       );
 
       const upd = await pool.query(
-        `UPDATE rmx_sld_planificacion pln_data_disponibles = $1 
+        `UPDATE rmx_sld_planificacion SET pln_data_disponibles = $1 
           WHERE pln_id = $2 RETURNING * `,
-        [fch_cli_id, fch_pln_id, codigo_ficha, //fch_nro_ficha, 
-          fch_kdx_medico, fch_usr_id, fch_estado, fch_hora]
+        [JSON.stringify(pln_data_disponibles), fch_pln_id]
       );
 
       res.json(newFicha.rows[0]);

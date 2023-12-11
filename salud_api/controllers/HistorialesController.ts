@@ -34,18 +34,12 @@ const HistorialController = {
     const mat = cli_materno !== "" ? " AND UPPER(c.cli_data->>'cli_materno') like '" + cli_materno.toUpperCase() + "%' " : " ";
     const noms = cli_nombres !== "" ? " AND UPPER(c.cli_data->>'cli_nombres') like '" + cli_nombres.toUpperCase() + "%' " : " ";
 
-    console.log(">>> ", nit);
-    console.log(">>> ", pat);
-    console.log(">>> ", mat);
-    console.log(">>> ", noms);
-
     try {
       const sql = `SELECT h.*, c.*
       FROM rmx_sld_historiales h
       right outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
       WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} 
       ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
-      console.log('SQL >>> ', sql);
       const historialesQuery = await pool.query( 
         sql
       );

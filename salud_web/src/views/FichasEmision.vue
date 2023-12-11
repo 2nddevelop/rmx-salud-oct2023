@@ -241,6 +241,7 @@
         filtro: { fecha:'', centro_id:'0' },
         // horas
         disponibles: [],
+        pln_id: 0,
         lapso: 20 //lapso de consulta
       };
     },
@@ -306,7 +307,6 @@
       },
 
       async saveModal(ficha, hora) {
-        console.log('para salvar', ficha, hora);
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
         this.reg.filtro_fecha = this.filtro.fecha;
@@ -319,6 +319,16 @@
             this.regs.splice(index, 1, updatedReg);
           }
         } else {
+          const indexFicha = this.disponibles.findIndex(item => item.pln_hora === hora );
+          if (indexFicha !== -1) {
+            let updatedFicha = this.disponibles[indexFicha];
+            updatedFicha.pln_fch_id = 1;
+            this.disponibles.splice(indexFicha, 1, updatedFicha);
+          }
+          console.log('aquiiiiiii modificado: ', this.disponibles);
+          this.reg.pln_data_disponibles = this.disponibles;
+          //this.reg.pln_id = this.pln_id;
+          console.log('reg : ', this.reg);
           const savedReg = await fichasService.saveData(this.reg);
           this.regs.push(savedReg);
         }
@@ -356,42 +366,11 @@
         }
       },
 
-      // sumarMinutosAHora(hora, minutosASumar) {
-      //   var partesHora = hora.split(":");
-      //   var horas = parseInt(partesHora[0]);
-      //   var minutos = parseInt(partesHora[1]);
-      //   
-      //   minutos += minutosASumar;
-      //   horas += Math.floor(minutos / 60);
-      //   minutos = minutos % 60;
-      //   horas = horas % 24;
-      //   var horaResultante = (horas < 10 ? "0" : "") + horas + ":" + (minutos < 10 ? "0" : "") + minutos;
-      //   
-      //   return horaResultante;
-      // },
-
       async mostrarFicha(registro) {
-        console.log('>>>', registro);
-        console.log('Planificacion >>>', registro.reg.fch_pln_id);
-        const sel = registro.reg.fch_pln_id;
+        const sel = registro.reg.fch_pln_id;        
         const pln = this.planificaciones.find((element) => element.pln_id == sel);
         this.disponibles = pln.pln_data_disponibles;
-        console.log(this.disponibles);
-        // let hora = pln.pln_data.pln_horario_inicio;
-
-        // this.disponibles = [];
-        // console.log('planificacion: ', pln);
-        // for(let i = 0; i < pln.pln_data.pln_max_fichas; i++) {
-        //   let item = {};
-        //   if ( i == 6) {
-        //     item = {pln_fch_id: 1, pln_hora: hora};
-        //   } else {
-        //     item = {pln_fch_id: 0, pln_hora: hora};
-        //   }
-        //   this.disponibles.push(item);
-        //   console.log('-> ', item);
-        //   hora = this.sumarMinutosAHora(hora, this.lapso);
-        // }
+        console.log('Disponibles: ', this.disponibles);
       },
 
       async printRegistro(reg) {
@@ -405,9 +384,10 @@
               console.log("Mensaje",reg);
               html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
               html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
-              html += '<td colspan="2" align="right">ID ' + reg.fch_id + '</td></tr>';
+              html += '<td colspan="2" align="right"></td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<td colspan="2" align="center">FICHA No. ' + reg.fch_nro_ficha + '</td></tr>';
+              html += '<td colspan="2" align="center">FICHA No. ' + reg.fch_hora + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
