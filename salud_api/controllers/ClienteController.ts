@@ -30,7 +30,7 @@ const ClienteController = {
         INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
         WHERE c.cli_data->>'cli_fecha' = $1
           AND c.cli_estado != 'X' 
-        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' ` [fecha]
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `, [fecha]
       ); 
       const clientes = clienteQuery.rows;
       res.json(clientes);

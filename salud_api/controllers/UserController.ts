@@ -10,11 +10,18 @@ const UserController = {
     const { username, password } = req.body; // Cambiado de username a usr_email
     try {
       // Verificar si el usuario existe en la base de datos
-      const userQuery = await pool.query('SELECT * FROM base_usuarios WHERE usr_email = $1', [username]);
+      const userQuery = await pool.query(`
+      SELECT u.*, r.*, c.*
+      FROM base_usuarios u
+        INNER JOIN base_usuarios_roles ur ON ur.urol_usuario_id = u.usr_id
+        INNER JOIN base_roles r ON r.rol_id = ur.urol_rol_id
+        INNER JOIN rmx_sld_centros c ON c.cnt_id = u.usr_cnt_id
+      WHERE u.usr_email = $1
+        AND u.usr_estado <> 'X' `, [username]);
       const user = userQuery.rows[0];
   
       if (!user) {
-        return res.status(401).json({ message: 'Credenciales inválidas' });
+        return res.status(401).json({ message: 'No existe el usuario' });
       }
   
       // Comparar la contraseña proporcionada con la contraseña almacenada
@@ -26,8 +33,11 @@ const UserController = {
   
       // Generar un token JWT
       const token = jwt.sign({ userId: user.usr_id }, 'secreto', { expiresIn: '6h' });
-  
-      res.json({ token });
+      const rol_id = user.rol_id;
+      const rol_descripcion = user.rol_descripcion;
+      const cnt_id = user.cnt_id;
+      const cnt_descripcion = user.cnt_descripcion;
+      res.json({ token, rol_id, rol_descripcion, cnt_id, cnt_descripcion });
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
