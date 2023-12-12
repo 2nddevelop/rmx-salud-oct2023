@@ -13,11 +13,9 @@ const actions = {
   async login({ commit }, { username, password }) {
     // Aquí realizarías la llamada al servicio de autenticación authService.login()
     // Luego, guardarías el token devuelto en el estado usando commit('setToken', token)
-    console.log('llego al vuex login');
-    console.log('trajo: ', username, password);
     const res = await authService.login(username, password);
-    console.log('Respuesta: ', res.token);
     commit('setToken', res.token);
+    return (res);
   },
   
   logout({ commit }) {

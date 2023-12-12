@@ -14,7 +14,8 @@ const authService = {
       this.setToken(token);
       return response.data;
     } catch (error) {
-      throw error;
+      return error;
+      //throw error;
     }
   },
   

@@ -44,15 +44,24 @@ export default {
 
   methods: {
     ...mapActions('auth/', ['login']),
+
     async validarUsuario() {
       try {
-        const username = this.email; // Obtén el nombre de usuario del formulario
-        const password = this.password; // Obtén la contraseña del formulario
-        await this.login({ username, password });
-        // Si el inicio de sesión fue exitoso, redireccionar al usuario a la página de inicio
-        this.$router.push('/');
+        const username = this.email; 
+        const password = this.password; 
+        const resp = await this.login({ username, password });
+        console.log('respuesta: ', resp);
+        if (resp.token) {
+          this.$toast.success('Ingreso autorizado!');
+          this.$router.push('/');
+        } else {
+          this.$toast.error('Ingreso NO autorizado!', {});
+          this.email = '';
+          this.password = '';
+        }
+
       } catch (error) {
-        // Manejar el error de inicio de sesión aquí
+        this.$toast.error('¡Error!');
         console.error('Error al iniciar sesión:', error.message);
       }
     },
