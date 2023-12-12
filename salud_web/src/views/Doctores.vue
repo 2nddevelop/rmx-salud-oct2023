@@ -217,7 +217,7 @@
         this.regs = [];
         try {
           this.regs = await doctoresService.getData();
-        } catch (error) {
+x        } catch (error) {
           console.error("Error:", error.message);
         }
       },

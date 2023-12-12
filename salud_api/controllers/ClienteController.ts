@@ -21,6 +21,24 @@ const ClienteController = {
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },
+
+  getAllClientesXFecha: async (req: Request, res: Response) => {
+    const { fecha } = req.params;
+    try {
+      const clienteQuery = await pool.query(`SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion 
+        FROM rmx_gral_clientes c 
+        INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
+        WHERE c.cli_data->>'cli_fecha' = $1
+          AND c.cli_estado != 'X' 
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' ` [fecha]
+      ); 
+      const clientes = clienteQuery.rows;
+      res.json(clientes);
+    } catch (error) {
+      console.error('Error al obtener los Clientes:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
   
 
   getClientesXCliId: async (req: Request, res: Response) => {

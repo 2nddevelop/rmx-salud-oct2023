@@ -146,6 +146,7 @@ router.post('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.del
 router.post('/cliente/buscarHistorial', authMiddleware, ClienteController.getClienteHistorialXCliId); // lo puse aqui por tema del compilador tsc, tema en las rutas
 router.post('/clientes/buscarXCI', authMiddleware, ClienteController.getClientesXCI);
 
+router.get('/clientes/:fecha', authMiddleware, ClienteController.getAllClientesXFecha);
 router.get('/clientes', authMiddleware, ClienteController.getAllClientes);
 router.post('/cliente', authMiddleware, ClienteController.createCliente);
 router.put('/cliente/:cli_id', authMiddleware, ClienteController.updateCliente);

@@ -251,10 +251,10 @@ create table rmx_gral_clientes (
   cli_estado text default 'A'
 );
 insert into rmx_gral_clientes (cli_tcli_id, cli_data, cli_usr_id) values
-( 1, '{"cli_nombres":"Jorge", "cli_paterno":"Paz", "cli_materno":"Soliz", "cli_nit":"1122334", "cli_telefono":"224455", "cli_celular":"70133444", "cli_direccion":"Arenal #444", "cli_correo":"jorge@gmail.com", "cli_clave":"123456"}', 1),
-( 2, '{"cli_nombres":"Maria", "cli_paterno":"Romero", "cli_materno":"Perez", "cli_nit":"2233445", "cli_telefono":"773344", "cli_celular":"69709210", "cli_direccion":"Flores #123", "cli_correo":"maria@gmail.com", "cli_clave":"123456"}', 1),
-( 2, '{"cli_provincia":"Murillo", "cli_nombres":"Luz", "cli_paterno":"Campero", "cli_materno":"Lopez", "cli_nit":"4455443", "cli_telefono":"6424245", "cli_celular":"67789898", "cli_direccion":"Sagarnaga #2222", "cli_correo":"luz@gmail.com", "cli_clave":"123456"}', 1),
-( 1, '{"cli_nombres":"Luis Miguel", "cli_paterno":"Zamora", "cli_materno":"Velez", "cli_nit":"5656567", "cli_telefono":"", "cli_celular":"70144222", "cli_direccion":"calle El Acre #199", "cli_correo":"luis@gmail.com", "cli_clave":"123456"}', 1),
-( 2, '{"cli_nombres":"Rolando", "cli_paterno":"Lima", "cli_materno":"Poma", "cli_nit":"5566778", "cli_telefono":"223456", "cli_celular":"76856011", "cli_direccion":"Mendez #113", "cli_correo":"rolando@gmail.com", "cli_clave":"123456"}', 1),
-( 1, '{"cli_nombres":"Waldo", "cli_paterno":"Romero", "cli_materno":"Romero", "cli_nit":"3344556", "cli_telefono":"223456", "cli_celular":"78899000", "cli_direccion":"Lapachos #113", "cli_correo":"waldo@gmail.com", "cli_clave":"123456"}', 1);
+( 1, '{"cli_fec_nac":"2010-06-13", "cli_nombres":"Jorge", "cli_paterno":"Paz", "cli_materno":"Soliz", "cli_nit":"1122334", "cli_telefono":"224455", "cli_celular":"70133444", "cli_direccion":"Arenal #444", "cli_correo":"jorge@gmail.com", "cli_clave":"123456"}', 1),
+( 2, '{"cli_fec_nac":"2012-07-14", "cli_nombres":"Maria", "cli_paterno":"Romero", "cli_materno":"Perez", "cli_nit":"2233445", "cli_telefono":"773344", "cli_celular":"69709210", "cli_direccion":"Flores #123", "cli_correo":"maria@gmail.com", "cli_clave":"123456"}', 1),
+( 2, '{"cli_fec_nac":"2014-08-15", "cli_provincia":"Murillo", "cli_nombres":"Luz", "cli_paterno":"Campero", "cli_materno":"Lopez", "cli_nit":"4455443", "cli_telefono":"6424245", "cli_celular":"67789898", "cli_direccion":"Sagarnaga #2222", "cli_correo":"luz@gmail.com", "cli_clave":"123456"}', 1),
+( 1, '{"cli_fec_nac":"2013-09-16", "cli_nombres":"Luis Miguel", "cli_paterno":"Zamora", "cli_materno":"Velez", "cli_nit":"5656567", "cli_telefono":"", "cli_celular":"70144222", "cli_direccion":"calle El Acre #199", "cli_correo":"luis@gmail.com", "cli_clave":"123456"}', 1),
+( 2, '{"cli_fec_nac":"2012-10-17", "cli_nombres":"Rolando", "cli_paterno":"Lima", "cli_materno":"Poma", "cli_nit":"5566778", "cli_telefono":"223456", "cli_celular":"76856011", "cli_direccion":"Mendez #113", "cli_correo":"rolando@gmail.com", "cli_clave":"123456"}', 1),
+( 1, '{"cli_fec_nac":"2011-12-18", "cli_nombres":"Waldo", "cli_paterno":"Romero", "cli_materno":"Romero", "cli_nit":"3344556", "cli_telefono":"223456", "cli_celular":"78899000", "cli_direccion":"Lapachos #113", "cli_correo":"waldo@gmail.com", "cli_clave":"123456"}', 1);
 

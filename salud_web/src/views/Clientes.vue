@@ -35,6 +35,7 @@
                 <th>Teléfono</th>
                 <th>Celular</th>
                 <th>Dirección</th>
+                <th>Fec. Nacimiento</th>
                 <th>Registrado</th>
                 <th>E</th>
               </tr>
@@ -66,6 +67,7 @@
                 <td align="right">{{ r.cli_data.cli_telefono }}</td>
                 <td align="right">{{ r.cli_data.cli_celular }}</td>
                 <td align="left">{{ r.cli_data.cli_direccion }}</td>
+                <td align="left">{{ r.cli_data.cli_fec_nac }}</td>
                 <td align="center">{{ r.cli_registado }}</td>
                 <td align="center">
                   <span v-if="r.cli_estado == 'X'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.cli_estado }}</span>
@@ -153,6 +155,12 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                   <div class="form-group">
+                    <label for="fecnac">Fecha Nacimiento:</label>
+                    <input type="date" v-model="reg.cli_data.cli_fec_nac" class="form-control" name="fecnac" id="fecnac" placeholder="Fecha Nacimiento" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="form-group">
                     <label for="correo">Correo:</label>
                     <input type="email" v-model="reg.cli_data.cli_correo" class="form-control" name="correo" id="correo" placeholder="Correo" />
                   </div>
@@ -196,7 +204,8 @@
               cli_celular: '',
               cli_direccion: '',
               cli_correo: '',
-              cli_clave: ''
+              cli_clave: '',
+              cli_fec_nac: '',
             }
           },
           title: "PACIENTES",
@@ -260,7 +269,8 @@
             cli_celular: '',
             cli_direccion: '',
             cli_correo: '',
-            cli_clave: ''
+            cli_clave: '',
+            cli_fec_nac: '',
             }
           };
           this.showModal = true;
