@@ -232,21 +232,14 @@
           this.regs = [];
           try {
             this.regs = await clientesService.getData();
-            console.log("Clientes: ", this.regs);          
           } catch (error) {
             console.error("Error:", error.message);
           }
         },
         async buscarRegistros() {
-          console.log('Buscando registros...');
-          console.log('CI:', this.filtro.cli_nit);
-          console.log('Paterno:', this.filtro.cli_paterno);
-          console.log('Materno:', this.filtro.cli_materno);
-          console.log('Nombres:', this.filtro.cli_nombres);
           this.regs = [];
           try {
             this.regs = await clientesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
-            console.log("Clientes: ", this.regs);          
           } catch (error) {
             console.error("Error:", error.message);
           }
@@ -255,7 +248,6 @@
           this.tiposClientes = [];
           try {
             this.tiposClientes = await tiposClienteService.getData();
-            console.log("Tipo de Clientes: ", this.tiposClientes);
           } catch (error) {
             console.error("Error:", error.message);
           }
@@ -430,15 +422,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999; 
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px; /* Aumenta el ancho máximo del modal */
-  width: 100%; /* Ocupará el 100% del ancho disponible */
+  width: 80%; 
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
 }
 
 .modal-title {

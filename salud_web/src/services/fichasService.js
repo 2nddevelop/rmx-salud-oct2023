@@ -1,7 +1,6 @@
 import axios from 'axios';
 import store from '../store/modules/authModule'
-
-const API_URL = 'http://localhost:3000/api'; // URL de tu API
+import { API_URL } from '../config.js';
 
 const fichasService = {
 
@@ -47,7 +46,6 @@ const fichasService = {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const response = await axios.post(API_URL + '/ficha', newRecord);
-      console.log("****** ", response.data);
       return response.data;
     } catch (error) {
       throw error;
@@ -59,7 +57,6 @@ const fichasService = {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const response = await axios.put(API_URL + `/ficha/${record.fch_id}`, record);
-      console.log('kkkkk', response.data);
       return response.data;
     } catch (error) {
       throw error;
@@ -68,7 +65,6 @@ const fichasService = {
 
   async deleteData(record) {
     try {
-      console.log("Delete >>>", record);
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const response = await axios.post(API_URL + `/ficha/${record.fch_id}`, record);

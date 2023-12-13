@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = 'http://localhost:3000/api'; // URL de tu API
+import { API_URL } from '../config.js';
 
 const authService = {
   async login(email, password) {

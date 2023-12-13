@@ -10,7 +10,6 @@
           <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
           <ul v-if="item.children" class="submenu">
             <li v-for="child in item.children" :key="child.id" class="submenu-item">
-              <!--a :href="child.link" class="submenu-link">{{ child.label }}</a-->
               <RouterLink :to="child.link" class="submenu-link">{{ child.label }}</RouterLink>
             </li>
           </ul>

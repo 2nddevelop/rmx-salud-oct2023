@@ -1,7 +1,6 @@
 import axios from 'axios';
 import store from '../store/modules/authModule'
-
-const API_URL = 'http://localhost:3000/api'; // URL de tu API
+import { API_URL } from '../config.js';
 
 const rolesService = {
 

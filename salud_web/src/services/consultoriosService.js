@@ -1,7 +1,6 @@
 import axios from 'axios';
 import store from '../store/modules/authModule'
-
-const API_URL = 'http://localhost:3000/api'; // URL de tu API
+import { API_URL } from '../config.js';
 
 const consultoriosService = {
 
@@ -10,7 +9,6 @@ const consultoriosService = {
   },
 
   async getData(cnt_id) {
-    console.log('llego centro:', cnt_id);
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);

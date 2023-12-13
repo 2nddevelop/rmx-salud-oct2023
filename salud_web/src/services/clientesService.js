@@ -1,7 +1,6 @@
 import axios from 'axios';
 import store from '../store/modules/authModule'
-
-const API_URL = 'http://localhost:3000/api'; // URL de tu API
+import { API_URL } from '../config.js';
 
 const clientesService = {
 
@@ -25,7 +24,6 @@ const clientesService = {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const patron = {cli_nit: cli_nit, cli_paterno: cli_paterno, cli_materno: cli_materno, cli_nombres: cli_nombres}
-      console.log("patron: ", patron);
       const response = await axios.post(API_URL + '/clientes/buscar', patron);
       return response.data;
     } catch (error) {
@@ -38,7 +36,6 @@ const clientesService = {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const patron = {cli_nit: cli_nit}
-      console.log("patron: ", patron);
       const response = await axios.post(API_URL + '/clientes/buscarXCI', patron);
       return response.data;
     } catch (error) {
@@ -51,7 +48,6 @@ const clientesService = {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const patron = {cli_id: cli_id}
-      console.log("patron: ", patron);
       const response = await axios.post(API_URL + '/cliente/buscarHistorial', patron);
       return response.data;
     } catch (error) {
@@ -83,7 +79,6 @@ const clientesService = {
 
   async deleteData(record) {
     try {
-      console.log("Delete >>>", record);
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
       const response = await axios.post(API_URL + `/cliente/${record.cli_id}`, record);
