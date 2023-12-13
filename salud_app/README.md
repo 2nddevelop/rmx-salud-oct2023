@@ -1,19 +1,26 @@
-# cocaroad_app
-2023 EMAT React Native APP
+# Salud APP
 
+## Iniciar el proyecto
+```
+ionic start _su_app_
+cd _su_app_
+```
 
-## Install
-Posiblemente requiera incluir librerias de EXPO, lo cual debe ejecutarse:
-npm install
+## Web
+Para ejecutar en un navegador web
+```
+ionic serve
+```
 
+## Android
+para desplegar en dispositivos moviles:
+```
+ionic capacitor add android
+ionic capacitor run android
+```
 
-Instale Expo en su Celular
-
-
-## Running
-npx expo start
-
-
-
-
-
+## Assets
+Regenera las imagenes desde Splash e Icono:
+```
+cordova-res --skip-config --copy
+```

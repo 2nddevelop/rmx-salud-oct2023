@@ -1,0 +1,7 @@
+{
+  "name": "Salud",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}

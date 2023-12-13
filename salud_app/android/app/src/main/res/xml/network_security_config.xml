@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <!-- Descomenta la siguiente línea solo si necesitas confiar en certificados autofirmados -->
+            <!-- <certificates src="system" /> -->
+        </trust-anchors>
+    </base-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">159.223.161.160</domain>
+    </domain-config>
+</network-security-config>
