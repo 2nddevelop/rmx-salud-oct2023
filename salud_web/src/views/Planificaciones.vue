@@ -39,10 +39,24 @@
           <tr>
             <th>#</th>
             <th></th>
-            <th>Centro</th>
-            <th>Especialidad</th>
-            <th>Consultorio</th>
-            <th>Médico</th>
+            <th>Centro
+              <select v-model="filtro.centro_id" class="form-control input" @change="filtroLocal" 
+                name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
+                <option value="0">-- todos --</option>
+                <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+              </select>
+            </th>
+            <th>Especialidad
+              <select v-model="filtro.especialidad_id" class="form-control input" @change="filtroLocal" 
+                name="pln_esp_id" id="pln_esp_id" placeholder="Espcialidad" required>
+                <option value="0">-- todas --</option>
+                <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
+              </select>
+            </th>
+            <th>
+              Consultorio<br>
+              Médico
+            </th>
             <th>Fecha</th>
             <th>H. Inicio</th>
             <th>H. Fin</th>
@@ -73,15 +87,20 @@
             </td>
             <td align="left" style="background-color: beige;">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
             <td align="left" style="background-color: beige;">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
-            <td align="left" style="background-color: beige;">{{ r.con_codigo }} - {{ r.con_descripcion }}</td>
-            <td align="left">{{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }} </td>
+            <td align="left" style="background-color: beige;">
+              {{ r.con_codigo }} - {{ r.con_descripcion }}<br>
+              {{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }}
+            </td>
             <td align="center">{{ r.pln_data.pln_fecha}}</td>
             <td align="center">{{ r.pln_data.pln_horario_inicio}}</td>
             <td align="center">{{ r.pln_data.pln_horario_fin  }}</td>
             <td align="right">{{ r.pln_data.pln_max_fichas}}</td>
             <td align="right">{{ r.pln_data.pln_max_virtuales}}</td>
             <td align="center">{{ r.pln_registado}}</td>
-            <td align="center">{{ r.pln_estado}}</td>
+            <td align="center">
+              <span v-if="r.pln_estado == 'X'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.pln_estado }}</span>
+              <span v-if="r.pln_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.pln_estado }}</span>
+            </td>
           </tr>
         </tbody>
         <tfoot>
@@ -255,7 +274,7 @@ export default {
       // dates
       currentDate: new Date(),
       // filtro
-      filtro: { fecha: '', centro_id: '' },
+      filtro: { fecha: '', centro_id: '0', especialidad_id: '0' },
       // paginator
       currentPage: 1,
       itemsPerPage: 10,
@@ -443,6 +462,10 @@ console.log('dispo', disponibles);
 <style>
 * {
   box-sizing: border-box;
+}
+
+.input {
+  color: black;
 }
 
 .table {

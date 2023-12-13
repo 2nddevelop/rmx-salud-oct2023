@@ -1,16 +1,37 @@
 <script setup>
 import WelcomeItem from './BienvenidaItem.vue'
-import DocumentationIcon from './icons/IconDocumentation.vue'
-import ToolingIcon from './icons/IconTooling.vue'
-import EcosystemIcon from './icons/IconEcosystem.vue'
-import CommunityIcon from './icons/IconCommunity.vue'
-import SupportIcon from './icons/IconSupport.vue'
 </script>
 
 <template>
+  <div class="grid grid-cols-3 gap-4">
+    <WelcomeItem>
+      <template #icon>
+        <i class="fa-solid fa-user fa-2xl"></i>
+      </template>
+      <template #heading>Usuario</template>
+      {{ usr_nombres }}
+    </WelcomeItem>
+
+    <WelcomeItem>
+      <template #icon>
+        <i class="fa-solid fa-building fa-2xl"></i>
+      </template>
+      <template #heading>Centro</template>
+      {{ cnt_descripcion }}
+    </WelcomeItem>
+
+    <WelcomeItem>
+      <template #icon>
+        <i class="fa-solid fa-mask fa-2xl"></i>
+      </template>
+      <template #heading>Rol</template>
+      {{ rol_descripcion }}
+    </WelcomeItem>
+  </div>
+  
   <WelcomeItem>
     <template #icon>
-      <DocumentationIcon />
+      <i class="fa-solid fa-calendar-days fa-2xl"></i>
     </template>
     <template #heading>Planificación</template>
 
@@ -20,7 +41,7 @@ import SupportIcon from './icons/IconSupport.vue'
 
   <WelcomeItem>
     <template #icon>
-      <ToolingIcon />
+      <i class="fa-solid fa-id-card fa-2xl"></i>
     </template>
     <template #heading>Kardex</template>
 
@@ -30,7 +51,7 @@ import SupportIcon from './icons/IconSupport.vue'
 
   <WelcomeItem>
     <template #icon>
-      <EcosystemIcon />
+      <i class="fa-solid fa-ticket fa-2xl"></i>
     </template>
     <template #heading>Fichas</template>
 
@@ -41,7 +62,7 @@ import SupportIcon from './icons/IconSupport.vue'
 
   <WelcomeItem>
     <template #icon>
-      <CommunityIcon />
+      <i class="fa-solid fa-clipboard fa-2xl"></i>
     </template>
     <template #heading>Atención</template>
 
@@ -50,3 +71,13 @@ import SupportIcon from './icons/IconSupport.vue'
   </WelcomeItem>
 
 </template>
+
+
+<script>
+  let rol_descripcion = localStorage.getItem('rol_descripcion');
+  let cnt_descripcion = localStorage.getItem('cnt_descripcion');
+  let usr_nombres = localStorage.getItem('usr_nombres');
+  rol_descripcion = rol_descripcion ? rol_descripcion : '';
+  cnt_descripcion = cnt_descripcion ? cnt_descripcion : '';
+  usr_nombres = usr_nombres ? usr_nombres : '';
+</script>

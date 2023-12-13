@@ -4,10 +4,9 @@ import TheWelcome from '../components/Bienvenida.vue'
 
 <template>
   <main>
-    <div style="margin:50px;">
+    <div style="margin:100px;">
       <TheWelcome />
     </div>
   </main>
 </template>
-
 

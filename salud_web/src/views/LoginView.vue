@@ -50,7 +50,6 @@ export default {
         const username = this.email; 
         const password = this.password; 
         const resp = await this.login({ username, password });
-        console.log('respuesta: ', resp);
         if (resp.token) {
           this.$toast.success('Ingreso autorizado!');
           this.$router.push('/');

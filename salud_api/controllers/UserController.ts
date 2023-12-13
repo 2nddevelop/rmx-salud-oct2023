@@ -37,7 +37,9 @@ const UserController = {
       const rol_descripcion = user.rol_descripcion;
       const cnt_id = user.cnt_id;
       const cnt_descripcion = user.cnt_descripcion;
-      res.json({ token, rol_id, rol_descripcion, cnt_id, cnt_descripcion });
+      const usr_id = user.usr_id;
+      const usr_nombres = user.usr_nombres + ' ' + user.usr_primer_apellido + ' ' + user.usr_segundo_apellido;
+      res.json({ token, rol_id, rol_descripcion, cnt_id, cnt_descripcion, usr_id, usr_nombres });
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       res.status(500).json({ message: 'Error interno del servidor' });

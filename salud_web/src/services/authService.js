@@ -10,12 +10,14 @@ const authService = {
         password: password 
       });
 
-      const token = response.data.token;
-      this.setToken(token);
-      this.setRolId(token);
-      this.setRolDescripcion(token);
-      this.setCntId(token);
-      this.setCntDescripcion(token);
+      const res = response.data; console.log(res);
+      this.setToken(res.token);
+      this.setRolId(res.rol_id);
+      this.setRolDescripcion(res.rol_descripcion);
+      this.setCntId(res.cnt_id);
+      this.setCntDescripcion(res.cnt_descripcion);
+      this.setUsrId(res.usr_id);
+      this.setUsrNombres(res.usr_nombres);
       return response.data;
     } catch (error) {
       return error;
@@ -29,6 +31,8 @@ const authService = {
     this.setRolDescripcion(null);
     this.setCntId(null);
     this.setCntDescripcion(null);
+    this.setUsrId(null);
+    this.setUsrNombres(null);
   },
 
   // Método para obtener el token del usuario almacenado en el local storage
@@ -47,6 +51,12 @@ const authService = {
   setCntDescripcion(cnt_descripcion) {
     return localStorage.setItem('cnt_descripcion', cnt_descripcion);
   },
+  setUsrId(usr_id) {
+    return localStorage.setItem('usr_id', usr_id);
+  },
+  setUsrNombres(usr_nombres) {
+    return localStorage.setItem('usr_nombres', usr_nombres);
+  },
 
   // Método para obtener el token del usuario almacenado en el local storage
   getToken() {
@@ -60,6 +70,12 @@ const authService = {
   },
   getCntId() {
     return localStorage.getItem('cnt_descripcion');
+  },
+  getUsrId() {
+    return localStorage.getItem('usr_id');
+  },
+  getUsrNombres() {
+    return localStorage.getItem('usr_nombres');
   },
 
   // Método para verificar si el usuario está autenticado

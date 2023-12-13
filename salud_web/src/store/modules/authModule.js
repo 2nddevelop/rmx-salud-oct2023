@@ -6,6 +6,8 @@ const state = {
   rol_descripcion: null,
   cnt_id: null,
   cnt_descripcion: null,
+  usr_id: null,
+  usr_nombres: null,
 };
 
 const getters = {
@@ -23,6 +25,8 @@ const actions = {
     commit('setRolDescripcion', res.rol_descripcion);
     commit('setCntId', res.cnt_id);
     commit('setCntDescripcion', res.cnt_descripcion);
+    commit('setUsrId', res.usr_id);
+    commit('setUsrNombres', res.usr_nombres);
     return (res);
   },
   
@@ -35,6 +39,8 @@ const actions = {
     commit('setRolDescripcion', '');
     commit('setCntId', '');
     commit('setCntDescripcion', '');
+    commit('setUsrId', '');
+    commit('setUsrNombres', '');
   },
 
 };
@@ -54,6 +60,12 @@ const mutations = {
   },
   setCntDescripcion(state, cnt_descripcion) {
     state.cnt_descripcion = cnt_descripcion;
+  },
+  setUsrId(state, usr_id) {
+    state.usr_id = usr_id ;
+  },
+  setUsrNombres(state, usr_nombres) {
+    state.usr_nombres = usr_nombres;
   },
 };
 

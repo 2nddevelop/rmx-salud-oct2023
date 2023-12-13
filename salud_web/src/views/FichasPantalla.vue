@@ -53,7 +53,7 @@
             </tbody>
             <tfoot>
               <tr style="background: beige;">
-                <td colspan="13"><p>En pantalla solo se listan las fichas llamadas a Signos Vitales o Consulta.</p></td>
+                <td colspan="13"><p>En pantalla solo se listan las fichas llamadas a Signos Vitales o Consulta Externa.</p></td>
               </tr>
             </tfoot>
           </table>
