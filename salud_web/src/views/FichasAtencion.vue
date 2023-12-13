@@ -259,7 +259,7 @@
   import clientesService from '../services/clientesService';
   import planificacionesService from '../services/planificacionesService';
   import fichasService from '../services/fichasService';
-  import historialesDetService from '../services/HistorialesDetService';
+  import historialesDetService from '../services/historialesDetService';
   import centrosService from '../services/centrosService';
 
   import '@fortawesome/fontawesome-free/css/all.css';
