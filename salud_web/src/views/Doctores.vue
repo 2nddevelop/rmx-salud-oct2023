@@ -1,12 +1,12 @@
 <template>
-    <div class="">
-      <div>
+    <div class="p-1 m-1">
+      <div class="p-1 m-1">
         <div class="grid grid-cols-3">
-          <div class="p-6 m-1">
+          <div class="p-1 m-1">
             <h1>{{ title }}</h1>
           </div>
-          <div></div>
-          <div class="flex justify-end p-6 m-1">
+          <div class="p-1 m-1"></div>
+          <div class="flex justify-end p-1 m-1">
             <button
               @click="newRegistro()"
               class="form-control bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"

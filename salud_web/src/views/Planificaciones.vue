@@ -2,18 +2,18 @@
   <div class="">
     <div>
       <div class="grid grid-cols-4">
-        <div class="p-3 m-1">
+        <div class="p-1 m-1">
           <h1>{{ title }}</h1>
         </div>
 
-        <div class="p-3 m-1">
+        <div class="p-1 m-1">
           <div class="form-group">
             <label for="kdx">Fecha</label>
             <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
           </div>
         </div>
 
-        <div class="flex p-3 m-1">
+        <div class="flex p-1 m-1">
           <button
             class="form-control disabled:bg-green-200 bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
             title="Clonar semana" disabled
@@ -22,7 +22,7 @@
           </button>
         </div>
 
-        <div class="flex justify-end p-3 m-1">
+        <div class="flex justify-end p-1 m-1">
           <button
             @click="newRegistro()"
             class="form-control bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
