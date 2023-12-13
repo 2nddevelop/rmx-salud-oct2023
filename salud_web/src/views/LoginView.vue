@@ -51,7 +51,7 @@ export default {
         const password = this.password; 
         const resp = await this.login({ username, password });
         if (resp.token) {
-          this.$toast.success('Ingreso autorizado!');
+          this.$toast.success(`${resp.usr_nombres}, ingreso autorizado!`);
           this.$router.push('/');
         } else {
           this.$toast.error('Ingreso NO autorizado!', {});

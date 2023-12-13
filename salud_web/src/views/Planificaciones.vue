@@ -228,7 +228,7 @@
             <button @click="saveModal" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
               {{ isEditing ? "Actualizar" : "Guardar" }}
             </button>
-            <lavel></lavel>
+            <label></label>
           </div>
         </div>
       </div>

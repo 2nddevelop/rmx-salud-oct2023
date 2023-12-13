@@ -80,10 +80,26 @@ import WelcomeItem from './BienvenidaItem.vue'
 
 
 <script>
-  let rol_descripcion = localStorage.getItem('rol_descripcion');
-  let cnt_descripcion = localStorage.getItem('cnt_descripcion');
-  let usr_nombres = localStorage.getItem('usr_nombres');
-  rol_descripcion = rol_descripcion ? rol_descripcion : '';
-  cnt_descripcion = cnt_descripcion ? cnt_descripcion : '';
-  usr_nombres = usr_nombres ? usr_nombres : '';
+export default {
+  data() {
+    return {
+      rol_descripcion: '',
+      cnt_descripcion: '',
+      usr_nombres: '',
+    };
+  },
+
+  mounted() {
+    this.rol_descripcion = localStorage.getItem('rol_descripcion');
+    this.cnt_descripcion = localStorage.getItem('cnt_descripcion');
+    this.usr_nombres = localStorage.getItem('usr_nombres');
+    this.rol_descripcion = this.rol_descripcion ? this.rol_descripcion : '';
+    this.cnt_descripcion = this.cnt_descripcion ? this.cnt_descripcion : '';
+    this.usr_nombres = this.usr_nombres ? this.usr_nombres : '';
+  },
+
+  methods: {
+
+  },
+};
 </script>

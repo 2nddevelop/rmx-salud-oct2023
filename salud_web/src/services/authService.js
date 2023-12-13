@@ -10,7 +10,8 @@ const authService = {
         password: password 
       });
 
-      const res = response.data; console.log(res);
+      const res = response.data;
+
       this.setToken(res.token);
       this.setRolId(res.rol_id);
       this.setRolDescripcion(res.rol_descripcion);
@@ -18,6 +19,7 @@ const authService = {
       this.setCntDescripcion(res.cnt_descripcion);
       this.setUsrId(res.usr_id);
       this.setUsrNombres(res.usr_nombres);
+      
       return response.data;
     } catch (error) {
       return error;
