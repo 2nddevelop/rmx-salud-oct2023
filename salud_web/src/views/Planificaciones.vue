@@ -85,8 +85,8 @@
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
-            <td align="left" style="background-color: beige;">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-            <td align="left" style="background-color: beige;">{{ r.esp_codigo}} - {{ r.esp_descripcion}}</td>
+            <td align="left" style="background-color: beige;">{{ r.cnt_descripcion }}</td>
+            <td align="left" style="background-color: beige;">{{ r.esp_descripcion}}</td>
             <td align="left" style="background-color: beige;">
               {{ r.con_codigo }} - {{ r.con_descripcion }}<br>
               {{ r.doc_data.doc_paterno }} {{ r.doc_data.doc_materno }} {{ r.doc_data.doc_nombres }}
