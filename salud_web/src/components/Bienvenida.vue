@@ -9,15 +9,9 @@ import WelcomeItem from './BienvenidaItem.vue'
         <i class="fa-solid fa-user fa-2xl"></i>
       </template>
       <template #heading>Usuario</template>
-      {{ usr_nombres }}
-    </WelcomeItem>
-
-    <WelcomeItem>
-      <template #icon>
-        <i class="fa-solid fa-building fa-2xl"></i>
-      </template>
-      <template #heading>Centro</template>
-      {{ cnt_descripcion }}
+      <span class="inline-flex items-center rounded-md bg-green-300 px-2 py-1 text-xs font-medium text-black-700 ring-1 ring-inset ring-red-600/10">
+        {{ usr_nombres }}
+      </span>
     </WelcomeItem>
 
     <WelcomeItem>
@@ -25,7 +19,19 @@ import WelcomeItem from './BienvenidaItem.vue'
         <i class="fa-solid fa-mask fa-2xl"></i>
       </template>
       <template #heading>Rol</template>
-      {{ rol_descripcion }}
+      <span class="inline-flex items-center rounded-md bg-green-300 px-2 py-1 text-xs font-medium text-black-700 ring-1 ring-inset ring-red-600/10">
+        {{ rol_descripcion }}
+      </span>
+    </WelcomeItem>
+
+    <WelcomeItem>
+      <template #icon>
+        <i class="fa-solid fa-building fa-2xl"></i>
+      </template>
+      <template #heading>Centro</template>
+      <span class="inline-flex items-center rounded-md bg-green-300 px-2 py-1 text-xs font-medium text-black-700 ring-1 ring-inset ring-red-600/10">
+        {{ cnt_descripcion }}
+      </span>
     </WelcomeItem>
   </div>
   
