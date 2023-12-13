@@ -47,7 +47,7 @@
               </select>
             </th>
             <th>Especialidad
-              <select v-model="filtro.especialidad_id" class="form-control input" @change="filtroLocal" 
+              <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
                 name="pln_esp_id" id="pln_esp_id" placeholder="Espcialidad" required>
                 <option value="0">-- todas --</option>
                 <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
@@ -296,7 +296,18 @@ export default {
     async listarRegistros() {
       this.regs = [];
       try {
+        const registros = [];
         this.regs = await planificacionesService.getData(this.filtro.fecha);
+        this.regs.forEach((r) => {
+          if (this.filtro.especialidad_id == '0') {
+            registros.push(r);
+          } else {
+            if (r.pln_esp_id == this.filtro.especialidad_id) {
+              registros.push(r);
+            }
+          }
+        });
+        this.regs = registros;
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -417,7 +428,7 @@ console.log('dispo', disponibles);
         }
       }
     },
-
+    
     closeModal() {
       this.showModal = false;
     },
