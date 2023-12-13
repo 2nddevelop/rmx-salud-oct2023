@@ -23,7 +23,7 @@
               <tr>
                 <th>#</th>
                 <th></th>
-                <th>Tipo Paciente</th>
+                <th>Tipo</th>
                 <th>CI<br>
                   <input type="text" @input="buscarRegistros" v-model="filtro.cli_nit" class="form-control input"></th>
                 <th>Paterno<br>
@@ -32,8 +32,10 @@
                   <input type="text" @input="buscarRegistros" v-model="filtro.cli_materno" class="form-control input"></th>
                 <th>Nombres<br>
                   <input type="text" @input="buscarRegistros" v-model="filtro.cli_nombres" class="form-control input"></th>
-                <th>Teléfono</th>
-                <th>Celular</th>
+                <th>
+                  Teléfono<br>
+                  Celular
+                </th>
                 <th>Dirección</th>
                 <th>Fec. Nacimiento</th>
                 <th>Registrado</th>
@@ -64,8 +66,10 @@
                 <td align="left">{{ r.cli_data.cli_paterno }}</td>
                 <td align="left">{{ r.cli_data.cli_materno }}</td>
                 <td align="left">{{ r.cli_data.cli_nombres }}</td>
-                <td align="right">{{ r.cli_data.cli_telefono }}</td>
-                <td align="right">{{ r.cli_data.cli_celular }}</td>
+                <td align="right">
+                  {{ r.cli_data.cli_telefono }}<br>
+                  {{ r.cli_data.cli_celular }}
+                </td>
                 <td align="left">{{ r.cli_data.cli_direccion }}</td>
                 <td align="left">{{ r.cli_data.cli_fec_nac }}</td>
                 <td align="center">{{ r.cli_registado }}</td>

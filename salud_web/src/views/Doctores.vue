@@ -26,14 +26,13 @@
               <th>Centro</th>
               <th>Especialidad</th>
               <th>CI<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_ci" class="form-control input"></th>
-                <th>Paterno<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_paterno" class="form-control input"></th>
-                <th>Materno<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_materno" class="form-control input"></th>
-                <th>Nombres<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.doc_nombres" class="form-control input"></th>
-                <th>Teléfono</th>
+                <input type="text" @input="buscarRegistros" v-model="filtro.doc_ci" class="form-control input"></th>
+              <th>Paterno<br>
+                <input type="text" @input="buscarRegistros" v-model="filtro.doc_paterno" class="form-control input"></th>
+              <th>Materno<br>
+                <input type="text" @input="buscarRegistros" v-model="filtro.doc_materno" class="form-control input"></th>
+              <th>Nombres<br>
+                <input type="text" @input="buscarRegistros" v-model="filtro.doc_nombres" class="form-control input"></th>
               <th>Horario Inicio</th>
               <th>Horario Fin</th>
               <th>Registrado</th>
@@ -59,8 +58,8 @@
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
-              <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
-              <td align="left">{{ r.esp_codigo }} - {{ r.esp_descripcion }}</td>
+              <td align="left">{{ r.cnt_descripcion }}</td>
+              <td align="left">{{ r.esp_descripcion }}</td>
               <td align="left">{{ r.doc_data.doc_ci }}</td>
               <td align="left">{{ r.doc_data.doc_paterno }}</td>
               <td align="left">{{ r.doc_data.doc_materno }}</td>
@@ -68,7 +67,10 @@
               <td align="left">{{ r.doc_data.doc_horario_inicio }}</td>
               <td align="left">{{ r.doc_data.doc_horario_fin }}</td>
               <td align="right">{{ r.doc_registado }}</td>
-              <td align="center">{{ r.doc_estado }}</td>
+              <td align="center">
+                <span v-if="r.doc_estado == 'X'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.doc_estado }}</span>
+                <span v-if="r.doc_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.doc_estado }}</span>
+              </td>
             </tr>
           </tbody>
           <tfoot>
