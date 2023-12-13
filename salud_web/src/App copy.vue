@@ -6,7 +6,7 @@
     </div>
     <div class="col-md-11">
       <ul class="menu">
-        <li v-for="item in filteredMenuItems" :key="item.id" class="menu-item">
+        <li v-for="item in menuItems" :key="item.id" class="menu-item">
           <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
           <ul v-if="item.children" class="submenu">
             <li v-for="child in item.children" :key="child.id" class="submenu-item">
@@ -30,59 +30,39 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/Encabezado.vue'
 import { ref } from 'vue';
 
-// 1 admin
-// 2 kdx
-// 3 fic
-// 4 enf
-// 5 doc
-
-const userRoles = ref([1]);
-
 const menuItems = ref([
-  { id: 1, label: 'Inicio', link: '/', roles: [1, 2, 3, 4, 5] },
-  { id: 2, label: 'Planificación', link: '/planificaciones', roles: [1, 2]  },
-  { id: 3, label: 'Kardex', roles: [1, 2],  children: [
-    { id: 31, label: 'Pacientes', link: '/pacientes', roles: [1, 2]  },
-    { id: 32, label: 'Historial_Médico', link: '/historiales', roles: [1, 2]  },
-    { id: 33, label: 'Médicos', link: '/doctores', roles: [1, 2]  },
+  { id: 1, label: 'Inicio', link: '/' },
+  { id: 2, label: 'Planificación', link: '/planificaciones' },
+  { id: 3, label: 'Kardex', children: [
+    { id: 31, label: 'Pacientes', link: '/pacientes' },
+    { id: 32, label: 'Historial_Médico', link: '/historiales' },
+    { id: 33, label: 'Médicos', link: '/doctores' },
   ]},
-  { id: 4, label: 'Fichas', roles: [1], children: [
-    { id: 41, label: 'Emisión', link: '/fichasEmision', roles: [1, 2, 3]  },
-    { id: 42, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3]  },
-    { id: 42, label: 'Pantalla', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
+  { id: 4, label: 'Fichas', children: [
+    { id: 41, label: 'Emisión', link: '/fichasEmision' },
+    { id: 42, label: 'Fichero', link: '/fichasFichero' },
+    { id: 42, label: 'Pantalla', link: '/fichasPantalla' },
   ]},
-  { id: 5, label: 'Consulta Médica', roles: [1, 4, 5], children: [
-    { id: 51, label: 'Llamada_Fichas', link: '/fichasAtencion', roles: [1, 4, 5]  },
-  //  { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta', roles: [1]  },
-    { id: 53, label: 'Consulta_Externa', link: '/fichasConsultaB', roles: [1, 4, 5]  },
+  { id: 5, label: 'Consulta Médica', children: [
+    { id: 51, label: 'Llamada_Fichas', link: '/fichasAtencion' },
+  //  { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta' },
+    { id: 53, label: 'Consulta_Externa', link: '/fichasConsultaB' },
   ]},
-  { id: 5, label: 'Instrumentos', roles: [1], children: [
-    { id: 51, label: 'CIE', link: '/', roles: [1]  },
-    { id: 52, label: 'Vademécum_General', link: '/', roles: [1]  },
+  { id: 5, label: 'Instrumentos', children: [
+    { id: 51, label: 'CIE', link: '/' },
+    { id: 52, label: 'Vademécum_General', link: '/' },
   ]},
-  { id: 7, label: 'Parametros', roles: [1], children: [
-    { id: 71, label: 'Centros_Médicos', link: '/centros', roles: [1]  },
-    { id: 72, label: 'Especialidades', link: '/especialidades', roles: [1]  },
-    { id: 73, label: 'Consultorios', link: '/consultorios', roles: [1]  },
-    { id: 74, label: 'Tipos_Paciente', link: '/tiposClientes', roles: [1]  },
-    { id: 75, label: 'Usuarios', link: '/users', roles: [1]  },
-    { id: 75, label: 'Roles', link: '/roles', roles: [1]  },
-    { id: 75, label: 'Usuarios Roles', link: '/usuariosrol', roles: [1]  },
+  { id: 7, label: 'Parametros', children: [
+    { id: 71, label: 'Centros_Médicos', link: '/centros' },
+    { id: 72, label: 'Especialidades', link: '/especialidades' },
+    { id: 73, label: 'Consultorios', link: '/consultorios' },
+    { id: 74, label: 'Tipos_Paciente', link: '/tiposClientes' },
+    { id: 75, label: 'Usuarios', link: '/users' },
+    { id: 75, label: 'Roles', link: '/roles' },
+    { id: 75, label: 'Usuarios Roles', link: '/usuariosrol' },
   ]},
-  { id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
+  { id: 99, label: 'Ingresar', link: '/logout' },
 ]);
-const checkRoles = roles => roles.some(role => userRoles.value.includes(role));
-console.log('checkRoles: ', checkRoles.value);
-const filteredMenuItems = ref([]);
-
-// Filtrar los elementos del menú al iniciar el componente
-filteredMenuItems.value = menuItems.value.filter(item => {
-  if (item.roles) {
-    return checkRoles(item.roles);
-  }
-  return true;
-});
-
 </script>
 
 <!--style scoped>
