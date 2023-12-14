@@ -78,7 +78,7 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body p-6 space-y-6">
+            <div class="modal-body p-1 space-y-1">
               <div class="grid grid-cols-3 gap-1">
                 <div class="form-group">
                   <label for="fecha2" class="font-semibold">Fecha</label>
@@ -118,12 +118,15 @@
               </div>
               <div class="grid grid-cols-2 gap-1">                
                 <div v-for="p in planificaciones" class="form-group">
-                    <button @click="mostrarFicha(this, p.pln_id)" 
-                      class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
-                      :disabled="reg.fch_kdx_medico == 'a definir'"> 
-                      {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
-                    </button>
+                  <button @click="mostrarFicha(this, p.pln_id)" 
+                    class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
+                    :disabled="reg.fch_kdx_medico == 'a definir'"> 
+                    {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                  </button>
                 </div>
+                <label class="content-center text-red-400" v-show="planificaciones.length < 1">
+                  No hay planificacion para este día
+                </label>
               </div>
 
               <div class="grid grid-cols-5 gap-0">

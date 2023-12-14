@@ -20,7 +20,7 @@ import WelcomeItem from './BienvenidaItem.vue'
       </template>
       <template #heading>Rol</template>
       <span class="inline-flex items-center rounded-md bg-green-300 px-2 py-1 text-xs font-medium text-black-700 ring-1 ring-inset ring-red-600/10">
-        {{ rol_descripcion }}
+        {{ rol_id }} - {{ rol_descripcion }}
       </span>
     </WelcomeItem>
 
@@ -83,6 +83,7 @@ import WelcomeItem from './BienvenidaItem.vue'
 export default {
   data() {
     return {
+      rol_id: '',
       rol_descripcion: '',
       cnt_descripcion: '',
       usr_nombres: '',
@@ -90,9 +91,12 @@ export default {
   },
 
   mounted() {
+    this.rol_id = localStorage.getItem('rol_id');
     this.rol_descripcion = localStorage.getItem('rol_descripcion');
     this.cnt_descripcion = localStorage.getItem('cnt_descripcion');
     this.usr_nombres = localStorage.getItem('usr_nombres');
+
+    this.rol_id = this.rol_id ? this.rol_id : '';
     this.rol_descripcion = this.rol_descripcion ? this.rol_descripcion : '';
     this.cnt_descripcion = this.cnt_descripcion ? this.cnt_descripcion : '';
     this.usr_nombres = this.usr_nombres ? this.usr_nombres : '';

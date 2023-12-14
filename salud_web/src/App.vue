@@ -36,7 +36,9 @@ import { ref } from 'vue';
 // 4 enf
 // 5 doc
 
-const userRoles = ref([1]);
+const rol_id = localStorage.getItem('rol_id');
+const userRoles = ref([parseInt(rol_id) > 0 ? parseInt(rol_id) : 0]);
+//const userRoles = ref([1]);
 
 const menuItems = ref([
   { id: 1, label: 'Inicio', link: '/', roles: [1, 2, 3, 4, 5] },
@@ -72,7 +74,6 @@ const menuItems = ref([
   { id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);
 const checkRoles = roles => roles.some(role => userRoles.value.includes(role));
-console.log('checkRoles: ', checkRoles.value);
 const filteredMenuItems = ref([]);
 
 // Filtrar los elementos del menú al iniciar el componente
@@ -82,6 +83,8 @@ filteredMenuItems.value = menuItems.value.filter(item => {
   }
   return true;
 });
+
+console.log('filteredMenuItems: ', filteredMenuItems);
 
 </script>
 
