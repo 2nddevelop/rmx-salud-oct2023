@@ -84,6 +84,7 @@ router.get('/users', authMiddleware, UserController.getAllUsers);
 router.post('/user', authMiddleware, UserController.createUser);
 router.put('/user/:usr_id', authMiddleware, UserController.updateUser);
 router.delete('/user/:usr_id', authMiddleware, UserController.deleteUser);
+router.get('/userXId/:usr_id', authMiddleware, UserController.getUserXId);
 
 // --- roles ------------------------------------------------------------------
 router.get('/roles', RolController.getAllRoles);
@@ -145,6 +146,7 @@ router.post('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.del
 //// Clientes
 router.post('/cliente/buscarHistorial', authMiddleware, ClienteController.getClienteHistorialXCliId); // lo puse aqui por tema del compilador tsc, tema en las rutas
 router.post('/clientes/buscarXCI', authMiddleware, ClienteController.getClientesXCI);
+router.post('/clientes/buscar', authMiddleware, ClienteController.getAllClientesXCIPatMatNombres);
 
 router.get('/clientes/:fecha', authMiddleware, ClienteController.getAllClientesXFecha);
 router.get('/clientes', authMiddleware, ClienteController.getAllClientes);

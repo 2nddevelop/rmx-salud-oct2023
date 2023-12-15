@@ -70,6 +70,7 @@ const menuItems = ref([
     { id: 75, label: 'Usuarios', link: '/users', roles: [1]  },
     { id: 75, label: 'Roles', link: '/roles', roles: [1]  },
     { id: 75, label: 'Usuarios Roles', link: '/usuariosrol', roles: [1]  },
+    { id: 75, label: 'Usuarios Password', link: '/usuariosPassword', roles: [1]  },
   ]},
   { id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);

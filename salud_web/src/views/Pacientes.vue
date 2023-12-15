@@ -25,13 +25,13 @@
                 <th></th>
                 <th>Tipo</th>
                 <th>CI<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_nit" class="form-control input"></th>
+                  <input type="text" @change="buscarRegistros" v-model="filtro.cli_nit" class="form-control input"></th>
                 <th>Paterno<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_paterno" class="form-control input"></th>
+                  <input type="text" @change="buscarRegistros" v-model="filtro.cli_paterno" class="form-control input"></th>
                 <th>Materno<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_materno" class="form-control input"></th>
+                  <input type="text" @change="buscarRegistros" v-model="filtro.cli_materno" class="form-control input"></th>
                 <th>Nombres<br>
-                  <input type="text" @input="buscarRegistros" v-model="filtro.cli_nombres" class="form-control input"></th>
+                  <input type="text" @change="buscarRegistros" v-model="filtro.cli_nombres" class="form-control input"></th>
                 <th>
                   Teléfono<br>
                   Celular
@@ -318,161 +318,158 @@
         },
       },
     };
-    </script>
+</script>
     
-
 <style>
-* {
-  box-sizing: border-box;
-}
-
-.input {
-  color: black;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 40px;
-  font-size: x-small;
-}
-
-.table th {
-  padding: 7px 10px;
-  border: 1px solid;
-  font-weight: bold;
-  color: white;
-  background: hsla(160, 100%, 37%, 1);
-  vertical-align: top;
-}
-
-.table td {
-  padding: 7px 10px;
-  border: 1px solid;
-  border-block-color: rgb(190, 197, 195);
-}
-
-.word-break {
-  word-break: break-all;
-}
-
-.scroll-container {
-  overflow: auto;
-  margin-bottom: 40px;
-  border-left: 1px solid;
-  border-right: 1px solid;
-}
-
-.scroll {
-  margin: 0;
-}
-
-.scroll td:first-of-type {
-  position: sticky;
-  left: 0;
-  border-left: none;
-  background: #f4f4f4;
-  color: #212121;
-  font-weight: bold;
-}
-
-.scroll td:last-of-type {
-  border-right: none;
-}
-
-@media screen and (max-width: 600px) {
-  .responsive thead {
-    visibility: hidden;
-    height: 0;
-    position: absolute;
+  * {
+    box-sizing: border-box;
+  }
+  
+  .input {
+    color: black;
   }
 
-  .responsive tr {
-    display: block;
-    margin-bottom: 0.625em;
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+    font-size: x-small;
   }
-
-  .responsive td {
+  
+  .table th {
+    padding: 7px 10px;
     border: 1px solid;
-    border-bottom: none;
-    display: block;
-    font-size: 0.8em;
-    text-align: right;
-  }
-
-  .responsive td::before {
-    content: attr(data-label);
-    float: left;
     font-weight: bold;
-    text-transform: uppercase;
+    color: white;
+    background: hsla(160, 100%, 37%, 1);
+    vertical-align: top;
+  }
+  
+  .table td {
+    padding: 7px 10px;
+    border: 1px solid;
+    border-block-color: rgb(190, 197, 195);
+  }
+  
+  .word-break {
+    word-break: break-all;
+  }
+  
+  .scroll-container {
+    overflow: auto;
+    margin-bottom: 40px;
+    border-left: 1px solid;
+    border-right: 1px solid;
+  }
+  
+  .scroll {
+    margin: 0;
+  }
+  
+  .scroll td:first-of-type {
+    position: sticky;
+    left: 0;
+    border-left: none;
+    background: #f4f4f4;
+    color: #212121;
+    font-weight: bold;
+  }
+  
+  .scroll td:last-of-type {
+    border-right: none;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .responsive thead {
+      visibility: hidden;
+      height: 0;
+      position: absolute;
+    }
+  
+    .responsive tr {
+      display: block;
+      margin-bottom: 0.625em;
+    }
+  
+    .responsive td {
+      border: 1px solid;
+      border-bottom: none;
+      display: block;
+      font-size: 0.8em;
+      text-align: right;
+    }
+  
+    .responsive td::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  
+    .responsive td:last-child {
+      border-bottom: 1px solid;
+    }
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .responsive td:last-child {
-    border-bottom: 1px solid;
+  <style>
+  /* ... (otros estilos) ... */
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Aumenta el ancho máximo del modal */
+    width: 100%; /* Ocupará el 100% del ancho disponible */
   }
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999; 
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 5px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%; 
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-}
-
-.modal-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.modal-footer {
-  margin-top: 15px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-footer button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.modal-footer button:hover {
-  background-color: #f0f0f0;
-}
-
-/* Form field styles */
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-control {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-</style>
-    
+  
+  .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .modal-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .modal-footer button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .modal-footer button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Form field styles */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  </style>
+  

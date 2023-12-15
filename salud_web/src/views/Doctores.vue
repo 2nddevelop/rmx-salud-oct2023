@@ -23,16 +23,28 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>Centro</th>
-              <th>Especialidad</th>
+              <th>Centro
+                <select v-model="filtro.centro_id" class="form-control input" @change="listarRegistros" 
+                  name="doc_cnt_id" id="doc_cnt_id" placeholder="Centro" required>
+                  <option value="0">-- todos --</option>
+                  <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+                </select>
+              </th>
+              <th>Especialidad
+                <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
+                  name="doc_esp_id" id="doc_esp_id" placeholder="Espcialidad" required>
+                  <option value="0">-- todas --</option>
+                  <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
+                </select>
+              </th>
               <th>CI<br>
-                <input type="text" @input="buscarRegistros" v-model="filtro.doc_ci" class="form-control input"></th>
+                <input type="text" @change="buscarRegistros" v-model="filtro.doc_ci" class="form-control input"></th>
               <th>Paterno<br>
-                <input type="text" @input="buscarRegistros" v-model="filtro.doc_paterno" class="form-control input"></th>
+                <input type="text" @change="buscarRegistros" v-model="filtro.doc_paterno" class="form-control input"></th>
               <th>Materno<br>
-                <input type="text" @input="buscarRegistros" v-model="filtro.doc_materno" class="form-control input"></th>
+                <input type="text" @change="buscarRegistros" v-model="filtro.doc_materno" class="form-control input"></th>
               <th>Nombres<br>
-                <input type="text" @input="buscarRegistros" v-model="filtro.doc_nombres" class="form-control input"></th>
+                <input type="text" @change="buscarRegistros" v-model="filtro.doc_nombres" class="form-control input"></th>
               <th>Horario Inicio</th>
               <th>Horario Fin</th>
               <th>Registrado</th>
@@ -58,8 +70,8 @@
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
-              <td align="left">{{ r.cnt_descripcion }}</td>
-              <td align="left">{{ r.esp_descripcion }}</td>
+              <td align="left" style="background-color: beige;">{{ r.cnt_descripcion }}</td>
+              <td align="left" style="background-color: beige;">{{ r.esp_descripcion}}</td>
               <td align="left">{{ r.doc_data.doc_ci }}</td>
               <td align="left">{{ r.doc_data.doc_paterno }}</td>
               <td align="left">{{ r.doc_data.doc_materno }}</td>
@@ -173,7 +185,6 @@
     </div>
   </template>
   
-  
   <script>
   import centrosService from '../services/centrosService';
   import especialidadesService from '../services/especialidadesService';
@@ -204,7 +215,7 @@
         isEditing: false,
         centros: [],
         especialidades: [],
-        filtro: { doc_ci: "", doc_paterno: "", doc_materno: "", doc_nombres: "" }
+        filtro: { centro_id: '0', especialidad_id: '0', doc_ci: "", doc_paterno: "", doc_materno: "", doc_nombres: "" }
       };
     },
   
@@ -218,7 +229,18 @@
       async listarRegistros() {
         this.regs = [];
         try {
+          const registros = [];
           this.regs = await doctoresService.getData();
+          this.regs.forEach((r) => {
+            if (this.filtro.especialidad_id == '0') {
+              registros.push(r);
+            } else {
+              if (r.doc_esp_id == this.filtro.especialidad_id) {
+                registros.push(r);
+              }
+            }
+          });
+          this.regs = registros;
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -324,6 +346,10 @@
     box-sizing: border-box;
   }
   
+  .input {
+    color: black;
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;

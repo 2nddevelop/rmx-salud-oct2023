@@ -231,7 +231,7 @@ export default {
       if (this.isEditing) {
         this.reg.usr_estado = "S";
         const updatedReg = await userService.updateData(this.reg);
-        const index = this.regs.findIndex(item => item.cnt_id === updatedReg.cnt_id);
+        const index = this.regs.findIndex(item => item.usr_id === updatedReg.usr_id);
             if (index !== -1) {
               this.regs.splice(index, 1, updatedReg);
             }
@@ -245,14 +245,15 @@ export default {
 
 
     async deleteRegistro(reg) {
-      const confirmed = window.confirm("¿Estás seguro de tomar Signos Vitales?");
+      const confirmed = window.confirm("¿Estás seguro de Eliminar Usuario?");
       if (confirmed) {
         try {
           const index = this.regs.findIndex(item => item.usr_id === reg.usr_id);
           if (index !== -1) {
             reg.usr_usr_id = 1;
             reg.usr_estado = "X";
-            const updatedReg = await userService.updateData(reg);
+            await userService.updateData(reg);
+            this.regs.splice(index, 1);
           } else {
             console.error('No se encontró el registro para eliminar');
           }

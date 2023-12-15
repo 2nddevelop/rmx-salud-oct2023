@@ -18,6 +18,17 @@ const userService = {
       throw error;
     }
   },
+
+  async getDataXId(usr_id) {
+    try {
+      const tk = localStorage.getItem('token');
+      this.setAuthHeader(tk);
+      const response = await axios.get(API_URL + '/userXId/' + usr_id);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
   
   async saveData(newRecord) {
     try {
