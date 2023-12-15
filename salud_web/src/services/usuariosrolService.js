@@ -1,8 +1,8 @@
 import axios from 'axios';
-import store from '../store/modules/authModule'
+import store from '../store/modules/authModule.js'
 import { API_URL } from '../config.js';
 
-const usuariosrolService = {
+const usuariosRolService = {
 
   setAuthHeader(token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -53,4 +53,4 @@ const usuariosrolService = {
   },
 };
 
-export default usuariosrolService;
+export default usuariosRolService;
