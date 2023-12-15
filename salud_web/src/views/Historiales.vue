@@ -118,16 +118,16 @@
             </button>
           </div>
           <!-- Modal body -->
-          <div class="p-6 space-y-6">
+          <div class="p-6 space-y-1">
             
-            <div class="grid grid-cols-4 gap-3">
+            <div class="grid grid-cols-4 gap-1">
               <div class="form-group">
                 <label for="historial">Historial</label>
                 <input v-model="reg.hc_codigo" style="background:beige;" class="form-control" name="historial" id="historial" placeholder="Historial" />
               </div>
             </div>
 
-            <div class="grid grid-cols-4 gap-3">
+            <div class="grid grid-cols-4 gap-1">
               <div class="form-group">
                 <label for="CI">CI</label>
                 <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" disabled />

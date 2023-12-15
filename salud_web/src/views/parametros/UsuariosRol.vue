@@ -121,7 +121,7 @@
   <script>
   import userService from '../../services/userService';
   import rolesService from '../../services/rolesService';
-  import usuariosrolService from '../../services/usuariosrolService';
+  import usuariosRolService from '../../services/usuariosRolService';
   
   import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -150,7 +150,7 @@
       async listarRegistros() {
         this.regs = [];
         try {
-          this.regs = await usuariosrolService.getData();
+          this.regs = await usuariosRolService.getData();
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -187,13 +187,13 @@
         this.reg.urol_usr_id = 1; 
         this.reg.urol_estado = "A";
         if (this.isEditing) {
-          const updatedReg = await usuariosrolService.updateData(this.reg);
+          const updatedReg = await usuariosRolService.updateData(this.reg);
           const index = this.regs.findIndex(item => item.urol_id === updatedReg.urol_id);
             if (index !== -1) {
               this.regs.splice(index, 1, updatedReg);
             }
         } else {
-          const savedReg = await usuariosrolService.saveData(this.reg);
+          const savedReg = await usuariosRolService.saveData(this.reg);
           this.regs.push(savedReg);
         }
         this.listarRegistros();
@@ -208,7 +208,7 @@
             if (index !== -1) {
               reg.urol_usr_id = 1;
               reg.urol_estado = "X"; 
-              await usuariosrolService.deleteData(reg); 
+              await usuariosRolService.deleteData(reg); 
               this.regs.splice(index, 1); 
             } else {
               console.error('No se encontró el registro para eliminar');
@@ -324,18 +324,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 999; 
   }
-
-  <style>
-  /* ... (otros estilos) ... */
   
   .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px; /* Aumenta el ancho máximo del modal */
-    width: 100%; /* Ocupará el 100% del ancho disponible */
+    width: 80%; 
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
   }
   
   .modal-title {

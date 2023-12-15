@@ -118,7 +118,7 @@
               </button>
             </div>
             <!-- Modal body -->
-            <div class="p-6 space-y-6">
+            <div class="p-6 space-y-1">
               <div class="grid grid-cols-2 gap-3">
                 <div class="form-group">
                     <label for="doc_cnt_id" class="font-semibold">Centro</label>
@@ -154,6 +154,7 @@
                   <input v-model="reg.doc_data.doc_ci" class="form-control" name="ci" id="ci" placeholder="CI" />
                 </div>
               </div>
+
               <div class="form-group">
                 <label for="celular">Celular:</label>
                 <input v-model="reg.doc_data.doc_celular" class="form-control" name="celular" id="celular" placeholder="Celular" />
@@ -162,7 +163,7 @@
                 <label for="dias">Dias:</label>
                 <input v-model="reg.doc_data.doc_dias" class="form-control" name="dias" id="dias" placeholder="Dias" />
               </div>
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-2 gap-3">
                 <div class="col-md-6">
                   <label for="horarioini">Horario Inicio:</label>
                   <input type="time" v-model="reg.doc_data.doc_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
@@ -442,18 +443,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 999; 
   }
-
-  <style>
-  /* ... (otros estilos) ... */
   
   .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px; /* Aumenta el ancho máximo del modal */
-    width: 100%; /* Ocupará el 100% del ancho disponible */
+    width: 80%; 
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
   }
   
   .modal-title {
