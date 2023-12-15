@@ -112,7 +112,7 @@
                 </button>
               </div>
               <!-- Modal body -->
-              <div class="p-6 space-y-6">
+              <div class="p-6 space-y-1">
                 <div class="form-group">
                   <label for="cli_tcli_id" class="font-semibold">Tipo de Cliente</label>
                   <select v-model="reg.cli_tcli_id" class="form-control" name="cli_tcli_id" id="cli_tcli_id" placeholder="Tipo de Cliente" required>
@@ -121,7 +121,7 @@
                   </select>
                 </div>
 
-                <div class="grid grid-cols-4 gap-3">
+                <div class="grid grid-cols-4 gap-1">
                   <div class="form-group">
                     <label for="paterno">Paterno:</label>
                     <input v-model="reg.cli_data.cli_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
@@ -142,7 +142,7 @@
                     <input v-model="reg.cli_data.cli_nit" class="form-control" name="ci" id="ci" placeholder="CI" />
                   </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-1">
                   <div class="form-group">
                     <label for="telefono">Teléfono:</label>
                     <input v-model="reg.cli_data.cli_telefono" class="form-control" name="telefono" id="telefono" placeholder="Teléfono" />
@@ -157,13 +157,13 @@
                   <label for="direccion">Dirección:</label>
                   <input v-model="reg.cli_data.cli_direccion" class="form-control" name="direccion" id="direccion" placeholder="Dirección" />
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-1">
                   <div class="form-group">
                     <label for="fecnac">Fecha Nacimiento:</label>
                     <input type="date" v-model="reg.cli_data.cli_fec_nac" class="form-control" name="fecnac" id="fecnac" placeholder="Fecha Nacimiento" />
                   </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-1">
                   <div class="form-group">
                     <label for="correo">Correo:</label>
                     <input type="email" v-model="reg.cli_data.cli_correo" class="form-control" name="correo" id="correo" placeholder="Correo" />
