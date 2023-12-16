@@ -46,6 +46,23 @@ const UserController = {
     }
   },
   
+  getUserXId: async (req: Request, res: Response) => {
+    const {usr_id} = req.params;
+    try {
+      const usersQuery = await pool.query(
+        
+        `SELECT u.* 
+        FROM base_usuarios u
+        WHERE u.usr_id = $1 
+          AND u.usr_estado != 'X' ORDER BY 1 `, [usr_id]
+      );
+      const users = usersQuery.rows;
+      res.json(users);
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  },
 
   getAllUsers: async (req: Request, res: Response) => {
     try {
@@ -100,7 +117,7 @@ const UserController = {
       // Verificar si el usuario existe en la base de datos
       const existingUserQuery = await pool.query('SELECT * FROM base_usuarios WHERE usr_id = $1', [usr_id]);
       const existingUser = existingUserQuery.rows[0];
-  
+      console.log("RRRRRRRSSSS", req.body);
       if (!existingUser) {
         return res.status(404).json({ message: 'Usuario no encontrado' });
       }
@@ -110,7 +127,12 @@ const UserController = {
   
       // Actualizar el usuario en la base de datos
       const updatedUserQuery = await pool.query(
-        `UPDATE base_usuarios SET usr_cnt_id = $1, usr_nombres = $2, usr_primer_apellido = $3, usr_segundo_apellido = $4, usr_direccion = $5, usr_celular = $6, usr_lat = $7, usr_lng = $8, usr_email = $9, usr_clave = crypt($10, gen_salt('bf')), usr_actualizado = $11 WHERE usr_id = $12 RETURNING * `,
+        `UPDATE base_usuarios SET 
+          usr_cnt_id = $1, usr_nombres = $2, usr_primer_apellido = $3, 
+          usr_segundo_apellido = $4, usr_direccion = $5, usr_celular = $6, 
+          usr_lat = $7, usr_lng = $8, usr_email = $9, 
+          usr_clave = crypt($10, gen_salt('bf')), usr_actualizado = $11 
+          WHERE usr_id = $12 RETURNING * `,
         [usr_cnt_id, usr_nombres, usr_primer_apellido, usr_segundo_apellido, usr_direccion, usr_celular, usr_lat, usr_lng, usr_email, usr_clave, usr_actualizado, usr_id]
       );
   
@@ -125,19 +147,16 @@ const UserController = {
 
   deleteUser: async (req: Request, res: Response) => {
     const { usr_id } = req.params;
-  
+    const { usr_usr_id, usr_actualizado, usr_estado} = req.body;
+
     try {
-      // Verificar si el usuario existe en la base de datos
-      const existingUserQuery = await pool.query('SELECT * FROM base_usuarios WHERE usr_id = $1', [usr_id]);
-      const existingUser = existingUserQuery.rows[0];
-  
-      if (!existingUser) {
-        return res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-  
-      // Eliminar el usuario de la base de datos
-      await pool.query('DELETE FROM base_usuarios WHERE usr_id = $1', [usr_id]);
-  
+      const result = await pool.query(
+        'UPDATE base_usuarios SET usr_actualizado = $1, usr_estado = $2, usr_usr_id = $3 WHERE usr_id = $4 RETURNING *',
+        [usr_actualizado, usr_estado, usr_usr_id, usr_id]
+      );
+        if (result.rowCount === 0) {
+          return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
       res.json({ message: 'Usuario eliminado correctamente' });
     } catch (error) {
       console.error('Error al eliminar el usuario:', error);

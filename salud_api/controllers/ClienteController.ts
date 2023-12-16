@@ -98,12 +98,9 @@ const ClienteController = {
     const noms = cli_nombres !== "" ? " AND UPPER(c.cli_data->>'cli_nombres') like '" + cli_nombres.toUpperCase() + "%' " : " ";
 
     try {
-      const sql = `SELECT c.*, tc.tcli_codigo, tc.tcli_descripcion 
+      const sql = `SELECT c.* 
       FROM rmx_gral_clientes c
-      INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
-      INNER JOIN rmx_sld_historiales h ON h.hc_cli_id = c.cli_id
-      WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} 
-      ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `;
+      WHERE c.cli_estado != 'X' ${nit} ${pat} ${mat} ${noms} ORDER BY 1 `;
       const clientesQuery = await pool.query( 
         sql
       );
