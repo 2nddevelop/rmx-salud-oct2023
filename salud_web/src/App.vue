@@ -69,8 +69,8 @@ const menuItems = ref([
     { id: 74, label: 'Tipos_Paciente', link: '/tiposClientes', roles: [1]  },
     { id: 75, label: 'Usuarios', link: '/users', roles: [1]  },
     { id: 75, label: 'Roles', link: '/roles', roles: [1]  },
-    { id: 75, label: 'Usuarios Roles', link: '/usuariosrol', roles: [1]  },
-    { id: 75, label: 'Usuarios Password', link: '/usuariosPassword', roles: [1]  },
+    { id: 75, label: 'Usuarios_Roles', link: '/usuariosrol', roles: [1]  },
+    { id: 75, label: 'Cambio_Clave', link: '/usuariosPassword', roles: [1]  },
   ]},
   { id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);

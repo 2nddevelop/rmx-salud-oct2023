@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="p-6 m-1">
     <div>
       <div class="grid grid-cols-3">
         <div class="p-6 m-1">
@@ -8,16 +8,20 @@
       </div>
     </div>
     
-    <div class="p-4 m-1">
+    <div class="grid grid-cols-2 gap-1">
+      <div class="form-group">
+        <label for="email">Nombres</label>
+        <input type="email" v-model="usr_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" disabled/>
+      </div>
       <div class="form-group">
         <label for="email">Correo Electronico</label>
         <input type="email" v-model="reg.usr_email" class="form-control" name="email" id="email" placeholder="Correo Electronico" disabled/>
       </div>
     </div>
 
-    <div class="p-4 m-1">
+    <div>
       <div class="form-group">
-        <label for="password">Nueva Contrasena</label>
+        <label for="password">Nueva Contraseña</label>
         <input type="password" v-model="reg.usr_clave" class="form-control" name="password" id="password" placeholder="Contrasena" />
       </div>
     </div>
@@ -38,8 +42,9 @@
 
 
 <script>
-import userService from '../services/userService';
-import centrosService from '../services/centrosService';
+import userService from '../../services/userService';
+import centrosService from '../../services/centrosService';
+
 import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
@@ -62,7 +67,6 @@ export default {
   mounted() {
     this.usr_nombres = localStorage.getItem('usr_nombres');
     this.usr_id = localStorage.getItem('usr_id');
-    console.log("RRRRR",this.usr_id, this.usr_nombres);
     this.listarRegistros();
   },
 

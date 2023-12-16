@@ -94,7 +94,7 @@
           </div>
           <!-- Modal body -->
           <div class="modal-body p-6 space-y-6">
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-2 gap-1">
               <div class="form-group">
                 <label for="usr_cnt_id" class="font-semibold">Centro</label>
                 <select v-model="reg.usr_cnt_id" class="form-control" name="usr_cnt_id" id="usr_cnt_id" placeholder="Centro" required >
@@ -104,7 +104,7 @@
               </div>
             </div>
             
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-3 gap-1">
               <div class="col-md-6">
                 <label for="paterno">Paterno</label>
                 <input v-model="reg.usr_primer_apellido" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
@@ -113,17 +113,16 @@
                 <label for="materno">Materno</label>
                 <input v-model="reg.usr_segundo_apellido" class="form-control" name="materno" id="materno" placeholder="Materno" />
               </div>
-
               <div class="col-md-6">
                 <label for="nombres">Nombres</label>
                 <input v-model="reg.usr_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" />
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-1">
               <div class="col-md-6">
                 <label for="direccion">Direccion</label>
-                <input v-model="reg.usr_direccion" class="form-control" name="direccion" id="direccion" placeholder="Direccion" />
+                <textarea v-model="reg.usr_direccion" class="form-control" name="direccion" id="direccion" placeholder="Direccion" ></textarea>
               </div>
               <div class="col-md-6">
                 <label for="celular">Celular</label>
@@ -131,7 +130,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-1">
               <div class="col-md-6">
                 <label for="latitud">Latitud</label>
                 <input v-model="reg.usr_lat" class="form-control" name="latitud" id="latitud" placeholder="Latitud" />
@@ -142,7 +141,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-1">
               <div class="col-md-6">
                 <label for="email">Email</label>
                 <input type="email" v-model="reg.usr_email" class="form-control" name="email" id="email" placeholder="Email" />
@@ -378,15 +377,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999; 
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px; /* Aumenta el ancho máximo del modal */
-  width: 100%; /* Ocupará el 100% del ancho disponible */
+  width: 80%; 
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
 }
 
 .modal-title {
