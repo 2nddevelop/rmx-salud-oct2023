@@ -21,12 +21,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('@/views/Home.vue')
   },
   {
-    path: '/principales/memos',
-    component: () => import ('@/views/principales/Memos.vue')
-  },
-  {
-    path: '/principales/siniestros',
-    component: () => import ('@/views/principales/Siniestros.vue')
+    path: '/principales/derivacion',
+    component: () => import ('@/views/principales/Derivacion.vue')
   },
   {
     path: '/varios/avisos',
@@ -44,6 +40,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/adm/dashboard',
     component: () => import ('@/views/Dashboard.vue')
   },
+  //{
+  //  path: '/login',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  //  component: () => import ('@/views/usuarioPassword.vue')
+  //},
   {
     path: '/login',
     component: () => import ('@/views/Login.vue')

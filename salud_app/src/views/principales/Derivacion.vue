@@ -14,10 +14,17 @@
 
     <ion-content class="ion-padding" :fullscreen="false">
       <ion-list>
-        <ion-item v-for="item in items" :key="item.id_memo">
+        <ion-list>
+          <ion-item>
+            <ion-input type="date" label-placement="stacked">Fecha</ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label-placement="stacked">Centro</ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-item v-for="item in items" :key="item.cnt_id">
           <ion-label class="ion-text-wrap">
-            <p><strong>Poliza: {{ item.id_memo }} - {{ item.poliza }}</strong></p>
-            <p>Ref: {{ item.referencia }}</p>
+            <p>linea {{ item.cnt_descripcion }} - {{ item.cnt_codigo }}</p>
 
             <!--p>Solicitud: {{ item.sac_solicitud }}</p>
             <p>Fecha: {{ item.sac_fec_solicitud }}</p>
@@ -39,10 +46,10 @@
               </ng-template>
             </p-->
           </ion-label>
-          <ion-button color="primary" @click="openModal(item)"><ion-icon :icon="cardOutline"></ion-icon></ion-button>
-          <ion-button color="primary" @click="openModal(item)"><ion-icon :icon="eyeOutline"></ion-icon></ion-button>
         </ion-item>
       </ion-list>
+      <!--ion-button color="primary" @click="openModal(item)"><ion-icon :icon="cardOutline"></ion-icon></ion-button>
+      <ion-button color="primary" @click="openModal(item)"><ion-icon :icon="eyeOutline"></ion-icon></ion-button-->
     </ion-content>
   </ion-page>
 </template>
@@ -56,7 +63,7 @@ import {
   IonIcon, IonFooter, IonLabel, IonBadge
 } from "@ionic/vue";
 import { ref, onMounted } from 'vue';
-import { useMemos } from '@/services/serviceMemos';
+import { useCentros } from '@/services/serviceCentros';
 import { modalController } from '@ionic/vue';
 import ModalCuotas from '@/views/principales/ModalCuotas.vue';
 import { useStore } from 'vuex';
@@ -65,13 +72,16 @@ import { addOutline, cardOutline, eyeOutline, pencilOutline } from 'ionicons/ico
 const store = useStore();
 const globalCiudad = ref(store.state.globalCiudad);
 const globalUserId = ref(store.state.globalUserId);
+//const globalCntId = ref(store.state.globalCntId) || 1;
 
 let items = ref([]);
-const apiService = useMemos();
+const apiService = useCentros();
+
 const fetchData = async () => {
   try {
-    const data = await apiService.fetchData(globalUserId.value);
+    const data = await apiService.fetchData();
     items.value = data;
+    console.log('centros: ', items.value);
     //responseData.value = JSON.stringify(data);
   } catch (error) {
     console.error('Error in fetchData:', error);
@@ -79,7 +89,7 @@ const fetchData = async () => {
 };
 
 onMounted(async () => {
-  console.log('entro Memos');
+  console.log('entro Derivacion');
   fetchData();
 });
 

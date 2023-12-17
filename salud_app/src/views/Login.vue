@@ -16,7 +16,7 @@
       <ion-label>
         <p>Hola ! 👋</p>
         <p>Hola nuevamente, l@ esperamos!</p>
-        <p>vmjc5767 / cs20cs1527 - erof4270 / cs20cs1159 - nesr5480 / cs20cs1351</p>
+        <p>Usuarios DEMO:</p>
       </ion-label>
       <form novalidate @submit.prevent="onLogin">
         <ion-list>
@@ -105,8 +105,8 @@ const globalLogged = ref(store.state.globalLogged);
 //};
 
 // login control
-const username = ref("vmjc5767");
-const password = ref("cs20cs1527");
+const username = ref("rome@gmail.com");
+const password = ref("123456");
 const submitted = ref(false);
 
 const usernameValid = true;
@@ -121,6 +121,7 @@ const canSubmit = computed(
 
 let items = ref([]);
 const apiService = useClientes();
+
 const fetchData = async () => {
   try {
     const data = await apiService.postData({ "username": username.value.trim(), "password": password.value.trim() });
@@ -131,15 +132,21 @@ const fetchData = async () => {
   }
 };
 
-const onLogin = () => {
+const onLogin = async () => {
   submitted.value = true;
-  fetchData();
-
-  // if (username.value.trim() != '' && password.value.trim() === 'admin') {
-  if (Object.keys(items.value).length) {
+  await fetchData();
+  if (Object.keys(items.value).length > 0) {
+    console.log('BD -> login: ', items.value);
+    console.log('BD -> login -> tk : ', items.value.token);
+    console.log('BD -> login -> cnt_descripcion : ', items.value.cnt_descripcion);
     store.commit('updateGlobalUser', username.value.trim());
-    store.commit('updateGlobalUserId', items.value[0].id_cliente);
+    store.commit('updateGlobalUserId', items.value.usr_id);
     store.commit('updateGlobalLogged', true);
+    store.commit('updateGlobalToken', items.value.token);
+    store.commit('updateGlobalCntId', items.value.cnt_id);
+    store.commit('updateGlobalCntDescripcion', items.value.cnt_descripcion);
+    console.log('--------');
+    console.log('Token recuperado: ', store.state.globalToken.value);
     toastMessage.value = "Satisfactoriamente ingresad@!";
     showToast.value = true;
     router.push('/home');

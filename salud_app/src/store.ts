@@ -9,6 +9,9 @@ const store = createStore({
     globalUser: '_sin_usuario_',
     globalUserId: '',
     globalLogged: false,
+    globalToken: '',
+    globalCntId: '',
+    globalCntDescripcion: '',
   },
   mutations: {
     // mutaciones para cambiar el estado global
@@ -23,6 +26,15 @@ const store = createStore({
     },
     updateGlobalLogged(state, newValue) {
       state.globalLogged = newValue;
+    },
+    updateGlobalToken(state, newValue) {
+      state.globalToken = newValue;
+    },
+    updateGlobalCntId(state, newValue) {
+      state.globalCntId = newValue;
+    },
+    updateGlobalCntDescripcion(state, newValue) {
+      state.globalCntDescripcion = newValue;
     },
   },
   actions: {

@@ -5,7 +5,9 @@
         <ion-content>
           <ion-list id="inbox-list">
             <ion-list-header>! Yo te Cuido !</ion-list-header>
-            <ion-note>Usuario: {{ store.state.globalUser }}<br>Usuario ID: {{ store.state.globalUserId }}</ion-note>
+            <ion-note>Usuario: {{ store.state.globalUser }}<br>
+              Usuario ID: {{ store.state.globalUserId }}<br>
+              Usuario Tk: {{ store.state.globalToken }}</ion-note>
 
             <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
@@ -46,7 +48,7 @@ import {
   warningOutline, warningSharp, home, homeOutline, exitOutline, 
   pinOutline, megaphoneOutline, alert, newspaperOutline, 
   timeOutline, mapOutline, alarmOutline, logInOutline, 
-  callOutline, arrowBackOutline, carOutline, 
+  callOutline, arrowBackOutline, carOutline, personOutline
 } from 'ionicons/icons';
 import { useStore } from 'vuex';
 const store = useStore();
@@ -63,7 +65,7 @@ const appPages = [
   },
   {
     title: 'Derivación',
-    url: '/principales/memos',
+    url: '/principales/derivacion', //  <--------
     iosIcon: alarmOutline,
     mdIcon: alarmOutline,
   },
@@ -90,6 +92,12 @@ const appPages = [
     url: '/adm/dashboard',
     iosIcon: heartOutline,
     mdIcon: heartOutline,
+  },
+  {
+    title: 'Cambiar clave',
+    url: '/usuarioPassword',
+    iosIcon: personOutline,
+    mdIcon: personOutline,
   },
   {
     title: 'Ingresar',

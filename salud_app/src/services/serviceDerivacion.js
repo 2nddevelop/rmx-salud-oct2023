@@ -4,11 +4,11 @@ import axios from 'axios';
 
 const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
 
-export const useSiniestros = () => {
-  const fetchData = async (param) => {
+export const useDerivacion = () => {
+  const fetchData = async () => {
     try {
-      const endpoint = '/siniestros/';
-      const response = await axios.get(`${apiUrl}${endpoint}${param}`);
+      const endpoint = '/centros';
+      const response = await axios.get(`${apiUrl}${endpoint}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -18,7 +18,7 @@ export const useSiniestros = () => {
 
   const postData = async (data) => {
     try {
-      const endpoint = '/siniestros/';
+      const endpoint = '/centros/';
       const response = await axios.post(`${apiUrl}${endpoint}`, data);
       return response.data;
     } catch (error) {
