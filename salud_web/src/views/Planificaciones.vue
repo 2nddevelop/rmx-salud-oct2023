@@ -84,6 +84,13 @@
               >
                 <i class="fa-solid fa-trash"></i>
               </button>
+              <button
+                @click="verRegistro(r)"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                title="Editar"
+              >
+                <i class="fa-solid fa-eye"></i>
+              </button>
             </td>
             <td align="left" style="background-color: beige;">{{ r.cnt_descripcion }}</td>
             <td align="left" style="background-color: beige;">{{ r.esp_descripcion}}</td>
@@ -233,6 +240,83 @@
         </div>
       </div>
     </div>
+
+
+    <!-- Modal Ver-->
+    <div v-if="showModalVer" class="modal-overlay">
+        <div class="modal-content">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <!-- Modal header -->
+          <div
+            class="model-header flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+          >
+            <h2
+              class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
+            >
+              {{ isEditing ? "VER " : "VER " }} {{ singular }}
+            </h2>
+            <button
+              type="button"
+              @click="closeModalVer()"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="defaultModal"
+            >
+              <i class="fa-solid fa-close"></i>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body p-6 space-y-6">
+            
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="form-group">
+                <label for="fichas">Max Fichas:</label>
+                <input type="number" v-model="reg.pln_data.pln_max_fichas" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" disabled/>
+              </div>
+              <div class="form-group">
+                <label for="fichas">Max Fichas Virtuales:</label>
+                <input type="number" v-model="reg.pln_data.pln_max_virtuales" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" disabled/>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="col-md-6">
+                <label for="fecha">Fecha:</label>
+                <input type="date" v-model="reg.pln_data.pln_fecha" class="form-control" name="fecha" id="fecha" placeholder="Fecha" disabled/>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div >
+                <label for="horarioini">Horario Inicio:</label>
+                <input type="time" v-model="reg.pln_data.pln_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" disabled/>
+              </div>
+              <div class="col-md-6">
+                <label for="horariofin">Horario Fin:</label>
+                <input type="time" v-model="reg.pln_data.pln_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" disabled/>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-1">
+              <div class="col-md-6"  style="font-size: x-small; display: flex;">
+                <div v-for="(r, index) in reg.pln_data_disponibles" class="grid grid-cols-5 gap-1" style="display: flex;" v-bind:key="index">
+                  <template v-if="r.pln_fch_id == 0">
+                    <button class="bg-green-400 text-white font-bold py-2 px-4 m-1 rounded">
+                      {{ r.pln_hora }}
+                    </button>
+                  </template>
+                  <template v-else>
+                    <button class="bg-gray-300 text-black font-bold py-2 px-4 m-1 rounded">
+                      {{ r.pln_hora }}
+                    </button>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -265,6 +349,7 @@ export default {
       plural: "PLANIFICACIONES",
       singular: "PLANIFICACION",
       showModal: false,
+      showModalVer: false,
       isEditing: false,
       centros: [],
       especialidades: [],
@@ -367,6 +452,13 @@ export default {
       this.showModal = true;
     },
 
+    verRegistro(reg) {
+      //this.listarConsultorios(reg.pln_cnt_id);
+      //this.isEditing = true;
+      this.reg = Object.assign({}, reg);
+      this.showModalVer = true;
+    },
+
     sumarMinutosAHora(hora, minutosASumar) {
       var partesHora = hora.split(":");
       var horas = parseInt(partesHora[0]);
@@ -431,6 +523,10 @@ console.log('dispo', disponibles);
     
     closeModal() {
       this.showModal = false;
+    },
+
+    closeModalVer() {
+      this.showModalVer = false;
     },
 
     dates() {
