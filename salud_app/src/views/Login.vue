@@ -91,7 +91,7 @@ const router = useRouter();
 
 // vuex
 import { useStore } from 'vuex';
-import { useClientes } from '@/services/serviceClientes';
+import { useUsers } from '@/services/serviceUsers';
 
 const store = useStore();
 
@@ -120,7 +120,7 @@ const canSubmit = computed(
 );
 
 let items = ref([]);
-const apiService = useClientes();
+const apiService = useUsers();
 
 const fetchData = async () => {
   try {
@@ -145,8 +145,6 @@ const onLogin = async () => {
     store.commit('updateGlobalToken', items.value.token);
     store.commit('updateGlobalCntId', items.value.cnt_id);
     store.commit('updateGlobalCntDescripcion', items.value.cnt_descripcion);
-    console.log('--------');
-    console.log('Token recuperado: ', store.state.globalToken.value);
     toastMessage.value = "Satisfactoriamente ingresad@!";
     showToast.value = true;
     router.push('/home');

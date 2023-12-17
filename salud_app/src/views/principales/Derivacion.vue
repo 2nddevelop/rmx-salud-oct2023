@@ -15,10 +15,13 @@
     <ion-content class="ion-padding" :fullscreen="false">
       <ion-list>
         <ion-item>
-          <ion-input type="date" label-placement="stacked">Fecha</ion-input>
+          <ion-input v-model="item.fecha" type="date" label-placement="stacked"
+          @change="fetchPlanificaciones"
+          >Fecha</ion-input>
         </ion-item>
         <ion-item>
-          <ion-select label="Centro" labelPlacement="floating"
+          <ion-select v-model="item.cnt_id" label="Centro" labelPlacement="floating"
+            @change="fetchPlanificaciones"
             placeholder="Centro"
             spellcheck="false" autocapitalize="off" required
             >
@@ -28,17 +31,49 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-input label="CI" labelPlacement="floating" 
+          <ion-input v-model="item.ci" label="CI" labelPlacement="floating" 
             placeholder="CI Paciente"
             spellcheck="false" autocapitalize="on" required
           ></ion-input>
-          <ion-button>Buscar</ion-button>
+          <ion-button @click="buscarClienteXCI">Buscar</ion-button>
         </ion-item>
         <ion-item>
-          <ion-input label="Nombres Paciente" labelPlacement="floating" 
+          <ion-input v-model="item.nombres" label="Nombres Paciente" labelPlacement="floating" 
             placeholder="CI Paciente"
-            spellcheck="false" autocapitalize="on" required disabled
+            spellcheck="false" autocapitalize="on" disabled
           ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input v-model="item.fch_kdx_medico" label="Historial" labelPlacement="floating" 
+            placeholder="Historial Clínico"
+            spellcheck="false" autocapitalize="on" disabled
+          ></ion-input>
+        </ion-item>
+        fch_kdx_medico
+        <ion-item v-show="swMostrarEsp">
+          <ion-padding>
+            <label for="planif">Especialidades</label><br>
+            <ion-button v-for="p in planificaciones" id="planif" name="planif"
+              @click="mostrarDispo(p)"
+            >{{ p.esp_descripcion }}</ion-button>
+          </ion-padding>
+        </ion-item>
+        <ion-item>
+          <ion-padding>
+            <label for="dispo">Fichas Disponibles</label><br>
+            <ng-template v-for="d in disponibles">
+              <ng-template v-if="d.pln_fch_id == 0">
+                <ion-button id="dispo" name="dispo"
+                  @click="grabar" color="success"
+                >{{ d.pln_hora }} {{ d.pln_fch_id }}</ion-button>
+              </ng-template>
+              <ng-template v-else>
+                <ion-button id="dispo" name="dispo"
+                  color="light"
+                >{{ d.pln_hora }}</ion-button>
+              </ng-template>
+            </ng-template> 
+          </ion-padding>
         </ion-item>
       </ion-list>
       <!--ion-button color="primary" @click="openModal(item)"><ion-icon :icon="cardOutline"></ion-icon></ion-button>
@@ -57,7 +92,8 @@ import {
 } from "@ionic/vue";
 import { ref, onMounted } from 'vue';
 import { useCentros } from '@/services/serviceCentros';
-import { useEspecialidades } from '@/services/serviceEspecialidades';
+import { useClientes } from '@/services/serviceClientes';
+import { usePlanificaciones } from '@/services/servicePlanificaciones';
 import { modalController } from '@ionic/vue';
 import ModalCuotas from '@/views/principales/ModalCuotas.vue';
 import { useStore } from 'vuex';
@@ -71,22 +107,81 @@ const globalUserId = ref(store.state.globalUserId);
 let item = ref({});
 let centros = ref([]);
 let especialidades = ref([]);
+let planificaciones = ref([]);
+let disponibles = ref([]);
+let swMostrarEsp = ref(false);
 const apiService = useCentros();
-const apiServiceEsp = useEspecialidades();
+const apiServicePlanif = usePlanificaciones();
+const apiServiceClientes = useClientes();
 
 const fetchData = async () => {
   try {
+    // centros
     const data = await apiService.fetchData();
     centros.value = data;
     console.log('centros: ', centros.value);
-    //responseData.value = JSON.stringify(data);
-    const dataEsp = await apiServiceEsp.fetchData();
-    especialidades.value = dataEsp;
-    console.log('Especialidades: ', especialidades.value);
   } catch (error) {
     console.error('Error in fetchData:', error);
   }
 };
+
+const fetchPlanificaciones = async () => {
+  try {
+    const data = await apiServicePlanif.fetchData(item.value.fecha, item.value.cnt_id);
+    planificaciones.value = data;
+    console.log('planificaciones: ', planificaciones.value);
+    swMostrarEsp.value = true;
+  } catch (error) {
+    console.error('Error in fetchData:', error);
+    swMostrarEsp.value = false;
+  }
+};
+
+const mostrarDispo = async (p: any) => {
+  try {
+    disponibles.value = p.pln_data_disponibles;
+    console.log('planificaciones: ', disponibles.value);
+    swMostrarEsp.value = true;
+  } catch (error) {
+    console.error('Error in fetchData:', error);
+    swMostrarEsp.value = false;
+  }
+};
+
+
+
+
+
+const buscarClienteXCI = async () => {
+  const cli_nit = item.value.ci;
+  const clientes = await apiServiceClientes.getBuscarClienteXCI(cli_nit); 
+  console.log("Clientes x CI: ", clientes[0]);
+  if (Object.keys(clientes).length) {
+    item.value.nombres = clientes[0].cli_data.cli_paterno + ' ' + clientes[0].cli_data.cli_materno + ' ' + clientes[0].cli_data.cli_nombres;
+    item.value.cli_id = clientes[0].cli_id
+    setTimeout(async () => {
+      await buscarHistorialXCliId(item.value.cli_id);      
+    }, 2000);
+  } else {
+    item.value.nombres = '';
+    const confirmed = window.alert("El CI indicado NO existe !");
+  }
+};
+
+const buscarHistorialXCliId = async (cli_id: any) => {
+  const historial = await apiServiceClientes.getBuscarHistorialXCliId(cli_id); 
+  console.log('Historial x CliId: ', historial);
+  if (Object.keys(historial).length) {
+    item.value.fch_kdx_medico = historial[0].hc_codigo;
+  } else {
+    item.value.fch_kdx_medico = 'a definir';
+    const confirmed = window.alert("No tiene Kardex Médico !");
+  }
+};
+
+
+
+
 
 onMounted(async () => {
   console.log('entro Derivacion');
