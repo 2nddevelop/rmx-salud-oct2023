@@ -11,7 +11,6 @@ export const useClientes = () => {
   const getBuscarClienteXCI = async (cli_nit) => {
     try {
       const token = store.state.globalToken;
-      console.log('cli_nit: ', cli_nit);
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -30,16 +29,14 @@ export const useClientes = () => {
 
   const getBuscarHistorialXCliId = async (cli_id) => {
     try {
-      const token = store.state.globalToken;
-      console.log('cli_id >>> ', cli_id);
-      
+      const token = store.state.globalToken;      
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
 
-      const endpoint = '/clientes/buscarXCI';
+      const endpoint = '/cliente/buscarHistorial';
       const bodyData = {cli_id: cli_id}
       const response = await axios.post(`${apiUrl}${endpoint}`, bodyData, config);
       return response.data;

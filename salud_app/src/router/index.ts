@@ -41,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('@/views/Dashboard.vue')
   },
   //{
-  //  path: '/login',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  //  path: '/cambiarClave',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
   //  component: () => import ('@/views/usuarioPassword.vue')
   //},
   {
@@ -63,9 +63,9 @@ router.beforeEach((to, from, next) => {
   const store = useStore(); // Mueve la declaración de useStore aquí
   const globalLogged = ref(store.state.globalLogged);
   console.log('Logged >>>', globalLogged.value);
-  if (to.path === '/principales/memos' && !globalLogged.value) {
+  if (to.path === '/principales/derivacion' && !globalLogged.value) {
     next({ path: '/login' });
-  } else if (to.path === '/principales/siniestros' && !globalLogged.value) {
+  } else if (to.path === '/principales/cambiarClave' && !globalLogged.value) {
     next({ path: '/login' });
   } else {
     next();

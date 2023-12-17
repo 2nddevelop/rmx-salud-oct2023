@@ -6,22 +6,54 @@
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>Derivación</ion-title>
-        <ion-button slot="end" color="primary" @click="fetchData()"> 
-          <ion-icon :icon="addOutline"></ion-icon>
+        <ion-button slot="end" color="warning" @click="limpiar"> 
+          <ion-icon :icon="closeOutline"></ion-icon>
+          Limpiar
         </ion-button>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding" :fullscreen="false">
+      <ion-title>PACIENTE</ion-title>
       <ion-list>
+        <ion-item v-show="!swMostrarReserva">
+          <ion-padding style="width:100%; padding:10px; background-color: beige;">
+            Ingrese el CI del Paciente para proceder con el proceso de Derivación
+          </ion-padding>
+        </ion-item>
         <ion-item>
-          <ion-input v-model="item.fecha" type="date" label-placement="stacked"
+          <ion-input v-model="item.ci" label="CI" labelPlacement="floating" 
+            placeholder="CI del Paciente"
+            spellcheck="false" autocapitalize="on" required
+          ></ion-input>
+          <ion-button @click="buscarClienteXCI">
+            <ion-icon :icon="searchOutline"></ion-icon> Buscar
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ng-template v-for="cli in clientes">
+              <label style="font-size: small;">{{ cli.cli_data.cli_paterno }} {{ cli.cli_data.cli_materno }} {{ cli.cli_data.cli_nombres }} [{{ cli.cli_data.cli_nit }}]</label>
+              <ion-button slot="end" @click="buscarHistorialXCliId(cli.cli_id); ">
+                Obtener Historial
+              </ion-button>
+            <ion-input v-model="item.fch_kdx_medico" label="Historial" labelPlacement="floating" 
+              placeholder="Historial Clínico"
+              spellcheck="false" autocapitalize="on" disabled
+            ></ion-input>
+          </ng-template>
+        </ion-item>
+      </ion-list>
+
+      <ion-title v-show="swMostrarReserva">RESERVA DE FICHA</ion-title>
+      <ion-list>
+        <ion-item v-show="swMostrarReserva">
+          <ion-input v-model="item.fecha" type="date" label-placement="floating"
           @change="fetchPlanificaciones"
           >Fecha</ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item v-show="swMostrarReserva">
           <ion-select v-model="item.cnt_id" label="Centro" labelPlacement="floating"
-            @change="fetchPlanificaciones"
+            @update:modelValue="fetchPlanificaciones"
             placeholder="Centro"
             spellcheck="false" autocapitalize="off" required
             >
@@ -30,27 +62,8 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-item>
-          <ion-input v-model="item.ci" label="CI" labelPlacement="floating" 
-            placeholder="CI Paciente"
-            spellcheck="false" autocapitalize="on" required
-          ></ion-input>
-          <ion-button @click="buscarClienteXCI">Buscar</ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-input v-model="item.nombres" label="Nombres Paciente" labelPlacement="floating" 
-            placeholder="CI Paciente"
-            spellcheck="false" autocapitalize="on" disabled
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input v-model="item.fch_kdx_medico" label="Historial" labelPlacement="floating" 
-            placeholder="Historial Clínico"
-            spellcheck="false" autocapitalize="on" disabled
-          ></ion-input>
-        </ion-item>
-        fch_kdx_medico
-        <ion-item v-show="swMostrarEsp">
+
+        <ion-item v-show="swMostrarReserva && swMostrarEsp">
           <ion-padding>
             <label for="planif">Especialidades</label><br>
             <ion-button v-for="p in planificaciones" id="planif" name="planif"
@@ -58,13 +71,13 @@
             >{{ p.esp_descripcion }}</ion-button>
           </ion-padding>
         </ion-item>
-        <ion-item>
+        <ion-item v-show="swMostrarReserva">
           <ion-padding>
             <label for="dispo">Fichas Disponibles</label><br>
             <ng-template v-for="d in disponibles">
               <ng-template v-if="d.pln_fch_id == 0">
                 <ion-button id="dispo" name="dispo"
-                  @click="grabar" color="success"
+                  @click="grabarFicha(d.pln_fch_id, d.pln_hora)" color="success"
                 >{{ d.pln_hora }} {{ d.pln_fch_id }}</ion-button>
               </ng-template>
               <ng-template v-else>
@@ -76,8 +89,31 @@
           </ion-padding>
         </ion-item>
       </ion-list>
+      <ion-list>
+        <ion-item>
+          <ion-padding style="width:100%; padding:10px; background-color: beige;">
+            Se seguira el siguiente procedimiento:
+            <ol>
+              <li>Introducir CI</li>
+              <li>Obtener Historial Clínico</li>
+              <li>Seleccionar Fecha</li>
+              <li>Seleccionar Centro/Institución de salud</li>
+              <li>Seleccionar Especialidad</li>
+              <li>Seleccionar Ficha y Hora</li>
+              <li>Grabar</li>
+            </ol>
+          </ion-padding>
+        </ion-item>
+      </ion-list>
       <!--ion-button color="primary" @click="openModal(item)"><ion-icon :icon="cardOutline"></ion-icon></ion-button>
       <ion-button color="primary" @click="openModal(item)"><ion-icon :icon="eyeOutline"></ion-icon></ion-button-->
+
+      <ion-toast
+        :is-open="showToast"
+        :message="toastMessage"
+        :duration="2000"
+      ></ion-toast>
+
     </ion-content>
   </ion-page>
 </template>
@@ -90,6 +126,15 @@ import {
   IonInput, IonToast, IonSelect, IonSelectOption,
   IonIcon, IonFooter, IonLabel, IonBadge
 } from "@ionic/vue";
+import {
+  archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp,
+  heartOutline, heartSharp, mailOutline, mailSharp, searchOutline,
+  paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp,
+  warningOutline, warningSharp, home, homeOutline, exitOutline, 
+  pinOutline, megaphoneOutline, alert, newspaperOutline, 
+  timeOutline, mapOutline, alarmOutline, logInOutline, 
+  callOutline, arrowBackOutline, carOutline, personOutline, closeOutline
+} from 'ionicons/icons';
 import { ref, onMounted } from 'vue';
 import { useCentros } from '@/services/serviceCentros';
 import { useClientes } from '@/services/serviceClientes';
@@ -97,19 +142,26 @@ import { usePlanificaciones } from '@/services/servicePlanificaciones';
 import { modalController } from '@ionic/vue';
 import ModalCuotas from '@/views/principales/ModalCuotas.vue';
 import { useStore } from 'vuex';
-import { addOutline, cardOutline, eyeOutline, pencilOutline } from 'ionicons/icons';
+import { addOutline, cardOutline, eyeOutline, logoWindows, pauseCircle, pencilOutline } from 'ionicons/icons';
+
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const store = useStore();
 const globalCiudad = ref(store.state.globalCiudad);
 const globalUserId = ref(store.state.globalUserId);
 //const globalCntId = ref(store.state.globalCntId) || 1;
 
+const showToast = ref(false);
+const toastMessage = ref("");
+
 let item = ref({});
 let centros = ref([]);
-let especialidades = ref([]);
+let clientes = ref([]);
 let planificaciones = ref([]);
 let disponibles = ref([]);
 let swMostrarEsp = ref(false);
+let swMostrarReserva = ref(false);
 const apiService = useCentros();
 const apiServicePlanif = usePlanificaciones();
 const apiServiceClientes = useClientes();
@@ -119,7 +171,6 @@ const fetchData = async () => {
     // centros
     const data = await apiService.fetchData();
     centros.value = data;
-    console.log('centros: ', centros.value);
   } catch (error) {
     console.error('Error in fetchData:', error);
   }
@@ -129,7 +180,6 @@ const fetchPlanificaciones = async () => {
   try {
     const data = await apiServicePlanif.fetchData(item.value.fecha, item.value.cnt_id);
     planificaciones.value = data;
-    console.log('planificaciones: ', planificaciones.value);
     swMostrarEsp.value = true;
   } catch (error) {
     console.error('Error in fetchData:', error);
@@ -140,7 +190,6 @@ const fetchPlanificaciones = async () => {
 const mostrarDispo = async (p: any) => {
   try {
     disponibles.value = p.pln_data_disponibles;
-    console.log('planificaciones: ', disponibles.value);
     swMostrarEsp.value = true;
   } catch (error) {
     console.error('Error in fetchData:', error);
@@ -154,33 +203,69 @@ const mostrarDispo = async (p: any) => {
 
 const buscarClienteXCI = async () => {
   const cli_nit = item.value.ci;
-  const clientes = await apiServiceClientes.getBuscarClienteXCI(cli_nit); 
-  console.log("Clientes x CI: ", clientes[0]);
-  if (Object.keys(clientes).length) {
-    item.value.nombres = clientes[0].cli_data.cli_paterno + ' ' + clientes[0].cli_data.cli_materno + ' ' + clientes[0].cli_data.cli_nombres;
-    item.value.cli_id = clientes[0].cli_id
-    setTimeout(async () => {
-      await buscarHistorialXCliId(item.value.cli_id);      
-    }, 2000);
+  clientes.value = await apiServiceClientes.getBuscarClienteXCI(cli_nit); 
+  if (clientes.value.length > 0) {
+    toastMessage.value = "Paciente encontrado!";
+    showToast.value = true;
   } else {
-    item.value.nombres = '';
-    const confirmed = window.alert("El CI indicado NO existe !");
+    //const confirmed = window.alert("El CI indicado NO existe !");
+    swMostrarReserva.value = false;
+    item.value.ci = '';
+    item.value.fecha = '';
+    item.value.cnt_id = '';
+    item.value.fch_kdx_medico = '';
+    clientes.value = [];
+    planificaciones.value = [];
+    disponibles.value = [];
+
+    toastMessage.value = "No existe el Paciente";
+    showToast.value = true;
   }
 };
 
 const buscarHistorialXCliId = async (cli_id: any) => {
   const historial = await apiServiceClientes.getBuscarHistorialXCliId(cli_id); 
-  console.log('Historial x CliId: ', historial);
   if (Object.keys(historial).length) {
     item.value.fch_kdx_medico = historial[0].hc_codigo;
+    swMostrarReserva.value = true;
   } else {
     item.value.fch_kdx_medico = 'a definir';
     const confirmed = window.alert("No tiene Kardex Médico !");
+    swMostrarReserva.value = false;
   }
 };
 
 
+const grabarFicha = async (ficha: any, hora: any) => {
+  item.value.fch_usr_id = 1; 
+  item.value.fch_estado = "P";
+  item.value.filtro_fecha = item.value.fecha;
+  item.value.filtro_centro_id = item.cnt_id;
+  item.value.fch_hora = item.hora;
 
+  const indexFicha = disponibles.value.findIndex(item => item.pln_hora === hora );
+  if (indexFicha !== -1) {
+    let updatedFicha = disponibles.value[indexFicha];
+    updatedFicha.pln_fch_id = 1;
+    disponibles.value.splice(indexFicha, 1, updatedFicha);
+  }
+  item.pln_data_disponibles = disponibles.value;
+  //this.reg.pln_id = this.pln_id;
+  const savedReg = await fichasService.saveData(item);
+  limpiar();
+  router.push('/home');
+};
+
+const limpiar = async () => {
+  swMostrarReserva.value = false;
+  item.value.ci = '';
+  item.value.fecha = '';
+  item.value.cnt_id = '';
+  item.value.fch_kdx_medico = '';
+  clientes.value = [];
+  planificaciones.value = [];
+  disponibles.value = [];
+};
 
 
 onMounted(async () => {
