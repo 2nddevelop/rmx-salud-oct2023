@@ -1,38 +1,56 @@
 // apiService.ts
 import { ref } from 'vue';
 import axios from 'axios';
+import { useStore } from 'vuex';
 
 const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
 
 export const useClientes = () => {
-/*
-  const fetchData = async (param) => {
+  const store = useStore();
+
+  const getBuscarClienteXCI = async (cli_nit) => {
     try {
-      const endpoint = '/memos/';
-      console.log('url: ', `${apiUrl}${endpoint}${param}`);
-      const response = await axios.get(`${apiUrl}${endpoint}${param}`);
-      console.log('resp: ', response.data);
+      const token = store.state.globalToken;
+      console.log('cli_nit: ', cli_nit);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const endpoint = '/clientes/buscarXCI';
+      const bodyData = {cli_nit: cli_nit}
+      const response = await axios.post(`${apiUrl}${endpoint}`, bodyData,  config);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
       throw error;
     }
   };
-*/
-  const postData = async (data) => {
+
+  const getBuscarHistorialXCliId = async (cli_id) => {
     try {
-      const endpoint = '/login';
-      const response = await axios.post(`${apiUrl}${endpoint}`, data);
+      const token = store.state.globalToken;
+      console.log('cli_id >>> ', cli_id);
+      
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const endpoint = '/clientes/buscarXCI';
+      const bodyData = {cli_id: cli_id}
+      const response = await axios.post(`${apiUrl}${endpoint}`, bodyData, config);
       return response.data;
     } catch (error) {
-      console.error('Error posting data:', error);
+      console.error('Error fetching data:', error);
       throw error;
     }
   };
-  
+
   return {
-    //fetchData,
-    postData,
+    getBuscarClienteXCI,
+    getBuscarHistorialXCliId
   };
 };
-
