@@ -5,7 +5,7 @@ import { useStore } from 'vuex';
 
 const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
 
-export const useCentros = () => {
+export const useEspecialidades = () => {
   const store = useStore();
 
   const fetchData = async () => {
@@ -18,7 +18,7 @@ export const useCentros = () => {
         },
       };
 
-      const endpoint = '/centros';
+      const endpoint = '/especialidades';
       const response = await axios.get(`${apiUrl}${endpoint}`, config);
       return response.data;
     } catch (error) {
@@ -26,7 +26,7 @@ export const useCentros = () => {
       throw error;
     }
   };
-
+  
   return {
     fetchData,
   };

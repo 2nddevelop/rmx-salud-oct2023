@@ -45,7 +45,7 @@ const menuItems = ref([
   { id: 2, label: 'Planificación', link: '/planificaciones', roles: [1, 2]  },
   { id: 3, label: 'Kardex', roles: [1, 2],  children: [
     { id: 31, label: 'Pacientes', link: '/pacientes', roles: [1, 2]  },
-    { id: 32, label: 'Historial_Médico', link: '/historiales', roles: [1, 2]  },
+    { id: 32, label: 'Historial_Clínico', link: '/historiales', roles: [1, 2]  },
     { id: 33, label: 'Médicos', link: '/doctores', roles: [1, 2]  },
   ]},
   { id: 4, label: 'Fichas', roles: [1], children: [
