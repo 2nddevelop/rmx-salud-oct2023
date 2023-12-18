@@ -47,7 +47,7 @@ const CentroController = {
       }
 
       const updateCentro = await pool.query(
-        'UPDATE rmx_sld_centros SET cnt_codigo = $1, cnt_descripcion = $2, cnt_modificado = $3, cnt_usr_id = $4, WHERE cnt_id = $5 RETURNING *',
+        'UPDATE rmx_sld_centros SET cnt_codigo = $1, cnt_descripcion = $2, cnt_modificado = $3, cnt_usr_id = $4 WHERE cnt_id = $5 RETURNING *',
         [cnt_codigo, cnt_descripcion, cnt_modificado, cnt_usr_id,  cnt_id]
       );
 
