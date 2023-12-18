@@ -50,7 +50,7 @@
               </td>
               <td align="left">{{ r.usr_email }}</td>
               <td align="left">{{ r.rol_codigo }} - {{ r.rol_descripcion }}</td>
-              <td align="right">{{ r.urol_registrado }}</td>
+              <td align="right">{{ r.urol_registrado.substring(0, 10) }}</td>
               <td align="center">{{ r.urol_estado }}</td>
             </tr>
           </tbody>

@@ -45,7 +45,7 @@
               </td>
               <td align="center">{{ r.esp_codigo }}</td>
               <td align="left">{{ r.esp_descripcion }}</td>
-              <td align="center">{{ r.esp_registado }}</td>
+              <td align="center">{{ r.esp_registrado.substring(0, 10) }}</td>
               <td align="center">{{ r.esp_estado }}</td>
             </tr>
           </tbody>

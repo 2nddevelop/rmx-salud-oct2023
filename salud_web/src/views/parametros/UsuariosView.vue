@@ -56,7 +56,7 @@
             <td align="left">{{ r.usr_direccion }} </td>
             <td align="center">{{ r.usr_celular }}</td>
             <td align="center">{{ r.usr_email }}</td>
-            <td align="center">{{ r.usr_registrado }}</td>
+            <td align="center">{{ r.usr_registrado.substring(0, 10) }}</td>
             <td align="center">{{ r.usr_estado }}</td>
           </tr>
         </tbody>

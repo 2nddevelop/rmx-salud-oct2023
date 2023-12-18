@@ -78,7 +78,7 @@
             <td align="left">{{ r.cli_data ? r.cli_data.cli_paterno : '' }}</td>
             <td align="left">{{ r.cli_data ? r.cli_data.cli_materno : '' }}</td>
             <td align="left">{{ r.cli_data ? r.cli_data.cli_nombres : '' }} </td>
-            <td align="right">{{ r.hc_registado }}</td>
+            <td align="right">{{ r.hc_registrado.substring(0, 10) }}</td>
             <td align="center">
               <span v-if="r.hc_estado == 'X'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.hc_estado }}</span>
               <span v-if="r.hc_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.hc_estado }}</span>

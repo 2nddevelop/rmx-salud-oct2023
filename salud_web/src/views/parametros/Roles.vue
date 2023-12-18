@@ -45,7 +45,7 @@
               </td>
               <td align="center">{{ r.rol_codigo }}</td>
               <td align="left">{{ r.rol_descripcion }}</td>
-              <td align="center">{{ r.rol_registrado }}</td>
+              <td align="center">{{ r.rol_registrado.substring(0, 10) }}</td>
               <td align="center">{{ r.rol_estado }}</td>
             </tr>
           </tbody>
