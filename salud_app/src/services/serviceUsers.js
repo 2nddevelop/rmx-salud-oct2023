@@ -2,14 +2,14 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
+import { API_URL } from '../config.js';
 
 export const useUsers = () => {
 
   const postData = async (data) => {
     try {
       const endpoint = '/login';
-      const response = await axios.post(`${apiUrl}${endpoint}`, data);
+      const response = await axios.post(`${API_URL}${endpoint}`, data);
       return response.data;
     } catch (error) {
       console.error('Error posting data:', error);

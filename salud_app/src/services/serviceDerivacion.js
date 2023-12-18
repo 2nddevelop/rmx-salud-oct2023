@@ -2,13 +2,13 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
+import { API_URL } from '../config.js';
 
 export const useDerivacion = () => {
   const fetchData = async () => {
     try {
       const endpoint = '/centros';
-      const response = await axios.get(`${apiUrl}${endpoint}`);
+      const response = await axios.get(`${API_URL}${endpoint}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -19,7 +19,7 @@ export const useDerivacion = () => {
   const postData = async (data) => {
     try {
       const endpoint = '/centros/';
-      const response = await axios.post(`${apiUrl}${endpoint}`, data);
+      const response = await axios.post(`${API_URL}${endpoint}`, data);
       return response.data;
     } catch (error) {
       console.error('Error posting data:', error);

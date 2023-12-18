@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
 
-const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
+import { API_URL } from '../config.js';
 
 export const usePlanificaciones = () => {
   const store = useStore();
@@ -19,7 +19,7 @@ export const usePlanificaciones = () => {
       };
 
       const endpoint = '/planificaciones/';
-      const response = await axios.get(`${apiUrl}${endpoint}${fecha}/${cnt_id}`, config);
+      const response = await axios.get(`${API_URL}${endpoint}${fecha}/${cnt_id}`, config);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);

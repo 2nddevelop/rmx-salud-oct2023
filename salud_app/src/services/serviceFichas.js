@@ -3,12 +3,13 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
 
-const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
+import { API_URL } from '../config.js';
 
 export const useFichas = () => {
   const store = useStore();
 
   const saveData = async (newRecord) => {
+    console.log('newRecord:  ', newRecord);
     try {
       const token = store.state.globalToken;
 
@@ -19,7 +20,7 @@ export const useFichas = () => {
       };
 
       const endpoint = '/ficha';
-      const response = await axios.post(`${apiUrl}${endpoint}`, newRecord, config);
+      const response = await axios.post(`${API_URL}${endpoint}`, newRecord, config);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -31,5 +32,3 @@ export const useFichas = () => {
     saveData,
   };
 };
-
-export default fichasService;

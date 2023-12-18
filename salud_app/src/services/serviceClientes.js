@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
 
-const apiUrl = 'http://localhost:3000/api'; // Reemplaza esto con tu URL de la API
+import { API_URL } from '../config.js';
 
 export const useClientes = () => {
   const store = useStore();
@@ -19,7 +19,7 @@ export const useClientes = () => {
 
       const endpoint = '/clientes/buscarXCI';
       const bodyData = {cli_nit: cli_nit}
-      const response = await axios.post(`${apiUrl}${endpoint}`, bodyData,  config);
+      const response = await axios.post(`${API_URL}${endpoint}`, bodyData,  config);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -38,7 +38,7 @@ export const useClientes = () => {
 
       const endpoint = '/cliente/buscarHistorial';
       const bodyData = {cli_id: cli_id}
-      const response = await axios.post(`${apiUrl}${endpoint}`, bodyData, config);
+      const response = await axios.post(`${API_URL}${endpoint}`, bodyData, config);
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
