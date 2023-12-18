@@ -23,10 +23,9 @@ const UserController = {
       if (!user) {
         return res.status(401).json({ message: 'No existe el usuario' });
       }
-  
+
       // Comparar la contraseña proporcionada con la contraseña almacenada
       const isPasswordMatch = await bcrypt.compare(password, user.usr_clave);
-  
       if (!isPasswordMatch) {
         return res.status(401).json({ message: 'Credenciales inválidas' });
       }
@@ -117,7 +116,6 @@ const UserController = {
       // Verificar si el usuario existe en la base de datos
       const existingUserQuery = await pool.query('SELECT * FROM base_usuarios WHERE usr_id = $1', [usr_id]);
       const existingUser = existingUserQuery.rows[0];
-      console.log("RRRRRRRSSSS", req.body);
       if (!existingUser) {
         return res.status(404).json({ message: 'Usuario no encontrado' });
       }

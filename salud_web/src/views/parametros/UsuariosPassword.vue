@@ -75,7 +75,6 @@ export default {
       this.regs = [];
       try {
         this.regs = await userService.getDataXId( this.usr_id );
-        console.log("Respuesta", this.regs);
         this.reg = this.regs[0];
         this.reg.usr_clave = '';
       } catch (error) {
@@ -97,6 +96,7 @@ export default {
     async saveModal() {
       this.reg.usr_usr_id = 1; 
       this.reg.usr_estado = "P";
+      this.isEditing = true;
       if (this.isEditing) {
         this.reg.usr_estado = "S";
         const updatedReg = await userService.updateData(this.reg);

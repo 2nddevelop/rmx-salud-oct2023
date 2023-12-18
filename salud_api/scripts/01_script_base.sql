@@ -20,7 +20,16 @@ INSERT INTO base_usuarios (usr_cnt_id, usr_nombres,
   usr_primer_apellido, usr_segundo_apellido, usr_direccion, usr_celular, usr_email, 
   usr_clave, usr_lat, usr_lng, usr_usr_id, usr_estado) VALUES 
   (1, 'Admin', 'Admin', 'Admin', 'Av Villa El Carmen, Calle 11, No. 100', '5917089699', 'rome@gmail.com', 
-  crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 11, 'A');
+  crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 11, 'A'),
+  (1, 'Morales', 'Casson', 'Alvaro', 'Av Comercio, Calle 10 de Noviembre, No. 536', '59176821154', 'kardex@gmail.com', 
+  crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 11, 'A'),
+  (1, 'Ovando', 'Perez', 'Juan', 'Av Villa San Jose, Calle Comercio, No. 231', '59176812345', 'fichas@gmail.com', 
+  crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 1, 'A'),
+  (1, 'Paz', 'Castillo', 'Maria', 'Av Morros Blancos, Calle Tasaky, No. 765', '59170563212', 'enfermera@gmail.com', 
+  crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 1, 'A'),
+  (1, 'Castro', 'Ponce', 'Adolfo', 'Av Delicia, Calle 21 de Enero, No. 376', '59171953546', 'doctor@gmail.com', 
+  crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 1, 'A');
+
 
 
 CREATE TABLE base_roles (
@@ -33,7 +42,11 @@ CREATE TABLE base_roles (
   rol_estado text NOT NULL DEFAULT 'A'
 );
 INSERT INTO base_roles (rol_codigo, rol_descripcion, rol_usr_id, rol_estado) VALUES 
-  ('Admin', 'Admin', 11, 'A');
+  ('Admin', 'Admin', 11, 'A'),
+  ('Kardex', 'Kardex', 11, 'A'),
+  ('Fichas', 'Fichas', 1, 'A'),
+  ('Enfermera', 'Enfermera', 1, 'A'),
+  ('Doctor', 'Doctor', 1, 'A');
 
 
 CREATE TABLE base_usuarios_roles (
@@ -48,7 +61,11 @@ CREATE TABLE base_usuarios_roles (
   FOREIGN KEY (urol_rol_id) REFERENCES base_roles(rol_id)
 );
 INSERT INTO base_usuarios_roles (urol_usuario_id, urol_rol_id, urol_usr_id, urol_estado) VALUES 
-  (1, 1, 1, 'A');
+  (1, 1, 1, 'A'),
+  (2, 2, 1, 'A'),
+  (3, 3, 1, 'A'),
+  (4, 4, 1, 'A'),
+  (5, 5, 1, 'A');
 
 
 -- INFORMATIVOS
