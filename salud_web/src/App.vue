@@ -16,6 +16,10 @@
           <!--a v-else :href="item.link" class="menu-link">{{ item.label }}</a-->
           <RouterLink v-else :to="item.link" class="menu-link">{{ item.label }}</RouterLink>
         </li>
+        <li>
+
+          <RouterLink to="/logout" class="menu-link">Ingresar</RouterLink>
+        </li>
       </ul>
     </div>
     </div>
@@ -30,11 +34,11 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/Encabezado.vue'
 import { ref } from 'vue';
 
-// 1 admin
-// 2 kdx
-// 3 fic
-// 4 enf
-// 5 doc
+// 1 admin@gmail.com
+// 2 kardex@gmail.com
+// 3 fichas@gmail.com
+// 4 enfermera@gmail.com
+// 5 doctor@gmail.com
 
 const rol_id = localStorage.getItem('rol_id');
 const userRoles = ref([parseInt(rol_id) > 0 ? parseInt(rol_id) : 0]);
@@ -72,7 +76,7 @@ const menuItems = ref([
     { id: 75, label: 'Usuarios_Roles', link: '/usuariosrol', roles: [1]  },
     { id: 75, label: 'Cambio_Clave', link: '/usuariosPassword', roles: [1]  },
   ]},
-  { id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
+  //{ id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);
 const checkRoles = roles => roles.some(role => userRoles.value.includes(role));
 const filteredMenuItems = ref([]);
