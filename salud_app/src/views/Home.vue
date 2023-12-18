@@ -5,16 +5,20 @@
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>! Yo te Cuido !</ion-title>
+        <ion-title>! Yo te Ayudo !</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding" :fullscreen="false">
       <div>
+        <img src="./../../public/assets/img/logo3.png" alt="Logo 3" />
+      </div>
+
+      <div>
           <img class="foto1" src="./../../public/assets/portada/fot1.jpeg" alt="foto 1" />
-        <a href="/principales/alertas">
-          <img class="foto3" src="./../../public/assets/portada/fot3.jpeg" alt="foto 3" />
-        </a>
+          <a href="/principales/derivacion">
+            <img class="foto3" src="./../../public/assets/portada/fot3.jpeg" alt="foto 3" />
+          </a>
           <img class="foto2" src="./../../public/assets/portada/fot2.jpeg" alt="foto 2" />
           <img class="foto4" src="./../../public/assets/portada/fot4.jpeg" alt="foto 4" />
       </div>

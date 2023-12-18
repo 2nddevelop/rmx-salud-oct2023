@@ -15,8 +15,8 @@
       </div>
       <ion-label>
         <p>Hola ! 👋</p>
-        <p>Hola nuevamente, l@ esperamos!</p>
-        <p>Usuarios DEMO:</p>
+        <p>Hola nuevamente, te esperamos!</p>
+        <p>Usuarios DEMO: rome@gmail.com Clave: 123456</p>
       </ion-label>
       <form novalidate @submit.prevent="onLogin">
         <ion-list>
@@ -61,7 +61,6 @@
               expand="block"
               >Registrarse</ion-button
             >
-            <ion-label><br><p>Usuario de pruebas: admin con clave: admin</p></ion-label>
           </ion-col>
         </ion-row>
       </form>
@@ -105,8 +104,8 @@ const globalLogged = ref(store.state.globalLogged);
 //};
 
 // login control
-const username = ref("rome@gmail.com");
-const password = ref("123456");
+const username = ref("");
+const password = ref("");
 const submitted = ref(false);
 
 const usernameValid = true;

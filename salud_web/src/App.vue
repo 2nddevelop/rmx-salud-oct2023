@@ -30,11 +30,11 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/Encabezado.vue'
 import { ref } from 'vue';
 
-// 1 admin
-// 2 kdx
-// 3 fic
-// 4 enf
-// 5 doc
+// 1 admin@gmail.com
+// 2 kardex@gmail.com
+// 3 fichas@gmail.com
+// 4 enfermera@gmail.com
+// 5 doctor@gmail.com
 
 const rol_id = localStorage.getItem('rol_id');
 const userRoles = ref([parseInt(rol_id) > 0 ? parseInt(rol_id) : 0]);
