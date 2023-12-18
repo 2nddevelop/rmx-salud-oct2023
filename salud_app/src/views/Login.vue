@@ -137,8 +137,6 @@ const onLogin = async () => {
   await fetchData();
   if (Object.keys(items.value).length > 0) {
     console.log('BD -> login: ', items.value);
-    console.log('BD -> login -> tk : ', items.value.token);
-    console.log('BD -> login -> cnt_descripcion : ', items.value.cnt_descripcion);
     store.commit('updateGlobalUser', username.value.trim());
     store.commit('updateGlobalUserId', items.value.usr_id);
     store.commit('updateGlobalLogged', true);

@@ -78,7 +78,7 @@
               <ng-template v-if="d.pln_fch_id == 0">
                 <ion-button id="dispo" name="dispo"
                   @click="grabarFicha(d.pln_fch_id, d.pln_hora)" color="success"
-                >{{ d.pln_hora }} {{ d.pln_fch_id }}</ion-button>
+                >{{ d.pln_hora }}</ion-button>
               </ng-template>
               <ng-template v-else>
                 <ion-button id="dispo" name="dispo"
@@ -139,6 +139,7 @@ import { ref, onMounted } from 'vue';
 import { useCentros } from '@/services/serviceCentros';
 import { useClientes } from '@/services/serviceClientes';
 import { usePlanificaciones } from '@/services/servicePlanificaciones';
+import { useFichas } from '@/services/serviceFichas';
 import { modalController } from '@ionic/vue';
 import ModalCuotas from '@/views/principales/ModalCuotas.vue';
 import { useStore } from 'vuex';
@@ -165,6 +166,7 @@ let swMostrarReserva = ref(false);
 const apiService = useCentros();
 const apiServicePlanif = usePlanificaciones();
 const apiServiceClientes = useClientes();
+const apiServiceFichas = useFichas();
 
 const fetchData = async () => {
   try {
@@ -189,6 +191,7 @@ const fetchPlanificaciones = async () => {
 
 const mostrarDispo = async (p: any) => {
   try {
+    item.value.fch_pln_id = p.pln_id;
     disponibles.value = p.pln_data_disponibles;
     swMostrarEsp.value = true;
   } catch (error) {
@@ -213,6 +216,7 @@ const buscarClienteXCI = async () => {
     item.value.ci = '';
     item.value.fecha = '';
     item.value.cnt_id = '';
+    item.value.fch_cli_id = '';
     item.value.fch_kdx_medico = '';
     clientes.value = [];
     planificaciones.value = [];
@@ -226,10 +230,13 @@ const buscarClienteXCI = async () => {
 const buscarHistorialXCliId = async (cli_id: any) => {
   const historial = await apiServiceClientes.getBuscarHistorialXCliId(cli_id); 
   if (Object.keys(historial).length) {
+    item.value.fch_cli_id = historial[0].hc_cli_id;
+    item.value.fch_nro_ficha = '';
     item.value.fch_kdx_medico = historial[0].hc_codigo;
     swMostrarReserva.value = true;
   } else {
     item.value.fch_kdx_medico = 'a definir';
+    item.value.fch_cli_id = '0';
     const confirmed = window.alert("No tiene Kardex Médico !");
     swMostrarReserva.value = false;
   }
@@ -237,11 +244,16 @@ const buscarHistorialXCliId = async (cli_id: any) => {
 
 
 const grabarFicha = async (ficha: any, hora: any) => {
-  item.value.fch_usr_id = 1; 
-  item.value.fch_estado = "P";
-  item.value.filtro_fecha = item.value.fecha;
-  item.value.filtro_centro_id = item.cnt_id;
-  item.value.fch_hora = item.hora;
+  let reg = {};
+  reg.fch_usr_id = 1; 
+  reg.fch_estado = "P";
+  reg.fch_cli_id = item.value.fch_cli_id;
+  reg.fch_pln_id = item.value.fch_pln_id;
+  reg.fch_nro_ficha = item.value.fch_nro_ficha;
+  reg.fch_kdx_medico = item.value.fch_kdx_medico;
+  reg.fch_hora = hora;
+  reg.filtro_fecha = item.value.fecha;
+  reg.filtro_centro_id = item.value.cnt_id;
 
   const indexFicha = disponibles.value.findIndex(item => item.pln_hora === hora );
   if (indexFicha !== -1) {
@@ -249,9 +261,9 @@ const grabarFicha = async (ficha: any, hora: any) => {
     updatedFicha.pln_fch_id = 1;
     disponibles.value.splice(indexFicha, 1, updatedFicha);
   }
-  item.pln_data_disponibles = disponibles.value;
+  reg.pln_data_disponibles = disponibles.value;
   //this.reg.pln_id = this.pln_id;
-  const savedReg = await fichasService.saveData(item);
+  const savedReg = await apiServiceFichas.saveData(reg);
   limpiar();
   router.push('/home');
 };

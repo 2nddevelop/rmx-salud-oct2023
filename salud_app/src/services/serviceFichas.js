@@ -9,6 +9,7 @@ export const useFichas = () => {
   const store = useStore();
 
   const saveData = async (newRecord) => {
+    console.log('newRecord:  ', newRecord);
     try {
       const token = store.state.globalToken;
 
@@ -31,5 +32,3 @@ export const useFichas = () => {
     saveData,
   };
 };
-
-export default fichasService;

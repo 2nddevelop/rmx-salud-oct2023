@@ -86,8 +86,8 @@ const FichaController = {
   createFicha: async (req: Request, res: Response) => {
     const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado, filtro_fecha, 
       filtro_centro_id, fch_hora, pln_data_disponibles } = req.body;
-console.log("Disponibles: ", pln_data_disponibles);
-    try {
+
+      try {
       const nextFicha = await pool.query(
         `SELECT e.esp_codigo, COUNT(f.*) AS next_ficha 
           FROM rmx_sld_fichas f
