@@ -16,6 +16,10 @@
           <!--a v-else :href="item.link" class="menu-link">{{ item.label }}</a-->
           <RouterLink v-else :to="item.link" class="menu-link">{{ item.label }}</RouterLink>
         </li>
+        <li>
+
+          <RouterLink to="/logout" class="menu-link">Ingresar</RouterLink>
+        </li>
       </ul>
     </div>
     </div>
@@ -72,7 +76,7 @@ const menuItems = ref([
     { id: 75, label: 'Usuarios_Roles', link: '/usuariosrol', roles: [1]  },
     { id: 75, label: 'Cambio_Clave', link: '/usuariosPassword', roles: [1]  },
   ]},
-  { id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
+  //{ id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);
 const checkRoles = roles => roles.some(role => userRoles.value.includes(role));
 const filteredMenuItems = ref([]);
