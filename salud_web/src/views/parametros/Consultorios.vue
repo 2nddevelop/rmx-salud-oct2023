@@ -61,7 +61,7 @@
             <td align="left">{{ r.cnt_codigo }} - {{ r.cnt_descripcion }}</td>
             <td align="center">{{ r.con_codigo}}</td>
             <td align="left">{{ r.con_descripcion}}</td>
-            <td align="center">{{ r.con_registado}}</td>
+            <td align="center">{{ r.con_registrado.substring(0, 10)}}</td>
             <td align="center">{{ r.con_estado}}</td>
           </tr>
         </tbody>

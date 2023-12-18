@@ -103,7 +103,7 @@
             <td align="center">{{ r.pln_data.pln_horario_fin  }}</td>
             <td align="right">{{ r.pln_data.pln_max_fichas}}</td>
             <td align="right">{{ r.pln_data.pln_max_virtuales}}</td>
-            <td align="center">{{ r.pln_registado}}</td>
+            <td align="center">{{ r.pln_registrado.substring(0, 10)}}</td>
             <td align="center">
               <span v-if="r.pln_estado == 'X'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.pln_estado }}</span>
               <span v-if="r.pln_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.pln_estado }}</span>

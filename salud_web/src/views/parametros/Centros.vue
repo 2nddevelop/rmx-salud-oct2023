@@ -45,7 +45,7 @@
               </td>
               <td align="center">{{ r.cnt_codigo }}</td>
               <td align="left">{{ r.cnt_descripcion }}</td>
-              <td align="center">{{ r.cnt_registado }}</td>
+              <td align="center">{{ r.cnt_registrado.substring(0, 10) }}</td>
               <td align="center">{{ r.cnt_estado }}</td>
             </tr>
           </tbody>

@@ -45,7 +45,7 @@
               </td>
               <td align="center">{{ r.tcli_codigo }}</td>
               <td align="left">{{ r.tcli_descripcion }}</td>
-              <td align="center">{{ r.tcli_registado }}</td>
+              <td align="center">{{ r.tcli_registrado.substring(0, 10) }}</td>
               <td align="center">{{ r.tcli_estado }}</td>
             </tr>
           </tbody>
