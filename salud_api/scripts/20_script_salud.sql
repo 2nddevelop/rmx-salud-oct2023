@@ -197,11 +197,11 @@ insert into rmx_sld_planificacion (pln_cnt_id, pln_esp_id, pln_doc_id, pln_con_i
 (1, 1, 1, 1, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 (1, 2, 2, 2, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 (1, 3, 3, 3, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
-(1, 4, 4, 4, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1);
+(1, 4, 4, 4, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 (1, 5, 5, 5, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 (1, 6, 6, 6, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 (1, 7, 7, 7, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
-(1, 8, 8, 8, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
+(1, 8, 8, 8, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1);
 -- (3, 7, 7, 2, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1),
 -- (3, 8, 8, 3, '{ "pln_fecha":"2023-12-23", "pln_horario_inicio":"08:00", "pln_horario_fin": "12:00", "pln_max_fichas":"10", "pln_max_virtuales":"5" }', '[]', 1);
 
@@ -218,9 +218,6 @@ create table rmx_sld_fichas (
   fch_usr_id integer NOT NULL,
   fch_estado text default 'P' 
 );
-insert into rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id) values
-(1, 5, 'F-1', 'MER-19680709', 1);
-
 
 
 --
