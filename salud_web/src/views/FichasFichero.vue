@@ -252,14 +252,7 @@ export default {
       this.reg.filtro_fecha = this.filtro.fecha;
       this.reg.filtro_centro_id = this.filtro.centro_id;
       this.reg.fch_hora = hora;
-      /*if (this.isEditing) {
-        const updatedReg = await fichasService.updateData(this.reg);
-        const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
-        if (index !== -1) {
-          this.regs.splice(index, 1, updatedReg);
-        }
-      } else {*/
-        console.log('entro');
+      
         const indexFicha = this.disponibles.findIndex(item => item.pln_hora === hora );
         if (indexFicha !== -1) {
           let updatedFicha = this.disponibles[indexFicha];
@@ -267,55 +260,16 @@ export default {
           this.disponibles.splice(indexFicha, 1, updatedFicha);
         }
         this.reg.pln_data_disponibles = this.disponibles;
-        //this.reg.pln_id = this.pln_id;
 
         const savedReg = await fichasService.saveData(this.reg);
-        console.log(savedReg, "SAAAAAA global");
-        console.log(savedReg.fch_id, "SAAAAAA ficha");
         await fichasService.getFicha(savedReg.fch_id)
           .then( (value) => {
-            console.log(value, "sSSSSSSSSS afuera timeout");
             setTimeout(async () => {
-              console.log(value, "sSSSSSSSSS dentro timeout");
-              await this.printRegistro( value );
+              await this.printRegistro( value[0] );
             }, 500);
         });
-        //this.regs.push(savedReg);
-        //this.printRegistro(this.reg);
-      //}
-      //this.listarRegistros();
       this.closeModal();
     },
-
-    /*
-    async saveModal(ficha, hora) {
-      this.reg.fch_usr_id = 1; 
-      this.reg.fch_estado = "P";
-      this.reg.filtro_fecha = this.filtro.fecha;
-      this.reg.filtro_centro_id = this.filtro.centro_id;
-      this.reg.fch_hora = hora;
-      if (this.isEditing) {
-        const updatedReg = await fichasService.updateData(this.reg);
-        const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
-        if (index !== -1) {
-          this.regs.splice(index, 1, updatedReg);
-        }
-      } else {
-        const indexFicha = this.disponibles.findIndex(item => item.pln_hora === hora );
-        if (indexFicha !== -1) {
-          let updatedFicha = this.disponibles[indexFicha];
-          updatedFicha.pln_fch_id = 1;
-          this.disponibles.splice(indexFicha, 1, updatedFicha);
-        }
-        this.reg.pln_data_disponibles = this.disponibles;
-        //this.reg.pln_id = this.pln_id;
-        const savedReg = await fichasService.saveData(this.reg);
-        this.regs.push(savedReg);
-      }
-      this.listarRegistros();
-      this.closeModal();
-    },*/
-
 
     async buscarHistorial(registro) {
       const cli_id = registro.reg.fch_cli_id;
@@ -331,7 +285,6 @@ export default {
     async buscarClienteXCI(registro) {
       const cli_nit = registro.ci;
       const clientes = await clientesService.getBuscarClienteXCI(cli_nit); 
-      console.log("Clientes x CI: ", clientes);
       if (Object.keys(clientes).length) {
         this.clientes = clientes;
       } else {
@@ -350,7 +303,6 @@ export default {
 
     async printRegistro(reg) {
       var html = '';
-      console.log("Imprimir este reg: ", reg);
       html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
       html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
       html += '<td colspan="2" align="right">ID: </td></tr>';
