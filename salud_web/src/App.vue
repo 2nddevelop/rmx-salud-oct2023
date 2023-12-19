@@ -17,7 +17,6 @@
           <RouterLink v-else :to="item.link" class="menu-link">{{ item.label }}</RouterLink>
         </li>
         <li>
-
           <RouterLink to="/logout" class="menu-link">Ingresar</RouterLink>
         </li>
       </ul>
@@ -34,18 +33,26 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/Encabezado.vue'
 import { ref } from 'vue';
 
-// 1 admin@gmail.com
-// 2 kardex@gmail.com
-// 3 fichas@gmail.com
-// 4 enfermera@gmail.com
-// 5 doctor@gmail.com
+// 1 rome@gmail.com
+// 3 kardex@gmail.com
+// 4 fichas@gmail.com
+// 5 enfermera@gmail.com
+// 6 doctor@gmail.com
+// 7 doctorProvincia@gmail.com
+
+// 1 Admin
+// 2 Kardex
+// 3 Fichas
+// 4 Enfermera
+// 5 Doctor
+// 6 Doctor Provincia
 
 const rol_id = localStorage.getItem('rol_id');
 const userRoles = ref([parseInt(rol_id) > 0 ? parseInt(rol_id) : 0]);
 //const userRoles = ref([1]);
 
 const menuItems = ref([
-  { id: 1, label: 'Inicio', link: '/', roles: [1, 2, 3, 4, 5] },
+  { id: 1, label: 'Inicio', link: '/', roles: [1, 2, 3, 4, 5, 6] },
   { id: 2, label: 'Planificación', link: '/planificaciones', roles: [1, 2]  },
   { id: 3, label: 'Kardex', roles: [1, 2],  children: [
     { id: 31, label: 'Pacientes', link: '/pacientes', roles: [1, 2]  },
@@ -53,9 +60,9 @@ const menuItems = ref([
     { id: 33, label: 'Médicos', link: '/doctores', roles: [1, 2]  },
   ]},
   { id: 4, label: 'Fichas', roles: [1, 2, 3, 4, 5, 6], children: [
-    { id: 41, label: 'Emisión', link: '/fichasEmision', roles: [1, 2, 3, 6]  },
-    { id: 42, label: 'Derivación', link: '/fichasDerivacion', roles: [6]  },
-    { id: 43, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3]  },
+    { id: 41, label: 'Emisión', link: '/fichasEmision', roles: [1, 2, 3, 4, 6]  },
+    { id: 42, label: 'Derivación', link: '/fichasDerivacion', roles: [4, 6]  },
+    { id: 43, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3, 4]  },
     { id: 44, label: 'Pantalla', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
   ]},
   { id: 5, label: 'Consulta Médica', roles: [1, 4, 5], children: [

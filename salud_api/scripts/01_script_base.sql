@@ -28,6 +28,8 @@ INSERT INTO base_usuarios (usr_cnt_id, usr_nombres,
   (1, 'Paz', 'Castillo', 'Maria', 'Av Morros Blancos, Calle Tasaky, No. 765', '59170563212', 'enfermera@gmail.com', 
   crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 1, 'A'),
   (1, 'Castro', 'Ponce', 'Adolfo', 'Av Delicia, Calle 21 de Enero, No. 376', '59171953546', 'doctor@gmail.com', 
+  crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 1, 'A'),
+  (1, 'Doctor 1er Nivel', 'Doctor 1er Nivel', 'Doctor Provincia', 'Av Landaeta, No. 765', '59170235412', 'doctor_provincia@gmail.com', 
   crypt('123456', gen_salt('bf')), '-24,77777777', '-24,77777777', 1, 'A');
 
 
@@ -46,7 +48,8 @@ INSERT INTO base_roles (rol_codigo, rol_descripcion, rol_usr_id, rol_estado) VAL
   ('Kardex', 'Kardex', 11, 'A'),
   ('Fichas', 'Fichas', 1, 'A'),
   ('Enfermera', 'Enfermera', 1, 'A'),
-  ('Doctor', 'Doctor', 1, 'A');
+  ('Doctor', 'Doctor', 1, 'A'),
+  ('Doctor 1er Nivel', 'Doctor 1er Nivel', 1, 'A');
 
 
 CREATE TABLE base_usuarios_roles (
@@ -65,7 +68,8 @@ INSERT INTO base_usuarios_roles (urol_usuario_id, urol_rol_id, urol_usr_id, urol
   (2, 2, 1, 'A'),
   (3, 3, 1, 'A'),
   (4, 4, 1, 'A'),
-  (5, 5, 1, 'A');
+  (5, 5, 1, 'A'),
+  (6, 6, 1, 'A');
 
 
 -- INFORMATIVOS
