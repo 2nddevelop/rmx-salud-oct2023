@@ -228,7 +228,7 @@
       return {
         regs: [],
         reg: { },
-        title: "Derivación",
+        title: "DERIVACIÓN",
         plural: "Derivaciones",
         singular: "Derivación",
         showModal: false,
