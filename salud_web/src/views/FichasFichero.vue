@@ -303,8 +303,8 @@ export default {
 
     async printRegistro(reg) {
       var html = '';
-      html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
-      html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
+      html = '<table style="font-size:30" border=\"0\" width = \"100%\">';
+      html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logo3.png" width="70%"></td>';
       html += '<td colspan="2" align="right">ID: </td></tr>';
       html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha+ '</td></tr>';
       html += '<tr><td colspan="3" align="center">Hora: ' + reg.fch_hora+ '</td></tr>';
