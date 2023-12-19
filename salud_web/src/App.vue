@@ -52,14 +52,14 @@ const menuItems = ref([
     { id: 32, label: 'Historial_Clínico', link: '/historiales', roles: [1, 2]  },
     { id: 33, label: 'Médicos', link: '/doctores', roles: [1, 2]  },
   ]},
-  { id: 4, label: 'Fichas', roles: [1], children: [
-    { id: 41, label: 'Emisión', link: '/fichasEmision', roles: [1, 2, 3]  },
-    { id: 42, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3]  },
-    { id: 42, label: 'Pantalla', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
+  { id: 4, label: 'Fichas', roles: [1, 2, 3, 4, 5, 6], children: [
+    { id: 41, label: 'Emisión', link: '/fichasEmision', roles: [1, 2, 3, 6]  },
+    { id: 42, label: 'Derivación', link: '/fichasDerivacion', roles: [6]  },
+    { id: 43, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3]  },
+    { id: 44, label: 'Pantalla', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
   ]},
   { id: 5, label: 'Consulta Médica', roles: [1, 4, 5], children: [
     { id: 51, label: 'Llamada_Fichas', link: '/fichasAtencion', roles: [1, 4, 5]  },
-  //  { id: 52, label: 'Consulta_Externa', link: '/fichasConsulta', roles: [1]  },
     { id: 53, label: 'Consulta_Externa', link: '/fichasConsultaB', roles: [1, 4, 5]  },
   ]},
   { id: 5, label: 'Instrumentos', roles: [1], children: [
