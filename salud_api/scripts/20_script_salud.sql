@@ -268,3 +268,4 @@ insert into rmx_gral_clientes (cli_tcli_id, cli_data, cli_usr_id) values
 ( 1, '{"cli_fec_nac":"2016-01-27", "cli_nombres":"Belen", "cli_paterno":"Apaza", "cli_materno":"Romero", "cli_nit":"10323334", "cli_telefono":"223456", "cli_celular":"78899000", "cli_direccion":"Lapachos #113", "cli_correo":"belen@gmail.com", "cli_clave":"123456"}', 1);
 
 
+ 
