@@ -442,15 +442,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999; 
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px; /* Aumenta el ancho máximo del modal */
-  width: 100%; /* Ocupará el 100% del ancho disponible */
+  width: 80%; 
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
 }
 
 .modal-title {
@@ -475,7 +479,7 @@ export default {
 }
 
 .modal-footer button:hover {
-  background-color: #f0f0f0;
+  b___ackground-color: #f0f0f0;
 }
 
 /* Form field styles */

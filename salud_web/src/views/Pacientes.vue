@@ -457,7 +457,7 @@
   }
   
   .modal-footer button:hover {
-    background-color: #f0f0f0;
+    b___ackground-color: #f0f0f0;
   }
   
   /* Form field styles */

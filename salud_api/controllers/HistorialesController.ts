@@ -72,7 +72,7 @@ const HistorialController = {
     const { hc_cli_id, hc_codigo, hc_modificado, hc_usr_id, hc_estado } = req.body;
 
     try {
-      const historialesQuery = await pool.query('SELECT * FROM rmx_sld_historial WHERE hc_id = $1', [hc_id]);
+      const historialesQuery = await pool.query('SELECT * FROM rmx_sld_historiales WHERE hc_id = $1', [hc_id]);
       const historiales = historialesQuery.rows[0];
 
       if (!historiales) {
