@@ -86,7 +86,7 @@
               </button>
               <button
                 @click="verRegistro(r)"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
                 title="Editar"
               >
                 <i class="fa-solid fa-eye"></i>
