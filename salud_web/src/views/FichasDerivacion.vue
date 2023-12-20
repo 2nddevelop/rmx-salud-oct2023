@@ -42,7 +42,20 @@
               <th>#</th>
               <th></th>
               <th>CI / Paciente</th>
-              <th>Esp / Consultorio</th>
+              <th>Especialidad
+                  <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
+                    name="esp_id" id="esp_id" placeholder="Espcialidad" required>
+                    <option value="0">-- todas --</option>
+                    <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }}</option>
+                  </select>
+              </th>
+              <th>Consultorio
+                  <select v-model="filtro.consultorio_id" class="form-control input" @change="listarRegistros" 
+                    name="con_id" id="con_id" placeholder="Consultorio" required>
+                    <option value="0">-- todas --</option>
+                    <option v-for="c in consultorios" :key="c.con_id" :value="c.con_id">{{ c.con_descripcion }}</option>
+                  </select>
+              </th>
               <th>Planificación</th>
               <th>Nro Ficha</th>
               <th>Kardex Médico</th>
@@ -77,7 +90,8 @@
                 </button>
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
-              <td align="left">{{ r.esp_descripcion }} / {{ r.con_codigo }} </td>
+              <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
+              <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
               <td align="center">{{ r.fch_hora }} </td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>
@@ -221,6 +235,8 @@
   import fichasService from '../services/fichasService';
   import centrosService from '../services/centrosService';
   import historialesService from '../services/historialesService';
+  import especialidadesService from '../services/especialidadesService';
+  import consultoriosService from '../services/consultoriosService';
   import '@fortawesome/fontawesome-free/css/all.css';
 
   export default {
@@ -236,10 +252,12 @@
         clientes: [],
         planificaciones: [],
         centrosSalud: [],
+        especialidades: [],
+        consultorios: [],
         // dates
         currentDate: new Date(),
         // filtro
-        filtro: { fecha:'', centro_id:'0', cli_nit: "", cli_paterno: "", cli_materno: "", cli_nombres: "" },
+        filtro: { especialidad_id:'0', consultorio_id:'0', fecha:'', centro_id:'0', cli_nit: "", cli_paterno: "", cli_materno: "", cli_nombres: "" },
         // horas
         disponibles: [],
         pln_id: 0,
@@ -253,6 +271,8 @@
       this.listarClientes();
       //this.listarPlanificaciones();
       this.listarCentros();
+      this.listarEspecialidades();
+      this.listarConsultorios();
     },
   
     methods: {
@@ -260,9 +280,19 @@
         this.regs = [];
         try {
           this.listarPlanificaciones();
-
+          const registros = [];
           this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
           console.log("Fichas: ", this.regs);
+          this.regs.forEach((r) => {
+            if (this.filtro.especialidad_id == '0') {
+              registros.push(r);
+            } else {
+              if (r.esp_id == this.filtro.especialidad_id) {
+                registros.push(r);
+              }
+            }
+          });
+          this.regs = registros;
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -291,6 +321,22 @@
         console.log('Registros: ', this.regs);
         } catch (error) {
         console.error('Error:', error.message);
+        }
+      },
+      async listarEspecialidades() {
+        this.especialidades = [];
+        try {
+          this.especialidades = await especialidadesService.getData();
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
+      },
+      async listarConsultorios() {
+        this.consultorios = [];
+        try {
+          this.consultorios = await consultoriosService.getData();
+        } catch (error) {
+          console.error("Error:", error.message);
         }
       },
       async buscarRegistros() {
@@ -445,7 +491,11 @@
   * {
     box-sizing: border-box;
   }
-  
+
+  .input {
+    color: black;
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;
