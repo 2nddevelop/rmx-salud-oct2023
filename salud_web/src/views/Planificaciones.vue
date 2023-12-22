@@ -34,7 +34,7 @@
       </div>
     </div>
     <div style="overflow-x: auto">
-      <table class="table table-responsive">
+      <table ref="myTable" class="table table-responsive" cellspacing="0" width="100%">
         <thead class="thead-dark">
           <tr>
             <th>#</th>
@@ -327,7 +327,11 @@ import especialidadesService from '../services/especialidadesService';
 import planificacionesService from '../services/planificacionesService';
 import doctoresService from '../services/doctoresService';
 import consultoriosService from '../services/consultoriosService';
-
+import 'datatables.net-dt/css/jquery.dataTables.css';
+import 'datatables.net-dt';
+import 'jquery';
+import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
+import DataTable from 'datatables.net-vue3';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 import Paginator from '../components/Paginator.vue';
@@ -396,6 +400,7 @@ export default {
       } catch (error) {
         console.error("Error:", error.message);
       }
+      this.initDataTable();
     },
     async listarCentros() {
       this.centros = [];
@@ -431,7 +436,14 @@ export default {
         console.error("Error:", error.message);
       }
     },
-    
+    initDataTable() {
+      if (this.dataTable) {
+        this.dataTable.destroy();
+      }
+      const dataTableOptions = {
+      };
+      this.dataTable = $(this.$refs.myTable).DataTable(dataTableOptions);
+    },
     newRegistro() {
       this.isEditing = false;
       this.reg = {
@@ -547,6 +559,24 @@ console.log('dispo', disponibles);
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
       }
+    },
+    watch: {
+      paginatedRegs() {
+        this.$nextTick(() => {
+          if (this.$refs.myTable) {
+            $(this.$refs.myTable).DataTable().destroy(); // Destruye DataTable existente antes de recrearlo
+            $(this.$refs.myTable).DataTable({
+              // Configuración de DataTables según tus necesidades
+              paging: true,
+              searching: true,
+              // ... más opciones según sea necesario
+            });
+          }
+        });
+      },
+    },
+    components: {
+      DataTable,
     },
   },
 
