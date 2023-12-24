@@ -33,13 +33,64 @@
         </div>
       </div>
     </div>
-    <div style="overflow-x: auto">
-      <table ref="myTable" class="table table-responsive" cellspacing="0" width="100%">
+    <div class="m-1 p-1">
+      <div class="table-responsive">
+        <table>
+          <tr>
+            <th>Centro
+              <select v-model="filtro.centro_id" class="form-control input" @change="filtroLocal" 
+                name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
+                <option value="0">-- todos --</option>
+                <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+              </select>
+            </th>
+            <th>Especialidad
+              <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
+                name="pln_esp_id" id="pln_esp_id" placeholder="Espcialidad" required>
+                <option value="0">-- todas --</option>
+                <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
+              </select>
+            </th>
+          </tr>
+        </table>
+        <DataTable id="dTable"
+          :data="regs" 
+          :columns="columnas"
+          class="table table-striped dark display"
+          :options="{ select: false, responsive: true, autowidth:false, dom:'Bfrtip',
+          language: { search: 'Buscar', zeroRecords: 'No hay registros para mostrar',
+            info: 'Mostrando del _START_ al _END_ de _TOTAL_ registros.',
+            infoFiltered: '(Filtrando de _MAX_ registros.)',
+            paginate: { first: 'Primero', previous: 'Anterior', next: 'Siguiente', last: 'Último'} }
+          }"
+        >
+          <thead class="bg-green-500 border-gray-200 text-white font-bold py-2 px-4 m-1">
+            <tr>
+              <td>#</td>
+              <td></td>
+              <td></td>
+              <td>Centro</td>
+              <td>Especialidad</td>
+              <td>Consultorio / Médico</td>
+              <td>Fecha</td>
+              <td>Inicio</td>
+              <td>Fin</td>
+              <td>Max</td>
+              <td>Virtuales</td>
+              <td>Fecha</td>
+              <td>E</td>
+            </tr>
+          </thead>
+        </DataTable>
+      </div>
+    </div>
+
+      <!--table ref="myTable" class="table table-responsive" cellspacing="0" width="100%">
         <thead class="thead-dark">
           <tr>
             <th>#</th>
             <th></th>
-            <th>Centro
+            <th>Centro - [{{ centros }}]
               <select v-model="filtro.centro_id" class="form-control input" @change="filtroLocal" 
                 name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
                 <option value="0">-- todos --</option>
@@ -115,16 +166,7 @@
             <td colspan="13">Son n {{ plural }}</td>
           </tr>
         </tfoot>
-      </table>
-      <div>
-      <paginator
-        :current-page="currentPage"
-        :total-pages="totalPages"
-        :prev-page="prevPage"
-        :next-page="nextPage"
-      ></paginator>
-      </div>
-    </div>
+      </table-->
 
     <!-- Modal -->
     <div v-if="showModal" class="modal-overlay">
@@ -327,19 +369,22 @@ import especialidadesService from '../services/especialidadesService';
 import planificacionesService from '../services/planificacionesService';
 import doctoresService from '../services/doctoresService';
 import consultoriosService from '../services/consultoriosService';
+
+import DataTable from 'datatables.net-vue3'
+import DataTablesCore from 'datatables.net';
+import 'datatables.net-select';
 import 'datatables.net-dt/css/jquery.dataTables.css';
 import 'datatables.net-dt';
-import 'jquery';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
-import DataTable from 'datatables.net-vue3';
 import '@fortawesome/fontawesome-free/css/all.css';
 
-import Paginator from '../components/Paginator.vue';
+DataTable.use(DataTablesCore);
 
 export default {
+  components: { DataTable },
   data() {
     return {
-      regs: [],
+      regs: null,
       reg: {            
          pln_data:{
             pln_max_fichas: '',
@@ -349,6 +394,71 @@ export default {
             pln_max_virtuales: ''
         } 
       },
+      columnas: [
+        { data: null, render: function(data, type, row, meta) {
+            return `${meta.row + 1}`
+          }
+        },
+        {
+            data: null,
+            className: 'dt-center editor-edit',
+            defaultContent: '<i class="fa fa-pencil"/>',
+            orderable: false
+        },
+        {
+            data: null,
+            className: 'dt-center editor-edit',
+            defaultContent: '<i class="fa fa-trash"/>',
+            orderable: false
+        },
+        /*
+        <td align="center">
+          <button
+            @click="editRegistro(r)"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+            title="Editar"
+          >
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+          <button
+            @click="deleteRegistro(r)"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
+            title="Eliminar"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <button
+            @click="verRegistro(r)"
+            class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
+            title="Editar"
+          >
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </td>*/
+        { data: 'cnt_descripcion' },
+        { data: 'esp_descripcion' },
+        { data: null, render: function(data, type, row, meta) {
+            return `${data.con_descripcion + '/' + data.doc_data.doc_paterno + ' ' + data.doc_data.doc_materno + ' ' + data.doc_data.doc_nombres }`
+          }
+        },
+        { data: 'pln_data.pln_fecha' },
+        { data: 'pln_data.pln_horario_inicio' },
+        { data: 'pln_data.pln_horario_fin' }, 
+        { data: 'pln_data.pln_max_fichas' }, 
+        { data: 'pln_data.pln_max_virtuales' }, 
+        { data: null, render: function(data, type, row, meta) {
+            return `${data.pln_registrado.substring(0, 10) }`
+          }
+        },
+        { data: null, render: function(data, type, row, meta) {
+            const clase =
+              data.pln_estado == 'X' 
+              ? "inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10"
+              : "inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20";
+            return `<span class="${ clase }">${ data.pln_estado }</span>`
+          }
+        },
+      ],
       title: "PLANIFICACIÓN",
       plural: "PLANIFICACIONES",
       singular: "PLANIFICACION",
@@ -364,16 +474,33 @@ export default {
       currentDate: new Date(),
       // filtro
       filtro: { fecha: '', centro_id: '0', especialidad_id: '0' },
-      // paginator
-      currentPage: 1,
-      itemsPerPage: 10,
-
       //disponibles horas
-      lapso: 20 // 20 minutos
+      lapso: 20 // cada 20 minutos
     };
   },
 
   mounted() {
+    // Edit record
+    // this.dTable.on('click', 'td.editor-edit', function (e) {
+    //     e.preventDefault();
+    // 
+    //     editor.edit(e.target.closest('tr'), {
+    //         title: 'Edit record',
+    //         buttons: 'Update'
+    //     });
+    // });
+    
+    // Delete a record
+    //this.dTable.on('click', 'td.editor-delete', function (e) {
+    //    e.preventDefault();
+    //
+    //    editor.remove(e.target.closest('tr'), {
+    //        title: 'Delete record',
+    //        message: 'Are you sure you wish to remove this record?',
+    //        buttons: 'Delete'
+    //    });
+    //});
+
     this.dates();
     this.listarRegistros();
     this.listarCentros();
@@ -400,7 +527,7 @@ export default {
       } catch (error) {
         console.error("Error:", error.message);
       }
-      this.initDataTable();
+      //this.initDataTable();
     },
     async listarCentros() {
       this.centros = [];
@@ -436,14 +563,7 @@ export default {
         console.error("Error:", error.message);
       }
     },
-    initDataTable() {
-      if (this.dataTable) {
-        this.dataTable.destroy();
-      }
-      const dataTableOptions = {
-      };
-      this.dataTable = $(this.$refs.myTable).DataTable(dataTableOptions);
-    },
+
     newRegistro() {
       this.isEditing = false;
       this.reg = {
@@ -495,7 +615,7 @@ export default {
         disponibles.push(item);
         hora = this.sumarMinutosAHora(hora, this.lapso);
       }
-console.log('dispo', disponibles);
+
       // actualiza
       this.reg.pln_data_disponibles = disponibles;
       this.reg.pln_usr_id = 1; 
@@ -548,53 +668,20 @@ console.log('dispo', disponibles);
 
       this.filtro.fecha = `${year}-${month}-${day}`;
     },
-
-    // paginator
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
+/*
+    initDataTable() {
+      if (this.dataTable) {
+        this.dataTable.destroy();
       }
+      const dataTableOptions = {
+      };
+      this.dataTable = $(this.$refs.myTable).DataTable(dataTableOptions);
     },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-      }
-    },
-    watch: {
-      paginatedRegs() {
-        this.$nextTick(() => {
-          if (this.$refs.myTable) {
-            $(this.$refs.myTable).DataTable().destroy(); // Destruye DataTable existente antes de recrearlo
-            $(this.$refs.myTable).DataTable({
-              // Configuración de DataTables según tus necesidades
-              paging: true,
-              searching: true,
-              // ... más opciones según sea necesario
-            });
-          }
-        });
-      },
-    },
-    components: {
-      DataTable,
-    },
-  },
-
-  computed: {
-    // paginator
-    totalPages() {
-      return Math.ceil(this.regs.length / this.itemsPerPage);
-    },
-    paginatedRegs() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.regs.slice(startIndex, endIndex);
-    },
+*/
   },
 
 };
 </script>
-
 
 <style>
 * {

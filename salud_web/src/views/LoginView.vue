@@ -53,6 +53,9 @@ export default {
         if (resp.token) {
           this.$toast.success(`${resp.usr_nombres}, ingreso autorizado!`);
           this.$router.push('/');
+          setTimeout(() => {
+            location.reload(true);
+          }, 100);
         } else {
           this.$toast.error('Ingreso NO autorizado!', {});
           this.email = '';

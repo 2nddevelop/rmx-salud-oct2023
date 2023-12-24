@@ -231,7 +231,7 @@ const router = createRouter({
 
 // 777
 // Middleware para verificar la autenticación antes de cada navegación
-/*
+
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.getters['isAuthenticated'];
   // Verificar si la ruta requiere autenticación
@@ -249,7 +249,7 @@ router.beforeEach((to, from, next) => {
     // La ruta no requiere autenticación, permitir el acceso
     next();
   }
-}); */
+}); 
 // 777
 
 export default router
