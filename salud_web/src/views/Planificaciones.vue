@@ -1,11 +1,10 @@
 <template>
   <div class="">
-    <div>
+    <div class="font-sm">
+      <div class="p-1 m-1">
+        <h1>{{ title }}</h1>
+      </div>
       <div class="grid grid-cols-4">
-        <div class="p-1 m-1">
-          <h1>{{ title }}</h1>
-        </div>
-
         <div class="p-1 m-1">
           <div class="form-group">
             <label for="kdx">Fecha</label>
@@ -54,6 +53,7 @@
           </tr>
         </table>
         <DataTable id="dTable"
+          @editor-edit="handleEditClick"
           :data="regs" 
           :columns="columnas"
           class="table table-striped dark display"
@@ -382,6 +382,7 @@ DataTable.use(DataTablesCore);
 
 export default {
   components: { DataTable },
+  
   data() {
     return {
       regs: null,
@@ -400,41 +401,27 @@ export default {
           }
         },
         {
-            data: null,
-            className: 'dt-center editor-edit',
-            defaultContent: '<i class="fa fa-pencil"/>',
-            orderable: false
+          data: null,
+          className: 'dt-center editor-edit',
+          defaultContent: `<i class="fa fa-pencil"/>`,
+          orderable: false,
+          searchable: false,
+          //render: function (data, type, row) {
+          //  return '<button class="editor-edit">Editar</button>';
+          //},
+          clickEvent: 'handleEditClick'
         },
         {
-            data: null,
-            className: 'dt-center editor-edit',
-            defaultContent: '<i class="fa fa-trash"/>',
-            orderable: false
+          data: null,
+          className: 'dt-center editor-delete',
+          defaultContent: '<i class="fa fa-trash"/>',
+          orderable: false,
+          searchable: false,
+          //render: function (data, type, row) {
+          //  return '<button class="editor-delete">Delete</button>';
+          //},
+          clickEvent: 'handleDeleteClick'
         },
-        /*
-        <td align="center">
-          <button
-            @click="editRegistro(r)"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
-            title="Editar"
-          >
-            <i class="fa-solid fa-pencil"></i>
-          </button>
-          <button
-            @click="deleteRegistro(r)"
-            class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
-            title="Eliminar"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
-          <button
-            @click="verRegistro(r)"
-            class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
-            title="Editar"
-          >
-            <i class="fa-solid fa-eye"></i>
-          </button>
-        </td>*/
         { data: 'cnt_descripcion' },
         { data: 'esp_descripcion' },
         { data: null, render: function(data, type, row, meta) {
@@ -479,28 +466,8 @@ export default {
     };
   },
 
-  mounted() {
-    // Edit record
-    // this.dTable.on('click', 'td.editor-edit', function (e) {
-    //     e.preventDefault();
-    // 
-    //     editor.edit(e.target.closest('tr'), {
-    //         title: 'Edit record',
-    //         buttons: 'Update'
-    //     });
-    // });
-    
-    // Delete a record
-    //this.dTable.on('click', 'td.editor-delete', function (e) {
-    //    e.preventDefault();
-    //
-    //    editor.remove(e.target.closest('tr'), {
-    //        title: 'Delete record',
-    //        message: 'Are you sure you wish to remove this record?',
-    //        buttons: 'Delete'
-    //    });
-    //});
 
+  mounted() {
     this.dates();
     this.listarRegistros();
     this.listarCentros();
@@ -509,6 +476,13 @@ export default {
   },
 
   methods: {
+    handleEditClick() {
+      console.log('Editar registro:');
+    },    
+    handleDeleteClick(rowData) {
+      console.log('Delete registro:');
+    },
+
     async listarRegistros() {
       this.regs = [];
       try {

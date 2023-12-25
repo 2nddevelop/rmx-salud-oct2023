@@ -1,19 +1,19 @@
 <template>
   <div class="m-10 p-10">
-    <div class="grid grid-cols-3 gap-4 m-1 mb-15 p-1 pb-10">
-      <div>
+    <div class="flex flex-row grid grid-cols-3 gap-4 m-1 mb-15 p-1 pb-10">
+      <div class="flex flex-row">
         <i class="fa-solid fa-user fa-2xl pr-5"></i>
         <span v-show="usr_nombres" class="inline-flex items-center rounded-md bg-green-300 px-2 py-1 text-xs font-medium text-black-700 ring-1 ring-inset ring-red-600/10">
           {{ usr_nombres }}
         </span>
       </div>
-      <div>
+      <div class="flex flex-row">
         <i class="fa-solid fa-mask fa-2xl pr-5"></i>
         <span v-show="rol_descripcion" class="inline-flex items-center rounded-md bg-green-300 px-2 py-1 text-xs font-medium text-black-700 ring-1 ring-inset ring-red-600/10">
           {{ rol_descripcion }}
         </span>
       </div>
-      <div>
+      <div class="flex flex-row">
         <i class="fa-solid fa-building fa-2xl pr-5"></i>
         <span v-show="cnt_descripcion" class="inline-flex items-center rounded-md bg-green-300 px-2 py-1 text-xs font-medium text-black-700 ring-1 ring-inset ring-red-600/10">
           {{ cnt_descripcion }}

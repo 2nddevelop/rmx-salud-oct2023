@@ -1,33 +1,80 @@
 <template>
-  <nav>
-    <div class="grid grid-cols-4 gap-3">
-    <div class="flex justify-start logo-cont_ainer col-md-1">
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50">
+
+<!--div class="bg-white pt-4 pr-8 pb-4 pl-8">
+  <nav class="w-full">
+    <div class="flex w-full justify-between max-w-screen-2xl md:flex-row mt-auto mr-auto mb-auto ml-auto">
+      <div class="flex flex-row bg-white justify-between items-center mt-2 mb-2 md:m-0 hidden md:flex">
+        <a href="#" fontfamily="Raleway" class="text-gray-600 text-center mr-6 font-medium text-base">Product</a>
+        <a href="#" fontfamily="Raleway" class="text-gray-600 text-center mr-6 font-medium text-base">Features</a>
+        <a href="#" fontfamily="Raleway" class="text-gray-600 text-center font-medium text-base">Pricing</a>
+      </div>
+      <div class="bg-white flex-row flex items-center justify-center order-first md:order-none">
+        <img src="https://res.cloudinary.com/speedwares/image/upload/v1659284687/windframe-logo-main_daes7r.png"
+            class="w-12 md:w-16"/>
+      </div>
+      <div class="flex justify-center items-center md:justify-start hidden md:flex">
+        <button fontfamily="Arial" class="h-9 w-24 text-gray-600 bg-white border-2 border-white flex items-center
+            justify-center text-center rounded-lg text-lg font-normal mr-6">Sign in</button>
+        <button fontfamily="Arial" class="h-9 w-24 text-white bg-blue-700 hover:bg-blue-900 hover:border-blue-900
+            border-2 flex items-center justify-center text-center border-blue-700 rounded-lg text-lg font-normal
+            mr-auto">Sign up</button>
+      </div>
+      <div class="md:hidden flex items-center">
+        <div class="outline-none mobile-menu-button">
+          <svg id="Windframe_ChtQoq_8Tt" fill="none" strokelinecap="round" stroke-linejoin="round" strokewidth="2"
+              viewbox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-gray-500 hover:text-green-500"><path
+              id="Windframe_p7HkkHV49l" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </div>
+      </div>
     </div>
-    <div class="col-md-11">
-      <ul class="menu">
-        <li><!-- menu Inicio -->
-          <RouterLink :to="{ path: '/' }" class="nav-link menu-link">Inicio</RouterLink>
-        </li>
-        <li v-for="item in filteredMenuItems" :key="item.id" class="menu-item">
-          <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
-          <ul v-if="item.children" class="submenu">
-            <li v-for="child in item.children" :key="child.id" class="submenu-item">
-              <RouterLink :to="child.link" class="submenu-link">{{ child.label }}</RouterLink>
-            </li>
-          </ul>
-          <!--a v-else :href="item.link" class="menu-link">{{ item.label }}</a-->
-          <RouterLink v-else :to="item.link" class="menu-link">{{ item.label }}</RouterLink>
-        </li>
-        <li><!-- menu Ingresar -->
-          <RouterLink to="/logout" class="nav-link menu-link">Ingresar</RouterLink>
-        </li>
-      </ul>
-    </div>
+    <div class="hidden md:hidden md:hidden mobile-menu">
+      <div>
+        <div class="flex flex-col">
+          <a href="#" fontfamily="Raleway" class="text-gray-600 text-center mt-2 font-medium text-base">Product</a>
+          <a href="#" fontfamily="Raleway" class="text-gray-600 text-center mt-2 font-medium text-base">Features</a>
+          <a href="#" fontfamily="Raleway" class="text-gray-600 text-center mt-2 font-medium text-base">Pricing</a>
+          <button fontfamily="Arial" class="h-9 w-24 text-gray-600 bg-white border-2 border-white flex items-center
+              justify-center text-center rounded-lg text-lg font-normal mt-2 mr-auto ml-auto">Sign in</button>
+          <button fontfamily="Arial" class="h-9 w-24 text-white bg-blue-700 hover:bg-blue-900 hover:border-blue-900
+              border-2 flex items-center justify-center text-center border-blue-700 rounded-lg text-lg font-normal mt-2
+              mr-auto ml-auto">Sign up</button>
+        </div>
+      </div>
     </div>
   </nav>
+</div-->
 
-  <RouterView />
+<div class="w-full bg-white">
+  <nav class="w-full sm:font-sm">
+    <div class="flex w-full justify-between max-w-screen-2xl md:flex-row mt-auto mr-auto mb-auto ml-auto">
+      <div class="flex justify-start logo-container">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50">
+      </div>
+      <div class="font-medium">
+        <ul class="menu">
+          <li><!-- menu Inicio -->
+            <RouterLink :to="{ path: '/' }" class="nav-link menu-link">Inicio</RouterLink>
+          </li>
+          <li v-for="item in filteredMenuItems" :key="item.id" class="menu-item">
+            <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
+            <ul v-if="item.children" class="submenu">
+              <li v-for="child in item.children" :key="child.id" class="submenu-item">
+                <RouterLink :to="child.link" class="submenu-link">{{ child.label }}</RouterLink>
+              </li>
+            </ul>
+            <!--a v-else :href="item.link" class="menu-link">{{ item.label }}</a-->
+            <RouterLink v-else :to="item.link" class="menu-link">{{ item.label }}</RouterLink>
+          </li>
+          <li><!-- menu Ingresar -->
+            <RouterLink to="/logout" class="nav-link menu-link">Ingresar</RouterLink>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<RouterView />
 
 </template>
 
@@ -89,7 +136,7 @@ const menuItems = ref([
   //{ id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);
 const checkRoles = roles => roles.some(role => { 
-  console.log(role, userRoles);
+  // console.log(role, userRoles);
   return userRoles.value.includes(role);
 });
 const filteredMenuItems = ref([]);
