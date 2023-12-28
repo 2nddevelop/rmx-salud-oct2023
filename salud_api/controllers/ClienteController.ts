@@ -12,7 +12,8 @@ const ClienteController = {
         FROM rmx_gral_clientes c 
         INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = c.cli_tcli_id 
         WHERE c.cli_estado != 'X' 
-        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' 
+        LIMIT 50 `
       ); 
       const clientes = clienteQuery.rows;
       res.json(clientes);

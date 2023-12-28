@@ -15,7 +15,8 @@ const HistorialController = {
         FROM rmx_sld_historiales h
         right outer JOIN rmx_gral_clientes c ON c.cli_id = h.hc_cli_id
         WHERE c.cli_estado != 'X' 
-        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' `
+        ORDER BY c.cli_data->>'cli_paterno', c.cli_data->>'cli_materno', c.cli_data->>'cli_nombres' 
+        LIMIT 50 `
       );
       const historiales = historialesQuery.rows;
       res.json(historiales);
