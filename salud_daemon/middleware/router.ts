@@ -3,7 +3,7 @@ import express from 'express';
 import UserController from '../controllers/UserController';
 import AreaController from '../controllers/AreaController';
 import MailController from '../controllers/MailController';
-import authMiddleware from '../middleware/authMiddleware';
+import authMiddleware from './authMiddleware';
 
 const router = express.Router();
 
