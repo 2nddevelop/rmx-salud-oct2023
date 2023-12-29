@@ -211,7 +211,7 @@
             <h2
               class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
             >
-              {{ isEditingDet ? "EDITAR " : "NUEVO " }} {{ singular }}
+              {{ isEditingDet ? "VER " : "NUEVO " }} {{ singular }}
             </h2>
             <button
               type="button"
