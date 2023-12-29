@@ -8,8 +8,8 @@ create table rmx_sld_centros (
   cnt_id serial primary key,
   cnt_codigo text not null,
   cnt_descripcion text not null,
-  cnt_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  cnt_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  cnt_registrado timestamp DEFAULT now(),
+  cnt_modificado timestamp,
   cnt_usr_id integer NOT NULL,
   cnt_estado text default 'A'
 );
@@ -27,8 +27,8 @@ create table rmx_sld_especialidades (
   esp_id serial primary key,
   esp_codigo text not null,
   esp_descripcion text not null,
-  esp_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  esp_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  esp_registrado timestamp DEFAULT now(),
+  esp_modificado timestamp,
   esp_usr_id integer NOT NULL,
   esp_estado text default 'A'
 );
@@ -50,8 +50,8 @@ create table rmx_sld_consultorios (
   con_cnt_id integer not null,
   con_codigo text not null,
   con_descripcion text not null,
-  con_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  con_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  con_registrado timestamp DEFAULT now(),
+  con_modificado timestamp,
   con_usr_id integer NOT NULL,
   con_estado text default 'A'
 );
@@ -101,8 +101,8 @@ create table rmx_sld_doctores (
   doc_cnt_id integer not null,
   doc_esp_id integer not null,
   doc_data jsonb not null default '{}',
-  doc_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  doc_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  doc_registrado timestamp DEFAULT now(),
+  doc_modificado timestamp,
   doc_usr_id integer NOT NULL,
   doc_estado text default 'A' 
 );
@@ -133,8 +133,8 @@ create table rmx_sld_planificacion (
   pln_con_id integer not null,
   pln_data jsonb not null default '{}',
   pln_data_disponibles jsonb not null default '[]',
-  pln_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  pln_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  pln_registrado timestamp DEFAULT now(),
+  pln_modificado timestamp,
   pln_usr_id integer NOT NULL,
   pln_estado text default 'A' 
 );
@@ -213,8 +213,8 @@ create table rmx_sld_fichas (
   fch_nro_ficha text not null,
   fch_hora text null,
   fch_kdx_medico text not null,
-  fch_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  fch_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  fch_registrado timestamp DEFAULT now(),
+  fch_modificado timestamp,
   fch_usr_id integer NOT NULL,
   fch_estado text default 'P' 
 );
@@ -227,8 +227,8 @@ create table rmx_gral_tipos_cliente (
   tcli_id serial primary key,
   tcli_codigo text not null,
   tcli_descripcion text not null,
-  tcli_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  tcli_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  tcli_registrado timestamp DEFAULT now(),
+  tcli_modificado timestamp,
   tcli_usr_id integer NOT NULL,
   tcli_estado text default 'A'
 );
@@ -242,8 +242,8 @@ create table rmx_gral_clientes (
   cli_id serial primary key,
   cli_tcli_id integer NOT NULL,
   cli_data jsonb NOT NULL,
-  cli_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  cli_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  cli_registrado timestamp DEFAULT now(),
+  cli_modificado timestamp,
   cli_usr_id integer NOT NULL,
   cli_estado text default 'A'
 );

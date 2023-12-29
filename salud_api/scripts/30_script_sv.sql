@@ -8,8 +8,8 @@ create table rmx_sld_historiales (
   hc_id serial primary key,
   hc_cli_id integer not null,
   hc_codigo text not null,
-  hc_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  hc_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  hc_registrado timestamp DEFAULT now(),
+  hc_modificado timestamp,
   hc_usr_id integer NOT NULL,
   hc_estado text default 'A' 
 );
@@ -28,8 +28,8 @@ create table rmx_sld_historiales_det (
   hcd_data_sv jsonb not null default '{}',
   hcd_data_consulta jsonb not null default '{}',
   hcd_data_recetario jsonb not null default '{}',
-  hcd_registrado timestamp without time zone NOT NULL DEFAULT now(),
-  hcd_modificado timestamp without time zone NOT NULL DEFAULT now(),
+  hcd_registrado timestamp DEFAULT now(),
+  hcd_modificado timestamp,
   hcd_usr_id integer NOT NULL,
   hcd_estado text default 'A' 
 );

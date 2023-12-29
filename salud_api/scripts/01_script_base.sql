@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- Script base
 CREATE TABLE base_usuarios (
   usr_id serial PRIMARY KEY,
@@ -11,10 +13,10 @@ CREATE TABLE base_usuarios (
   usr_clave text NOT NULL,
   usr_lat text NOT NULL,
   usr_lng text NOT NULL,
-  usr_registrado timestamp NOT NULL DEFAULT now(),
+  usr_registrado timestamp DEFAULT now(),
   usr_actualizado timestamp,
   usr_usr_id integer NOT NULL, 
-  usr_estado text NOT NULL DEFAULT 'A'
+  usr_estado char DEFAULT 'A'
 );
 INSERT INTO base_usuarios (usr_cnt_id, usr_nombres, 
   usr_primer_apellido, usr_segundo_apellido, usr_direccion, usr_celular, usr_email, 
@@ -38,10 +40,10 @@ CREATE TABLE base_roles (
   rol_id serial PRIMARY KEY,
   rol_codigo text NOT NULL,
   rol_descripcion text NOT NULL,
-  rol_registrado timestamp NOT NULL DEFAULT now(),
+  rol_registrado timestamp DEFAULT now(),
   rol_actualizado timestamp,
   rol_usr_id text NOT NULL, 
-  rol_estado text NOT NULL DEFAULT 'A'
+  rol_estado char DEFAULT 'A'
 );
 INSERT INTO base_roles (rol_codigo, rol_descripcion, rol_usr_id, rol_estado) VALUES 
   ('Admin', 'Admin', 11, 'A'),
@@ -56,10 +58,10 @@ CREATE TABLE base_usuarios_roles (
   urol_id serial PRIMARY KEY,
   urol_usuario_id integer NOT NULL,
   urol_rol_id integer NOT NULL,
-  urol_registrado timestamp NOT NULL DEFAULT now(),
+  urol_registrado timestamp DEFAULT now(),
   urol_actualizado timestamp,
   urol_usr_id integer NOT NULL, 
-  urol_estado text NOT NULL DEFAULT 'A',
+  urol_estado char DEFAULT 'A',
   FOREIGN KEY (urol_usr_id) REFERENCES base_usuarios(usr_id),
   FOREIGN KEY (urol_rol_id) REFERENCES base_roles(rol_id)
 );
@@ -77,10 +79,10 @@ CREATE TABLE base_avisos (
   avi_id serial PRIMARY KEY,
   avi_titulo text NOT NULL,
   avi_contenido text NOT NULL,
-  avi_registrado timestamp NOT NULL DEFAULT now(),
+  avi_registrado timestamp DEFAULT now(),
   avi_actualizado timestamp,
   avi_usr_id text not NULL, 
-  avi_estado text NOT NULL DEFAULT 'A'
+  avi_estado char DEFAULT 'A'
 );
 INSERT INTO base_avisos (avi_titulo, avi_contenido, avi_usr_id, avi_estado) VALUES 
   ('Titulo 1', 'Contenido 1 contenido 1 contenido 1 contenido 1 contenido 1.', 11, 'A');
@@ -90,10 +92,10 @@ CREATE TABLE base_noticias (
   nt_id serial PRIMARY KEY,
   nt_titulo text NOT NULL,
   nt_contenido text NOT NULL,
-  nt_registrado timestamp NOT NULL DEFAULT now(),
+  nt_registrado timestamp DEFAULT now(),
   nt_actualizado timestamp,
   nt_usr_id text not NULL, 
-  nt_estado text NOT NULL DEFAULT 'A'
+  nt_estado char DEFAULT 'A'
 );
 INSERT INTO base_noticias (nt_titulo, nt_contenido, nt_usr_id, nt_estado) VALUES 
   ('Noticia 1', 'Contenido 1 contenido 1 contenido 1 contenido 1 contenido 1.', 11, 'A');
