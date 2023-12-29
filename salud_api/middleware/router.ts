@@ -18,10 +18,6 @@ import UsuarioRolController from '../controllers/UsuarioRolController';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.sendFile('app/app.html', { root: '.' });
-});
-
 // --- autenticación ------------------------------------------------------------------
 /**
  * @swagger

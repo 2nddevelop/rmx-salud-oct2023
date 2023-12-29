@@ -125,6 +125,7 @@ const menuItems = ref([
     { id: 31, label: 'Pacientes', link: '/pacientes', roles: [1, 2]  },
     { id: 32, label: 'Historial_Clínico', link: '/historiales', roles: [1, 2]  },
     { id: 33, label: 'Médicos', link: '/doctores', roles: [1, 2]  },
+    { id: 34, label: 'Pacientes SICE', link: '/pacientesSICE', roles: [1, 2]  },
   ]},
   { id: 4, label: 'Fichas', roles: [1, 2, 3, 4, 5, 6], children: [
     { id: 41, label: 'Emisión', link: '/fichasEmision', roles: [1, 2, 3, 4]  },

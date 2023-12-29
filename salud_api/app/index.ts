@@ -23,6 +23,11 @@ app.use(cors({
 //  res.header('Access-Control-Allow-Methods', '*');
 //  next();
 //});
+
+app.get('/', (req, res) => {
+  res.sendFile('public/app.html', { root: '.' });
+});
+
 app.use('/api', router);
 
 // documentación swagger

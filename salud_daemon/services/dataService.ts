@@ -1,22 +1,9 @@
-import { ConnectionPool, config } from 'mssql';
-
-// Configuración de la conexión a la base de datos
-const dbConfig: config = {
-  user: 'sa',
-  password: 'sqlserver2012',
-  database: 'OMRS_SQL',
-  server: '192.168.22.113\\LECTURAS',
-  options: {
-    port: 1433,
-    encrypt: false, // Si tu servidor SQL Server utiliza SSL/TLS
-  },
-};
+import pool from '../db';
 
 // Función para ejecutar consultas en la base de datos
 export const ejecutarConsulta = async (query: string) => {
   try {
     // Crea una pool de conexiones
-    const pool = new ConnectionPool(dbConfig);
     await pool.connect();
 
     // Ejecuta la consulta
