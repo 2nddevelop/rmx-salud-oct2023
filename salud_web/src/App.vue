@@ -119,7 +119,7 @@ const userRoles = ref([parseInt(rol_id) > 0 ? parseInt(rol_id) : 0]);
 //const userRoles = ref([1]);
 
 const menuItems = ref([
-  { id: 1, label: 'Inicio', link: '/', roles: [1, 2, 3, 4, 5, 6] },
+  // { id: 1, label: 'Inicio', link: '/', roles: [1, 2, 3, 4, 5, 6] },
   { id: 2, label: 'Planificación', link: '/planificaciones', roles: [1, 2]  },
   { id: 3, label: 'Kardex', roles: [1, 2],  children: [
     { id: 31, label: 'Pacientes', link: '/pacientes', roles: [1, 2]  },
