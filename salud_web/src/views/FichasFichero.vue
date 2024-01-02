@@ -305,7 +305,7 @@ export default {
 
     async printRegistro(reg) {
       var html = '';
-      html = '<table style="font-size:30" border=\"0\" width = \"100%\">';
+      html = '<table style="font-size:15px" border=\"0\" width = \"100%\">';
       html += '<tr><td colspan="1" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logo3.png" width="70%"></td>';
       html += '<td colspan="2" align="right"></td></tr>';
       html += '<tr><td colspan="3"><hr></td></tr>';
@@ -316,7 +316,7 @@ export default {
       html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
       html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
       html += '<tr><td colspan="3"><hr></td></tr>';
-      html += '<tr><td align="center" colspan="3">FELIZ NAVIDAD 2023</td></tr>';
+      html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
       html += '<tr><td colspan="3"><hr></td></tr>';
       html += '<td colspan="2" align="center">' + reg.fch_registrado + '</td></tr>';
       html += '</table>';
