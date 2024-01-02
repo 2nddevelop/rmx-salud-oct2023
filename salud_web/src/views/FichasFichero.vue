@@ -5,9 +5,9 @@
         <div class="p-1 m-1"></div>
 
         <div class="p-1 m1 col-span-3" style="font-size: 24px;">
-          <div class="p-1 m-1">
+          <!--div class="p-1 m-1">
             <h1>{{ title }}</h1>
-          </div>
+          </div-->
 
           <div class="p-1 m-1">
             <div class="form-group">
@@ -26,26 +26,28 @@
             </div>
           </div>
 
-          <div class="flex justify-end p-1 m-1">
-            <button
-              @click="newRegistro()"
-              class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
-              title="Nuevo"
-              :disabled="filtro.centro_id == '0'"
-            >
-              + Nueva Ficha
-            </button>
-          </div>
-          <div class="flex justify-end p-4 m-1">
-            <button
-              @click="reimprimirRegistro()"
-              class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
-              title="Nuevo"
-              :disabled="filtro.centro_id == '0'"
-            >
-              <i class="fa-solid fa-print"></i>
-              Reimprimir Ficha
-            </button>
+          <div class="grid grid-cols-2">
+            <div class="flex justify-end pl-4 pr-2 m-1">
+              <button
+                @click="newRegistro()"
+                class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+                title="Nuevo"
+                :disabled="filtro.centro_id == '0'"
+              >
+                + Nueva Ficha
+              </button>
+            </div>
+            <div class="flex justify-end pl-2 pr-4 m-1">
+              <button
+                @click="reimprimirRegistro()"
+                class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+                title="Nuevo"
+                :disabled="filtro.centro_id == '0'"
+              >
+                <i class="fa-solid fa-print"></i>
+                Reimprimir Ficha
+              </button>
+            </div>
           </div>
         </div>
 
