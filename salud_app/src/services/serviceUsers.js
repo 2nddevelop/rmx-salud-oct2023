@@ -9,8 +9,9 @@ export const useUsers = () => {
   const postData = async (data) => {
     try {
       const endpoint = '/login';
-      console.log('>>>', `${API_URL}${endpoint}`);
-      const response = await axios.post(`${API_URL}${endpoint}`, data, { timeout: 0 });
+      console.log('endpoint >>>', `${API_URL}${endpoint}`);
+      const response = await axios.post(`${API_URL}${endpoint}`, data, { timeout: 30000 })
+      console.log('Resp: ', response);
       return response.data;
     } catch (error) {
       console.error('Error posting data:', error);

@@ -123,7 +123,12 @@ const apiService = useUsers();
 
 const fetchData = async () => {
   try {
-    const data = await apiService.postData({ "username": username.value.trim(), "password": password.value.trim() });
+    console.log('entrando al servicio login');
+    const data = await apiService.postData({ 
+      "username": username.value.trim(), 
+      "password": password.value.trim() 
+    });
+    console.log('entro y devuelve esto: ', data);
     items.value = data;
     //responseData.value = JSON.stringify(data);
   } catch (error) {
