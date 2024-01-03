@@ -27,16 +27,16 @@
     </div>
     <div class="">
       <div class="grid grid-cols-6">
-        <div class="col-span-2 p-1 m-1 content-center content-stretch	" style="background-color: beige;">
-          <label>Video</label>
+        <div class="col-span-3 p-1 m-1 content-center content-stretch	" style="background-color: beige;">
+          Video
         </div>
 
-        <div class="col-span-4 p-1 m-1" style="overflow-x: auto; font-size: 24px;">
-          <table class="table table-responsive">
-            <thead class="">
+        <div class="col-span-3 p-1 m-1" style="overflow-x: auto;">
+          <table class="table table-responsive table-border">
+            <thead class="text-xl">
               <tr>
-                <th>CI / Paciente</th>
-                <th>Nro Ficha</th>
+                <th>Paciente</th>
+                <th>Ficha</th>
                 <th></th>
                 <th>Especialidad
                   <!--select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
@@ -52,14 +52,14 @@
                     <option v-for="c in consultorios" :key="c.con_id" :value="c.con_id">{{ c.con_descripcion }}</option>
                   </select-->
               </th>
-                <th>Estado</th>
+                <th>E</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="text-xl">
               <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
                 <template v-if="r.fch_estado !== 'P'">
-                <td align="left">{{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
-                <td align="center">{{ r.fch_hora }} {{ r.fch_nro_ficha }}</td>
+                <td align="left">{{ r.cli_data.cli_nombres }} </td>
+                <td align="center">{{ r.fch_hora }} - {{ r.fch_nro_ficha }}</td>
                 <td align="center"><i class="fa-solid fa-arrow-right fa-2xl"></i></td>
                 <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
                 <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
@@ -67,9 +67,9 @@
                 </template>
               </tr>
             </tbody>
-            <tfoot>
+            <tfoot class="text-xs">
               <tr style="background: beige;">
-                <td colspan="13"><p>En pantalla solo se listan las fichas llamadas a Signos Vitales o Consulta Externa.</p></td>
+                <td colspan="6"><p>En pantalla solo se listan las fichas llamadas a Signos Vitales o Consulta Externa.</p></td>
               </tr>
             </tfoot>
           </table>
