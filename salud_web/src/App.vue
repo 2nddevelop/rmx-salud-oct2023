@@ -84,7 +84,7 @@
   </nav>
   
   <main>
-    <div class="mx-auto max-w-7xl py-6 sm:px-1 md:px-2 lg:px-4">
+    <div class="mx-auto max-w-7xl py-1 sm:px-1 md:px-2 lg:px-1">
 
       <!-- Your content -->
       <RouterView />

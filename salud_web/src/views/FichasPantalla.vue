@@ -1,18 +1,18 @@
 <template>
     <div class="">
-      <div class="grid grid-cols-4">
-        <div class="p-4 m-1">
-          <h1>{{ title }}</h1>
+      <div class="grid grid-cols-4 p-0 m-0">
+        <div class="p-1 m-1">
+          <!--h1>{{ title }}</h1-->
         </div>
 
-        <div class="p-4 m-1">
+        <div class="p-1 m-1">
           <div class="form-group">
             <label for="fecha" class="font-semibold">Fecha</label>
             <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
           </div>
         </div>
 
-        <div class="p-4 m-1">
+        <div class="p-1 m-1">
           <div class="form-group">
             <label for="centro" class="font-semibold">Centro de Salud</label>
             <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
@@ -22,14 +22,16 @@
           </div>
         </div>
 
-        <div class="p-4 m-1"></div>
+        <div class="p-1 m-1"></div>
       </div>
     </div>
     <div class="">
       <div class="grid grid-cols-6">
-        <div class="p-4 m-1"></div>
+        <div class="col-span-2 p-1 m-1 content-center content-stretch	" style="background-color: beige;">
+          <label>Video</label>
+        </div>
 
-        <div class="col-span-4 p-4 m-1" style="overflow-x: auto; font-size: 24px;">
+        <div class="col-span-4 p-1 m-1" style="overflow-x: auto; font-size: 24px;">
           <table class="table table-responsive">
             <thead class="">
               <tr>
@@ -37,18 +39,18 @@
                 <th>Nro Ficha</th>
                 <th></th>
                 <th>Especialidad
-                  <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
+                  <!--select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
                     name="esp_id" id="esp_id" placeholder="Espcialidad" required>
                     <option value="0">-- todas --</option>
                     <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }}</option>
-                  </select>
+                  </select-->
               </th>
               <th>Consultorio
-                  <select v-model="filtro.consultorio_id" class="form-control input" @change="listarRegistros" 
+                  <!--select v-model="filtro.consultorio_id" class="form-control input" @change="listarRegistros" 
                     name="con_id" id="con_id" placeholder="Consultorio" required>
                     <option value="0">-- todas --</option>
                     <option v-for="c in consultorios" :key="c.con_id" :value="c.con_id">{{ c.con_descripcion }}</option>
-                  </select>
+                  </select-->
               </th>
                 <th>Estado</th>
               </tr>
@@ -72,8 +74,6 @@
             </tfoot>
           </table>
         </div>
-
-        <div class="p-4 m-1"></div>
       </div>
   
       <!-- Modal -->
