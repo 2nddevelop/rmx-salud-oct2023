@@ -6,8 +6,11 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import cors from 'cors';
 
+import https from 'https';
+import fs from 'fs';
+
 const app = express();
-const port = 3333;
+const port = 8888;
 
 app.use(bodyParser.json());
 app.use(cors({
@@ -44,7 +47,12 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// escuchar
-app.listen(port, () => {
-  console.log(`Servidor escuchando en el puerto ${port}\nSwagger en http://localhost:${port}/api/docs/`);
-});
+
+https
+  .createServer({
+    key: fs.readFileSync(__dirname + '/../../certificados/privatekey.pem'),
+    cert: fs.readFileSync(__dirname + '/../../certificados/certificate.pem')
+  }, app)
+  .listen(port, () => {
+    console.log(`Servidor escuchando en el puerto ${port}\nSwagger en https://localhost:${port}/api/docs/`);
+  });
