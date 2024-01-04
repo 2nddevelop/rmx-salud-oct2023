@@ -18,10 +18,10 @@
                 <h1><strong>Yo Te Ayudo</strong></h1>
               </RouterLink>
           </div>
-          <div class="hidden md:block">
+          <div class="hidden md:block text-sm">
             <div class="ml-10 flex items-baseline space-x-4">
               <ul class="menu">
-                <li v-for="item in menuItems" :key="item.id" class="menu-item">
+                <li v-for="item in filteredMenuItems" :key="item.id" class="menu-item">
                   <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
                   <ul v-if="item.children" class="submenu">
                     <li v-for="child in item.children" :key="child.id" class="submenu-item">
@@ -58,18 +58,18 @@
     </div>
 
     <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="md:hidden" id="mobile-menu">
+    <div class="md:hidden text-xs" id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <ul class="menu">
           <li class="menu-item"><!-- menu Inicio -->
             <RouterLink :to="{ path: '/' }" class="nav-link menu-link">Inicio</RouterLink>
           </li>
-          <li v-for="item in menuItems" :key="item.id" class="menu-item">
+          <li v-for="item in filteredMenuItems" :key="item.id" class="menu-item">
             <a v-if="item.children" href="#" class="menu-link">{{ item.label }}</a>
             <ul v-if="item.children" class="submenu">
               <li v-for="child in item.children" :key="child.id" class="submenu-item">
-                <RouterLink :to="child.link" class="submenu-link">{{ child.label }} ggg</RouterLink>
+                <RouterLink :to="child.link" class="submenu-link">{{ child.label }}</RouterLink>
               </li>
             </ul>
             <RouterLink v-else :to="item.link" class="menu-link">{{ item.label }}</RouterLink>
@@ -123,7 +123,7 @@ const menuItems = ref([
   { id: 2, label: 'Planificación', link: '/planificaciones', roles: [1, 2]  },
   { id: 3, label: 'Kardex', roles: [1, 2],  children: [
     { id: 31, label: 'Pacientes', link: '/pacientes', roles: [1, 2]  },
-    { id: 32, label: 'Historial_Clínico', link: '/historiales', roles: [1, 2]  },
+    { id: 32, label: 'Historial Clínico', link: '/historiales', roles: [1, 2]  },
     { id: 33, label: 'Médicos', link: '/doctores', roles: [1, 2]  },
     { id: 34, label: 'Pacientes SICE', link: '/pacientesSICE', roles: [1, 2]  },
   ]},
@@ -134,22 +134,22 @@ const menuItems = ref([
     { id: 44, label: 'Pantalla', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
   ]},
   { id: 5, label: 'Consulta Médica', roles: [1, 4, 5], children: [
-    { id: 51, label: 'Llamada_Fichas', link: '/fichasAtencion', roles: [1, 4, 5]  },
-    { id: 53, label: 'Consulta_Externa', link: '/fichasConsultaB', roles: [1, 4, 5]  },
+    { id: 51, label: 'Llamada Fichas', link: '/fichasAtencion', roles: [1, 4, 5]  },
+    { id: 53, label: 'Consulta Externa', link: '/fichasConsultaB', roles: [1, 4, 5]  },
   ]},
   { id: 5, label: 'Instrumentos', roles: [1], children: [
     { id: 51, label: 'CIE', link: '/', roles: [1]  },
-    { id: 52, label: 'Vademécum_General', link: '/', roles: [1]  },
+    { id: 52, label: 'Vademécum General', link: '/', roles: [1]  },
   ]},
   { id: 7, label: 'Parametros', roles: [1], children: [
-    { id: 71, label: 'Centros_Médicos', link: '/centros', roles: [1]  },
+    { id: 71, label: 'Establ. de Salud', link: '/centros', roles: [1]  },
     { id: 72, label: 'Especialidades', link: '/especialidades', roles: [1]  },
     { id: 73, label: 'Consultorios', link: '/consultorios', roles: [1]  },
-    { id: 74, label: 'Tipos_Paciente', link: '/tiposClientes', roles: [1]  },
+    { id: 74, label: 'Tipos Paciente', link: '/tiposClientes', roles: [1]  },
     { id: 75, label: 'Usuarios', link: '/users', roles: [1]  },
     { id: 75, label: 'Roles', link: '/roles', roles: [1]  },
-    { id: 75, label: 'Usuarios_Roles', link: '/usuariosrol', roles: [1]  },
-    { id: 75, label: 'Cambio_Clave', link: '/usuariosPassword', roles: [1]  },
+    { id: 75, label: 'Usuarios + Roles', link: '/usuariosrol', roles: [1]  },
+    { id: 75, label: 'Cambio Clave', link: '/usuariosPassword', roles: [1]  },
   ]},
   //{ id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);
@@ -159,14 +159,14 @@ const checkRoles = roles => roles.some(role => {
 const filteredMenuItems = ref([]);
 
 // Filtrar los elementos del menú al iniciar el componente
-filteredMenuItems.value = menuItems.value.filter(item => {
+filteredMenuItems.value = menuItems.value.filter((item) => {
   if (item.roles) {
     return checkRoles(item.roles);
   }
   return true;
 });
 
-console.log('filteredMenuItems: ', filteredMenuItems);
+console.log('filteredMenuItems: ', filteredMenuItems.value);
 
 </script>
 
@@ -210,7 +210,7 @@ nav {
   position: absolute;
   top: 100%;
   left: 0;
-  width:150px;
+  width: 250px;
   background-color: #333;
   border: 1px solid #555;
   border-radius: 5px;
