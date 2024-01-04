@@ -434,21 +434,20 @@
             if (index !== -1) {
 
               var html = '';
-              console.log("Mensaje",reg);
-              html = '<table style="font-size:15px" border=\"0\" width = \"100%\">';
-              html += '<tr><td colspan="1" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logo3.png" width="70%"></td>';
-              html += '<td colspan="2" align="right"></td></tr>';
+              html = '<table style="font-size:11px" border=\"0\" width = \"100%\">';
+              html += '<tr><td colspan="2" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/salud/img/logo3.png" width="80%"></td>';
+              html += '<td colspan="3" align="center">"Nada es mas importante que un nino"</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<td colspan="2" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
-              html += '<td colspan="2" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
+              html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
+              html += '<tr><td colspan="3" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
+              html += '<tr><td colspan="3">Establ. de Salud: ' + reg.cnt_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<td colspan="2" align="center">' + reg.fch_registrado + '</td></tr>';
+              html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
               html += '</table>';
               var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
               win.document.body.innerHTML = html;
