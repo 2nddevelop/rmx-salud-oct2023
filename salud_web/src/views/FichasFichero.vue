@@ -98,6 +98,29 @@
                 </button>
               </div>
             </div>
+            
+            <div class="grid grid-cols-5 gap-1">
+              <div class="form-group">
+                <input class="form-control" v-model="filtro.cli_nit" name="ci" id="ci" placeholder="CI" >
+              </div>
+              <div class="form-group">
+                <input class="form-control" v-model="filtro.cli_paterno" name="paterno" id="paterno" placeholder="Paterno" >
+              </div>
+              <div class="form-group">
+                <input class="form-control" v-model="filtro.cli_materno" name="materno" id="materno" placeholder="Materno" >
+              </div>
+              <div class="form-group">
+                <input class="form-control" v-model="filtro.cli_nombres" name="nombres" id="nombres" placeholder="Nombres" >
+              </div>
+              <div>
+                <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
+                  @click="buscarRegistros"
+                  title="Buscar">
+                  <i class="fa-solid fa-search"></i>
+                </button>
+              </div>
+            </div>
+
             <div class="grid grid-cols-1 gap-1">
               <div class="form-group">
                 <label for="fch_cli_id" class="font-semibold">Paciente</label>
@@ -164,7 +187,7 @@ import clientesService from '../services/clientesService';
 import planificacionesService from '../services/planificacionesService';
 import fichasService from '../services/fichasService';
 import centrosService from '../services/centrosService';
-
+import historialesService from '../services/historialesService';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
@@ -183,7 +206,7 @@ export default {
       // dates
       currentDate: new Date(),
       // filtro
-      filtro: { fecha:'', centro_id:'0' },
+      filtro: { fecha:'', centro_id:'0', cli_nit: "", cli_paterno: "", cli_materno: "", cli_nombres: "" },
       // horas
       disponibles: [],
       pln_id: 0,
@@ -232,6 +255,16 @@ export default {
         console.error('Error:', error.message);
       }
     },
+
+    async buscarRegistros() {
+        this.clientes = [];
+        try {
+          this.clientes = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
+          console.log("Historiales11111: ", this.clientes);          
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
+      },
 
     newRegistro() {
       this.listarPlanificaciones();
