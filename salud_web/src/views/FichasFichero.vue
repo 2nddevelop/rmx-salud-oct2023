@@ -18,10 +18,10 @@
 
           <div class="p-1 m-1">
             <div class="form-group">
-              <label for="centro" class="font-semibold">Centro de Salud</label>
+              <label for="centro" class="font-semibold">Establ. de Salud</label>
               <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
                 <option value="0">-- seleccione --</option>
-                <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
+                <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }}</option>
               </select>
             </div>
           </div>
@@ -304,31 +304,47 @@ export default {
 
 
     async printRegistro(reg) {
-      var html = '';
-      html = '<table style="font-size:15px" border=\"0\" width = \"100%\">';
-      html += '<tr><td colspan="1" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logo3.png" width="70%"></td>';
-      html += '<td colspan="2" align="right"></td></tr>';
-      html += '<tr><td colspan="3"><hr></td></tr>';
-      html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha+ '</td></tr>';
-      html += '<tr><td colspan="3" align="center">Hora: ' + reg.fch_hora+ '</td></tr>';
-      html += '<tr><td colspan="3"><hr></td></tr>';
-      html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
-      html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
-      html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
-      html += '<tr><td colspan="3"><hr></td></tr>';
-      html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
-      html += '<tr><td colspan="3"><hr></td></tr>';
-      html += '<td colspan="2" align="center">' + reg.fch_registrado + '</td></tr>';
-      html += '</table>';
-      var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
-      win.document.body.innerHTML = html;
-      setTimeout(function () {
-          win.document.close();
-          win.focus();
-          win.print();
-          win.close();    
-      }, 1000);
-    },
+        const confirmed = window.confirm("¿Imprimir ficha?");
+        if (confirmed) {
+          try {
+            const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
+            if (index !== -1) {
+
+              var html = '';
+              html = '<table style="font-size:11px" border=\"0\" width = \"100%\">';
+              html += '<tr><td colspan="2" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/salud/img/logo3.png" width="80%"></td>';
+              html += '<td colspan="3" align="center">"Nada es mas importante que un nino"</td></tr>';
+              html += '<tr><td colspan="3"><hr></td></tr>';
+              html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
+              html += '<tr><td colspan="3" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
+              html += '<tr><td colspan="3"><hr></td></tr>';
+              html += '<tr><td colspan="3">Establ. de Salud: ' + reg.cnt_descripcion + '</td></tr>';
+              html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
+              html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
+              html += '<tr><td colspan="3"><hr></td></tr>';
+              html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
+              html += '<tr><td colspan="3"><hr></td></tr>';
+              html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
+              html += '</table>';
+              var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
+              win.document.body.innerHTML = html;
+
+              setTimeout(function () {
+                  win.document.close();
+                  win.focus();
+                  win.print();
+                  win.close();
+              }, 1000);
+    
+
+            } else {
+              console.error('No se encontró el registro para eliminar');
+            }
+          } catch (error) {
+            console.error('Error al eliminar el registro:', error);
+          }
+        }
+      },
 
     closeModal() {
       this.showModal = false;

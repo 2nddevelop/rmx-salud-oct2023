@@ -15,13 +15,14 @@
 
           <div class="p-1 m-1">
             <div class="form-group">
-              <label for="centro" class="font-semibold">Centro de Salud</label>
+              <label for="centro" class="font-semibold">Establ. de Salud</label>
               <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
                 <option value="0">-- seleccione --</option>
                 <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }}</option>
               </select>
             </div>
           </div>
+
 
           <div class="flex justify-end p-4 m-1">
             <button
@@ -96,7 +97,12 @@
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
-              <td align="center">{{ r.fch_estado }}</td>
+              <td align="center">
+                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">{{ r.fch_estado }}</span>
+              </td>
             </tr>
           </tbody>
           <tfoot>

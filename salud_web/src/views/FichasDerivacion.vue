@@ -15,14 +15,14 @@
 
           <div class="p-1 m-1">
             <div class="form-group">
-              <label for="centro" class="font-semibold">Centro de Salud</label>
+              <label for="centro" class="font-semibold">Establ. de Salud</label>
               <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro" placeholder="Centro de salud" required>
                 <option value="0">-- seleccione --</option>
-                <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_codigo }} {{ c.cnt_descripcion }}</option>
+                <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }}</option>
               </select>
             </div>
           </div>
-
+          
           <div class="flex justify-end p-4 m-1">
             <button
               @click="newRegistro()"
@@ -96,7 +96,12 @@
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
-              <td align="center">{{ r.fch_estado }}</td>
+              <td align="center">
+                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">{{ r.fch_estado }}</span>
+              </td>
             </tr>
           </tbody>
           <tfoot>
@@ -434,21 +439,20 @@
             if (index !== -1) {
 
               var html = '';
-              console.log("Mensaje",reg);
-              html = '<table style="font-size:50" border=\"0\" width = \"100%\">';
-              html += '<tr><td colspan="1" width="30%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/img/logoEmpresa.png" width="70%"></td>';
-              html += '<td colspan="2" align="right"></td></tr>';
+              html = '<table style="font-size:11px" border=\"0\" width = \"100%\">';
+              html += '<tr><td colspan="2" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/salud/img/logo3.png" width="80%"></td>';
+              html += '<td colspan="3" align="center">"Nada es mas importante que un nino"</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<td colspan="2" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
-              html += '<td colspan="2" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
+              html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
+              html += '<tr><td colspan="3" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<tr><td colspan="3">Centro: ' + reg.cnt_descripcion + '</td></tr>';
+              html += '<tr><td colspan="3">Establ. de Salud: ' + reg.cnt_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
               html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<tr><td align="center" colspan="3">FELIZ NAVIDAD 2023</td></tr>';
+              html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<td colspan="2" align="center">' + reg.fch_registrado + '</td></tr>';
+              html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
               html += '</table>';
               var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
               win.document.body.innerHTML = html;
