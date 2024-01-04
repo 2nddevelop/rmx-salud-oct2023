@@ -442,7 +442,7 @@
               var html = '';
               html = '<table style="font-size:11px" border=\"0\" width = \"100%\">';
               html += '<tr><td colspan="2" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/salud/img/logo3.png" width="80%"></td>';
-              html += '<td colspan="3" align="center">"Nada es mas importante que un nino"</td></tr>';
+              html += '<td colspan="3" align="center">"Nada es mas importante que un niño"</td></tr>';
               html += '<tr><td colspan="3"><hr></td></tr>';
               html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
               html += '<tr><td colspan="3" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
