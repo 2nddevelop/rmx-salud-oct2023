@@ -2,17 +2,18 @@ import { Request, Response } from 'express';
 import { ejecutarConsulta } from '../services/dataService';
 
 const PacientesController = {
-  getAllClientes: async (req: Request, res: Response) => {
+  getAll: async (req: Request, res: Response) => {
     try {
-      const sql = `SELECT TOP 10 HCL_CODIGO AS cli_id, HCL_NUMCI AS cli_nit, HCL_APPAT AS cli_paterno, HCL_APMAT AS cli_materno, HCL_NOMBRE as cli_nombres,
+      const sql = `SELECT TOP 100 HCL_CODIGO AS cli_id, HCL_NUMCI AS cli_nit, HCL_APPAT AS cli_paterno, HCL_APMAT AS cli_materno, HCL_NOMBRE as cli_nombres,
         HCL_TELDOM AS cli_telefono, HCL_DIRECC AS cli_direccion, HCL_FECNAC AS cli_fec_nac, HCL_FECHA AS cli_registrado,
         'CLR' AS tcli_codigo, 'CLR' AS tcli_descripcion
       FROM SE_HC
-      WHERE HCL_ESTADO = 'A'`;
-      const clientes = await ejecutarConsulta(sql);
-      res.json(clientes);
+      WHERE HCL_ESTADO = 'A'
+      ORDER BY HCL_APPAT, HCL_APMAT, HCL_NOMBRE`;
+      const resultado = await ejecutarConsulta(sql, 'bdESTADISTICA');
+      res.json(resultado);
     } catch (error) {
-      console.error('Error al obtener los Clientes:', error);
+      console.error('Error de consulta:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },
@@ -32,10 +33,10 @@ const PacientesController = {
         'CLR' AS tcli_codigo, 'CLR' AS tcli_descripcion
       FROM SE_HC
       WHERE HCL_ESTADO = 'A' ${condicion}`;
-      const clientes = await ejecutarConsulta(sql);
-      res.json(clientes);
+      const resultado = await ejecutarConsulta(sql, 'bdESTADISTICA');
+      res.json(resultado);
     } catch (error) {
-      console.error('Error al obtener los Clientes:', error);
+      console.error('Error de consulta:', error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   },
