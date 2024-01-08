@@ -141,7 +141,7 @@ import { useClientes } from '@/services/serviceClientes';
 import { usePlanificaciones } from '@/services/servicePlanificaciones';
 import { useFichas } from '@/services/serviceFichas';
 import { modalController } from '@ionic/vue';
-import ModalCuotas from '@/views/principales/ModalCuotas.vue';
+// import ModalCuotas from '@/views/principales/ModalCuotas.vue';
 import { useStore } from 'vuex';
 import { addOutline, cardOutline, eyeOutline, logoWindows, pauseCircle, pencilOutline } from 'ionicons/icons';
 
@@ -285,7 +285,7 @@ onMounted(async () => {
   fetchData();
 });
 
-const openModal = async (i: any) => {
+/* const openModal = async (i: any) => {
   i = { 
     id_memo: i.id_memo,
   }
@@ -299,7 +299,7 @@ const openModal = async (i: any) => {
   });
 
   await modal.present();
-};
+};*/
 
 </script>
 

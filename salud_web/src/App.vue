@@ -128,7 +128,7 @@ const menuItems = ref([
     { id: 34, label: 'Pacientes SICE', link: '/pacientesSICE', roles: [1, 2]  },
   ]},
   { id: 4, label: 'Fichas', roles: [1, 2, 3, 4, 5, 6], children: [
-    { id: 41, label: 'Emisión', link: '/fichasEmision', roles: [1, 2, 3, 4]  },
+    { id: 41, label: 'Admisiones', link: '/fichasEmision', roles: [1, 2, 3, 4]  },
     { id: 42, label: 'Derivación', link: '/fichasDerivacion', roles: [4, 6]  },
     { id: 43, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3, 4]  },
     { id: 44, label: 'Pantalla', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
