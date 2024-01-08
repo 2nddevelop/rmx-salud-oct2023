@@ -123,14 +123,16 @@ const apiService = useUsers();
 
 const fetchData = async () => {
   try {
+    items.value = [];
     console.log('entrando al servicio login');
-    const data = await apiService.postData({ 
-      "username": username.value.trim(), 
-      "password": password.value.trim() 
+    await apiService.postData({ 
+      "username": username.value.trim().toString(), 
+      "password": password.value.trim().toString()
+    })
+    .then ( (data: any) => {
+      console.log('entro y devuelve esto: ', data);
+      items.value = data;
     });
-    console.log('entro y devuelve esto: ', data);
-    items.value = data;
-    //responseData.value = JSON.stringify(data);
   } catch (error) {
     console.error('Error in fetchData:', error);
   }
@@ -139,17 +141,22 @@ const fetchData = async () => {
 const onLogin = async () => {
   submitted.value = true;
   await fetchData();
-  if (Object.keys(items.value).length > 0) {
-    console.log('BD -> login: ', items.value);
+  console.log('Respuesta: ', items.value);
+  if (items.value && Object.keys(items.value).length > 0) {
+    console.log('longitud: ', Object.keys(items.value).length);
     store.commit('updateGlobalUser', username.value.trim());
     store.commit('updateGlobalUserId', items.value.usr_id);
     store.commit('updateGlobalLogged', true);
     store.commit('updateGlobalToken', items.value.token);
     store.commit('updateGlobalCntId', items.value.cnt_id);
     store.commit('updateGlobalCntDescripcion', items.value.cnt_descripcion);
-    toastMessage.value = "Satisfactoriamente ingresad@!";
+    toastMessage.value = "Autorizado";
     showToast.value = true;
     router.push('/home');
+  } else {
+    console.log('BD -> login: ', items.value);
+    toastMessage.value = "NO autorizado";
+    showToast.value = true;
   }
 };
 

@@ -39,18 +39,8 @@
                 <th>Ficha</th>
                 <th></th>
                 <th>Especialidad
-                  <!--select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
-                    name="esp_id" id="esp_id" placeholder="Espcialidad" required>
-                    <option value="0">-- todas --</option>
-                    <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }}</option>
-                  </select-->
               </th>
               <th>Consultorio
-                  <!--select v-model="filtro.consultorio_id" class="form-control input" @change="listarRegistros" 
-                    name="con_id" id="con_id" placeholder="Consultorio" required>
-                    <option value="0">-- todas --</option>
-                    <option v-for="c in consultorios" :key="c.con_id" :value="c.con_id">{{ c.con_descripcion }}</option>
-                  </select-->
               </th>
                 <th>E</th>
               </tr>
@@ -81,78 +71,6 @@
         </div>
       </div>
   
-      <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay">
-          <div class="modal-content">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div
-              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
-            >
-              <h2
-                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
-              >
-                {{ isEditing ? "EDITAR " : "NUEVO " }} {{ singular }}
-              </h2>
-              <button
-                type="button"
-                @click="closeModal()"
-                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="defaultModal"
-              >
-                <i class="fa-solid fa-close"></i>
-                <span class="sr-only">Close modal</span>
-              </button>
-            </div>
-            <!-- Modal body -->
-            <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                  <label for="fecha2" class="font-semibold">Fecha</label>
-                  <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                  <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                  <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required>
-                    <option value="0">-- seleccione --</option>
-                    <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">{{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                    <label for="fch_pln_id" class="font-semibold">Planificacion</label>
-                    <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id"> [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]</option>
-                    </select>
-                </div>
-              </div>
-              
-              <div class="grid grid-cols-2 gap-4">
-                <div class="col-md-6">
-                  <label for="nro">Numero Ficha</label>
-                  <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
-                  <span style="font-size: x-small; color: red;">Automático</span>
-                </div>
-                <div class="col-md-6">
-                  <label for="kdx">Kardex Médico</label>
-                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" disabled />
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover-bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
-                {{ isEditing ? "Actualizar" : "Guardar" }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </template>
   
@@ -192,37 +110,36 @@
     mounted() {
       this.dates();
       this.listarClientes();
-      // this.listarPlanificaciones();
       this.listarCentros();
       this.listarEspecialidades();
       this.listarConsultorios();
 
-      setTimeout(() => {
-        this.listarRegistros();        
-      }, 10000);
+      this.listarRegistros();        
       
     },
   
     methods: {
       async listarRegistros() {
-        this.regs = [];
-        try {
-          const registros = [];
-          this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);    
-          this.regs.forEach((r) => {
-            if (this.filtro.especialidad_id == '0') {
-              registros.push(r);
-            } else {
-              if (r.esp_id == this.filtro.especialidad_id) {
+        setTimeout(() => {
+          this.regs = [];
+          try {
+            const registros = [];
+            this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
+            console.log("Fichas: ", this.regs);    
+            this.regs.forEach((r) => {
+              if (this.filtro.especialidad_id == '0') {
                 registros.push(r);
+              } else {
+                if (r.esp_id == this.filtro.especialidad_id) {
+                  registros.push(r);
+                }
               }
-            }
-          });
-          this.regs = registros;      
-        } catch (error) {
-          console.error("Error:", error.message);
-        }
+            });
+            this.regs = registros;      
+          } catch (error) {
+            console.error("Error:", error.message);
+          }
+        }, 10000);
       },
       async listarClientes() {
         this.clientes = [];
@@ -265,102 +182,6 @@
         } catch (error) {
           console.error("Error:", error.message);
         }
-      },
-
-      newRegistro() {
-        this.listarPlanificaciones();
-        this.isEditing = false;
-        this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
-        this.showModal = true;
-      },
-
-      editRegistro(reg) {
-        this.isEditing = true;
-        this.reg = Object.assign({}, reg);
-        this.showModal = true;
-      },
-
-      async saveModal() {
-        this.reg.fch_usr_id = 1; 
-        this.reg.fch_estado = "P";
-        if (this.isEditing) {
-          const updatedReg = await fichasService.updateData(this.reg);
-          const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
-          if (index !== -1) {
-            this.regs.splice(index, 1, updatedReg);
-          }
-        } else {
-          const savedReg = await fichasService.saveData(this.reg);
-          this.regs.push(savedReg);
-        }
-        this.listarRegistros();
-        this.closeModal();
-      },
-
-      async deleteRegistro(reg) {
-        const confirmed = window.confirm("¿Estás seguro de eliminar este registro?");
-        if (confirmed) {
-          try {
-            const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
-            if (index !== -1) {
-              reg.fch_usr_id = 1;
-              reg.fch_estado = "X"; 
-              await fichasService.deleteData(reg); 
-              this.regs.splice(index, 1); 
-            } else {
-              console.error('No se encontró el registro para eliminar');
-            }
-          } catch (error) {
-            console.error('Error al eliminar el registro:', error);
-          }
-        }
-      },
-
-      async printRegistro(reg) {
-        const confirmed = window.confirm("¿Imprimir ficha?");
-        if (confirmed) {
-          try {
-            const index = this.regs.findIndex(item => item.fch_id === reg.fch_id);
-            if (index !== -1) {
-
-              var html = '';
-              html = '<table style="font-size:11px" border=\"0\" width = \"100%\">';
-              html += '<tr><td colspan="2" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/salud/img/logo3.png" width="80%"></td>';
-              html += '<td colspan="3" align="center">"Nada es mas importante que un niño"</td></tr>';
-              html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
-              html += '<tr><td colspan="3" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
-              html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<tr><td colspan="3">Establ. de Salud: ' + reg.cnt_descripcion + '</td></tr>';
-              html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
-              html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
-              html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
-              html += '<tr><td colspan="3"><hr></td></tr>';
-              html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
-              html += '</table>';
-              var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
-              win.document.body.innerHTML = html;
-
-              setTimeout(function () {
-                  win.document.close();
-                  win.focus();
-                  win.print();
-                  win.close();
-              }, 1000);
-    
-
-            } else {
-              console.error('No se encontró el registro para eliminar');
-            }
-          } catch (error) {
-            console.error('Error al eliminar el registro:', error);
-          }
-        }
-      },
-
-      closeModal() {
-        this.showModal = false;
       },
 
       dates() {
