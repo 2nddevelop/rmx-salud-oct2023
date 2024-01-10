@@ -166,8 +166,6 @@ filteredMenuItems.value = menuItems.value.filter((item) => {
   return true;
 });
 
-console.log('filteredMenuItems: ', filteredMenuItems.value);
-
 </script>
 
 

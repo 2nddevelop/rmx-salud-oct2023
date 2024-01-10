@@ -7,6 +7,6 @@
         </trust-anchors>
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">159.223.161.160</domain>
+        <domain includeSubdomains="true">https://yoteayudo-api.chuquisaca.gob.bo</domain>
     </domain-config>
 </network-security-config>

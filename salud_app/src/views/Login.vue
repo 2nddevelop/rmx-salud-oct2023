@@ -108,9 +108,6 @@ const username = ref("");
 const password = ref("");
 const submitted = ref(false);
 
-const usernameValid = true;
-const passwordValid = true;
-
 const showToast = ref(false);
 const toastMessage = ref("");
 
@@ -124,13 +121,11 @@ const apiService = useUsers();
 const fetchData = async () => {
   try {
     items.value = [];
-    console.log('entrando al servicio login');
     await apiService.postData({ 
       "username": username.value.trim().toString(), 
       "password": password.value.trim().toString()
     })
     .then ( (data: any) => {
-      console.log('entro y devuelve esto: ', data);
       items.value = data;
     });
   } catch (error) {
@@ -143,7 +138,6 @@ const onLogin = async () => {
   await fetchData();
   console.log('Respuesta: ', items.value);
   if (items.value && Object.keys(items.value).length > 0) {
-    console.log('longitud: ', Object.keys(items.value).length);
     store.commit('updateGlobalUser', username.value.trim());
     store.commit('updateGlobalUserId', items.value.usr_id);
     store.commit('updateGlobalLogged', true);
@@ -154,7 +148,6 @@ const onLogin = async () => {
     showToast.value = true;
     router.push('/home');
   } else {
-    console.log('BD -> login: ', items.value);
     toastMessage.value = "NO autorizado";
     showToast.value = true;
   }
@@ -163,9 +156,7 @@ const onLogin = async () => {
 const onSignup = () => {
   // toastMessage.value = "Successfully logged in!";
   // showToast.value = true;
-  //
-  //username.value = "";
-  //password.value = "";
+
   router.push('/register');
 };
 </script>
