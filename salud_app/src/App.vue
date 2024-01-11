@@ -3,11 +3,13 @@
     <ion-split-pane content-id="main-content">
       <ion-menu content-id="main-content" type="overlay">
         <ion-content>
-          <ion-list id="inbox-list">
-            <ion-list-header>! Yo te Cuido !</ion-list-header>
-            <ion-note>Usuario: {{ store.state.globalUser }}<br>
+          <ion-list id="inbox-list" style="color: white; background-color: #dc1108; ">
+            <ion-list-header style="color:white;">! Yo te Cuido !</ion-list-header>
+            <ion-note style="color:white;">Usuario: {{ store.state.globalUser }}<br>
               Usuario ID: {{ store.state.globalUserId }}</ion-note>
+          </ion-list>
 
+          <ion-list id="inbox-list">
             <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
                 <ion-icon aria-hidden="true" slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
@@ -168,11 +170,11 @@ ion-menu.md ion-item {
 }
 
 ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  --background: rgba(var(--ion-color-danger-rgb), 0.14);
 }
 
 ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+  color: var(--ion-color-danger);
 }
 
 ion-menu.md ion-item ion-icon {
@@ -233,6 +235,6 @@ ion-note {
 }
 
 ion-item.selected {
-  --color: var(--ion-color-primary);
+  --color: var(--ion-color-danger);
 }
 </style>
