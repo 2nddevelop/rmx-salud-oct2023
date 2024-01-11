@@ -188,11 +188,10 @@
                 </select>
                 
                 <div class="grid grid-cols-2 gap-4">
-                  <div class="form-group">
+                  <!-- div class="form-group">
                     <label for="nro">Número Ficha</label>
                     <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
-                    <span style="font-size: x-small; color: red;">Automático</span>
-                  </div>
+                  </div -->
                   <div class="form-group">
                     <label for="kdx">Kardex Médico</label>
                     <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
@@ -371,6 +370,9 @@
       async saveModal(ficha, hora) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
+        this.reg.fch_tipo_atencion = 1;
+        this.reg.fch_nro_referencia = null;
+        this.reg.fch_fec_fin_referencia = null;
         this.reg.filtro_fecha = this.filtro.fecha;
         this.reg.filtro_centro_id = this.filtro.centro_id;
         this.reg.fch_hora = hora;

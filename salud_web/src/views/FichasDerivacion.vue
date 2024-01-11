@@ -187,17 +187,34 @@
                 </select>
                 
                 <div class="grid grid-cols-2 gap-4">
-                  <div class="form-group">
+                  <!-- div class="form-group">
                     <label for="nro">Número Ficha</label>
                     <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
-                    <span style="font-size: x-small; color: red;">Automático</span>
-                  </div>
+                  </div -->
                   <div class="form-group">
                     <label for="kdx">Kardex Médico</label>
                     <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
                   </div>
                 </div>
-                
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="tipo">Tipo Atencion:</label>
+                    <input type="number" v-model="reg.fch_tipo_atencion" class="form-control" name="tipo" id="tipo" placeholder="Tipo Atencion" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="col-md-6">
+                    <label for="fecha">Fecha Referencia:</label>
+                    <input type="date" v-model="reg.fch_fec_fin_referencia" class="form-control" name="fecha" id="fecha" placeholder="Fecha Referencia" />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="nroref">Nro. Referencia:</label>
+                    <input v-model="reg.fch_nro_referencia" class="form-control" name="nroref" id="nroref" placeholder="Nro. Referencia" />
+                  </div>
+                </div>
+
                 <div class="grid grid-cols-5 gap-0">
 
                   <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
@@ -266,6 +283,7 @@
         // horas
         disponibles: [],
         pln_id: 0,
+        fch_tipo_atencion: '1',
         lapso: 20 //lapso de consulta
       };
     },
@@ -357,7 +375,7 @@
       newRegistro() {
         this.listarPlanificaciones();
         this.isEditing = false;
-        this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
+        this.reg = {fch_tipo_atencion: '1', fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
         this.showModal = true;
       },
 
@@ -370,6 +388,7 @@
       async saveModal(ficha, hora) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
+        this.reg.fch_tipo_atencion = '1';
         this.reg.filtro_fecha = this.filtro.fecha;
         this.reg.filtro_centro_id = this.filtro.centro_id;
         this.reg.fch_hora = hora;
