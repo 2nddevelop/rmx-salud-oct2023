@@ -43,14 +43,14 @@
               <select v-model="filtro.centro_id" class="form-control input" @change="filtroLocal" 
                 name="pln_cnt_id" id="pln_cnt_id" placeholder="Centro" required>
                 <option value="0">-- todos --</option>
-                <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} - {{ c.cnt_codigo }}</option>
+                <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} </option>
               </select>
             </th>
             <th>Especialidad
               <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
                 name="pln_esp_id" id="pln_esp_id" placeholder="Espcialidad" required>
                 <option value="0">-- todas --</option>
-                <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
+                <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} </option>
               </select>
             </th>
             <th>

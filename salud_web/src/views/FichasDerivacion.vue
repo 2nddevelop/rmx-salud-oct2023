@@ -163,7 +163,7 @@
                     <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                       @click="buscarRegistros"
                       title="Buscar">
-                      <i class="fa-solid fa-search"></i>
+                      <i class="fa-solid fa-search"></i> Buscar
                     </button>
                   </div>
                 </div>
@@ -186,7 +186,7 @@
                   </option>
                 </select>
                 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-3 gap-4">
                   <!-- div class="form-group">
                     <label for="nro">Número Ficha</label>
                     <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
@@ -195,25 +195,22 @@
                     <label for="kdx">Kardex Médico</label>
                     <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
                   </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
                   <div class="form-group">
-                    <label for="tipo">Tipo Atencion:</label>
-                    <input type="number" v-model="reg.fch_tipo_atencion" class="form-control" name="tipo" id="tipo" placeholder="Tipo Atencion" />
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="col-md-6">
                     <label for="fecha">Fecha Referencia:</label>
                     <input type="date" v-model="reg.fch_fec_fin_referencia" class="form-control" name="fecha" id="fecha" placeholder="Fecha Referencia" />
                   </div>
-                  <div class="col-md-6">
+                  <div class="form-group">
                     <label for="nroref">Nro. Referencia:</label>
                     <input v-model="reg.fch_nro_referencia" class="form-control" name="nroref" id="nroref" placeholder="Nro. Referencia" />
                   </div>
                 </div>
+
+                <!--div class="grid grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="tipo">Tipo Atencion:</label>
+                    <input type="number" v-model="reg.fch_tipo_atencion" class="form-control" name="tipo" id="tipo" placeholder="Tipo Atencion" />
+                  </div>
+                </div-->
 
                 <div class="grid grid-cols-5 gap-0">
 

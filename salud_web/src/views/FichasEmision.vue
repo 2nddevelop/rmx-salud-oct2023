@@ -89,6 +89,13 @@
                 >
                   <i class="fa-solid fa-print"></i>
                 </button>
+                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
+                  @click="folderRegistro(r)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  title="Atención"
+                >
+                  <i class="fa-regular fa-folder fa-xl"></i>
+                </button>
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
@@ -230,6 +237,85 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal Folder -->
+      <div v-if="showModalFolder" class="modal-overlay">
+          <div class="modal-content">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+            >
+              <h2
+                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
+              >
+              LLAMADA ADMISIONES
+              </h2>
+              <button
+                type="button"
+                @click="closeModalFolder()"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="defaultModal"
+              >
+                <i class="fa-solid fa-close"></i>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-6 space-y-6">
+              <div class="grid grid-cols-1 gap-1">
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="form-group">
+                    <label for="fecha2" class="font-semibold">Fecha</label>
+                    <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                  <div class="form-group">
+                    <label for="fch_cli_id" class="font-semibold">Paciente</label>
+                    <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required disabled>
+                      <option value="0">-- seleccione --</option>
+                      <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
+                        {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="fch_pln_id" class="font-semibold">Planificación</label>
+                      <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required disabled>
+                        <option value="0">-- seleccione --</option>
+                        <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
+                          [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]
+                        </option>
+                      </select>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="col-md-6">
+                    <label for="nro">Número Ficha</label>
+                    <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" disabled />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="kdx">Kardex Médico</label>
+                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button @click="saveModalFolder" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
+                {{ isEditing ? "Actualizar" : "Guardar" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </template>
   
@@ -242,6 +328,7 @@
   import historialesService from '../services/historialesService';
   import especialidadesService from '../services/especialidadesService';
   import consultoriosService from '../services/consultoriosService';
+  import historialesDetService from '../services/historialesDetService';
   import '@fortawesome/fontawesome-free/css/all.css';
 
   export default {
@@ -253,7 +340,9 @@
         plural: "Fichas",
         singular: "Ficha",
         showModal: false,
+        showModalFolder: false,
         isEditing: false,
+        isEditingFolder: false,
         clientes: [],
         planificaciones: [],
         centrosSalud: [],
@@ -367,6 +456,13 @@
         this.showModal = true;
       },
 
+      folderRegistro(reg) {
+        this.isEditingFolder = true;
+        this.reg = Object.assign({}, reg);
+        this.showModalFolder = true;
+      },
+
+
       async saveModal(ficha, hora) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
@@ -396,6 +492,20 @@
         }
         this.listarRegistros();
         this.closeModal();
+      },
+
+      async saveModalFolder() {
+        this.reg.fch_usr_id = 1; 
+        this.reg.fch_estado = "E";
+        if (this.isEditingFolder) {
+          this.reg.fch_estado = "S";
+          const updatedReg = await fichasService.updateData(this.reg);
+        } else {
+          const savedReg = await fichasService.saveData(this.reg);
+          this.regs.push(savedReg);
+        }
+        this.listarRegistros();
+        this.closeModalFolder();
       },
 
       async deleteRegistro(reg) {
@@ -479,6 +589,10 @@
 
       closeModal() {
         this.showModal = false;
+      },
+
+      closeModalFolder() {
+        this.showModalFolder = false;
       },
 
       dates() {
