@@ -47,7 +47,9 @@
 
         <ion-row responsive-sm class="ion-padding">
           <ion-col>
-            <ion-button color="primary" :disabled="!canSubmit" @click="onLogin" type="submit" expand="block"
+            <ion-button color="danger" 
+              :disabled="!canSubmit" @click="onLogin" 
+              type="submit" expand="block" 
               >Ingresar</ion-button
             >
           </ion-col>
@@ -57,8 +59,8 @@
             <ion-label><p>Si aún no tiene cuenta?</p></ion-label>
             <ion-button
               @click="onSignup"
-              color="secondary"
-              expand="block"
+              color="danger"
+              expand="block" disabled
               >Registrarse</ion-button
             >
           </ion-col>

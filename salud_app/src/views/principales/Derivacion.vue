@@ -51,6 +51,14 @@
           @change="fetchPlanificaciones"
           >Fecha</ion-input>
         </ion-item>
+
+        <ion-item v-show="swMostrarReserva">
+          <ion-input v-model="item.fch_nro_derivacion" label-placement="floating"
+          >No. Derivación</ion-input>
+          <ion-input v-model="item.fch_fec_fin_derivacion" type="date" label-placement="floating"
+          >Finalizacion</ion-input>
+        </ion-item>
+        
         <ion-item v-show="swMostrarReserva">
           <ion-select v-model="item.cnt_id" label="Centro" labelPlacement="floating"
             @update:modelValue="fetchPlanificaciones"
@@ -71,6 +79,7 @@
             >{{ p.esp_descripcion }}</ion-button>
           </ion-padding>
         </ion-item>
+
         <ion-item v-show="swMostrarReserva">
           <ion-padding>
             <label for="dispo">Fichas Disponibles</label><br>
@@ -105,8 +114,6 @@
           </ion-padding>
         </ion-item>
       </ion-list>
-      <!--ion-button color="primary" @click="openModal(item)"><ion-icon :icon="cardOutline"></ion-icon></ion-button>
-      <ion-button color="primary" @click="openModal(item)"><ion-icon :icon="eyeOutline"></ion-icon></ion-button-->
 
       <ion-toast
         :is-open="showToast"
@@ -200,10 +207,6 @@ const mostrarDispo = async (p: any) => {
   }
 };
 
-
-
-
-
 const buscarClienteXCI = async () => {
   const cli_nit = item.value.ci;
   clientes.value = await apiServiceClientes.getBuscarClienteXCI(cli_nit); 
@@ -251,6 +254,9 @@ const grabarFicha = async (ficha: any, hora: any) => {
   reg.fch_pln_id = item.value.fch_pln_id;
   reg.fch_nro_ficha = item.value.fch_nro_ficha;
   reg.fch_kdx_medico = item.value.fch_kdx_medico;
+  reg.fch_tipo_atencion = 2;
+  reg.fch_nro_derivacion = item.value.fch_nro_derivacion;
+  reg.fch_fec_fin_derivacion = item.value.fch_fec_fin_derivacion;
   reg.fch_hora = hora;
   reg.filtro_fecha = item.value.fecha;
   reg.filtro_centro_id = item.value.cnt_id;
@@ -274,6 +280,9 @@ const limpiar = async () => {
   item.value.fecha = '';
   item.value.cnt_id = '';
   item.value.fch_kdx_medico = '';
+  item.value.fch_tipo_atencion = 2;
+  item.value.fch_nro_derivacion = '';
+  item.value.fch_fec_fin_derivacion = null
   clientes.value = [];
   planificaciones.value = [];
   disponibles.value = [];
