@@ -254,6 +254,7 @@ const grabarFicha = async (ficha: any, hora: any) => {
   reg.fch_pln_id = item.value.fch_pln_id;
   reg.fch_nro_ficha = item.value.fch_nro_ficha;
   reg.fch_kdx_medico = item.value.fch_kdx_medico;
+  reg.fch_tipo_atencion = 2;
   reg.fch_nro_derivacion = item.value.fch_nro_derivacion;
   reg.fch_fec_fin_derivacion = item.value.fch_fec_fin_derivacion;
   reg.fch_hora = hora;
