@@ -3,9 +3,9 @@ import { config } from 'mssql';
 // Configuración de la conexión a la base de datos
 const dbConfig: config = {
   user: 'sa',
-  password: '@a1b2c3d4',
+  password: '1a2b3c4d',
   database: 'bdESTADISTICA',
-  server: 'localhost',
+  server: '192.168.0.8',
   options: {
     port: 1433,
     encrypt: true, // Si tu servidor SQL Server utiliza SSL/TLS
@@ -13,7 +13,7 @@ const dbConfig: config = {
     cryptoCredentialsDetails: {
       minVersion: 'TLSv1'
     }
-  },
+  }
 };
 
 export default dbConfig;

@@ -3,7 +3,7 @@ import dbConfig from '../db';
 
 // Función para ejecutar consultas en la base de datos
 export const ejecutarConsulta = async (query: string, database: string) => {
-  dbConfig.database = database
+dbConfig.database = database
   try {
     // Crea una pool de conexiones
     const pool = await new ConnectionPool(dbConfig)

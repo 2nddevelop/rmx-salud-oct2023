@@ -11,6 +11,7 @@ const router = express.Router();
 
 // COLUMNAS
 router.get('/columnas', ColumnasController.getAll);
+router.get('/columnas/:cua_codigo', ColumnasController.getCuaColumnas);
 
 // CUADERNOS
 router.get('/cuadernos', CuadernosController.getAll);
@@ -20,6 +21,7 @@ router.get('/formularios', FormulariosController.getAll);
 
 // LISTAS - en bdADMIN
 router.get('/listas', ListasController.getAll);
+router.get('/listas/:tabla', ListasController.getTblListas);
 
 // PACIENTES
 router.get('/clientes', PacientesController.getAll);
