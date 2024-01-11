@@ -69,21 +69,21 @@
               <td>
                 <button v-if="r.fch_estado == 'P'"
                   @click="editRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Editar"
                 >
                   <i class="fa-solid fa-pencil"></i>
                 </button>
                 <button v-if="r.fch_estado == 'P'"
                   @click="deleteRegistro(r)"
-                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Eliminar"
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
                 <button
                   @click="printRegistro(r)"
-                  class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Imprimir"
                 >
                   <i class="fa-solid fa-print"></i>
@@ -97,10 +97,11 @@
               <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
               <td align="center">
-                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xxs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Adm</span>
+                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xxs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xxs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xxs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">En Espera</span>
+                <span v-if="r.fch_estado == 'C'" class="inline-flex items-center rounded-md bg-aqua-50 px-2 py-1 text-xxs font-medium text-aqua-700 ring-1 ring-inset ring-aqua-600/10">En Consulta</span>
               </td>
             </tr>
           </tbody>
@@ -109,6 +110,25 @@
               <td colspan="13">Son n {{ plural }}</td>
             </tr>
           </tfoot>
+        </table>
+        <table class="table table-responsive">
+          <tr>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">1</span> 
+              Reimprimir ficha <i class="fa-solid fa-print fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">2</span> 
+              Llamar ficha a Admisiones <i class="fa-regular fa-folder fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">3</span> 
+              Liberar ficha para Consulta <i class="fa-solid fa-arrow-right fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">4</span> 
+              Esperando Consulta <i class="fa-solid fa-notes-medical fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">5</span> 
+              En Consulta <i class="fa-solid fa-user-doctor fa-bounce fa-xl"></i></td>
+          </tr>
         </table>
       </div>
   

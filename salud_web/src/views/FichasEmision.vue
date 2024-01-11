@@ -57,7 +57,7 @@
                     <option v-for="c in consultorios" :key="c.con_id" :value="c.con_id">{{ c.con_descripcion }}</option>
                   </select>
               </th>
-              <th>Planificación</th>
+              <th>Hora</th>
               <th>Nro Ficha</th>
               <th>Kardex Médico</th>
               <th>Registrado</th>
@@ -70,32 +70,43 @@
               <td>
                 <button v-if="r.fch_estado == 'P'"
                   @click="editRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Editar"
                 >
-                  <i class="fa-solid fa-pencil"></i>
+                  <i class="fa-solid fa-pencil fa-xs"></i>
                 </button>
                 <button v-if="r.fch_estado == 'P'"
                   @click="deleteRegistro(r)"
-                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Eliminar"
                 >
-                  <i class="fa-solid fa-trash"></i>
+                  <i class="fa-solid fa-trash fa-xs"></i>
                 </button>
                 <button
                   @click="printRegistro(r)"
-                  class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Imprimir"
                 >
-                  <i class="fa-solid fa-print"></i>
+                  <i class="fa-solid fa-print fa-xs"></i>
                 </button>
-                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
+                <button v-if="r.fch_estado == 'P'"
                   @click="folderRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Atención"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Llamar Admisiones"
                 >
-                  <i class="fa-regular fa-folder fa-xl"></i>
+                  <i class="fa-regular fa-folder fa-xs"></i>
                 </button>
+                <button v-if="r.fch_estado == 'S'"
+                  @click="liberarFolder(r)"
+                  class="bg-blue-300 hover:bg-blue-400 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Enviar CE"
+                >
+                  <i class="fa-solid fa-arrow-right fa-xs"></i>
+                </button>
+
+                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-notes-medical fa-lg"></i>
+                <i v-if="r.fch_estado == 'C'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
+
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
@@ -105,10 +116,11 @@
               <td align="center" style="background: beige">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
               <td align="center">
-                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xxs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Adm</span>
+                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xxs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xxs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xxs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">En Espera</span>
+                <span v-if="r.fch_estado == 'C'" class="inline-flex items-center rounded-md bg-aqua-50 px-2 py-1 text-xxs font-medium text-aqua-700 ring-1 ring-inset ring-aqua-600/10">En Consulta</span>
               </td>
             </tr>
           </tbody>
@@ -117,6 +129,25 @@
               <td colspan="13">Son n {{ plural }}</td>
             </tr>
           </tfoot>
+        </table>
+        <table class="table table-responsive">
+          <tr>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">1</span> 
+              Reimprimir ficha <i class="fa-solid fa-print fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">2</span> 
+              Llamar ficha a Admisiones <i class="fa-regular fa-folder fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">3</span> 
+              Liberar ficha para Consulta <i class="fa-solid fa-arrow-right fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">4</span> 
+              Esperando Consulta <i class="fa-solid fa-notes-medical fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">5</span> 
+              En Consulta <i class="fa-solid fa-user-doctor fa-bounce fa-xl"></i></td>
+          </tr>
         </table>
       </div>
   
@@ -336,7 +367,7 @@
       return {
         regs: [],
         reg: { },
-        title: "EMISIÓN FICHAS",
+        title: "ADMISIONES",
         plural: "Fichas",
         singular: "Ficha",
         showModal: false,
@@ -462,7 +493,6 @@
         this.showModalFolder = true;
       },
 
-
       async saveModal(ficha, hora) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
@@ -506,6 +536,14 @@
         }
         this.listarRegistros();
         this.closeModalFolder();
+      },
+
+      async liberarFolder(reg) {
+        this.reg = Object.assign({}, reg);
+        this.reg.fch_usr_id = 1; 
+        this.reg.fch_estado = "E";
+        const updatedReg = await fichasService.updateData(this.reg);
+        this.listarRegistros();
       },
 
       async deleteRegistro(reg) {
