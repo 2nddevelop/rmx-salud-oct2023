@@ -37,38 +37,40 @@
             <tr>
               <th>Paciente</th>
               <th>Ficha</th>
-              <th></th>
-              <th>Especialidad
+              <th>Especialidad</th>
+              <th>
                 <!--select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
                   name="esp_id" id="esp_id" placeholder="Espcialidad" required>
                   <option value="0">-- todas --</option>
                   <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }}</option>
                 </select-->
-            </th>
-            <th>Consultorio
+              </th>
+              <th>Consultorio
                 <!--select v-model="filtro.consultorio_id" class="form-control input" @change="listarRegistros" 
                   name="con_id" id="con_id" placeholder="Consultorio" required>
                   <option value="0">-- todas --</option>
                   <option v-for="c in consultorios" :key="c.con_id" :value="c.con_id">{{ c.con_descripcion }}</option>
                 </select-->
-            </th>
-              <th>E</th>
+              </th>
             </tr>
           </thead>
           <tbody class="text-xl">
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <template v-if="r.fch_estado !== 'P'">
               <td align="left">{{ r.cli_data.cli_nombres }} </td>
-              <td align="center">{{ r.fch_hora }} - {{ r.fch_nro_ficha }}</td>
-              <td align="center"><i class="fa-solid fa-arrow-right fa-2xl"></i></td>
+              <td align="center">{{ r.fch_hora }} {{ r.fch_nro_ficha }}</td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
-              <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
-              <td align="center">
+              <td align="center"><i class="fa-solid fa-arrow-right fa-2xl"></i></td>
+              <td align="left" style="background-color: beige;">
+                <label v-show="r.fch_estado == 'S'">ADMISIONES</label>
+                <label v-show="r.fch_estado !== 'S'">{{ r.con_codigo }}</label>
+              </td>
+              <!--td align="center">
                 <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.fch_estado }}</span>
                 <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
                 <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
                 <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">{{ r.fch_estado }}</span>
-              </td  >
+              </td-->
               </template>
             </tr>
           </tbody>
@@ -209,7 +211,6 @@ export default {
       try {
         const registros = [];
         this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-        console.log("Fichas: ", this.regs);    
         this.regs.forEach((r) => {
           if (this.filtro.especialidad_id == '0') {
             registros.push(r);
@@ -228,7 +229,6 @@ export default {
       this.clientes = [];
       try {
         this.clientes = await clientesService.getData();
-        console.log("Centros: ", this.clientes);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -237,7 +237,6 @@ export default {
       this.planificaciones = [];
       try {
         this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
-        console.log("planificaciones: ", this.planificaciones);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -245,7 +244,6 @@ export default {
     async listarCentros() {
       try {
       this.centrosSalud = await centrosService.getData();
-      console.log('Registros: ', this.regs);
       } catch (error) {
       console.error('Error:', error.message);
       }

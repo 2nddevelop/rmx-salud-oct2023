@@ -111,6 +111,8 @@
             </tr>
           </tfoot>
         </table>
+
+        <label>Estados</label>
         <table class="table table-responsive">
           <tr>
             <td align="center">
@@ -322,7 +324,6 @@
           this.listarPlanificaciones();
           const registros = [];
           this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);
           this.regs.forEach((r) => {
             if (this.filtro.especialidad_id == '0') {
               registros.push(r);
@@ -341,7 +342,6 @@
         this.clientes = [];
         try {
           this.clientes = await clientesService.getData();
-          console.log("Pacientes: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -350,17 +350,15 @@
         this.planificaciones = [];
         try {
           this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
-          console.log("planificaciones: ", this.planificaciones);
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
       async listarCentros() {
         try {
-        this.centrosSalud = await centrosService.getData();
-        console.log('Registros: ', this.regs);
+          this.centrosSalud = await centrosService.getData();
         } catch (error) {
-        console.error('Error:', error.message);
+          console.error('Error:', error.message);
         }
       },
       async listarEspecialidades() {
@@ -383,7 +381,6 @@
         this.clientes = [];
         try {
           this.clientes = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
-          console.log("Historiales11111: ", this.clientes);          
         } catch (error) {
           console.error("Error:", error.message);
         }

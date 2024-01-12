@@ -20,6 +20,7 @@
               <th></th>
               <th>CODIGO</th>
               <th>DESCRIPCION</th>
+              <th>CODIGO<br>CUADERNO</th>
               <th>REGISTRADO</th>
               <th>ESTADO</th>
             </tr>
@@ -45,6 +46,7 @@
               </td>
               <td align="center">{{ r.esp_codigo }}</td>
               <td align="left">{{ r.esp_descripcion }}</td>
+              <td align="left">{{ r.esp_codigo_cuaderno }}</td>
               <td align="center">{{ r.esp_registrado.substring(0, 10) }}</td>
               <td align="center">{{ r.esp_estado }}</td>
             </tr>

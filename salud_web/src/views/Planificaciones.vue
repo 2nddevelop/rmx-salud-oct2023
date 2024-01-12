@@ -73,21 +73,21 @@
             <td align="center">
               <button
                 @click="editRegistro(r)"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
                 title="Editar"
               >
                 <i class="fa-solid fa-pencil"></i>
               </button>
               <button
                 @click="deleteRegistro(r)"
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
                 title="Eliminar"
               >
                 <i class="fa-solid fa-trash"></i>
               </button>
               <button
                 @click="verRegistro(r)"
-                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 m-1 rounded"
+                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-1 m-1 rounded"
                 title="Editar"
               >
                 <i class="fa-solid fa-eye"></i>
@@ -188,7 +188,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-3 gap-4">
               <div class="form-group">
                 <label for="fichas">Max Fichas:</label>
                 <input type="number" v-model="reg.pln_data.pln_max_fichas" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" />
@@ -197,15 +197,13 @@
                 <label for="fichas">Max Fichas Virtuales:</label>
                 <input type="number" v-model="reg.pln_data.pln_max_virtuales" class="form-control" name="fichas" id="fichas" placeholder="Max Fichas" />
               </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
               <div class="col-md-6">
                 <label for="fecha">Fecha:</label>
                 <input type="date" v-model="reg.pln_data.pln_fecha" class="form-control" name="fecha" id="fecha" placeholder="Fecha" />
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-4">
+
+            <div class="grid grid-cols-3 gap-4">
               <div >
                 <label for="horarioini">Horario Inicio:</label>
                 <input type="time" v-model="reg.pln_data.pln_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
@@ -214,13 +212,12 @@
                 <label for="horariofin">Horario Fin:</label>
                 <input type="time" v-model="reg.pln_data.pln_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
               </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
               <div class="col-md-6">
                 <label for="duracion">Duracion:</label>
                 <input v-model="reg.pln_data.pln_duracion" class="form-control" name="duracion" id="duracion" placeholder="Duracion" />
               </div>
             </div>
+
             <div class="grid grid-cols-1 gap-1">
               <div class="col-md-6"  style="font-size: x-small; display: flex;">
                 <div v-for="(r, index) in reg.pln_data_disponibles" class="grid grid-cols-5 gap-1" style="display: flex;" v-bind:key="index">
@@ -350,11 +347,11 @@ export default {
       regs: [],
       reg: {            
          pln_data:{
-            pln_max_fichas: '',
+            pln_max_fichas: '10',
             pln_fecha: '',
             pln_horario_inicio: '',
             pln_horario_fin: '',
-            pln_max_virtuales: '',
+            pln_max_virtuales: '5',
             pln_duracion: '20'
         } 
       },
@@ -457,11 +454,11 @@ export default {
       this.isEditing = false;
       this.reg = {
         pln_data: {
-          pln_max_fichas: '',
+          pln_max_fichas: '10',
           pln_fecha: '',
           pln_horario_inicio: '',
           pln_horario_fin: '',
-          pln_max_virtuales: '',
+          pln_max_virtuales: '5',
           pln_duracion: '20'
         }
       };

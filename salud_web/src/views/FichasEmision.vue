@@ -130,6 +130,8 @@
             </tr>
           </tfoot>
         </table>
+
+        <label>Estados</label>
         <table class="table table-responsive">
           <tr>
             <td align="center">
@@ -202,7 +204,7 @@
                     <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                       @click="buscarRegistros"
                       title="Buscar">
-                      <i class="fa-solid fa-search"></i>
+                      <i class="fa-solid fa-search"></i> Buscar
                     </button>
                   </div>
                 </div>
@@ -407,7 +409,6 @@
           this.listarPlanificaciones();
           const registros = [];
           this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);
           this.regs.forEach((r) => {
             if (this.filtro.especialidad_id == '0') {
               registros.push(r);
@@ -426,7 +427,6 @@
         this.clientes = [];
         try {
           this.clientes = await clientesService.getData();
-          console.log("Pacientes: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }

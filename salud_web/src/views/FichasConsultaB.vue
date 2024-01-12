@@ -66,33 +66,40 @@
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Llamar Consulta"
                 >
-                  <i class="fa-solid fa-notes-medical fa-xl"></i>
+                  <i class="fa-solid fa-notes-medical fa-xs"></i>
                 </button>
                 <button v-if="r.fch_estado == 'C'"
                   @click="svRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Signos Vitales"
                 >
-                  <i class="fa-solid fa-heart-pulse fa-beat-fade fa-xl"></i>
+                  <i class="fa-solid fa-heart-pulse fa-beat-fade fa-xs"></i>
                 </button>
                 <button v-if="r.fch_estado == 'C'"
                   @click="cnsRegistro(r)"
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Atención"
                 >
-                  <i class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
+                  <i class="fa-solid fa-user-doctor fa-bounce fa-xs"></i>
                 </button>
                 <button v-if="r.fch_estado == 'C'"
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Derivación / Reconsulta"
                 >
-                  <i class="fa-solid fa-arrow-right fa-xl"></i>       
+                  <i class="fa-solid fa-arrow-right fa-xs"></i>       
                 </button>
                 <button v-if="r.fch_estado == 'C'"
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Recetario"
                 >
-                  <i class="fa-solid fa-pills fa-xl"></i>       
+                  <i class="fa-solid fa-pills fa-xs"></i>       
+                </button>
+                <button v-if="r.fch_estado == 'C'"
+                  @click="liberarFicha(r)"
+                  class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Liberar ficha"
+                >
+                  <i class="fa-solid fa-arrow-right fa-xs"></i>
                 </button>
 
                 <i v-if="r.fch_estado == 'P'" class="fa-regular fa-folder fa-lg"></i>
@@ -121,6 +128,8 @@
             </tr>
           </tfoot>
         </table>
+
+        <label>Estados</label>
         <table class="table table-responsive">
           <tr>
             <td align="center">
@@ -394,7 +403,6 @@
         try {
           const registros = [];
           this.regs = await fichasService.getFichasHistoriales(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);
           this.regs.forEach((r) => {
             if (this.filtro.especialidad_id == '0') {
               registros.push(r);
@@ -414,7 +422,6 @@
         this.clientes = [];
         try {
           this.clientes = await clientesService.getData();
-          console.log("Centros: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -423,7 +430,6 @@
         this.planificaciones = [];
         try {
           this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
-          console.log("planificaciones: ", this.planificaciones);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -431,7 +437,6 @@
       async listarCentros() {
         try {
           this.centrosSalud = await centrosService.getData();
-          console.log('Registros: ', this.regs);
         } catch (error) {
           console.error('Error:', error.message);
         }
@@ -476,7 +481,6 @@
       },
 
       cnsRegistro(reg) {
-        console.log("reg CNS", reg);
         this.isEditingSV = true;
         
         this.reg = Object.assign({}, reg);
@@ -543,6 +547,14 @@
         }
         this.listarRegistros();
         this.closeModalCNS();
+      },
+
+      async liberarFicha(reg) {
+        this.reg = Object.assign({}, reg);
+        this.reg.fch_usr_id = 1; 
+        this.reg.fch_estado = "A";
+        const updatedReg = await fichasService.updateData(this.reg);
+        this.listarRegistros();
       },
 
       closeModal() {
