@@ -251,7 +251,6 @@ export default {
         this.clientes = [];
         try {
           this.clientes = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
-          console.log("Historiales11111: ", this.clientes);          
         } catch (error) {
           console.error("Error:", error.message);
         }

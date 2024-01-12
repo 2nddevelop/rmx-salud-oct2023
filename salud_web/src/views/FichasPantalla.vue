@@ -58,12 +58,17 @@
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
               <template v-if="r.fch_estado !== 'P'">
               <td align="left">{{ r.cli_data.cli_nombres }} </td>
-              <td align="center">{{ r.fch_hora }} {{ r.fch_nro_ficha }}</td>
+              <td align="center">{{ r.fch_hora }}
+                <span
+                  class="inline-flex items-center rounded-md bg-blue-50 px-4 py-1 text-lg font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">
+                  {{ r.fch_nro_ficha }}
+                </span>
+              </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
-              <td align="center"><i class="fa-solid fa-arrow-right fa-2xl"></i></td>
-              <td align="left" style="background-color: beige;">
+              <td align="center"><i class="fa-solid fa-arrow-right fa-xl"></i></td>
+              <td align="center" style="background-color: beige;">
                 <label v-show="r.fch_estado == 'S'">ADMISIONES</label>
-                <label v-show="r.fch_estado !== 'S'">{{ r.con_codigo }}</label>
+                <label v-show="r.fch_estado !== 'S'" class="text-3xl font-bold">{{ r.con_codigo }}</label>
               </td>
               <!--td align="center">
                 <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.fch_estado }}</span>
@@ -76,7 +81,7 @@
           </tbody>
           <tfoot class="text-xs">
             <tr style="background: beige;">
-              <td colspan="6"><p>En pantalla solo se listan las fichas llamadas a Signos Vitales o Consulta Externa.</p></td>
+              <td colspan="6"><p>En pantalla solo se listan las fichas llamadas a Admisiones o Consulta Externa.</p></td>
             </tr>
           </tfoot>
         </table>
