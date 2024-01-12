@@ -56,7 +56,7 @@
           </thead>
           <tbody class="text-xl">
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
-              <template v-if="r.fch_estado !== 'P'">
+              <template v-if="r.fch_estado == 'S' || r.fch_estado == 'E' || r.fch_estado == 'C'">
               <td align="left">{{ r.cli_data.cli_nombres }} </td>
               <td align="center">{{ r.fch_hora }}
                 <span

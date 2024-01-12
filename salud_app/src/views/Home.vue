@@ -37,7 +37,7 @@
           </ion-col>
         </ion-row>
         <ion-row v-show="!globalLogged" responsive-sm class="ion-padding">
-          <ion-col>Conectado: {{ globalLogged }}
+          <ion-col>
             <ion-label><p>Si ya tienes cuenta directamente puedes</p></ion-label>
             <ion-button
               @click="onLogin"
