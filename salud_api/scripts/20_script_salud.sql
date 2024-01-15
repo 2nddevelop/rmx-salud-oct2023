@@ -27,22 +27,21 @@ create table rmx_sld_especialidades (
   esp_id serial primary key,
   esp_codigo text not null,
   esp_descripcion text not null,
+  esp_codigo_cuaderno text,
   esp_registrado timestamp DEFAULT now(),
   esp_modificado timestamp,
   esp_usr_id integer NOT NULL,
   esp_estado text default 'A'
 );
-insert into rmx_sld_especialidades (esp_codigo, esp_descripcion, esp_usr_id) values
-('MGE', 'Medicina General', 1),
-('TRM', 'Traumatología', 1),
-('CAR', 'Cardiología', 1),
-('PDT', 'Pediatria', 1),
-('GNC', 'Ginecología', 1),
-('OBS', 'Obstetrícia', 1),
-('OFT', 'Oftalmología', 1),
-('DRM', 'Dermatología', 1),
-('NFR', 'Nefrología', 1),
-('OTL', 'Otorrinolaringología', 1);
+insert into rmx_sld_especialidades (esp_codigo, esp_descripcion, esp_codigo_cuaderno, esp_usr_id) values
+('MGE', 'Fisioterapia', 20, 1),
+('TRM', 'Traumatología', 3, 1),
+('CAR', 'Cardiología', 45, 1),
+('PDT', 'Pediatria', 48, 1),
+('OFT', 'Oftalmología', 47, 1),
+('DRM', 'Dermatología', 7, 1),
+('NFR', 'Nefrología', 43, 1),
+('NEU', 'Neurología', 8, 1);
 
 
 create table rmx_sld_consultorios (

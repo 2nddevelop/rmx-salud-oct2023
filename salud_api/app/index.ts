@@ -12,7 +12,6 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(cors({
   origin: '*',
-  allowedHeaders: '*',
   methods: '*',
   preflightContinue: true,
   optionsSuccessStatus: 204
