@@ -151,6 +151,10 @@ const menuItems = ref([
     { id: 75, label: 'Usuarios + Roles', link: '/usuariosrol', roles: [1]  },
     { id: 75, label: 'Cambio Clave', link: '/usuariosPassword', roles: [1]  },
   ]},
+  { id: 8, label: 'Informativos', children: [
+    { id: 81, label: 'Avisos', link: '/avisos' },
+    { id: 82, label: 'Noticias', link: '/noticias' },
+  ]},
   //{ id: 99, label: 'Ingresar', link: '/logout', roles: [1, 2, 3, 4, 5]  },
 ]);
 const checkRoles = roles => roles.some(role => {

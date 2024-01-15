@@ -236,9 +236,9 @@ create table rmx_gral_tipos_cliente (
   tcli_estado text default 'A'
 );
 insert into rmx_gral_tipos_cliente (tcli_codigo, tcli_descripcion, tcli_usr_id) values
-('CLR', 'Cliente Regular', 1),
-('INS', 'Institucional', 1),
-('OTR', 'Otro', 1);
+('SUS', 'Paciente SUS', 1),
+('CNV', 'Paciente con Covenio', 1),
+('INS', 'Paciente Institucional', 1);
 
 
 create table rmx_gral_clientes (

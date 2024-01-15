@@ -15,6 +15,8 @@ import authMiddleware from '../middleware/authMiddleware';
 import HistorialesDetController from '../controllers/HistorialesDetController';
 import RolController from '../controllers/RolController';
 import UsuarioRolController from '../controllers/UsuarioRolController';
+import AvisoController from '../controllers/AvisoController';
+import NoticiaController from '../controllers/NoticiaController';
 
 const router = express.Router();
 
@@ -100,6 +102,18 @@ router.get('/tiposmembresias', MembresiaController.getAllTiposMembresias);
 router.post('/tipomembresia', authMiddleware, MembresiaController.createTipoMembresia);
 router.put('/tipomembresia/:tme_id', authMiddleware, MembresiaController.updateTipoMembresia);
 router.post('/tipomembresia/:tme_id', authMiddleware, MembresiaController.deleteTipoMembresia);
+
+// --- base_avisos ------------------------------------------------------------------
+router.get('/avisos', authMiddleware, AvisoController.getAllAvisos);
+router.post('/aviso', authMiddleware, AvisoController.createAviso);
+router.put('/aviso/:avi_id', authMiddleware, AvisoController.updateAviso);
+router.post('/aviso/:avi_id', authMiddleware, AvisoController.deleteAviso);
+
+// --- base noticias
+router.get('/noticias', authMiddleware, NoticiaController.getAllNoticias);
+router.post('/noticia', authMiddleware, NoticiaController.createNoticia);
+router.put('/noticia/:nt_id', authMiddleware, NoticiaController.updateNoticia);
+router.post('/noticia/:nt_id', authMiddleware, NoticiaController.deleteNoticia);
 
 //// Centros
 router.get('/centros', authMiddleware, CentroController.getAllCentros);

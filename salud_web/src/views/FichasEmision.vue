@@ -236,6 +236,10 @@
                     <label for="kdx">Kardex Médico</label>
                     <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
                   </div>
+                  <div class="form-group">
+                    <label for="tipo">Tipo Atencion</label>
+                    <input v-model="reg.fch_tipo_atencion" class="form-control" name="tipo" id="tipo" placeholder="Tipo Atencion" />
+                  </div>
                 </div>
                 
                 <div class="grid grid-cols-5 gap-0">
