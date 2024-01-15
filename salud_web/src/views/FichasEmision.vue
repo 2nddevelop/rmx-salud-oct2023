@@ -237,8 +237,11 @@
                     <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
                   </div>
                   <div class="form-group">
-                    <label for="tipo">Tipo Atencion</label>
-                    <input v-model="reg.fch_tipo_atencion" class="form-control" name="tipo" id="tipo" placeholder="Tipo Atencion" />
+                    <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
+                    <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
+                      <option value="0">-- seleccione --</option>
+                      <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
+                    </select>
                   </div>
                 </div>
                 
@@ -366,6 +369,7 @@
   import especialidadesService from '../services/especialidadesService';
   import consultoriosService from '../services/consultoriosService';
   import historialesDetService from '../services/historialesDetService';
+  import tiposClienteService from '../services/tiposClienteService';
   import '@fortawesome/fontawesome-free/css/all.css';
 
   export default {
@@ -385,6 +389,7 @@
         centrosSalud: [],
         especialidades: [],
         consultorios: [],
+        tiposClientes: [],
         // dates
         currentDate: new Date(),
         // filtro
@@ -404,6 +409,7 @@
       this.listarCentros();
       this.listarEspecialidades();
       this.listarConsultorios();
+      this.listarTiposCliente();
     },
   
     methods: {
@@ -468,6 +474,14 @@
           console.error("Error:", error.message);
         }
       },
+      async listarTiposCliente() {
+          this.tiposClientes = [];
+          try {
+            this.tiposClientes = await tiposClienteService.getData();
+          } catch (error) {
+            console.error("Error:", error.message);
+          }
+        },
       async buscarRegistros() {
         this.clientes = [];
         try {
