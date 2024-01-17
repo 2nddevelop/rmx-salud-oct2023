@@ -11,7 +11,7 @@ const FichaController = {
 
     try {
       const fichasQuery = await pool.query(
-        `SELECT f.*, c.cli_data, p.pln_id, p.pln_data, ce.*, d.*, e.*, co.*
+        `SELECT f.*, c.cli_data, p.pln_id, p.pln_data, ce.*, d.*, e.*, co.*, tc.*
         FROM rmx_sld_fichas f
         INNER JOIN rmx_gral_clientes c ON c.cli_id = f.fch_cli_id
         INNER JOIN rmx_sld_planificacion p ON p.pln_id = f.fch_pln_id
@@ -19,6 +19,7 @@ const FichaController = {
         INNER JOIN rmx_sld_doctores d ON d.doc_id = p.pln_doc_id
         INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
         INNER JOIN rmx_sld_consultorios co ON co.con_id = p.pln_con_id
+        INNER JOIN rmx_gral_tipos_cliente tc ON tc.tcli_id = f.fch_tipo_atencion
         WHERE p.pln_data->>'pln_fecha' = $1
           AND p.pln_cnt_id = $2
           AND f.fch_estado != 'X' 
@@ -84,7 +85,7 @@ const FichaController = {
   },
 
   createFicha: async (req: Request, res: Response) => {
-    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_usr_id, fch_estado, filtro_fecha, 
+    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_tipo_atencion, fch_usr_id, fch_estado, filtro_fecha, 
       filtro_centro_id, fch_hora, pln_data_disponibles } = req.body;
 
       try {
@@ -113,9 +114,9 @@ const FichaController = {
       codigo_ficha = `${codigo_ficha}-${numero_ficha}`;
       const newFicha = await pool.query(
         `INSERT INTO rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, 
-          fch_kdx_medico, fch_usr_id, fch_estado, fch_hora) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING * `,
+          fch_kdx_medico, fch_tipo_atencion, fch_usr_id, fch_estado, fch_hora) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * `,
         [fch_cli_id, fch_pln_id, codigo_ficha, //fch_nro_ficha, 
-          fch_kdx_medico, fch_usr_id, fch_estado, fch_hora]
+          fch_kdx_medico, fch_tipo_atencion, fch_usr_id, fch_estado, fch_hora]
       );
 
       const upd = await pool.query(
@@ -133,7 +134,7 @@ const FichaController = {
 
   updateFicha: async (req: Request, res: Response) => {
     const { fch_id } = req.params;
-    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico,
+    const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_tipo_atencion,
           fch_modificado, fch_usr_id, fch_estado } = req.body;
 
     try {
@@ -147,8 +148,8 @@ const FichaController = {
       // Actualizar el Fichas en la base de datos
       const updateFicha = await pool.query(
         `UPDATE rmx_sld_fichas SET fch_pln_id = $1, fch_cli_id = $2, fch_nro_ficha = $3, 
-          fch_kdx_medico = $4, fch_modificado = $5, fch_usr_id = $6, fch_estado = $7 
-        WHERE fch_id = $8 RETURNING *`, [fch_pln_id, fch_cli_id, fch_nro_ficha, fch_kdx_medico, fch_modificado, fch_usr_id, fch_estado, fch_id, ]
+          fch_kdx_medico = $4, fch_tipo_atencion =$5, fch_modificado = $6, fch_usr_id = $7, fch_estado = $8 
+        WHERE fch_id = $9 RETURNING *`, [fch_pln_id, fch_cli_id, fch_nro_ficha, fch_kdx_medico, fch_tipo_atencion, fch_modificado, fch_usr_id, fch_estado, fch_id, ]
       );
 
       res.json(updateFicha.rows[0]);

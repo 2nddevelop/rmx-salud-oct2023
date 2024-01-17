@@ -42,6 +42,7 @@
             <tr>
               <th>#</th>
               <th></th>
+              <th>Tipo</th>
               <th>CI / Paciente</th>
               <th>Especialidad
                   <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
@@ -108,6 +109,7 @@
                 <i v-if="r.fch_estado == 'C'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
 
               </td>
+              <td align="left">{{ r.fch_tipo_atencion }}</td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
               <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
