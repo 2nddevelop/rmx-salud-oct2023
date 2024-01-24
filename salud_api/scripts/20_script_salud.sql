@@ -212,7 +212,7 @@ create table rmx_sld_fichas (
   fch_nro_ficha text not null,
   fch_hora text null,
   fch_kdx_medico text not null,
-  fch_tipo_atencion text default 1,
+  fch_tipo_atencion integer default 1,
   fch_fec_fin_referencia timestamp null,
   fch_nro_referencia text null,
   fch_registrado timestamp DEFAULT now(),
