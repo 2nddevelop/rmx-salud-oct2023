@@ -177,6 +177,16 @@ const router = createRouter({
     },
     
     {
+      path: '/cuadernos',
+      name: 'cuadernos',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/cuadernos/CuadernosView.vue'),
+      meta: { requiresAuth: true }
+    },
+
+    {
       path: '/users',
       name: 'users',
       // route level code-splitting

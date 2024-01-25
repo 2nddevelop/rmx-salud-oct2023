@@ -1,6 +1,6 @@
 import axios from 'axios';
-import store from '../store/modules/authModule.js'
-import { API_URL } from '../config.js';
+import store from '../../store/modules/authModule.js'
+import { API_URL } from '../../config.js';
 
 const cuadernosService = {
 
@@ -30,6 +30,7 @@ const cuadernosService = {
       throw error;
     }
   },
+  
   /*
   async saveData(newRecord) {
     try {
@@ -65,4 +66,4 @@ const cuadernosService = {
   },*/
 };
 
-export default doctoresService;
+export default cuadernosService;

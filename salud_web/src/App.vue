@@ -138,6 +138,7 @@ const menuItems = ref([
     { id: 53, label: 'Consulta Externa', link: '/fichasConsultaB', roles: [1, 4, 5]  },
   ]},
   { id: 5, label: 'Instrumentos', roles: [1], children: [
+    { id: 51, label: 'Cuadernos', link: '/cuadernos', roles: [1]  },
     { id: 51, label: 'CIE', link: '/', roles: [1]  },
     { id: 52, label: 'Vademécum General', link: '/', roles: [1]  },
   ]},
