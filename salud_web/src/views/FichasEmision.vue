@@ -483,7 +483,7 @@
           } catch (error) {
             console.error("Error:", error.message);
           }
-        },
+      },
       async buscarRegistros() {
         this.clientes = [];
         try {
