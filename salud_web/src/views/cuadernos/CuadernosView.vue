@@ -7,13 +7,13 @@
           </div>
           <div class="p-1 m-1"></div>
           <div class="flex justify-end p-1 m-1">
-            <button
+            <!--button
               @click="newRegistro()"
               class="form-control bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
               title="Nuevo"
             >
               + Nuevo
-            </button>
+            </button-->
           </div>
         </div>
       </div>
@@ -23,31 +23,16 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>Centro
-                <select v-model="filtro.centro_id" class="form-control input" @change="listarRegistros" 
-                  name="doc_cnt_id" id="doc_cnt_id" placeholder="Centro" required>
-                  <option value="0">-- todos --</option>
-                  <option v-for="c in centros" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }} </option>
-                </select>
-              </th>
-              <th>Especialidad
-                <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
-                  name="doc_esp_id" id="doc_esp_id" placeholder="Espcialidad" required>
-                  <option value="0">-- todas --</option>
-                  <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} </option>
-                </select>
-              </th>
-              <th>CI<br>
-                <input type="text" @change="buscarRegistros" v-model="filtro.doc_ci" class="form-control input"></th>
-              <th>Paterno<br>
-                <input type="text" @change="buscarRegistros" v-model="filtro.doc_paterno" class="form-control input"></th>
-              <th>Materno<br>
-                <input type="text" @change="buscarRegistros" v-model="filtro.doc_materno" class="form-control input"></th>
-              <th>Nombres<br>
-                <input type="text" @change="buscarRegistros" v-model="filtro.doc_nombres" class="form-control input"></th>
-              <th>Horario Inicio</th>
-              <th>Horario Fin</th>
-              <th>Registrado</th>
+              <th>Centro</th>
+              <th>Código<br>
+                <input type="text" @change="buscarRegistros" v-model="filtro.CUA_CODIGO" class="form-control input"></th>
+              <th>Descripción</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Grupo</th>
+              <th>Tipo</th>
+              <th>Seg Social</th>
+              <th>Vigencia</th>
               <th>E</th>
             </tr>
           </thead>
@@ -56,32 +41,32 @@
               <td align="right">{{ index + 1 }}</td>
               <td>
                 <button
-                  @click="editRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Editar"
+                  @click="verRegistro(r)"
+                  class="bg-gray-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  title="Ver"
                 >
-                  <i class="fa-solid fa-pencil"></i>
+                  <i class="fa-solid fa-eye"></i>
                 </button>
-                <button
+                <!--button
                   @click="deleteRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
                   title="Eliminar"
                 >
-                  <i class="fa-solid fa-trash"></i>
-                </button>
+                  <i class="fa-solid fa-eye"></i>
+                </button-->
               </td>
-              <td align="left" style="background-color: beige;">{{ r.cnt_descripcion }}</td>
-              <td align="left" style="background-color: beige;">{{ r.esp_descripcion}}</td>
-              <td align="left">{{ r.doc_data.doc_ci }}</td>
-              <td align="left">{{ r.doc_data.doc_paterno }}</td>
-              <td align="left">{{ r.doc_data.doc_materno }}</td>
-              <td align="left">{{ r.doc_data.doc_nombres }}</td>
-              <td align="left">{{ r.doc_data.doc_horario_inicio }}</td>
-              <td align="left">{{ r.doc_data.doc_horario_fin }}</td>
-              <td align="right">{{ r.doc_registrado.substring(0, 10) }}</td>
+              <td align="left" style="background-color: beige;">{{ r.codestabl }}</td>
+              <td align="right">{{ r.CUA_CODIGO }}</td>
+              <td align="left">{{ r.CUA_DESCRIPCION }}</td>
+              <td align="left">{{ r.CUA_FECHA_INICIO }}</td>
+              <td align="left">{{ r.CUA_FECHA_FINAL }}</td>
+              <td align="right">{{ r.CUA_GRUPO }}</td>
+              <td align="right">{{ r.CUA_TIPO }}</td>
+              <td align="center">{{ r.CUA_USO_SEGSOCIAL }}</td>
+              <td align="center" style="background-color: beige;">{{ r.CUA_VIGENCIA }}</td>
               <td align="center">
-                <span v-if="r.doc_estado == 'X'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.doc_estado }}</span>
-                <span v-if="r.doc_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.doc_estado }}</span>
+                <span v-if="r.CUA_ESTADO == 'X'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ r.CUA_ESTADO }}</span>
+                <span v-if="r.doc_estado !== 'X'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.CUA_ESTADO }}</span>
               </td>
             </tr>
           </tbody>
@@ -120,7 +105,7 @@
             <!-- Modal body -->
             <div class="p-6 space-y-1">
               <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
+                <!--div class="form-group">
                     <label for="doc_cnt_id" class="font-semibold">Centro</label>
                     <select v-model="reg.doc_cnt_id" class="form-control" name="doc_cnt_id" id="doc_cnt_id" placeholder="Centro" required>
                       <option value="0">-- seleccione --</option>
@@ -133,45 +118,66 @@
                       <option value="0">-- seleccione --</option>
                       <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }} - {{ e.esp_codigo }}</option>
                     </select>
-                </div>
+                </div-->
               </div>
               
               <div class="grid grid-cols-4 gap-3">
-                <div class="form-group">
-                  <label for="paterno">Paterno:</label>
-                  <input v-model="reg.doc_data.doc_paterno" class="form-control" name="paterno" id="paterno" placeholder="Paterno" />
-                </div>
-                <div class="form-group">
-                  <label for="materno">Materno:</label>
-                  <input v-model="reg.doc_data.doc_materno" class="form-control" name="materno" id="materno" placeholder="Materno" />
-                </div>
-                <div class="form-group">
-                  <label for="nombres">Nombres:</label>
-                  <input v-model="reg.doc_data.doc_nombres" class="form-control" name="nombres" id="nombres" placeholder="Nombres" />
-                </div>
-                <div class="form-group">
-                  <label for="CI">CI:</label>
-                  <input v-model="reg.doc_data.doc_ci" class="form-control" name="ci" id="ci" placeholder="CI" />
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="celular">Celular:</label>
-                <input v-model="reg.doc_data.doc_celular" class="form-control" name="celular" id="celular" placeholder="Celular" />
-              </div>
-              <div class="form-group">
-                <label for="dias">Dias:</label>
-                <input v-model="reg.doc_data.doc_dias" class="form-control" name="dias" id="dias" placeholder="Dias" />
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div class="col-md-6">
-                  <label for="horarioini">Horario Inicio:</label>
-                  <input type="time" v-model="reg.doc_data.doc_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
-                </div>
-                <div class="col-md-6">
-                  <label for="horariofin">Horario Fin:</label>
-                  <input type="time" v-model="reg.doc_data.doc_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
-                </div>
+                <table class="table table-responsive">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>#</th>
+                      <th></th>
+                      <th>Código<br>
+                        <input type="text" @change="buscarRegistros" v-model="filtro.CUA_CODIGO" class="form-control input"></th>
+                      <th>Descripción</th>
+                      <th>Tipo</th>
+                      <th>Inicio</th>
+                      <th>Fin</th>
+                      <th>Permiso</th>
+                      <th>Ancho</th>
+                      <th>Auxiliar</th>
+                      <th>Vigencia</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(c, index) in cols" v-bind:key="c.COL_CODIGO">
+                      <td align="right">{{ index + 1 }}</td>
+                      <td>
+                        <button
+                          @click="verRegistro(r)"
+                          class="bg-gray-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
+                          title="Ver"
+                        >
+                          <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <!--button
+                          @click="deleteRegistro(r)"
+                          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
+                          title="Eliminar"
+                        >
+                          <i class="fa-solid fa-eye"></i>
+                        </button-->
+                      </td>
+                      <td align="left" style="background-color: beige;">{{ c.COL_CODIGO }}</td>
+                      <td align="left">{{ c.COL_DESCRIPCION }}</td>
+                      <td align="center">{{ c.COL_TIPO }}</td>
+                      <td align="left">{{ c.COL_INI }}</td>
+                      <td align="left">{{ c.COL_FIN }}</td>
+                      <td align="center">{{ c.COL_PERMISO }}</td>
+                      <td align="right">{{ c.COL_ANCHO }}</td>
+                      <td align="center" style="background-color: beige;">{{ c.COL_AUXILIAR }}</td>
+                      <td align="center">
+                        <span v-if="c.COL_VIGENCIA == 'N'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ c.COL_VIGENCIA }}</span>
+                        <span v-if="c.COL_VIGENCIA !== 'N'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ c.COL_VIGENCIA }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="13">Son n {{ plural }}</td>
+                    </tr>
+                  </tfoot>
+                </table>
               </div>
             </div>
             <!-- Modal footer -->
@@ -197,26 +203,18 @@
     data() {
       return {
         regs: [],
-        reg: {            
-           doc_data:{
-              doc_paterno: '',
-              doc_materno: '',
-              doc_nombres: '',
-              doc_ci: '',
-              doc_celular: '',
-              doc_dias: '',
-              doc_horario_inicio: '',
-              doc_horario_fin: ''
-          } 
-        },
-        title: "MÉDICOS",
-        plural: "Médicos",
-        singular: "Médico",
+        reg: {},
+        title: "CUADERNOS",
+        plural: "Cuadernos",
+        singular: "Cuaderno",
         showModal: false,
         isEditing: false,
+
+        cols: [],
+
         centros: [],
         especialidades: [],
-        filtro: { centro_id: '0', especialidad_id: '0', doc_ci: "", doc_paterno: "", doc_materno: "", doc_nombres: "" }
+        filtro: { CUA_CODIGO: '', centro_id: '0', especialidad_id: '0', doc_ci: "", doc_paterno: "", doc_materno: "", doc_nombres: "" }
       };
     },
   
@@ -233,17 +231,16 @@
           const registros = [];
           this.regs = await cuadernosService.getData();
           console.log("Todos los cuadernos: ", this.regs);
-          /*
-          this.regs.forEach((r) => {
-            if (this.filtro.especialidad_id == '0') {
-              registros.push(r);
-            } else {
-              if (r.doc_esp_id == this.filtro.especialidad_id) {
-                registros.push(r);
-              }
-            }
-          });
-          this.regs = registros;*/
+        } catch (error) {
+          console.error("Error:", error.message);
+        }
+      },
+      async listarRegistrosCols(CUA_CODIGO) {
+        this.cols = [];
+        try {
+          const registros = [];
+          this.cols = await cuadernosService.getBuscar(CUA_CODIGO);
+          console.log("Un cuaderno: ", this.cols);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -289,10 +286,12 @@
         };
         this.showModal = true;
       },
-      editRegistro(reg) {
+      async verRegistro(reg) {
         this.isEditing = true;
         this.reg = Object.assign({}, reg);
         this.showModal = true;
+        this.columnas = [];
+        await this.listarRegistrosCols(reg.CUA_CODIGO);
       },
 
       async saveModal() {

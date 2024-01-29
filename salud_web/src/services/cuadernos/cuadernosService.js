@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '../../store/modules/authModule.js'
-import { API_URL } from '../../config.js';
+import { API_URL, API_URL_SICE } from '../../config.js';
 
 const cuadernosService = {
 
@@ -12,7 +12,7 @@ const cuadernosService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.get(API_URL + '/cuadernos');
+      const response = await axios.get(API_URL_SICE + '/cuadernos');
       return response.data;
     } catch (error) {
       throw error;
@@ -23,8 +23,8 @@ const cuadernosService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const patron = {doc_ci: doc_ci, doc_paterno: doc_paterno, doc_materno: doc_materno, doc_nombres: doc_nombres}
-      const response = await axios.post(API_URL + '/cuadernos/${cua_codigo}', patron);
+      //const patron = {CUA: doc_ci, doc_paterno: doc_paterno, doc_materno: doc_materno, doc_nombres: doc_nombres}
+      const response = await axios.get(API_URL_SICE + `/columnas/${cua_codigo}`);
       return response.data;
     } catch (error) {
       throw error;
