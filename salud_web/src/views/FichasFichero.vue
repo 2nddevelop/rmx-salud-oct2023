@@ -130,6 +130,13 @@
                 <label for="kdx">Kardex Médico</label>
                 <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
               </div>
+              <div class="form-group">
+                <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
+                <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
+                  <option value="0">-- seleccione --</option>
+                  <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
+                </select>
+              </div>
             </div>
             <div class="grid grid-cols-2 gap-1">                
               <div v-for="p in planificaciones" class="form-group">
@@ -178,6 +185,7 @@ import planificacionesService from '../services/planificacionesService';
 import fichasService from '../services/fichasService';
 import centrosService from '../services/centrosService';
 import historialesService from '../services/historialesService';
+import tiposClienteService from '../services/tiposClienteService';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
@@ -202,6 +210,7 @@ export default {
       pln_id: 0,
       lapso: 20, //lapso de consulta
       ultimaFichaImpresa: null,
+      tiposClientes: []
 
     };
   },
@@ -212,6 +221,7 @@ export default {
     this.listarClientes();
     // this.listarPlanificaciones();
     this.listarCentros();
+    this.listarTiposCliente();
   },
 
   methods: {
@@ -246,15 +256,23 @@ export default {
         console.error('Error:', error.message);
       }
     },
-
-    async buscarRegistros() {
-        this.clientes = [];
+    async listarTiposCliente() {
+        this.tiposClientes = [];
         try {
-          this.clientes = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
+          this.tiposClientes = await tiposClienteService.getData();
         } catch (error) {
           console.error("Error:", error.message);
         }
-      },
+    },
+
+    async buscarRegistros() {
+      this.clientes = [];
+      try {
+        this.clientes = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    },
 
     newRegistro() {
       this.listarPlanificaciones();
@@ -286,28 +304,25 @@ export default {
         }
         this.reg.pln_data_disponibles = this.disponibles;
 
+        let savedReg = null;
         try {
-          // Guarda la ficha sin esperar la respuesta
-          await fichasService.saveData(this.reg);
+          savedReg = await fichasService.saveData(this.reg);
         } catch (error) {
           console.error('Error al guardar la ficha:', error);
           return;
         }
-
-        const savedReg = await fichasService.saveData(this.reg);
-        
         this.ultimaFichaImpresa = {
           fch_id: savedReg.fch_id,
           fch_nro_ficha: savedReg.fch_nro_ficha,
         };
-
+      
         await fichasService.getFicha(savedReg.fch_id)
-          .then( (value) => {
+          .then((value) => {
             setTimeout(async () => {
-              await this.printRegistro( value[0] );
+              await this.printRegistro(value[0]);
             }, 500);
         });
-      this.closeModal();
+        this.closeModal();
     },
 
     async buscarHistorial(registro) {
