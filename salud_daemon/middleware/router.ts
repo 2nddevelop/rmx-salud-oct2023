@@ -9,17 +9,18 @@ import ListasController from '../controllers/ListasController';
 
 const router = express.Router();
 
+// CUADERNOS
+router.get('/cuadernos', CuadernosController.getAll);
+router.get('/cuadernos/:cua_codigo', CuadernosController.getCodigo);
+
 // COLUMNAS
 router.get('/columnas', ColumnasController.getAll);
 router.get('/columnas/:cua_codigo', ColumnasController.getCuaColumnas);
 
-// CUADERNOS
-router.get('/cuadernos', CuadernosController.getAll);
-
 // FORMULARIOS
 router.get('/formularios', FormulariosController.getAll);
 
-// LISTAS - en bdADMIN
+// LISTAS
 router.get('/listas', ListasController.getAll);
 router.get('/listas/:tabla', ListasController.getTblListas);
 

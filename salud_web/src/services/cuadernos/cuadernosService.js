@@ -30,40 +30,17 @@ const cuadernosService = {
       throw error;
     }
   },
-  
-  /*
-  async saveData(newRecord) {
+
+  async getListas(col_codigo) {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + '/doctor', newRecord);
+      const response = await axios.get(API_URL_SICE + `/listas/${col_codigo}`);
       return response.data;
     } catch (error) {
       throw error;
     }
   },
-
-  async updateData(record) {
-    try {
-      const tk = localStorage.getItem('token');
-      this.setAuthHeader(tk);
-      const response = await axios.put(API_URL + `/doctor/${record.doc_id}`, record);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  async deleteData(record) {
-    try {
-      const tk = localStorage.getItem('token');
-      this.setAuthHeader(tk);
-      const response = await axios.post(API_URL + `/doctor/${record.doc_id}`, record);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },*/
 };
 
 export default cuadernosService;

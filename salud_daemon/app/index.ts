@@ -12,7 +12,6 @@ const port = 8888;
 app.use(express.json());
 app.use(cors({
   origin: '*',
-  allowedHeaders: '*',
   methods: '*',
   preflightContinue: true,
   optionsSuccessStatus: 204
