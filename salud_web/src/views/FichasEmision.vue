@@ -109,7 +109,7 @@
                 <i v-if="r.fch_estado == 'C'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
 
               </td>
-              <td align="left">{{ r.fch_tipo_atencion }}</td>
+              <td align="left">{{ r.tcli_descripcion }}</td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
               <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
@@ -205,6 +205,7 @@
                   <div>
                     <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                       @click="buscarRegistros"
+                      :disabled="!filtro.cli_nit && !filtro.cli_paterno && !filtro.cli_materno && !filtro.cli_nombres"
                       title="Buscar">
                       <i class="fa-solid fa-search"></i> Buscar
                     </button>
@@ -343,7 +344,14 @@
                   </div>
                   <div class="col-md-6">
                     <label for="kdx">Kardex Médico</label>
-                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
+                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" disabled />
+                  </div>
+                  <div class="form-group">
+                    <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
+                    <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
+                      <option value="0">-- seleccione --</option>
+                      <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -488,7 +496,7 @@
         this.clientes = [];
         try {
           this.clientes = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
-          console.log("Historiales11111: ", this.clientes);          
+          console.log("Historiales11111: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -497,7 +505,11 @@
       newRegistro() {
         this.listarPlanificaciones();
         this.isEditing = false;
-        this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
+        this.filtro.cli_nit = "";
+        this.filtro.cli_paterno = "";
+        this.filtro.cli_materno = "";
+        this.filtro.cli_nombres = "";
+        this.reg = {fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir', fch_tipo_atencion: '0' };
         this.showModal = true;
       },
 
@@ -516,7 +528,6 @@
       async saveModal(ficha, hora) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
-        this.reg.fch_tipo_atencion = 1;
         this.reg.fch_nro_referencia = null;
         this.reg.fch_fec_fin_referencia = null;
         this.reg.filtro_fecha = this.filtro.fecha;

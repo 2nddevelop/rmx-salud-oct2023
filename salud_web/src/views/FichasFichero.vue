@@ -105,6 +105,7 @@
               <div>
                 <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                   @click="buscarRegistros"
+                  :disabled="!filtro.cli_nit && !filtro.cli_paterno && !filtro.cli_materno && !filtro.cli_nombres"
                   title="Buscar">
                   <i class="fa-solid fa-search"></i> Buscar
                 </button>
@@ -277,9 +278,13 @@ export default {
     newRegistro() {
       this.listarPlanificaciones();
       this.isEditing = false;
+      this.filtro.cli_nit = "";
+      this.filtro.cli_paterno = "";
+      this.filtro.cli_materno = "";
+      this.filtro.cli_nombres = "";
       this.clientes = []; // aumentado
       this.ci = ''; //aumentado
-      this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
+      this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir', fch_tipo_atencion: '0' };
       this.showModal = true;
     },
 
@@ -356,62 +361,57 @@ export default {
 
 
     async printRegistro(reg) {
-      const confirmed = window.confirm("¿Imprimir ficha?");
-      if (confirmed) {
-        try {
-          await this.listarRegistros();
-          const foundReg = this.regs.find(item => item.fch_id === reg.fch_id);
-          if (foundReg) {
-            var html = '';
-            html = '<table style="font-size:11px" border=\"0\" width = \"100%\">';
-            html += '<tr><td colspan="2" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/salud/img/logo3.png" width="80%"></td>';
-            html += '<td colspan="3" align="center">"Nada es mas importante que un niño"</td></tr>';
-            html += '<tr><td colspan="3"><hr></td></tr>';
-            html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
-            html += '<tr><td colspan="3" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
-            html += '<tr><td colspan="3"><hr></td></tr>';
-            html += '<tr><td colspan="3">Establ. de Salud: ' + reg.cnt_descripcion + '</td></tr>';
-            html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
-            html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
-            html += '<tr><td colspan="3"><hr></td></tr>';
-            html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
-            html += '<tr><td colspan="3"><hr></td></tr>';
-            html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
-            html += '</table>';
-            var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
-            win.document.body.innerHTML = html;
-            setTimeout(function () {
-                win.document.close();
-                win.focus();
-                win.print();
-                win.close();
-            }, 1000);
-  
-          } else {
-            console.error('No se encontró el registro para imprimir');
-          }
-        } catch (error) {
-          console.error('Error al imprimir el registro:', error);
+      try {
+        await this.listarRegistros();
+        const foundReg = this.regs.find(item => item.fch_id === reg.fch_id);
+        if (foundReg) {
+          var html = '';
+          html = '<table style="font-size:11px" border=\"0\" width = \"100%\">';
+          html += '<tr><td colspan="2" width="20%"><img src="' + window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/salud/img/logo3.png" width="80%"></td>';
+          html += '<td colspan="3" align="center">"Nada es mas importante que un niño"</td></tr>';
+          html += '<tr><td colspan="3"><hr></td></tr>';
+          html += '<tr><td colspan="3" align="center">FICHA No: ' + reg.fch_nro_ficha + '</td></tr>';
+          html += '<tr><td colspan="3" align="center">HORA: ' + reg.fch_hora + '</td></tr>';
+          html += '<tr><td colspan="3"><hr></td></tr>';
+          html += '<tr><td colspan="3">Establ. de Salud: ' + reg.cnt_descripcion + '</td></tr>';
+          html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
+          html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
+          html += '<tr><td colspan="3"><hr></td></tr>';
+          html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
+          html += '<tr><td colspan="3"><hr></td></tr>';
+          html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
+          html += '</table>';
+          var win = window.open("", "Impresion Boleta", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" + (screen.height - 400) + ",left=" + (screen.width - 840));
+          win.document.body.innerHTML = html;
+          setTimeout(function () {
+              win.document.close();
+              win.focus();
+              win.print();
+              win.close();
+          }, 1000);
+
+        } else {
+          console.error('No se encontró el registro para imprimir');
         }
+      } catch (error) {
+        console.error('Error al imprimir el registro:', error);
       }
+      
     },
 
     async reimprimirUltimaFicha() {
       if (this.ultimaFichaImpresa && this.ultimaFichaImpresa.fch_id) {
-        const confirmed = window.confirm('¿Seguro que quieres reimprimir la última ficha?');
-        if (confirmed) {
+        try {
           const { fch_id } = this.ultimaFichaImpresa;
-          try {
-            const value = await fichasService.getFicha(fch_id);
-            if (value && value.length > 0) {
-              this.printRegistro(value[0]);
-            } else {
-              console.error('No se pudo encontrar la última ficha impresa.');
-            }
+          const value = await fichasService.getFicha(fch_id);
+          if (value && value.length > 0) {
+            this.printRegistro(value[0]);
+          } else {
+            console.error('No se pudo encontrar la última ficha impresa.');
+          }
           } catch (error) {
             console.error('Error al obtener la última ficha impresa:', error);
           }
-        }
       } else {
         console.error('No hay última ficha impresa disponible.');
       }

@@ -184,6 +184,7 @@
                   <div>
                     <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
                       @click="buscarRegistros"
+                      :disabled="!filtro.cli_nit && !filtro.cli_paterno && !filtro.cli_materno && !filtro.cli_nombres"
                       title="Buscar">
                       <i class="fa-solid fa-search"></i> Buscar
                     </button>
@@ -389,6 +390,10 @@
       newRegistro() {
         this.listarPlanificaciones();
         this.isEditing = false;
+        this.filtro.cli_nit = "";
+        this.filtro.cli_paterno = "";
+        this.filtro.cli_materno = "";
+        this.filtro.cli_nombres = "";
         this.reg = {fch_tipo_atencion: '1', fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
         this.showModal = true;
       },
