@@ -37,8 +37,6 @@ onMounted(() => {
   listarCentros();
   intervalo = setInterval(() => { 
     listarRegistros(); 
-    const audio = new Audio(audioFile);
-    audio.play();
   }, 5000);
 })
 
@@ -90,7 +88,7 @@ onUnmounted(() => {
             <th>Ficha</th>
             <th>Especialidad</th>
             <th> </th>
-            <th>Consultorio
+            <th>Ventanilla
             </th>
           </tr>
         </thead>
