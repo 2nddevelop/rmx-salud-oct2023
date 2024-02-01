@@ -7,19 +7,12 @@ const dbConfig: config = {
   database: 'bdESTADISTICA',
   server: '192.168.0.8',
   options: {
-    encrypt: false, // Si tu servidor SQL Server utiliza SSL/TLS
-  }
-};
-
-export default dbConfig;
-
-/*
-  options: {
-    port: 1433,
     encrypt: true, // Si tu servidor SQL Server utiliza SSL/TLS
     trustServerCertificate: true,
     cryptoCredentialsDetails: {
       minVersion: 'TLSv1'
     }
   }
-*/
+};
+
+export default dbConfig;
