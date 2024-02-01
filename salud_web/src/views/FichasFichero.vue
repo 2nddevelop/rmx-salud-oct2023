@@ -123,10 +123,10 @@
               </div>
             </div>
             <div class="grid grid-cols-2 gap-1">
-              <div class="col-md-6">
+              <!-- div class="col-md-6">
                 <label for="nro">Numero Ficha</label>
                 <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
-              </div>
+              </div -->
               <div class="col-md-6">
                 <label for="kdx">Kardex Médico</label>
                 <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
@@ -284,7 +284,7 @@ export default {
       this.filtro.cli_nombres = "";
       this.clientes = []; // aumentado
       this.ci = ''; //aumentado
-      this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir', fch_tipo_atencion: '0' };
+      this.reg = { fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir', fch_tipo_atencion: '0', fch_nro_ficha: '1' };
       this.showModal = true;
     },
 

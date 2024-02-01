@@ -6,6 +6,7 @@
 
 create table rmx_sld_centros (
   cnt_id serial primary key,
+  cnt_red_id integer not null,
   cnt_codigo text not null,
   cnt_descripcion text not null,
   cnt_registrado timestamp DEFAULT now(),
@@ -13,8 +14,8 @@ create table rmx_sld_centros (
   cnt_usr_id integer NOT NULL,
   cnt_estado text default 'A'
 );
-insert into rmx_sld_centros (cnt_codigo, cnt_descripcion, cnt_usr_id) values
-('HDN-01', 'Hospital del Niño', 1);
+insert into rmx_sld_centros (cnt_red_id, cnt_codigo, cnt_descripcion, cnt_usr_id) values
+(405, '100445', 'Hospital del Niño', 1);
 -- ('CS02', 'C. de Salud San Jorge', 1),
 -- ('CS03', 'C. de Salud Guadalquivir', 1),
 -- ('CS04', 'C. de Salud San Luis', 1),
@@ -269,5 +270,23 @@ insert into rmx_gral_clientes (cli_tcli_id, cli_data, cli_usr_id) values
 ( 1, '{"cli_fec_nac":"2016-10-19", "cli_nombres":"Paola", "cli_paterno":"Gomez", "cli_materno":"Quenaya", "cli_nit":"10121314", "cli_telefono":"223456", "cli_celular":"78899000", "cli_direccion":"Lapachos #113", "cli_correo":"paola@gmail.com", "cli_clave":"123456"}', 1),
 ( 1, '{"cli_fec_nac":"2016-01-27", "cli_nombres":"Belen", "cli_paterno":"Apaza", "cli_materno":"Romero", "cli_nit":"10323334", "cli_telefono":"223456", "cli_celular":"78899000", "cli_direccion":"Lapachos #113", "cli_correo":"belen@gmail.com", "cli_clave":"123456"}', 1);
 
-
- 
+create table rmx_sld_parametros (
+  par_id serial primary key,
+  par_codigo text not null,
+  par_descripcion text not null,
+  par_categoria text not null,
+  par_registrado timestamp DEFAULT now(),
+  par_modificado timestamp,
+  par_usr_id integer NOT NULL,
+  par_estado text default 'A'
+);
+insert into rmx_sld_parametros (par_codigo, par_descripcion, par_categoria, par_usr_id) values
+('CH', 'Chuquisaca', 'DPTO',  1);
+('R1', 'Red', 'RED',  1);
+('R2', 'Red', 'RED',  1);
+('R3', 'Red', 'RED',  1);
+('R3', 'Red', 'RED',  1);
+('TP1', 'Tipo Red 1', 'TIPO RED',  1);
+('TP2', 'Tipo Red 2', 'TIPO RED',  1);
+('TP3', 'Tipo Red 3', 'TIPO RED',  1);
+('SC', 'Sucre ', 'MUNICIPIOS',  1);

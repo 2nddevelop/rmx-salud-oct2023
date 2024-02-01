@@ -132,6 +132,7 @@ const menuItems = ref([
     { id: 42, label: 'Derivación', link: '/fichasDerivacion', roles: [4, 6]  },
     { id: 43, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3, 4]  },
     { id: 44, label: 'Pantalla', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
+    { id: 44, label: 'Pantalla Admisiones', link: '/fichasPantallaAdmisiones', roles: [1, 2, 3, 4, 5]  },
   ]},
   { id: 5, label: 'Consulta', roles: [1, 4, 5], children: [
     // { id: 51, label: 'Llamada Fichas', link: '/fichasAtencion', roles: [1, 4, 5]  },
