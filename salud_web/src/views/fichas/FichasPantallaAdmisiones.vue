@@ -1,12 +1,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import centrosService from '../services/centrosService';
-import fichasService from '../services/fichasService';
+import centrosService from '../../services/centrosService';
+import fichasService from '../../services/fichasService';
+
+import audioFile from '@/assets/notification-android.mp3';
 
 const fecha = ref(new Date().toISOString().slice(0, 10));
 const centro_id = ref(0);
 const centrosSalud = ref();
 const regs = ref();
+const count = ref(0);
+
+const plural = ref('ADMISIONES');
 
 const listarCentros = () => {
   centrosService.getData(1).then(response => {
@@ -17,6 +22,12 @@ const listarCentros = () => {
 const listarRegistros = () => {
   fichasService.getData(fecha.value, centro_id.value).then(response => {
     regs.value = response;
+    const countLast = regs.value.filter((reg) => reg.fch_estado == 'S').length;
+    if (countLast !== count.value) {
+      count.value = countLast;
+      const audio = new Audio(audioFile);
+      audio.play();
+    }
   })
 }
 
@@ -24,7 +35,11 @@ let intervalo = null;
 
 onMounted(() => {
   listarCentros();
-  intervalo = setInterval(() => { listarRegistros() }, 5000);
+  intervalo = setInterval(() => { 
+    listarRegistros(); 
+    const audio = new Audio(audioFile);
+    audio.play();
+  }, 5000);
 })
 
 onUnmounted(() => {
@@ -36,7 +51,7 @@ onUnmounted(() => {
   <div>
     <div class="grid grid-cols-4 p-0 m-0">
       <div class="p-1 m-1">
-        <!--h1>{{ title }}</h1-->
+        <h1>{{ plural }}</h1>
       </div>
 
       <div class="p-1 m-1">
@@ -81,7 +96,7 @@ onUnmounted(() => {
         </thead>
         <tbody class="text-xl">
           <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
-            <template v-if="r.fch_estado == 'S' || r.fch_estado == 'E' || r.fch_estado == 'C'">
+            <template v-if="r.fch_estado == 'S'">
               <td align="left">{{ r.cli_data.cli_nombres }} </td>
               <td align="center">{{ r.fch_hora }}
                 <span

@@ -57,36 +57,68 @@
           </thead>
           <tbody>
             <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
-              <td align="right">{{ index + 1 }} - {{ r.fch_id }}</td>
+              <td align="right">{{ index + 1 }}</td>
               <td align="left">
-                <button v-if="r.fch_estado == 'P' || r.fch_estado == 'S'"
-                  @click="editRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-1 rounded"
-                  title="Atención"
+                
+
+                <button v-if="r.fch_estado == 'E'"
+                  @click="llamarConsulta(r)"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Llamar Consulta"
                 >
-                  <i class="fa-regular fa-folder fa-xl"></i>
+                  <i class="fa-solid fa-notes-medical fa-xs"></i>
                 </button>
-                <button v-if="r.fch_estado == 'S'"
+                <button v-if="r.fch_estado == 'C'"
                   @click="svRegistro(r)"
-                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 m-1 rounded"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Signos Vitales"
                 >
-                  <i class="fa-solid fa-heart-pulse fa-beat-fade fa-xl"></i>
+                  <i class="fa-solid fa-heart-pulse fa-beat-fade fa-xs"></i>
                 </button>
-                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
+                <button v-if="r.fch_estado == 'C'"
+                  @click="cnsRegistro(r)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Atención"
+                >
+                  <i class="fa-solid fa-user-doctor fa-bounce fa-xs"></i>
+                </button>
+                <button v-if="r.fch_estado == 'C'"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Derivación / Reconsulta"
+                >
+                  <i class="fa-solid fa-arrow-right fa-xs"></i>       
+                </button>
+                <button v-if="r.fch_estado == 'C'"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Recetario"
+                >
+                  <i class="fa-solid fa-pills fa-xs"></i>       
+                </button>
+                <button v-if="r.fch_estado == 'C'"
+                  @click="liberarFicha(r)"
+                  class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-1 m-1 rounded"
+                  title="Liberar ficha"
+                >
+                  <i class="fa-solid fa-arrow-right fa-xs"></i>
+                </button>
+
+                <i v-if="r.fch_estado == 'P'" class="fa-regular fa-folder fa-lg"></i>
+                <i v-if="r.fch_estado == 'S'" class="fa-solid fa-computer fa-lg"></i>
+
               </td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
               <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
-              <td align="center">{{ r.fch_hora }} </td>
+              <td align="center">{{ r.fch_hora }}</td>
               <td align="center">{{ r.fch_nro_ficha }}</td>
               <td align="center" style="background: beige;">{{ r.fch_kdx_medico }}</td>
               <td align="center">{{ r.fch_registrado }}</td>
               <td align="center">
-                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Adm</span>
-                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
-                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'S'" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xxs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Adm</span>
+                <span v-if="r.fch_estado == 'A'" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xxs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'P'" class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xxs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{ r.fch_estado }}</span>
+                <span v-if="r.fch_estado == 'E'" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xxs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">En Espera</span>
+                <span v-if="r.fch_estado == 'C'" class="inline-flex items-center rounded-md bg-aqua-50 px-2 py-1 text-xxs font-medium text-aqua-700 ring-1 ring-inset ring-aqua-600/10">En Consulta</span>
               </td>
             </tr>
           </tbody>
@@ -96,86 +128,29 @@
             </tr>
           </tfoot>
         </table>
+
+        <label>Estados</label>
+        <table class="table table-responsive">
+          <tr>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">1</span> 
+              Reimprimir ficha <i class="fa-solid fa-print fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">2</span> 
+              Llamar ficha a Admisiones <i class="fa-regular fa-folder fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">3</span> 
+              Liberar ficha para Consulta <i class="fa-solid fa-arrow-right fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">4</span> 
+              Esperando Consulta <i class="fa-solid fa-notes-medical fa-xl"></i></td>
+            <td align="center">
+              <span class="inline-flex items-center rounded-md bg-green px-1 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">5</span> 
+              En Consulta <i class="fa-solid fa-user-doctor fa-bounce fa-xl"></i></td>
+          </tr>
+        </table>
       </div>
-  
-      <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay">
-          <div class="modal-content">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div
-              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
-            >
-              <h2
-                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
-              >
-                {{ isEditing ? "EDITAR " : "NUEVO " }} {{ singular }}
-              </h2>
-              <button
-                type="button"
-                @click="closeModal()"
-                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="defaultModal"
-              >
-                <i class="fa-solid fa-close"></i>
-                <span class="sr-only">Close modal</span>
-              </button>
-            </div>
 
-            <!-- Modal body -->
-            <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-1 gap-1">
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="form-group">
-                    <label for="fecha2" class="font-semibold">Fecha</label>
-                    <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-3">
-                  <div class="form-group">
-                    <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                    <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required disabled>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
-                        {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="fch_pln_id" class="font-semibold">Planificación</label>
-                      <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required disabled>
-                        <option value="0">-- seleccione --</option>
-                        <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
-                          [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]
-                        </option>
-                      </select>
-                  </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="col-md-6">
-                    <label for="nro">Número Ficha</label>
-                    <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" disabled />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="kdx">Kardex Médico</label>
-                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button @click="saveModal" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
-                {{ isEditing ? "Actualizar" : "Guardar" }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Modal Signos Vitales -->
       <div v-if="showModalSV" class="modal-overlay">
@@ -270,18 +245,117 @@
         </div>
       </div>
 
+
+      <!-- Modal Consultas -->
+      <div v-if="showModalCNS" class="modal-overlay">
+        <div class="modal-content">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+              class="modal-header flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+            >
+              <h2
+                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
+              >
+                {{ isEditingCNS ? "EDITAR " : "NUEVO " }} {{ singularCNS }}
+              </h2>
+              <button
+                type="button"
+                @click="closeModalCNS()"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="defaultModal"
+              >
+                <i class="fa-solid fa-close"></i>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-6 space-y-1">
+
+              <div class="grid grid-cols-4 gap-1">
+                <div class="form-group">
+                  <label for="CI"><strong>CI</strong><br>{{ reg.cli_data.cli_nit }}</label>
+                </div>
+
+                <div class="form-group">
+                  <label for="paterno"><strong>Paterno</strong><br>{{ reg.cli_data.cli_paterno }}</label>
+                </div>
+
+                <div class="form-group">
+                  <label for="materno"><strong>Materno</strong><br>{{ reg.cli_data.cli_materno }}</label>
+                </div>
+
+                <div class="form-group">
+                  <label for="nombres"><strong>Nombres</strong><br>{{ reg.cli_data.cli_nombres }}</label>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="cns_mt_con">Motivo Consulta:</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_mt_con" class="form-control" name="cns_mt_con" id="cns_mt_con" placeholder="Motivo consulta" ></textarea>
+                </div>
+                  <div class="form-group">
+                    <label for="cns_exm_fsc">Examen Físico:</label>
+                    <textarea v-model="reg.hcd_data_consulta.cns_exm_fsc" class="form-control" name="cns_exm_fsc" id="cns_exm_fsc" placeholder="Examen físico" ></textarea>
+                  </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="presion_arterial">Estado Nutricional:</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_est_nut" class="form-control" name="cns_est_nut" id="cns_est_nut" placeholder="Estado nutricional" ></textarea>
+                </div>
+                <div class="form-group">
+
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="temp">Diagnóstico Descriptivo</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_dia_des" class="form-control" name="temp" id="temp" placeholder="Diagnóstico descriptivo" ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="correo">Diagnóstico CIE 10</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_dia_cie" class="form-control" name="talla" id="talla" placeholder="Diagnóstico CIE 10" ></textarea>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="form-group">
+                  <label for="cns_ttm">Tratamiento</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_ttm" class="form-control" name="cns_ttm" id="cns_ttm" placeholder="Tratamiento" ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="cns_obv">Observaciones</label>
+                  <textarea v-model="reg.hcd_data_consulta.cns_obv" class="form-control" name="cns_obv" id="cns_obv" placeholder="Observaciones" ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button @click="saveModalCNS" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditingCNS ? 'Actualizar' : 'Guardar'">
+                {{ isEditingCNS ? "Actualizar" : "Guardar" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </template>
   
   
   <script>
-  import clientesService from '../services/clientesService';
-  import planificacionesService from '../services/planificacionesService';
-  import fichasService from '../services/fichasService';
-  import historialesDetService from '../services/historialesDetService';
-  import centrosService from '../services/centrosService';
-  import especialidadesService from '../services/especialidadesService';
-  import consultoriosService from '../services/consultoriosService';
+  import clientesService from '../../services/clientesService';
+  import planificacionesService from '../../services/planificacionesService';
+  import fichasService from '../../services/fichasService';
+  import historialesDetService from '../../services/historialesDetService';
+  import centrosService from '../../services/centrosService';
+  import especialidadesService from '../../services/especialidadesService';
+  import consultoriosService from '../../services/consultoriosService';
 
   import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -290,20 +364,22 @@
       return {
         regs: [],
         reg: { },
-        title: "ATENCIÓN FICHAS",
-        plural: "Fichas",
-        singular: "Ficha",
+        title: "CONSULTA EXTERNA",
+        plural: "Consultas",
+        singular: "Consulta Externa",
         singularSV: "Signos Vitales",
+        singularCNS: "Consulta Externa",
         showModal: false,
         showModalSV: false,
+        showModalCNS: false,
         isEditing: false,
         isEditingSV: false,
+        isEditingCNS: false,
         clientes: [],
         planificaciones: [],
         centrosSalud: [],
         especialidades: [],
         consultorios: [],
-
         // dates
         currentDate: new Date(),
         // filtro
@@ -319,7 +395,6 @@
       this.listarCentros();
       this.listarEspecialidades();
       this.listarConsultorios();
-
     },
   
     methods: {
@@ -328,7 +403,6 @@
         try {
           const registros = [];
           this.regs = await fichasService.getFichasHistoriales(this.filtro.fecha, this.filtro.centro_id);
-          console.log("Fichas: ", this.regs);
           this.regs.forEach((r) => {
             if (this.filtro.especialidad_id == '0') {
               registros.push(r);
@@ -348,7 +422,6 @@
         this.clientes = [];
         try {
           this.clientes = await clientesService.getData();
-          console.log("Centros: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -357,17 +430,15 @@
         this.planificaciones = [];
         try {
           this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
-          console.log("planificaciones: ", this.planificaciones);
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
       async listarCentros() {
         try {
-        this.centrosSalud = await centrosService.getData();
-        console.log('Registros: ', this.regs);
+          this.centrosSalud = await centrosService.getData();
         } catch (error) {
-        console.error('Error:', error.message);
+          console.error('Error:', error.message);
         }
       },
       async listarEspecialidades() {
@@ -392,8 +463,8 @@
         this.reg = Object.assign({}, reg);
         this.showModal = true;
       },
+
       svRegistro(reg) {
-        console.log("reg SV", reg);
         this.isEditingSV = true;
         
         this.reg = Object.assign({}, reg);
@@ -409,9 +480,25 @@
         this.showModalSV = true;
       },
 
+      cnsRegistro(reg) {
+        this.isEditingSV = true;
+        
+        this.reg = Object.assign({}, reg);
+        if (!this.reg.hcd_data_sv) {
+          this.reg.hcd_data_sv = {sv_frec_cardiaca:'', sv_frec_respiratoria:''};
+        }
+        if (!this.reg.hcd_data_consulta) {
+          this.reg.hcd_data_consulta = {};
+        }
+        if (!this.reg.hcd_data_recetario) {
+          this.reg.hcd_data_recetario = {};
+        }
+        this.showModalCNS = true;
+      },
+/*
       async saveModal() {
         this.reg.fch_usr_id = 1; 
-        this.reg.fch_estado = "E";
+        this.reg.fch_estado = "P";
         if (this.isEditing) {
           this.reg.fch_estado = "S";
           const updatedReg = await fichasService.updateData(this.reg);
@@ -422,45 +509,52 @@
         this.listarRegistros();
         this.closeModal();
       },
+*/
 
-      async saveModalActivarCE() {
+      async llamarConsulta(reg) {
+        this.reg = Object.assign({}, reg);
         this.reg.fch_usr_id = 1; 
-        this.reg.fch_estado = "E";
-        if (this.isEditing) {
-          this.reg.fch_estado = "E";
-          const updatedReg = await fichasService.updateData(this.reg);
-        } else {
-          const savedReg = await fichasService.saveData(this.reg);
-          this.regs.push(savedReg);
-        }
-        // 777 this.listarRegistros();
-        // 777 this.closeModal();
+        this.reg.fch_estado = "C";
+        const updatedReg = await fichasService.updateData(this.reg);
+        this.listarRegistros();
       },
 
       async saveModalSV() {
-        // registrar Ficha
-        this.isEditing = true;
-        this.saveModalActivarCE();
-        console.log('activado aaaaaaaaaaa');
-
-        // registrar SV
         this.reg.hcd_modificado = this.filtro.fecha;
         this.reg.hcd_usr_id = 11;
-        this.reg.hcd_estado = "A";
-        console.log('HC: ', this.reg.hc_id);
-        console.log('HCD: ', this.reg.hcd_id);
+        ////////////////////////////this.reg.hcd_estado = "A";
         this.reg.hcd_fecha = this.filtro.fecha;
         //this.reg.hcd_data_sv = ;
         if (!this.reg.hcd_id) {
-          console.log('NEW');
           const updatedReg = await historialesDetService.saveData(this.reg);
         } else {
-          console.log('EDIT');
           const updatedReg = await historialesDetService.updateData(this.reg);
         }
-      
         this.listarRegistros();
         this.closeModalSV();
+      },
+
+      async saveModalCNS() {
+        this.reg.hcd_modificado = this.filtro.fecha;
+        this.reg.hcd_usr_id = 11;
+        this.reg.hcd_estado = "A";
+        this.reg.hcd_fecha = this.filtro.fecha;
+        //this.reg.hcd_data_sv = ;
+        if (!this.reg.hcd_id) {
+          const updatedReg = await historialesDetService.saveData(this.reg);
+        } else {
+          const updatedReg = await historialesDetService.updateData(this.reg);
+        }
+        this.listarRegistros();
+        this.closeModalCNS();
+      },
+
+      async liberarFicha(reg) {
+        this.reg = Object.assign({}, reg);
+        this.reg.fch_usr_id = 1; 
+        this.reg.fch_estado = "A";
+        const updatedReg = await fichasService.updateData(this.reg);
+        this.listarRegistros();
       },
 
       closeModal() {
@@ -469,6 +563,10 @@
 
       closeModalSV() {
         this.showModalSV = false;
+      },
+
+      closeModalCNS() {
+        this.showModalCNS = false;
       },
 
       dates() {
@@ -488,7 +586,7 @@
   * {
     box-sizing: border-box;
   }
-
+  
   .input {
     color: black;
   }
@@ -574,7 +672,7 @@
       border-bottom: 1px solid;
     }
   }
-  
+    
   .modal-overlay {
     position: fixed;
     top: 0;

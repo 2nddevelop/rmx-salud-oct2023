@@ -23,7 +23,6 @@
             </div>
           </div>
 
-
           <div class="flex justify-end p-4 m-1">
             <button
               @click="newRegistro()"
@@ -42,7 +41,6 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>Tipo</th>
               <th>CI / Paciente</th>
               <th>Especialidad
                   <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" 
@@ -58,7 +56,7 @@
                     <option v-for="c in consultorios" :key="c.con_id" :value="c.con_id">{{ c.con_descripcion }}</option>
                   </select>
               </th>
-              <th>Hora</th>
+              <th>Planificación</th>
               <th>Nro Ficha</th>
               <th>Kardex Médico</th>
               <th>Registrado</th>
@@ -74,42 +72,23 @@
                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Editar"
                 >
-                  <i class="fa-solid fa-pencil fa-xs"></i>
+                  <i class="fa-solid fa-pencil"></i>
                 </button>
                 <button v-if="r.fch_estado == 'P'"
                   @click="deleteRegistro(r)"
                   class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Eliminar"
                 >
-                  <i class="fa-solid fa-trash fa-xs"></i>
+                  <i class="fa-solid fa-trash"></i>
                 </button>
                 <button
                   @click="printRegistro(r)"
                   class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-1 m-1 rounded"
                   title="Imprimir"
                 >
-                  <i class="fa-solid fa-print fa-xs"></i>
+                  <i class="fa-solid fa-print"></i>
                 </button>
-                <button v-if="r.fch_estado == 'P'"
-                  @click="folderRegistro(r)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded"
-                  title="Llamar Admisiones"
-                >
-                  <i class="fa-regular fa-folder fa-xs"></i>
-                </button>
-                <button v-if="r.fch_estado == 'S'"
-                  @click="liberarFolder(r)"
-                  class="bg-blue-300 hover:bg-blue-400 text-white font-bold py-1 px-1 m-1 rounded"
-                  title="Enviar CE"
-                >
-                  <i class="fa-solid fa-arrow-right fa-xs"></i>
-                </button>
-
-                <i v-if="r.fch_estado == 'E'" class="fa-solid fa-notes-medical fa-lg"></i>
-                <i v-if="r.fch_estado == 'C'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
-
               </td>
-              <td align="left">{{ r.tcli_descripcion }}</td>
               <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{ r.cli_data.cli_nombres }} </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
               <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
@@ -230,7 +209,7 @@
                   </option>
                 </select>
                 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-3 gap-4">
                   <!-- div class="form-group">
                     <label for="nro">Número Ficha</label>
                     <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
@@ -240,14 +219,22 @@
                     <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
                   </div>
                   <div class="form-group">
-                    <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
-                    <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
-                    </select>
+                    <label for="fecha">Fecha Referencia:</label>
+                    <input type="date" v-model="reg.fch_fec_fin_referencia" class="form-control" name="fecha" id="fecha" placeholder="Fecha Referencia" />
+                  </div>
+                  <div class="form-group">
+                    <label for="nroref">Nro. Referencia:</label>
+                    <input v-model="reg.fch_nro_referencia" class="form-control" name="nroref" id="nroref" placeholder="Nro. Referencia" />
                   </div>
                 </div>
-                
+
+                <!--div class="grid grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="tipo">Tipo Atencion:</label>
+                    <input type="number" v-model="reg.fch_tipo_atencion" class="form-control" name="tipo" id="tipo" placeholder="Tipo Atencion" />
+                  </div>
+                </div-->
+
                 <div class="grid grid-cols-5 gap-0">
 
                   <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
@@ -280,106 +267,18 @@
           </div>
         </div>
       </div>
-
-      <!-- Modal Folder -->
-      <div v-if="showModalFolder" class="modal-overlay">
-          <div class="modal-content">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div
-              class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
-            >
-              <h2
-                class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
-              >
-              LLAMADA ADMISIONES
-              </h2>
-              <button
-                type="button"
-                @click="closeModalFolder()"
-                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="defaultModal"
-              >
-                <i class="fa-solid fa-close"></i>
-                <span class="sr-only">Close modal</span>
-              </button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body p-6 space-y-6">
-              <div class="grid grid-cols-1 gap-1">
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="form-group">
-                    <label for="fecha2" class="font-semibold">Fecha</label>
-                    <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-3">
-                  <div class="form-group">
-                    <label for="fch_cli_id" class="font-semibold">Paciente</label>
-                    <select v-model="reg.fch_cli_id" class="form-control" name="fch_cli_id" id="fch_cli_id" placeholder="Centro" required disabled>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
-                        {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="fch_pln_id" class="font-semibold">Planificación</label>
-                      <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" placeholder="Planificacion" required disabled>
-                        <option value="0">-- seleccione --</option>
-                        <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
-                          [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{ p.cnt_descripcion }}]
-                        </option>
-                      </select>
-                  </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="col-md-6">
-                    <label for="nro">Número Ficha</label>
-                    <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" disabled />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="kdx">Kardex Médico</label>
-                    <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" disabled />
-                  </div>
-                  <div class="form-group">
-                    <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
-                    <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
-                      <option value="0">-- seleccione --</option>
-                      <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button @click="saveModalFolder" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 m-1 rounded" :title="isEditing ? 'Actualizar' : 'Guardar'">
-                {{ isEditing ? "Actualizar" : "Guardar" }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </template>
   
   
   <script>
-  import clientesService from '../services/clientesService';
-  import planificacionesService from '../services/planificacionesService';
-  import fichasService from '../services/fichasService';
-  import centrosService from '../services/centrosService';
-  import historialesService from '../services/historialesService';
-  import especialidadesService from '../services/especialidadesService';
-  import consultoriosService from '../services/consultoriosService';
-  import historialesDetService from '../services/historialesDetService';
-  import tiposClienteService from '../services/tiposClienteService';
+  import clientesService from '../../services/clientesService';
+  import planificacionesService from '../../services/planificacionesService';
+  import fichasService from '../../services/fichasService';
+  import centrosService from '../../services/centrosService';
+  import historialesService from '../../services/historialesService';
+  import especialidadesService from '../../services/especialidadesService';
+  import consultoriosService from '../../services/consultoriosService';
   import '@fortawesome/fontawesome-free/css/all.css';
 
   export default {
@@ -387,19 +286,16 @@
       return {
         regs: [],
         reg: { },
-        title: "ADMISIONES",
-        plural: "Fichas",
-        singular: "Ficha",
+        title: "DERIVACIÓN",
+        plural: "Derivaciones",
+        singular: "Derivación",
         showModal: false,
-        showModalFolder: false,
         isEditing: false,
-        isEditingFolder: false,
         clientes: [],
         planificaciones: [],
         centrosSalud: [],
         especialidades: [],
         consultorios: [],
-        tiposClientes: [],
         // dates
         currentDate: new Date(),
         // filtro
@@ -407,6 +303,7 @@
         // horas
         disponibles: [],
         pln_id: 0,
+        fch_tipo_atencion: '1',
         lapso: 20 //lapso de consulta
       };
     },
@@ -419,7 +316,6 @@
       this.listarCentros();
       this.listarEspecialidades();
       this.listarConsultorios();
-      this.listarTiposCliente();
     },
   
     methods: {
@@ -455,17 +351,15 @@
         this.planificaciones = [];
         try {
           this.planificaciones = await planificacionesService.getDataXFechaCntId(this.filtro.fecha, this.filtro.centro_id);
-          console.log("planificaciones: ", this.planificaciones);
         } catch (error) {
           console.error("Error:", error.message);
         }
       },
       async listarCentros() {
         try {
-        this.centrosSalud = await centrosService.getData();
-        console.log('Registros: ', this.regs);
+          this.centrosSalud = await centrosService.getData();
         } catch (error) {
-        console.error('Error:', error.message);
+          console.error('Error:', error.message);
         }
       },
       async listarEspecialidades() {
@@ -484,19 +378,10 @@
           console.error("Error:", error.message);
         }
       },
-      async listarTiposCliente() {
-          this.tiposClientes = [];
-          try {
-            this.tiposClientes = await tiposClienteService.getData();
-          } catch (error) {
-            console.error("Error:", error.message);
-          }
-      },
       async buscarRegistros() {
         this.clientes = [];
         try {
           this.clientes = await historialesService.getBuscar(this.filtro.cli_nit, this.filtro.cli_paterno, this.filtro.cli_materno, this.filtro.cli_nombres);
-          console.log("Historiales11111: ", this.clientes);
         } catch (error) {
           console.error("Error:", error.message);
         }
@@ -509,7 +394,7 @@
         this.filtro.cli_paterno = "";
         this.filtro.cli_materno = "";
         this.filtro.cli_nombres = "";
-        this.reg = {fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir', fch_tipo_atencion: '0' };
+        this.reg = {fch_tipo_atencion: '1', fch_cli_id: '0', fch_pln_id: '0', fch_kdx_medico: 'a definir' };
         this.showModal = true;
       },
 
@@ -519,17 +404,10 @@
         this.showModal = true;
       },
 
-      folderRegistro(reg) {
-        this.isEditingFolder = true;
-        this.reg = Object.assign({}, reg);
-        this.showModalFolder = true;
-      },
-
       async saveModal(ficha, hora) {
         this.reg.fch_usr_id = 1; 
         this.reg.fch_estado = "P";
-        this.reg.fch_nro_referencia = null;
-        this.reg.fch_fec_fin_referencia = null;
+        this.reg.fch_tipo_atencion = '1';
         this.reg.filtro_fecha = this.filtro.fecha;
         this.reg.filtro_centro_id = this.filtro.centro_id;
         this.reg.fch_hora = hora;
@@ -553,28 +431,6 @@
         }
         this.listarRegistros();
         this.closeModal();
-      },
-
-      async saveModalFolder() {
-        this.reg.fch_usr_id = 1; 
-        this.reg.fch_estado = "E";
-        if (this.isEditingFolder) {
-          this.reg.fch_estado = "S";
-          const updatedReg = await fichasService.updateData(this.reg);
-        } else {
-          const savedReg = await fichasService.saveData(this.reg);
-          this.regs.push(savedReg);
-        }
-        this.listarRegistros();
-        this.closeModalFolder();
-      },
-
-      async liberarFolder(reg) {
-        this.reg = Object.assign({}, reg);
-        this.reg.fch_usr_id = 1; 
-        this.reg.fch_estado = "E";
-        const updatedReg = await fichasService.updateData(this.reg);
-        this.listarRegistros();
       },
 
       async deleteRegistro(reg) {
@@ -660,10 +516,6 @@
         this.showModal = false;
       },
 
-      closeModalFolder() {
-        this.showModalFolder = false;
-      },
-
       dates() {
         const year = this.currentDate.getFullYear();
         const month = ('0' + (this.currentDate.getMonth() + 1)).slice(-2); // Se agrega 1 ya que los meses van de 0 a 11
@@ -681,11 +533,11 @@
   * {
     box-sizing: border-box;
   }
-  
+
   .input {
     color: black;
   }
-  
+
   .table {
     width: 100%;
     border-collapse: collapse;

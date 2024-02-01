@@ -181,12 +181,12 @@
 
 
 <script>
-import clientesService from '../services/clientesService';
-import planificacionesService from '../services/planificacionesService';
-import fichasService from '../services/fichasService';
-import centrosService from '../services/centrosService';
-import historialesService from '../services/historialesService';
-import tiposClienteService from '../services/tiposClienteService';
+import clientesService from '../../services/clientesService';
+import planificacionesService from '../../services/planificacionesService';
+import fichasService from '../../services/fichasService';
+import centrosService from '../../services/centrosService';
+import historialesService from '../../services/historialesService';
+import tiposClienteService from '../../services/tiposClienteService';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
