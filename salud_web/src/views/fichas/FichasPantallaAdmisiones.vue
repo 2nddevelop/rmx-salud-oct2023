@@ -10,6 +10,7 @@ const centro_id = ref(0);
 const centrosSalud = ref();
 const regs = ref();
 const count = ref(0);
+const last = ref(0);
 
 const plural = ref('ADMISIONES');
 
@@ -23,8 +24,10 @@ const listarRegistros = () => {
   fichasService.getData(fecha.value, centro_id.value).then(response => {
     regs.value = response;
     const countLast = regs.value.filter((reg) => reg.fch_estado == 'S').length;
-    if (countLast !== count.value) {
-      count.value = countLast;
+    console.log('Ultimo: ', last.value);
+    if ((last.value !== regs.value[0].fch_id) && (regs.value[0].fch_estado == 'S')) {
+      last.value = regs.value[0].fch_id
+      console.log('Cambió');
       const audio = new Audio(audioFile);
       audio.play();
     }
@@ -35,8 +38,8 @@ let intervalo = null;
 
 onMounted(() => {
   listarCentros();
-  intervalo = setInterval(() => { 
-    listarRegistros(); 
+  intervalo = setInterval(() => {
+    listarRegistros();
   }, 5000);
 })
 
@@ -103,7 +106,10 @@ onUnmounted(() => {
                 </span>
               </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
-              <td align="center"><i class="fa-solid fa-arrow-right fa-xl"></i></td>
+              <td align="center">
+                <i v-if="r.fch_id == last" class="fa-solid fa-megaphone fa-xl"></i>
+                <i v-else class="fa-solid fa-arrow-right fa-xl"></i>
+              </td>
               <td align="center" style="background-color: beige;">
                 <label v-show="r.fch_estado == 'S'">ADMISIONES</label>
                 <label v-show="r.fch_estado !== 'S'" class="text-3xl font-bold">{{ r.con_codigo }}</label>
