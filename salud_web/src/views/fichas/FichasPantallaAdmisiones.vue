@@ -23,7 +23,7 @@ const listarCentros = () => {
 const listarRegistros = () => {
   fichasService.getData(fecha.value, centro_id.value).then(response => {
     regs.value = response;
-    const countLast = regs.value.filter((reg) => reg.fch_estado == 'S').length;
+//    const countLast = regs.value.filter((reg) => reg.fch_estado == 'S').length;
     console.log('Ultimo: ', last.value);
     if ((last.value !== regs.value[0].fch_id) && (regs.value[0].fch_estado == 'S')) {
       last.value = regs.value[0].fch_id
@@ -107,7 +107,7 @@ onUnmounted(() => {
               </td>
               <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
               <td align="center">
-                <i v-if="r.fch_id == last" class="fa-solid fa-megaphone fa-xl"></i>
+                <i v-if="r.fch_id == last" class="fa-solid fa-bullhorn fa-xl"></i>
                 <i v-else class="fa-solid fa-arrow-right fa-xl"></i>
               </td>
               <td align="center" style="background-color: beige;">
