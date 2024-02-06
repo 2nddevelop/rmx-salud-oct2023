@@ -139,11 +139,11 @@
                 </select>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-1">                
+            <div class="grid grid-cols-2 gap-1">
               <div v-for="p in planificaciones" class="form-group">
                 <button @click="mostrarFicha(this, p.pln_id)" 
                   class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
-                  :disabled="reg.fch_kdx_medico == 'a definir'"> 
+                  :disabled="reg.fch_kdx_medico == 'a definir' || reg.fch_tipo_atencion == 0">
                   {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
                 </button>
               </div>

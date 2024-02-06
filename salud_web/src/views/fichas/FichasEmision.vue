@@ -248,8 +248,8 @@
                   </div>
                 </div>
                 
+<div v-if="reg.fch_tipo_atencion > 0">
                 <div class="grid grid-cols-5 gap-0">
-
                   <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
                     <template v-if="d.pln_fch_id == 0">
                       <button @click="saveModal(d.pln_fch_id, d.pln_hora)"
@@ -265,7 +265,7 @@
                     </template>
                   </div>
                 </div>
-                
+</div>
               </div>
             </div>
 
