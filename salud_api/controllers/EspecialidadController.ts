@@ -20,12 +20,12 @@ const EspecialidadController = {
   },
 
   createEspecialidad: async (req: Request, res: Response) => {
-    const { esp_codigo, esp_descripcion, esp_usr_id, esp_estado} = req.body;
+    const { esp_codigo, esp_descripcion, esp_codigo_cuaderno, esp_usr_id, esp_estado} = req.body;
 
     try {
       const newEspecialidades = await pool.query('INSERT INTO rmx_sld_especialidades' 
-      + '(esp_codigo, esp_descripcion, esp_usr_id, esp_estado)'
-      + 'VALUES ($1, $2, $3, $4) RETURNING *', [esp_codigo, esp_descripcion, esp_usr_id, esp_estado ]);
+      + '(esp_codigo, esp_descripcion, esp_codigo_cuaderno, esp_usr_id, esp_estado)'
+      + 'VALUES ($1, $2, $3, $4, $5) RETURNING *', [esp_codigo, esp_descripcion, esp_codigo_cuaderno, esp_usr_id, esp_estado ]);
 
       res.json(newEspecialidades.rows[0]);
     } catch (error) {
@@ -36,7 +36,7 @@ const EspecialidadController = {
 
   updateEspecialidad: async (req: Request, res: Response) => {
     const { esp_id } = req.params;
-    const { esp_codigo, esp_descripcion, esp_modificado, esp_usr_id, esp_estado} = req.body;
+    const { esp_codigo, esp_descripcion, esp_codigo_cuaderno, esp_modificado, esp_usr_id, esp_estado} = req.body;
 
     try {
       // Verificar si las Especialidades existe en la base de datos
@@ -49,8 +49,8 @@ const EspecialidadController = {
 
       // Actualizar las Especialidades en la base de datos
       const updateEspecialidad = await pool.query(
-        'UPDATE rmx_sld_especialidades SET esp_codigo = $1, esp_descripcion = $2, esp_modificado = $3, esp_usr_id = $4 WHERE esp_id = $5 RETURNING *',
-        [esp_codigo, esp_descripcion, esp_modificado, esp_usr_id, esp_id]
+        'UPDATE rmx_sld_especialidades SET esp_codigo = $1, esp_descripcion = $2, esp_codigo_cuaderno = $3, esp_modificado = $4, esp_usr_id = $5 WHERE esp_id = $6 RETURNING *',
+        [esp_codigo, esp_descripcion, esp_codigo_cuaderno, esp_modificado, esp_usr_id, esp_id]
       );
 
       res.json(updateEspecialidad.rows[0]);

@@ -84,6 +84,10 @@
                   <label for="descripcion">Descripcion:</label>
                   <input v-model="reg.esp_descripcion" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion" />
                 </div>
+                <div>
+                  <label for="codigocuaderno">Codigo Cuaderno:</label>
+                  <input v-model="reg.esp_codigo_cuaderno" class="form-control" name="codigocuaderno" id="codigocuaderno" placeholder="Codigo Cuaderno" />
+                </div>
               </div>
             </div>
             <!-- Modal footer -->
