@@ -17,7 +17,8 @@
         <div class="p-1 m-1">
           <div class="form-group">
             <label for="centro" class="font-semibold">Establ. de Salud</label>
-            <select v-model="filtro.centro_id" class="form-control" @change="listarRegistros" name="centro" id="centro"
+            <select v-model="filtro.centro_id" class="form-control"
+              @change="listarRegistros(); listarEspecialidades(); listarConsultorios();" name="centro" id="centro"
               placeholder="Centro de salud" required>
               <option value="0">-- seleccione --</option>
               <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }}</option>
@@ -425,32 +426,27 @@ export default {
 
   mounted() {
     this.dates();
-    this.listarRegistros();
-    this.listarClientes();
-    //this.listarPlanificaciones();
+    // this.listarRegistros();
+    // this.listarClientes();
+    // this.listarPlanificaciones();
     this.listarCentros();
-    this.listarEspecialidades();
-    this.listarConsultorios();
-    this.listarTiposCliente();
+    // this.listarEspecialidades();
+    // this.listarConsultorios();
+    // this.listarTiposCliente();
   },
 
   methods: {
     async listarRegistros() {
-      this.regs = [];
       try {
-        this.listarPlanificaciones();
-        const registros = [];
-        this.regs = await fichasService.getData(this.filtro.fecha, this.filtro.centro_id);
-        this.regs.forEach((r) => {
-          if (this.filtro.especialidad_id == '0') {
-            registros.push(r);
-          } else {
-            if (r.esp_id == this.filtro.especialidad_id) {
-              registros.push(r);
+        fichasService.getData(this.filtro.fecha, this.filtro.centro_id).then(response => {
+          const filas = [];
+          response.forEach(row => {
+            if ((this.filtro.especialidad_id == 0 || this.filtro.especialidad_id == row.esp_id) && (this.filtro.consultorio_id == 0 || this.filtro.consultorio_id == row.con_id)) {
+              filas.push(row);
             }
-          }
-        });
-        this.regs = registros;
+          })
+          this.regs = filas;
+        })
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -489,7 +485,7 @@ export default {
     async listarConsultorios() {
       this.consultorios = [];
       try {
-        this.consultorios = await consultoriosService.getData();
+        this.consultorios = await consultoriosService.getData(this.filtro.centro_id);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -844,5 +840,6 @@ export default {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-}</style>
+}
+</style>
   

@@ -135,7 +135,7 @@ const router = createRouter({
       component: () => import('../views/fichas/FichasFichero.vue'),
       meta: { requiresAuth: true }
     },
-    
+
     {
       path: '/fichasPantalla',
       name: 'fichasPantalla',
@@ -155,7 +155,7 @@ const router = createRouter({
       component: () => import('../views/fichas/FichasPantallaAdmisiones.vue'),
       meta: { requiresAuth: true }
     },
-    
+
     {
       path: '/fichasAtencion',
       name: 'fichasAtencion',
@@ -165,7 +165,7 @@ const router = createRouter({
       component: () => import('../views/fichas/FichasAtencion.vue'),
       meta: { requiresAuth: true }
     },
-        
+
     {
       path: '/fichasConsultaB',
       name: 'fichasConsultaB',
@@ -175,7 +175,7 @@ const router = createRouter({
       component: () => import('../views/fichas/FichasConsultaB.vue'),
       meta: { requiresAuth: true }
     },
-    
+
     {
       path: '/historiales',
       name: 'historiales',
@@ -185,7 +185,7 @@ const router = createRouter({
       component: () => import('../views/Historiales.vue'),
       meta: { requiresAuth: true }
     },
-    
+
     {
       path: '/cuadernos',
       name: 'cuadernos',
@@ -287,8 +287,8 @@ router.beforeEach((to, from, next) => {
   // Verificar si la ruta requiere autenticación
   if (to.meta.requiresAuth) {
     // Verificar si el usuario está autenticado
-    console.log('isAuthenticated: ', isAuthenticated);
-    if (isAuthenticated){ //}.isAuthenticated) {
+    // console.log(isAuthenticated: ', isAuthenticated);
+    if (isAuthenticated) { //}.isAuthenticated) {
       // El usuario está autenticado, permitir el acceso a la ruta
       next();
     } else {
@@ -299,7 +299,7 @@ router.beforeEach((to, from, next) => {
     // La ruta no requiere autenticación, permitir el acceso
     next();
   }
-}); 
+});
 // 777
 
 export default router

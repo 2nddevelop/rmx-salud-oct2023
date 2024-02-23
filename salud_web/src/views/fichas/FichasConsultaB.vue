@@ -6,8 +6,6 @@
           <h1>{{ title }}</h1>
         </div>
 
-        <div></div>
-
         <div class="p-4 m-1">
           <div class="form-group">
             <label for="fecha" class="font-semibold">Fecha</label>
