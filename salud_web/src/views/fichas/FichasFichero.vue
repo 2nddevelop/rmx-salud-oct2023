@@ -276,6 +276,7 @@ export default {
     },
 
     newRegistro() {
+      this.disponibles = [];
       this.listarPlanificaciones();
       this.isEditing = false;
       this.filtro.cli_nit = "";

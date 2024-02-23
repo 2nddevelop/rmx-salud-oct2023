@@ -36,6 +36,7 @@ let intervalo = null;
 onMounted(() => {
   listarCentros();
   intervalo = setInterval(() => {
+    fecha.value = new Date().toISOString().slice(0, 10);
     listarRegistros();
   }, 5000);
 })

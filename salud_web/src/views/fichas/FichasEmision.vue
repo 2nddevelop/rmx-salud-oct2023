@@ -432,7 +432,7 @@ export default {
     this.listarCentros();
     // this.listarEspecialidades();
     // this.listarConsultorios();
-    // this.listarTiposCliente();
+    this.listarTiposCliente();
   },
 
   methods: {
