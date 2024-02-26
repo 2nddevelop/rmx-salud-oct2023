@@ -500,9 +500,10 @@ export default {
         let item = {};
         item = {pln_fch_id: 0, pln_hora: hora};
         disponibles.push(item);
-        hora = this.sumarMinutosAHora(hora, this.lapso);
+        // 777 hora = this.sumarMinutosAHora(hora, this.lapso);
+        hora = this.sumarMinutosAHora(hora, this.reg.pln_data.pln_duracion); // a pedido de Hosman y cidar
       }
-console.log('dispo', disponibles);
+      
       // actualiza
       this.reg.pln_data_disponibles = disponibles;
       this.reg.pln_usr_id = 1; 
