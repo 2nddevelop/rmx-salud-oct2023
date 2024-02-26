@@ -217,6 +217,8 @@ export default {
   },
 
   mounted() {
+    this.filtro.centro_id = localStorage.getItem('cnt_id'); // importante insumo para this.listarRegistros()
+
     this.dates();
     this.listarRegistros();
     this.listarClientes();

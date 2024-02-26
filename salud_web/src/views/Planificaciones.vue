@@ -374,7 +374,7 @@ export default {
       currentPage: 1,
       itemsPerPage: 10,
 
-      //disponibles horas
+      // disponibles horas
       lapso: 20 // 20 minutos
     };
   },

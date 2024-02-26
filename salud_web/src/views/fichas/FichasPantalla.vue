@@ -34,6 +34,8 @@ const listarRegistros = () => {
 let intervalo = null;
 
 onMounted(() => {
+  centro_id.value = localStorage.getItem('cnt_id'); // importante insumo para this.listarRegistros()
+
   listarCentros();
   intervalo = setInterval(() => {
     fecha.value = new Date().toISOString().slice(0, 10);
@@ -50,7 +52,7 @@ onUnmounted(() => {
   <div>
     <div class="grid grid-cols-4 p-0 m-0">
       <div class="p-1 m-1">
-        <h1>{{ plural }}</h1>
+        <h1>PANTALLA<br>{{ plural }}</h1>
       </div>
 
       <div class="p-1 m-1">

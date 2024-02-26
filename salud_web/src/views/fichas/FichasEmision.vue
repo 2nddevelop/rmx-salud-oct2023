@@ -100,7 +100,7 @@
               <i v-if="r.fch_estado == 'C'" class="fa-solid fa-user-doctor fa-bounce fa-lg"></i>
 
             </td>
-            <td align="left">{{ r.tcli_descripcion }}</td>
+            <td align="left">{{ r.tcli_codigo }}</td>
             <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{
               r.cli_data.cli_nombres }} </td>
             <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
@@ -420,18 +420,20 @@ export default {
       // horas
       disponibles: [],
       pln_id: 0,
-      lapso: 20 //lapso de consulta
+      lapso: 20, //lapso de consulta
     };
   },
 
   mounted() {
+    this.filtro.centro_id = localStorage.getItem('cnt_id'); // importante insumo para this.listarRegistros()
+
     this.dates();
-    // this.listarRegistros();
+    this.listarRegistros();
     // this.listarClientes();
     // this.listarPlanificaciones();
     this.listarCentros();
-    // this.listarEspecialidades();
-    // this.listarConsultorios();
+    this.listarEspecialidades();
+    this.listarConsultorios();
     this.listarTiposCliente();
   },
 
