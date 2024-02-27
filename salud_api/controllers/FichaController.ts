@@ -23,7 +23,7 @@ const FichaController = {
         WHERE p.pln_data->>'pln_fecha' = $1
           AND p.pln_cnt_id = $2
           AND f.fch_estado != 'X' 
-        ORDER BY f.fch_id DESC -- ce.cnt_descripcion, e.esp_codigo, co.con_codigo, f.fch_hora `, [fecha, cnt_id]
+        ORDER BY f.fch_hora `, [fecha, cnt_id]
       );
       const fichas = fichasQuery.rows;
       res.json(fichas);
@@ -86,7 +86,7 @@ const FichaController = {
 
   createFicha: async (req: Request, res: Response) => {
     const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_tipo_atencion, fch_usr_id, fch_estado, filtro_fecha, 
-      filtro_centro_id, fch_hora, pln_data_disponibles } = req.body;
+      filtro_centro_id, fch_hora, pln_data_disponibles, pln_numero } = req.body;
 
     try {
       const especialidad = await pool.query(
@@ -101,7 +101,6 @@ const FichaController = {
           ORDER BY e.esp_codigo 
         `, [filtro_fecha, filtro_centro_id, fch_pln_id]
       );
-      console.log('Especialidad para la Ficha', especialidad);
 
       const nextFicha = await pool.query(
         `SELECT e.esp_codigo, COUNT(f.*) AS next_ficha 
@@ -125,15 +124,19 @@ const FichaController = {
       }
       if (Object.keys(nextFicha.rows).length > 0) {
         codigo_ficha = nextFicha.rows[0].esp_codigo;
-        numero_ficha = parseInt(nextFicha.rows[0].next_ficha) + 1;
+        // asi se genera ficha 1, 2, 3, ... N
+        numero_ficha = parseInt(nextFicha.rows[0].next_ficha) + 1; // numero de ficha por SI
       } else {
-        numero_ficha = 1;
+        numero_ficha = 1; // numero de ficha por NO
       }
+      // asi se genera ficha numeradas por hora 1 08:00, 2 08:20, 3 8:40, ... N hh:mm
+      numero_ficha = pln_numero; // repetido, se solapa valor de numero de ficha
+
       codigo_ficha = `${codigo_ficha}-${numero_ficha}`;
       const newFicha = await pool.query(
         `INSERT INTO rmx_sld_fichas (fch_cli_id, fch_pln_id, fch_nro_ficha, 
           fch_kdx_medico, fch_tipo_atencion, fch_usr_id, fch_estado, fch_hora) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * `,
-        [fch_cli_id, fch_pln_id, codigo_ficha, //fch_nro_ficha, 
+        [fch_cli_id, fch_pln_id, codigo_ficha, 
           fch_kdx_medico, fch_tipo_atencion, fch_usr_id, fch_estado, fch_hora]
       );
 

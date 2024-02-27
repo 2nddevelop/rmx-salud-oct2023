@@ -67,14 +67,14 @@
           <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
             <td align="right">{{ index + 1 }}</td>
             <td>
-              <button v-if="r.fch_estado == 'P'" @click="editRegistro(r)"
+              <!--button v-if="r.fch_estado == 'P'" @click="editRegistro(r)"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 m-1 rounded" title="Editar">
                 <i class="fa-solid fa-pencil"></i>
               </button>
               <button v-if="r.fch_estado == 'P'" @click="deleteRegistro(r)"
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded" title="Eliminar">
                 <i class="fa-solid fa-trash"></i>
-              </button>
+              </button-->
               <button @click="printRegistro(r)"
                 class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-1 m-1 rounded" title="Imprimir">
                 <i class="fa-solid fa-print"></i>

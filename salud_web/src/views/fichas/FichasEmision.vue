@@ -263,9 +263,9 @@
                 <div class="grid grid-cols-5 gap-0">
                   <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
                     <template v-if="d.pln_fch_id == 0">
-                      <button @click="saveModal(d.pln_fch_id, d.pln_hora)"
+                      <button @click="saveModal(d.pln_fch_id, d.pln_hora, d.pln_numero)"
                         class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded">
-                        {{ d.pln_hora }}
+                        [{{ d.pln_numero }}] {{ d.pln_hora }}
                       </button>
                     </template>
                     <template v-else>
@@ -531,7 +531,7 @@ export default {
       this.showModalFolder = true;
     },
 
-    async saveModal(ficha, hora) {
+    async saveModal(ficha, hora, numero) {
       this.reg.fch_usr_id = 1;
       this.reg.fch_estado = "P";
       this.reg.fch_nro_referencia = null;
@@ -539,6 +539,7 @@ export default {
       this.reg.filtro_fecha = this.filtro.fecha;
       this.reg.filtro_centro_id = this.filtro.centro_id;
       this.reg.fch_hora = hora;
+      this.reg.fch_numero = numero;
       if (this.isEditing) {
         const updatedReg = await fichasService.updateData(this.reg);
         const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
