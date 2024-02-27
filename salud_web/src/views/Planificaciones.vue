@@ -2,13 +2,12 @@
   <div class="">
     <div>
       <div class="grid grid-cols-4">
-        <div class="p-1 m-1">
+        <div class="p-1 m-1"> <!-- text-green-500 -->
           <h1>{{ title }}</h1>
         </div>
 
         <div class="p-1 m-1">
           <div class="form-group">
-            <label for="kdx">Fecha</label>
             <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha" id="fecha" placeholder="Fecha" />
           </div>
         </div>
@@ -22,7 +21,7 @@
           </button>
         </div>
 
-        <div class="flex justify-end p-1 m-1">
+        <div class="flex p-1 m-1">
           <button
             @click="newRegistro()"
             class="form-control bg-green-500 hover:bg-green-600 disabled:bg-red-200 text-white py-2 px-4 m-1 rounded"
@@ -206,15 +205,17 @@
             <div class="grid grid-cols-3 gap-4">
               <div >
                 <label for="horarioini">Horario Inicio:</label>
-                <input type="time" v-model="reg.pln_data.pln_horario_inicio" class="form-control" name="horarioini" id="horarioini" placeholder="Horario Inicio" />
+                <input type="time" v-model="reg.pln_data.pln_horario_inicio" class="form-control" 
+                  name="horarioini" id="horarioini" placeholder="Horario Inicio" />
+              </div>
+              <div class="col-md-6">
+                <label for="duracion">Duración:</label>
+                <input type="number" v-model="reg.pln_data.pln_duracion" class="form-control" name="duracion" id="duracion" placeholder="Duracion" />
               </div>
               <div class="col-md-6">
                 <label for="horariofin">Horario Fin:</label>
-                <input type="time" v-model="reg.pln_data.pln_horario_fin" class="form-control" name="horariofin" id="horariofin" placeholder="Horario Fin" />
-              </div>
-              <div class="col-md-6">
-                <label for="duracion">Duracion:</label>
-                <input v-model="reg.pln_data.pln_duracion" class="form-control" name="duracion" id="duracion" placeholder="Duracion" />
+                <input type="time" v-model="reg.pln_data.pln_horario_fin" class="form-control"
+                  name="horariofin" id="horariofin" placeholder="Horario Fin" disabled />
               </div>
             </div>
 
@@ -223,12 +224,12 @@
                 <div v-for="(r, index) in reg.pln_data_disponibles" class="grid grid-cols-5 gap-1" style="display: flex;" v-bind:key="index">
                   <template v-if="r.pln_fch_id == 0">
                     <button class="bg-green-400 text-white font-bold py-2 px-4 m-1 rounded">
-                      {{ r.pln_hora }}
+                      {{ r.pln_numero }}<br>{{ r.pln_hora }}
                     </button>
                   </template>
                   <template v-else>
                     <button class="bg-gray-300 text-black font-bold py-2 px-4 m-1 rounded">
-                      {{ r.pln_hora }}
+                      {{ r.pln_numero }}<br>{{ r.pln_hora }}
                     </button>
                   </template>
                 </div>
@@ -492,17 +493,20 @@ export default {
     },
 
     async saveModal() {
-      // calcula horas
+      // calcula horas y fichas disponibles
       this.reg.pln_data_disponibles = [];
       let hora = this.reg.pln_data.pln_horario_inicio;
       let disponibles = [];
+      let numero = 1;
       for(let i = 0; i < this.reg.pln_data.pln_max_fichas; i++) {
         let item = {};
-        item = {pln_fch_id: 0, pln_hora: hora};
+        item = {pln_fch_id: 0, pln_hora: hora, pln_numero: numero};
         disponibles.push(item);
-        // 777 hora = this.sumarMinutosAHora(hora, this.lapso);
-        hora = this.sumarMinutosAHora(hora, this.reg.pln_data.pln_duracion); // a pedido de Hosman y cidar
+        hora = this.sumarMinutosAHora(hora, this.reg.pln_data.pln_duracion);
+        numero++;
       }
+      this.reg.pln_data.pln_horario_fin = hora;
+      console.log('Disponibles: ', disponibles);
       
       // actualiza
       this.reg.pln_data_disponibles = disponibles;
