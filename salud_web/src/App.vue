@@ -135,7 +135,7 @@ const menuItems = ref([
     { id: 45, label: 'Pantalla Consultas', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
   ]},
   { id: 5, label: 'Consulta', roles: [1, 4, 5], children: [
-    // { id: 51, label: 'Llamada Fichas', link: '/fichasAtencion', roles: [1, 4, 5]  },
+    // { id: 51, label: 'Signos Vitales', link: '/fichasSVitales', roles: [1, 4, 5]  },
     { id: 53, label: 'Consulta Externa', link: '/fichasConsultaB', roles: [1, 4, 5]  },
   ]},
   { id: 5, label: 'Instrumentos', roles: [1], children: [

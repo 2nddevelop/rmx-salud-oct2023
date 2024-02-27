@@ -9,8 +9,8 @@
         <div class="p-4 m-1">
           <div class="form-group">
             <label for="fecha" class="font-semibold">Fecha</label>
-            <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha"
-              id="fecha" placeholder="Fecha" />
+            <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" :min="fechaMinima"
+              name="fecha" id="fecha" placeholder="Fecha" />
           </div>
         </div>
 
@@ -398,13 +398,15 @@ export default {
   },
 
   mounted() {
+    this.filtro.centro_id = localStorage.getItem('cnt_id'); // importante insumo para this.listarRegistros()
+
     this.dates();
-    //    this.listarRegistros();
+    this.listarRegistros();
     //    this.listarPlanificaciones();
     //    this.listarClientes();
     this.listarCentros();
-    //    this.listarEspecialidades();
-    //    this.listarConsultorios();
+    this.listarEspecialidades();
+    this.listarConsultorios();
   },
 
   methods: {
@@ -583,6 +585,18 @@ export default {
     },
 
   },
+
+  computed: {
+    fechaMinima() {
+      // Calcular la fecha mínima permitida (hoy)
+      const hoy = new Date();
+      const year = hoy.getFullYear();
+      const month = hoy.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+      const day = hoy.getDate();
+      return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+    },
+  },
+
 };
 </script>
   

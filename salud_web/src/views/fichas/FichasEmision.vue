@@ -26,17 +26,16 @@
           </div>
         </div>
 
-
         <div class="flex justify-end p-4 m-1">
           <button @click="newRegistro()"
-            class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
-            title="Nuevo" :disabled="filtro.centro_id == '0'">
+            class="form-control bg-green-500 disabled:bg-red-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded text-xs"
+            title="Nuevo" :disabled="filtro.centro_id == '0' || filtro.fecha < fechaMinima">
             + Nuevo
           </button>
           <button @click="refrescar()"
-            class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+            class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded text-xs"
             title="Refrescar" :disabled="filtro.centro_id == '0'">
-            R
+            <i class="fa-solid fa-rotate fa-xs"></i> Refrescar
           </button>
         </div>
       </div>
@@ -687,6 +686,18 @@ export default {
     }
 
   },
+
+  computed: {
+    fechaMinima() {
+      // Calcular la fecha mínima permitida (hoy)
+      const hoy = new Date();
+      const year = hoy.getFullYear();
+      const month = hoy.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+      const day = hoy.getDate();
+      return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+    },
+  },
+
 };
 </script>
   

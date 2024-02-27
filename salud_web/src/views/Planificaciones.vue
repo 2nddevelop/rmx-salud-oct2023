@@ -199,7 +199,7 @@
               </div>
               <div class="col-md-6">
                 <label for="fecha">Fecha:</label>
-                <input type="date" v-model="reg.pln_data.pln_fecha" class="form-control" name="fecha" id="fecha" placeholder="Fecha" />
+                <input type="date" v-model="reg.pln_data.pln_fecha" :min="fechaMinima" class="form-control" name="fecha" id="fecha" placeholder="Fecha" />
               </div>
             </div>
 
@@ -557,6 +557,7 @@ export default {
       this.filtro.fecha = `${year}-${month}-${day}`;
     },
 
+
     // paginator
     prevPage() {
       if (this.currentPage > 1) {
@@ -589,10 +590,20 @@ export default {
   },
 
   computed: {
+    fechaMinima() {
+      // Calcular la fecha mínima permitida (hoy)
+      const hoy = new Date();
+      const year = hoy.getFullYear();
+      const month = hoy.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+      const day = hoy.getDate();
+      return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+    },
+
     // paginator
     totalPages() {
       return Math.ceil(this.regs.length / this.itemsPerPage);
     },
+
     paginatedRegs() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;

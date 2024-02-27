@@ -9,8 +9,8 @@
         <div class="p-1 m-1">
           <div class="form-group">
             <label for="fecha" class="font-semibold">Fecha</label>
-            <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" name="fecha"
-              id="fecha" placeholder="Fecha" />
+            <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" :min="fechaMinima"
+              name="fecha" id="fecha" placeholder="Fecha" />
           </div>
         </div>
 
@@ -531,6 +531,18 @@ export default {
     },
 
   },
+
+  computed: {
+    fechaMinima() {
+      // Calcular la fecha mínima permitida (hoy)
+      const hoy = new Date();
+      const year = hoy.getFullYear();
+      const month = hoy.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+      const day = hoy.getDate();
+      return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+    },
+  },
+
 };
 </script>
   

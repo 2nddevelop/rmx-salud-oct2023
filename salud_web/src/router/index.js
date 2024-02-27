@@ -157,12 +157,12 @@ const router = createRouter({
     },
 
     {
-      path: '/fichasAtencion',
-      name: 'fichasAtencion',
+      path: '/fichasSVitales',
+      name: 'fichasSVitales',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/fichas/FichasAtencion.vue'),
+      component: () => import('../views/fichas/FichasSVitales.vue'),
       meta: { requiresAuth: true }
     },
 

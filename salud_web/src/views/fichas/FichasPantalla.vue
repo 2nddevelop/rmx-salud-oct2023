@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import centrosService from '../../services/centrosService';
 import fichasService from '../../services/fichasService';
 
@@ -12,6 +12,14 @@ const regs = ref();
 const count = ref(0);
 
 const plural = ref('CONSULTA EXTERNA');
+
+const fechaMinima = computed(() => {
+  const hoy = new Date();
+  const year = hoy.getFullYear();
+  const month = hoy.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+  const day = hoy.getDate();
+  return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+});
 
 const listarCentros = () => {
   centrosService.getData(1).then(response => {
@@ -58,8 +66,8 @@ onUnmounted(() => {
       <div class="p-1 m-1">
         <div class="form-group">
           <label for="fecha" class="font-semibold">Fecha</label>
-          <input type="date" v-model="fecha" class="form-control" @change="listarRegistros()" name="fecha" id="fecha"
-            placeholder="Fecha" />
+          <input type="date" v-model="fecha" class="form-control" @change="listarRegistros()" :min="fechaMinima"
+            name="fecha" id="fecha" placeholder="Fecha" />
         </div>
       </div>
 
