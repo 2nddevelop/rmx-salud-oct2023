@@ -15,7 +15,7 @@
 
         <div class="flex p-1 m-1">
           <button
-            class="form-control disabled:bg-green-200 bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
+            class="form-control bg-green-500 hover:bg-green-600 disabled:bg-green-200 text-white py-2 px-4 m-1 rounded"
             title="Clonar semana" disabled
           >
             Clonar Semana
@@ -25,8 +25,8 @@
         <div class="flex justify-end p-1 m-1">
           <button
             @click="newRegistro()"
-            class="form-control bg-green-500 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
-            title="Nuevo"
+            class="form-control bg-green-500 hover:bg-green-600 disabled:bg-red-200 text-white py-2 px-4 m-1 rounded"
+            title="Nuevo" :disabled="filtro.fecha < fechaMinima"
           >
             + Nuevo
           </button>
