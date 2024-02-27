@@ -1,12 +1,12 @@
 <template>
   <div class="">
     <div>
-      <div class="grid grid-cols-4">
-        <div class="p-4 m-1">
+      <div class="grid grid-cols-4 p-0 m-0">
+        <div class="p-1 m-1">
           <h1>{{ title }}</h1>
         </div>
 
-        <div class="p-4 m-1">
+        <div class="p-1 m-1">
           <div class="form-group">
             <label for="fecha" class="font-semibold">Fecha</label>
             <input type="date" v-model="filtro.fecha" class="form-control" @change="listarRegistros" :min="fechaMinima"
@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <div class="p-4 m-1">
+        <div class="p-1 m-1">
           <div class="form-group">
             <label for="centro" class="font-semibold">Establ. de Salud</label>
             <select v-model="filtro.centro_id" class="form-control"
@@ -24,6 +24,14 @@
               <option v-for="c in centrosSalud" :key="c.cnt_id" :value="c.cnt_id">{{ c.cnt_descripcion }}</option>
             </select>
           </div>
+        </div>
+
+        <div class="flex justify-end p-1 m-1">
+          <button @click="refrescar()"
+            class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded text-xs"
+            title="Refrescar" :disabled="filtro.centro_id == '0'">
+            <i class="fa-solid fa-rotate fa-xs"></i> Refrescar
+          </button>
         </div>
 
       </div>
@@ -60,7 +68,6 @@
           <tr v-for="(r, index) in regs" v-bind:key="r.fch_id">
             <td align="right">{{ index + 1 }}</td>
             <td align="left">
-
 
               <button v-if="r.fch_estado == 'E'" @click="llamarConsulta(r)"
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-1 m-1 rounded" title="Llamar Consulta">
@@ -583,6 +590,13 @@ export default {
 
       this.filtro.fecha = `${year}-${month}-${day}`;
     },
+
+    refrescar() {
+      this.dates();
+      this.listarRegistros();
+      this.listarEspecialidades();
+      this.listarConsultorios();
+    }
 
   },
 

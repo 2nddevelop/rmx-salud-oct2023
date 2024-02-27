@@ -32,10 +32,8 @@ const listarRegistros = () => {
   fichasService.getData(fecha.value, centro_id.value).then(response => {
     regs.value = response;
     //    const countLast = regs.value.filter((reg) => reg.fch_estado == 'S').length;
-    console.log('Ultimo: ', last.value);
     if ((last.value !== regs.value[0].fch_id) && (regs.value[0].fch_estado == 'S')) {
       last.value = regs.value[0].fch_id
-      console.log('Cambió');
       const audio = new Audio(audioFile);
       audio.play();
     }

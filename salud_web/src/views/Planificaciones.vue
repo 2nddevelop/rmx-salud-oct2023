@@ -506,7 +506,6 @@ export default {
         numero++;
       }
       this.reg.pln_data.pln_horario_fin = hora;
-      console.log('Disponibles: ', disponibles);
       
       // actualiza
       this.reg.pln_data_disponibles = disponibles;
