@@ -308,12 +308,12 @@
                 <div v-for="(r, index) in reg.pln_data_disponibles" class="grid grid-cols-5 gap-1" style="display: flex;" v-bind:key="index">
                   <template v-if="r.pln_fch_id == 0">
                     <button class="bg-green-400 text-white font-bold py-2 px-4 m-1 rounded">
-                      {{ r.pln_hora }}
+                      {{ r.pln_numero }}<br>{{ r.pln_hora }}
                     </button>
                   </template>
                   <template v-else>
                     <button class="bg-gray-300 text-black font-bold py-2 px-4 m-1 rounded">
-                      {{ t.pln_numero }}<br>{{ r.pln_hora }}
+                      {{ r.pln_numero }}<br>{{ r.pln_hora }}
                     </button>
                   </template>
                 </div>
