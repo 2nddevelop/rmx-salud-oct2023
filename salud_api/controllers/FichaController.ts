@@ -88,7 +88,21 @@ const FichaController = {
     const { fch_cli_id, fch_pln_id, fch_nro_ficha, fch_kdx_medico, fch_tipo_atencion, fch_usr_id, fch_estado, filtro_fecha, 
       filtro_centro_id, fch_hora, pln_data_disponibles } = req.body;
 
-      try {
+    try {
+      const especialidad = await pool.query(
+        `SELECT e.esp_codigo
+          FROM rmx_sld_planificacion p
+          INNER JOIN rmx_sld_especialidades e ON e.esp_id = p.pln_esp_id
+          WHERE p.pln_data->>'pln_fecha' = $1
+          AND p.pln_cnt_id = $2
+          AND p.pln_id = $3
+          AND p.pln_estado != 'X'
+          GROUP BY e.esp_codigo 
+          ORDER BY e.esp_codigo 
+        `, [filtro_fecha, filtro_centro_id, fch_pln_id]
+      );
+      console.log('Especialidad para la Ficha', especialidad);
+
       const nextFicha = await pool.query(
         `SELECT e.esp_codigo, COUNT(f.*) AS next_ficha 
           FROM rmx_sld_fichas f
@@ -97,6 +111,7 @@ const FichaController = {
           WHERE p.pln_data->>'pln_fecha' = $1
           AND p.pln_cnt_id = $2
           AND p.pln_id = $3
+          AND p.pln_estado != 'X'
           AND f.fch_estado != 'X'
           GROUP BY e.esp_codigo 
           ORDER BY e.esp_codigo 
@@ -104,7 +119,10 @@ const FichaController = {
       );
 
       let numero_ficha = 0;
-      let codigo_ficha = 'FFF';
+      let codigo_ficha = 'ERROR';
+      if (Object.keys(especialidad.rows).length > 0) {
+        codigo_ficha = especialidad.rows[0].esp_codigo;
+      }
       if (Object.keys(nextFicha.rows).length > 0) {
         codigo_ficha = nextFicha.rows[0].esp_codigo;
         numero_ficha = parseInt(nextFicha.rows[0].next_ficha) + 1;

@@ -502,7 +502,7 @@ export default {
         let item = {};
         item = {pln_fch_id: 0, pln_hora: hora, pln_numero: numero};
         disponibles.push(item);
-        hora = this.sumarMinutosAHora(hora, this.reg.pln_data.pln_duracion);
+        hora = this.sumarMinutosAHora(hora, parseInt(this.reg.pln_data.pln_duracion));
         numero++;
       }
       this.reg.pln_data.pln_horario_fin = hora;
