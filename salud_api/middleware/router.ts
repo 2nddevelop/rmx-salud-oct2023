@@ -17,6 +17,7 @@ import RolController from '../controllers/RolController';
 import UsuarioRolController from '../controllers/UsuarioRolController';
 import AvisoController from '../controllers/AvisoController';
 import NoticiaController from '../controllers/NoticiaController';
+import SiceController from '../controllers/SiceController';
 
 const router = express.Router();
 
@@ -188,5 +189,7 @@ router.post('/ficha', authMiddleware, FichaController.createFicha);
 router.get('/ficha/buscar/:fch_id', authMiddleware, FichaController.getFicha);
 router.put('/ficha/:fch_id', authMiddleware, FichaController.updateFicha);
 router.post('/ficha/:fch_id', authMiddleware, FichaController.deleteFicha);
+
+router.post('/sice/setHistorial/:hcl_codigo', SiceController.setHistorial);
 
 export default router;
