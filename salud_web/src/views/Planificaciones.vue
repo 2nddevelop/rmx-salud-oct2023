@@ -313,7 +313,7 @@
                   </template>
                   <template v-else>
                     <button class="bg-gray-300 text-black font-bold py-2 px-4 m-1 rounded">
-                      {{ r.pln_hora }}
+                      {{ t.pln_numero }}<br>{{ r.pln_hora }}
                     </button>
                   </template>
                 </div>
