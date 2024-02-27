@@ -101,7 +101,6 @@ const FichaController = {
           ORDER BY e.esp_codigo 
         `, [filtro_fecha, filtro_centro_id, fch_pln_id]
       );
-      console.log('Especialidad para la Ficha', especialidad);
 
       const nextFicha = await pool.query(
         `SELECT e.esp_codigo, COUNT(f.*) AS next_ficha 
