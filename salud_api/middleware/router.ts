@@ -117,7 +117,7 @@ router.put('/noticia/:nt_id', authMiddleware, NoticiaController.updateNoticia);
 router.post('/noticia/:nt_id', authMiddleware, NoticiaController.deleteNoticia);
 
 //// Centros
-router.get('/centros', authMiddleware, CentroController.getAllCentros);
+router.get('/centros', CentroController.getAllCentros);
 router.post('/centro', authMiddleware, CentroController.createCentro);
 router.put('/centro/:cnt_id', authMiddleware, CentroController.updateCentro);
 router.post('/centro/:cnt_id', authMiddleware, CentroController.deleteCentro);
@@ -143,19 +143,19 @@ router.post('/consultorio/:con_id', authMiddleware, ConsultorioController.delete
 
 //// planificacion
 router.get('/planificaciones/:fecha', authMiddleware, PlanificacionController.getAllPlanificaciones);
-router.get('/planificaciones/:fecha/:cnt_id', authMiddleware, PlanificacionController.getAllPlanificacionesXFechaCntId);
+router.get('/planificaciones/:fecha/:cnt_id', PlanificacionController.getAllPlanificacionesXFechaCntId);
 router.post('/planificacion', authMiddleware, PlanificacionController.createPlanificacion);
 router.put('/planificacion/:pln_id', authMiddleware, PlanificacionController.updatePlanificacion);
 router.post('/planificacion/:pln_id', authMiddleware, PlanificacionController.deletePlanificacion);
 
 //// Tipos Cliente
-router.get('/tiposClientes', authMiddleware, TiposClienteController.getAllTiposClientes);
+router.get('/tiposClientes', TiposClienteController.getAllTiposClientes);
 router.post('/tiposCliente', authMiddleware, TiposClienteController.createTipoCliente);
 router.put('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.updateTipoCliente);
 router.post('/tiposCliente/:tcli_id', authMiddleware, TiposClienteController.deleteTipoCliente);
 
 //// Clientes
-router.post('/cliente/buscarHistorial', authMiddleware, ClienteController.getClienteHistorialXCliId); // lo puse aqui por tema del compilador tsc, tema en las rutas
+router.post('/cliente/buscarHistorial', ClienteController.getClienteHistorialXCliId); // lo puse aqui por tema del compilador tsc, tema en las rutas
 router.post('/clientes/buscarXCI', authMiddleware, ClienteController.getClientesXCI);
 router.post('/clientes/buscar', authMiddleware, ClienteController.getAllClientesXCIPatMatNombres);
 
@@ -169,7 +169,7 @@ router.post('/clientes/buscar', authMiddleware, ClienteController.getAllClientes
 //// Historiales
 router.get('/historiales', authMiddleware, HistorialesController.getAllHistoriales);
 router.post('/historial', authMiddleware, HistorialesController.createHistorial);
-router.post('/historiales/buscar', authMiddleware, HistorialesController.getAllHistorialesXCIPatMatNombres);
+router.post('/historiales/buscar', HistorialesController.getAllHistorialesXCIPatMatNombres);
 router.put('/historial/:hc_id', authMiddleware, HistorialesController.updateHistorial);
 router.post('/historial/:hc_id', authMiddleware, HistorialesController.deleteHistorial);
 
@@ -184,9 +184,9 @@ router.post('/historialDet/:hcd_id', authMiddleware, HistorialesDetController.de
 //router.get('/fichas/:fecha', authMiddleware, FichaController.getAllFichas);
 router.get('/fichas/historiales/:fecha/:cnt_id', authMiddleware, FichaController.getAllFichasHistoriales);
 
-router.get('/fichas/:fecha/:cnt_id', authMiddleware, FichaController.getAllFichas);
-router.post('/ficha', authMiddleware, FichaController.createFicha);
-router.get('/ficha/buscar/:fch_id', authMiddleware, FichaController.getFicha);
+router.get('/fichas/:fecha/:cnt_id', FichaController.getAllFichas);
+router.post('/ficha', FichaController.createFicha);
+router.get('/ficha/buscar/:fch_id', FichaController.getFicha);
 router.put('/ficha/:fch_id', authMiddleware, FichaController.updateFicha);
 router.post('/ficha/:fch_id', authMiddleware, FichaController.deleteFicha);
 

@@ -23,7 +23,7 @@ const fechaMinima = computed(() => {
 });
 
 const listarCentros = () => {
-  centrosService.getData(1).then(response => {
+  centrosService.getData(centro_id.value).then(response => {
     centrosSalud.value = response;
   })
 }
