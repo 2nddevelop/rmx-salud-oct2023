@@ -156,7 +156,8 @@
             <div class="grid grid-cols-5 gap-0">
               <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
                 <template v-if="d.pln_fch_id == 0">
-                  <button @click="saveModal(d.pln_fch_id, d.pln_hora)"
+                  <!-- <button @click="saveModal(d.pln_fch_id, d.pln_hora)" -->
+                  <button @click="saveModal(d.pln_fch_id, d.pln_hora, d.pln_numero)"
                     class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded">
                     {{ d.pln_hora }}
                   </button>
@@ -298,13 +299,14 @@ export default {
       this.showModal = true;
     },
 
-    async saveModal(ficha, hora) {
+    async saveModal(ficha, hora, numero) {
       this.reg.fch_usr_id = 1; 
       this.reg.fch_estado = "P";
       this.reg.filtro_fecha = this.filtro.fecha;
       this.reg.filtro_centro_id = this.filtro.centro_id;
       this.reg.fch_hora = hora;
-      
+      this.reg.fch_numero = numero;
+
         const indexFicha = this.disponibles.findIndex(item => item.pln_hora === hora );
         if (indexFicha !== -1) {
           let updatedFicha = this.disponibles[indexFicha];
@@ -381,7 +383,10 @@ export default {
           html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
           html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
           html += '<tr><td colspan="3"><hr></td></tr>';
-          html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
+          html += '<tr><td colspan="3">Paciente CI: ' + reg.cli_data.cli_nit + '</td></tr>';
+          html += '<tr><td colspan="3" align="center">Nombres: ' + reg.cli_data.cli_paterno + ' ' + reg.cli_data.cli_materno + ' ' + reg.cli_data.cli_nombres + '' + '</td></tr>';
+          html += '<tr><td colspan="3"><hr></td></tr>';
+          html += '<tr><td colspan="3" align="center">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
           html += '<tr><td colspan="3"><hr></td></tr>';
           html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
           html += '</table>';

@@ -45,7 +45,9 @@
         <thead class="thead-dark">
           <tr>
             <th>#</th>
-            <th></th>
+            <th>
+              <input type="checkbox" v-model="filtro.todos" @change="listarRegistros"> Todos
+            </th>
             <th>Tipo</th>
             <th>CI / Paciente</th>
             <th>Especialidad
@@ -415,7 +417,7 @@ export default {
       // dates
       currentDate: new Date(),
       // filtro
-      filtro: { especialidad_id: '0', consultorio_id: '0', fecha: '', centro_id: '0', cli_nit: "", cli_paterno: "", cli_materno: "", cli_nombres: "" },
+      filtro: { especialidad_id: '0', consultorio_id: '0', fecha: '', centro_id: '0', cli_nit: "", cli_paterno: "", cli_materno: "", cli_nombres: "", todos: false },
       // horas
       disponibles: [],
       pln_id: 0,
@@ -443,7 +445,11 @@ export default {
           const filas = [];
           response.forEach(row => {
             if ((this.filtro.especialidad_id == 0 || this.filtro.especialidad_id == row.esp_id) && (this.filtro.consultorio_id == 0 || this.filtro.consultorio_id == row.con_id)) {
-              filas.push(row);
+              if (this.filtro.todos) {
+                filas.push(row);
+              } else if (row.fch_estado == 'P' || row.fch_estado == 'S') {
+                filas.push(row);
+              }
             }
           })
           this.regs = filas;
@@ -639,7 +645,10 @@ export default {
             html += '<tr><td colspan="3">Especialidad: ' + reg.esp_descripcion + '</td></tr>';
             html += '<tr><td colspan="3">Consultorio: ' + reg.con_descripcion + '</td></tr>';
             html += '<tr><td colspan="3"><hr></td></tr>';
-            html += '<tr><td align="center" colspan="3">Recuerde estar 20 minutos antes de su consulta médica.</td></tr>';
+            html += '<tr><td colspan="3">Paciente CI: ' + reg.cli_data.cli_nit + '</td></tr>';
+            html += '<tr><td colspan="3">Nombres: ' + reg.cli_data.cli_paterno + ' ' + reg.cli_data.cli_materno + ' ' + reg.cli_data.cli_nombres + '' + '</td></tr>';
+            html += '<tr><td colspan="3"><hr></td></tr>';
+            html += '<tr><td align="center" colspan="3">Recuerde estar presente 20 minutos antes de su consulta médica.</td></tr>';
             html += '<tr><td colspan="3"><hr></td></tr>';
             html += '<tr><td colspan="3" align="center">' + reg.fch_registrado + '</td></tr>';
             html += '</table>';

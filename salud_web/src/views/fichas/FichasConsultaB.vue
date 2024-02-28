@@ -41,7 +41,9 @@
         <thead class="thead-dark">
           <tr>
             <th>#</th>
-            <th></th>
+            <th>
+              <input type="checkbox" v-model="filtro.todos" @change="listarRegistros"> Todos
+            </th>
             <th>CI / Paciente</th>
             <th>Especialidad
               <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" name="esp_id"
@@ -400,7 +402,7 @@ export default {
       // dates
       currentDate: new Date(),
       // filtro
-      filtro: { especialidad_id: 0, consultorio_id: 0, fecha: '', centro_id: 0 }
+      filtro: { especialidad_id: 0, consultorio_id: 0, fecha: '', centro_id: 0, todos: false }
     };
   },
 
@@ -423,7 +425,11 @@ export default {
           const filas = [];
           response.forEach(row => {
             if ((this.filtro.especialidad_id == 0 || this.filtro.especialidad_id == row.esp_id) && (this.filtro.consultorio_id == 0 || this.filtro.consultorio_id == row.con_id)) {
-              filas.push(row);
+              if (this.filtro.todos) {
+                filas.push(row);
+              } else if (row.fch_estado == 'E' || row.fch_estado == 'C' || row.fch_estado == 'A') {
+                filas.push(row);
+              }
             }
           })
           this.regs = filas;

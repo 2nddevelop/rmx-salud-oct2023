@@ -51,7 +51,7 @@ const FichaController = {
         WHERE p.pln_data->>'pln_fecha' = $1
           AND p.pln_cnt_id = $2
           AND f.fch_estado != 'X' 
-        ORDER BY ce.cnt_descripcion, e.esp_codigo, co.con_codigo `, [fecha, cnt_id]
+        ORDER BY f.fch_hora `, [fecha, cnt_id]
       );
       const fichas = fichasQuery.rows;
       res.json(fichas);
