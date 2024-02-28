@@ -9,7 +9,7 @@ const fecha = ref(new Date().toISOString().slice(0, 10));
 const centro_id = ref(0);
 const centrosSalud = ref();
 const regs = ref();
-const count = ref(0);
+const nroFichas = ref(0);
 const last = ref(0);
 
 const plural = ref('ADMISIONES');
@@ -31,12 +31,13 @@ const listarCentros = () => {
 const listarRegistros = () => {
   fichasService.getData(fecha.value, centro_id.value).then(response => {
     regs.value = response;
-    //    const countLast = regs.value.filter((reg) => reg.fch_estado == 'S').length;
-    if ((last.value !== regs.value[0].fch_id) && (regs.value[0].fch_estado == 'S')) {
-      last.value = regs.value[0].fch_id
+    const listado = regs.value.filter(row => row.fch_estado == 'S');
+    if (listado.length > nroFichas.value) {
       const audio = new Audio(audioFile);
       audio.play();
+      last.value = listado[0].fch_id;
     }
+    nroFichas.value = listado.length;
   })
 }
 
@@ -113,8 +114,7 @@ onUnmounted(() => {
             <i v-else class="fa-solid fa-arrow-right fa-sm"></i>
           </td>
           <td align="center" style="background-color: beige;">
-            <label v-show="r.fch_estado == 'S'">ADMISIONES</label>
-            <label v-show="r.fch_estado !== 'S'" class="font-bold">{{ r.con_codigo }}</label>
+            ADMISIONES
           </td>
         </template>
       </tr>
