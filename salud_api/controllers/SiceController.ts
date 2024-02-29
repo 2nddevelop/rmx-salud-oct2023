@@ -22,11 +22,10 @@ const SiceController = {
               hc_codigo = ${hcl_codigo_nuevo}
             WHERE hc_cli_id = ${fila.rows[0].cli_id};`);
         } else {
-          pool.query(`INSERT INTO rmx_gral_clientes (cli_tcli_id, cli_data, cli_usr_id, codigo_ant) VALUES (0, '${JSON.stringify(paciente)}', 0, ${hcl_codigo})`).then(() => {
-              pool.query(`SELECT cli_id FROM rmx_gral_clientes WHERE codigo_ant = ${hcl_codigo}`).then(row => {
-                  pool.query(`INSERT INTO rmx_sld_historiales (hc_cli_id, hc_codigo, hc_usr_id) VALUES (${row.rows[0].cli_id}, ${hcl_codigo}, 0)`);
-              });
-          });
+          pool.query(`INSERT INTO rmx_gral_clientes (cli_tcli_id, cli_data, cli_usr_id, codigo_ant)
+            VALUES (0, '${JSON.stringify(paciente)}', 0, ${hcl_codigo}) RETURNING cli_id`).then((nuevo) =>{
+              pool.query(`INSERT INTO rmx_sld_historiales (hc_cli_id, hc_codigo, hc_usr_id) VALUES (${nuevo.rows[0].cli_id}, ${hcl_codigo}, 0)`);
+          })
         }
       });
       res.json({ message: 'Hecho' });
