@@ -33,19 +33,11 @@ const DoctorController = {
     const mat = doc_materno !== "" ? " AND UPPER(d.doc_data->>'doc_materno') like '" + doc_materno.toUpperCase() + "%' " : " ";
     const noms = doc_nombres !== "" ? " AND UPPER(d.doc_data->>'doc_nombres') like '" + doc_nombres.toUpperCase() + "%' " : " ";
 
-    console.log(">>> ", ci);
-    console.log(">>> ", pat);
-    console.log(">>> ", mat);
-    console.log(">>> ", noms);
-
     try {
       const sql = `SELECT d.*
       FROM rmx_sld_doctores d
       WHERE d.doc_estado != 'X' ${ci} ${pat} ${mat} ${noms} ORDER BY 1 `;
-      console.log('SQL >>> ', sql);
-      const doctoresQuery = await pool.query( 
-        sql
-      );
+      const doctoresQuery = await pool.query(sql);
       const doctores = doctoresQuery.rows;
       res.json(doctores);
     } catch (error) {

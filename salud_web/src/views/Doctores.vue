@@ -247,11 +247,13 @@
         }
       },
       async buscarRegistros() {
+/*
           console.log('Buscando registros...');
           console.log('CI:', this.filtro.doc_ci);
           console.log('Paterno:', this.filtro.doc_paterno);
           console.log('Materno:', this.filtro.doc_materno);
           console.log('Nombres:', this.filtro.doc_nombres);
+*/
           this.regs = [];
           try {
             this.regs = await doctoresService.getBuscar(this.filtro.doc_ci, this.filtro.doc_paterno, this.filtro.doc_materno, this.filtro.doc_nombres);
@@ -479,9 +481,11 @@
     transition: all 0.3s ease;
   }
   
+/*
   .modal-footer button:hover {
-    b___ackground-color: #f0f0f0;
+    background-color: #f0f0f0;
   }
+*/
   
   /* Form field styles */
   .form-group {

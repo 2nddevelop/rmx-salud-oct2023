@@ -175,7 +175,6 @@ export default {
       this.regs = [];
       try {
         this.regs = await consultoriosService.getData(this.filtro.centro_id);
-        console.log("Registros: ", this.regs);          
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -185,7 +184,6 @@ export default {
       this.centrosSalud = [];
       try {
         this.centrosSalud = await centrosService.getData();
-        console.log("Centros: ", this.centrosSalud);
       } catch (error) {
         console.error("Error:", error.message);
       }

@@ -9,7 +9,8 @@ const fecha = ref(new Date().toISOString().slice(0, 10));
 const centro_id = ref(0);
 const centrosSalud = ref();
 const regs = ref();
-const count = ref(0);
+const nroFichas = ref(0);
+const last = ref(0);
 
 const plural = ref('CONSULTA EXTERNA');
 
@@ -30,19 +31,20 @@ const listarCentros = () => {
 const listarRegistros = () => {
   fichasService.getData(fecha.value, centro_id.value).then(response => {
     regs.value = response;
-    const countLast = regs.value.filter((reg) => reg.fch_estado == 'C').length;
-    if (countLast !== count.value) {
-      count.value = countLast;
+    const listado = regs.value.filter(row => row.fch_estado == 'C');
+    if (listado.length > nroFichas.value) {
       const audio = new Audio(audioFile);
       audio.play();
+      last.value = listado[0].fch_id;
     }
+    nroFichas.value = listado.length;
   })
 }
 
 let intervalo = null;
 
 onMounted(() => {
-  centro_id.value = localStorage.getItem('cnt_id'); // importante insumo para this.listarRegistros()
+  centro_id.value = (localStorage.getItem('cnt_id')) ? localStorage.getItem('cnt_id') : 1; // importante insumo para this.listarRegistros()
 
   listarCentros();
   intervalo = setInterval(() => {
@@ -107,10 +109,12 @@ onUnmounted(() => {
             </span -->
           </td>
           <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
-          <td align="center"><i class="fa-solid fa-arrow-right fa-sm"></i></td>
+          <td align="center">
+            <i v-if="r.fch_id == last" class="fa-solid fa-bullhorn fa-sm"></i>
+            <i v-else class="fa-solid fa-arrow-right fa-sm"></i>
+          </td>
           <td align="center" style="background-color: beige;">
-            <label v-show="r.fch_estado == 'S'">ADMISIONES</label>
-            <label v-show="r.fch_estado !== 'S'" class="font-bold">{{ r.con_codigo }}</label>
+            <label class="font-bold">{{ r.con_codigo }}</label>
           </td>
         </template>
       </tr>
