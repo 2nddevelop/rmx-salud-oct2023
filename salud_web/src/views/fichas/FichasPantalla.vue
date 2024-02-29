@@ -44,7 +44,7 @@ const listarRegistros = () => {
 let intervalo = null;
 
 onMounted(() => {
-  centro_id.value = localStorage.getItem('cnt_id'); // importante insumo para this.listarRegistros()
+  centro_id.value = (localStorage.getItem('cnt_id')) ? localStorage.getItem('cnt_id') : 1; // importante insumo para this.listarRegistros()
 
   listarCentros();
   intervalo = setInterval(() => {
