@@ -28,16 +28,32 @@
           </div>
 
           <div class="grid grid-cols-2">
-            <div class="flex justify-end pl-4 pr-2 m-1">
+            <div class="flex justify-end pl-4 pr-2 m-1 bg-gray-200 b-gray-500 rounded-xl">
               <button
                 @click="newRegistro()"
                 class="form-control bg-green-500 disabled:bg-green-200 hover:bg-green-600 text-white py-2 px-4 m-1 rounded"
                 title="Nuevo"
                 :disabled="filtro.centro_id == '0'"
               >
-                + Nueva Ficha
+                Nueva Ficha
               </button>
+              <label style="font-size:small;">Ya estoy registrado en este Establecimiento</label>
             </div>
+            
+            <div class="flex justify-end pl-4 pr-2 m-1 bg-gray-200 b-gray-500 rounded-xl">
+              <button
+                @click="newRegistro()"
+                class="form-control bg-gray-500 disabled:bg-gray-200 hover:bg-gray-600 text-white py-2 px-4 m-1 rounded"
+                title="Nuevo"
+                :disabled="filtro.centro_id == '0'"
+              >
+                Ficha ANÓNIMA
+              </button>
+              <label style="font-size: small;">Primera vez que vengo a este Establecimiento</label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1">
             <div class="flex justify-end pl-2 pr-4 m-1">
               <button
                 @click="reimprimirUltimaFicha"
@@ -46,7 +62,7 @@
                 :disabled="filtro.centro_id == '0' || !ultimaFichaImpresa"
               >
                 <i class="fa-solid fa-print"></i>
-                Reimprimir Última Ficha
+                <br>Reimprimir Última Ficha<br>
               </button>
             </div>
           </div>
@@ -63,12 +79,19 @@
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <!-- Modal header -->
-          <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+          <div class="flex items-start justify-between p-4 border-b dark:border-gray-600">
             <h2
               class="modal-title text-xl font-semibold text-gray-900 dark:text-white"
             >
-              {{ isEditing ? "EDITAR " : "NUEVA " }} {{ singular }}
+              NUEVA {{ singular }} &nbsp; &nbsp;
             </h2>
+
+            <div class="grid grid-cols-3 gap-1">
+              <div class="form-group">
+                <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
+              </div>              
+            </div>
+
             <button
               type="button"
               @click="closeModal()"
@@ -79,18 +102,7 @@
               <span class="sr-only">Close modal</span>
             </button>
           </div>
-
-          <!-- Modal body -->
-          <div class="modal-body p-1 space-y-1">
-            <div class="grid grid-cols-3 gap-1">
-              <div class="form-group">
-                <label for="fecha2" class="font-semibold">Fecha</label>
-                <input type="date" v-model="filtro.fecha" class="form-control" name="fecha2" id="fecha2" placeholder="Fecha de hoy" disabled />
-              </div>
-              
-            </div>
-            
-            <div class="grid grid-cols-5 gap-1">
+          <div class="grid grid-cols-5 gap-1">
               <div class="form-group">
                 <input class="form-control" v-model="filtro.cli_nit" name="ci" id="ci" placeholder="CI" >
               </div>
@@ -104,7 +116,7 @@
                 <input class="form-control" v-model="filtro.cli_nombres" name="nombres" id="nombres" placeholder="Nombres" >
               </div>
               <div>
-                <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
+                <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1" 
                   @click="buscarRegistros"
                   :disabled="!filtro.cli_nit && !filtro.cli_paterno && !filtro.cli_materno && !filtro.cli_nombres"
                   title="Buscar">
@@ -112,7 +124,10 @@
                 </button>
               </div>
             </div>
-
+            
+          <!-- Modal body -->
+          <div class="modal-body p-1 space-y-1">
+            
             <div class="grid grid-cols-1 gap-1">
               <div class="form-group">
                 <label for="fch_cli_id" class="font-semibold">Paciente</label>
@@ -131,35 +146,46 @@
                 <label for="nro">Numero Ficha</label>
                 <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
               </div -->
-              <div class="col-md-6">
-                <label for="kdx">Kardex Médico</label>
-                <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
+              <div>
+                <div class="col-md-6">
+                  <label for="kdx" class="font-semibold">Kardex Médico</label>
+                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
+                </div>
+                <div class="form-group">
+                  <label for="fch_tipo_atencion" class="font-semibold">Tipo Atención</label>
+                  <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
+                    <option value="0">-- seleccione --</option>
+                    <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
+                  </select>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
-                <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
-                  <option value="0">-- seleccione --</option>
-                  <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
-                </select>
+
+              <div>
+                <div class="form-group"> <!-- v-for="p in planificaciones" -->
+                  <!--button @click="mostrarFicha(this, p.pln_id)" 
+                    class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
+                    :disabled="reg.fch_kdx_medico == 'a definir' || reg.fch_tipo_atencion == 0">
+                    {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                  </button-->
+                  <label for="fch_esp_id" class="font-semibold">Especialidades Planificadas</label>
+                  <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" size="5"
+                    @change="mostrarFicha(this)" 
+                    placeholder="Especialidades Planificadas" required>
+                    <option value="0">-- seleccione --</option>
+                    <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
+                      {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                    </option>
+                  </select>
+                  <label class="content-center text-red-400" v-show="planificaciones.length < 1">
+                    No hay planificacion para este día
+                  </label>
+                </div>
               </div>
-            </div>
-            <div class="grid grid-cols-2 gap-1">
-              <div v-for="p in planificaciones" class="form-group">
-                <button @click="mostrarFicha(this, p.pln_id)" 
-                  class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
-                  :disabled="reg.fch_kdx_medico == 'a definir' || reg.fch_tipo_atencion == 0">
-                  {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
-                </button>
-              </div>
-              <label class="content-center text-red-400" v-show="planificaciones.length < 1">
-                No hay planificacion para este día
-              </label>
             </div>
 
             <div class="grid grid-cols-5 gap-0">
               <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
                 <template v-if="d.pln_fch_id == 0">
-                  <!-- <button @click="saveModal(d.pln_fch_id, d.pln_hora)" -->
                   <button @click="saveModal(d.pln_fch_id, d.pln_hora, d.pln_numero)"
                     class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded">
                     {{ d.pln_numero }}<br>
@@ -363,11 +389,13 @@ export default {
       }
     },
 
-    async mostrarFicha(registro, pln_id) {
-      registro.reg.fch_pln_id = pln_id;
+    async mostrarFicha(registro) {
+      console.log('>>> ', registro);
+      // registro.reg.fch_pln_id = this.pln_id;
       const sel = registro.reg.fch_pln_id;        
       const pln = this.planificaciones.find((element) => element.pln_id == sel);
       this.disponibles = pln.pln_data_disponibles;
+      console.log('Disponibles: ', this.disponibles);
     },
 
 

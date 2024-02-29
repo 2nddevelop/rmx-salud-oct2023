@@ -226,8 +226,8 @@
                 id="fch_cli_id" placeholder="Centro" size="5" required>
                 <option value="0">-- seleccione --</option>
                 <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
-                  {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }} &nbsp; &nbsp; {{
-                    c.cli_data.cli_nit }}
+                  {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }} &nbsp; &nbsp;
+                  {{ c.cli_data.cli_nit }}
                 </option>
               </select>
 
@@ -267,12 +267,12 @@
                     <template v-if="d.pln_fch_id == 0">
                       <button @click="saveModal(d.pln_fch_id, d.pln_hora, d.pln_numero)"
                         class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded">
-                        [{{ d.pln_numero }}] {{ d.pln_hora }}
+                        {{ d.pln_numero }}<br>{{ d.pln_hora }}
                       </button>
                     </template>
                     <template v-else>
                       <button class="bg-gray-200 hover:bg-gray-100 text-gray font-bold py-2 px-4 m-1 rounded">
-                        {{ d.pln_hora }}
+                        {{ d.pln_numero }}<br>{{ d.pln_hora }}
                       </button>
                     </template>
                   </div>
@@ -545,7 +545,7 @@ export default {
       this.reg.filtro_fecha = this.filtro.fecha;
       this.reg.filtro_centro_id = this.filtro.centro_id;
       this.reg.fch_hora = hora;
-      this.reg.fch_numero = numero;
+      this.reg.pln_numero = numero;
       if (this.isEditing) {
         const updatedReg = await fichasService.updateData(this.reg);
         const index = this.regs.findIndex(item => item.fch_id === updatedReg.fch_id);
