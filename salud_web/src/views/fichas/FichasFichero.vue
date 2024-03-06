@@ -126,34 +126,36 @@
                 </select>
               </div>
             </div>
+            
             <div class="grid grid-cols-2 gap-1">
-              <!-- div class="col-md-6">
-                <label for="nro">Numero Ficha</label>
-                <input v-model="reg.fch_nro_ficha" class="form-control" name="nro" id="nro" placeholder="Numero de Ficha" />
-              </div -->
-              <div class="col-md-6">
-                <label for="kdx">Kardex Médico</label>
-                <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
+              <div>
+                <div class="col-md-6">
+                  <label for="kdx">Kardex Médico</label>
+                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico" style="background:beige;" disabled />
+                </div>
+                <div class="form-group">
+                  <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
+                  <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
+                    <option value="0">-- seleccione --</option>
+                    <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
+                  </select>
+                </div>
               </div>
+
               <div class="form-group">
-                <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
-                <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion" id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
+                <label for="fch_esp_id" class="font-semibold">Especialidades Planificadas</label>
+                <select v-model="reg.fch_pln_id" class="form-control" name="fch_pln_id" id="fch_pln_id" size="5"
+                  @change="mostrarFicha(this)" 
+                  placeholder="Especialidades Planificadas" required>
                   <option value="0">-- seleccione --</option>
-                  <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
+                  <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
+                    {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
+                  </option>
                 </select>
+                <label class="content-center text-red-400" v-show="planificaciones.length < 1">
+                  No hay planificacion para este día
+                </label>
               </div>
-            </div>
-            <div class="grid grid-cols-2 gap-1">
-              <div v-for="p in planificaciones" class="form-group">
-                <button @click="mostrarFicha(this, p.pln_id)" 
-                  class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded"
-                  :disabled="reg.fch_kdx_medico == 'a definir' || reg.fch_tipo_atencion == 0">
-                  {{ p.esp_descripcion }} - {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
-                </button>
-              </div>
-              <label class="content-center text-red-400" v-show="planificaciones.length < 1">
-                No hay planificacion para este día
-              </label>
             </div>
 
             <div class="grid grid-cols-5 gap-0">
@@ -363,11 +365,19 @@ export default {
       }
     },
 
-    async mostrarFicha(registro, pln_id) {
+    async mostrarFicha(registro) {
+      console.log('>>> ', registro);
+      // registro.reg.fch_pln_id = this.pln_id;
+      const sel = registro.reg.fch_pln_id;        
+      const pln = this.planificaciones.find((element) => element.pln_id == sel);
+      this.disponibles = pln.pln_data_disponibles;
+      console.log('Disponibles: ', this.disponibles);
+      /*
       registro.reg.fch_pln_id = pln_id;
       const sel = registro.reg.fch_pln_id;        
       const pln = this.planificaciones.find((element) => element.pln_id == sel);
       this.disponibles = pln.pln_data_disponibles;
+      */
     },
 
 

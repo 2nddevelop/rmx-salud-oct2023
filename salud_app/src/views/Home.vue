@@ -75,7 +75,7 @@ import {
   IonRow,
   IonCol,
   IonInput,
-  IonToast,
+  IonToast, IonLabel, IonGrid
 } from "@ionic/vue";
 
 import { useStore } from 'vuex';
