@@ -93,6 +93,9 @@
             <div class="grid grid-cols-5 gap-1">
               <div class="form-group">
                 <input class="form-control" v-model="filtro.cli_nit" name="ci" id="ci" placeholder="CI" >
+                <label class="content-center text-red-400" v-show="clientes.length <= 1">
+                1. Busque al PACIENTE
+              </label>
               </div>
               <div class="form-group">
                 <input class="form-control" v-model="filtro.cli_paterno" name="paterno" id="paterno" placeholder="Paterno" >
@@ -104,7 +107,7 @@
                 <input class="form-control" v-model="filtro.cli_nombres" name="nombres" id="nombres" placeholder="Nombres" >
               </div>
               <div>
-                <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-1 rounded" 
+                <button class="bg-green-500 hover:bg-green-600 disabled:bg-gray-200 text-white font-bold py-2 px-4 m-0 rounded" 
                   @click="buscarRegistros"
                   :disabled="!filtro.cli_nit && !filtro.cli_paterno && !filtro.cli_materno && !filtro.cli_nombres"
                   title="Buscar">
@@ -124,6 +127,9 @@
                     {{ c.cli_data.cli_nit }}
                   </option>
                 </select>
+                <label class="content-center text-red-400" v-show="reg.fch_cli_id == '0'">
+                  2. Seleccione PACIENTE
+                </label>
               </div>
             </div>
             
@@ -139,6 +145,9 @@
                     <option value="0">-- seleccione --</option>
                     <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}</option>
                   </select>
+                  <label class="content-center text-red-400" v-show="reg.fch_tipo_atencion == '0'">
+                    3. Seleccione Tipo Atención
+                  </label>
                 </div>
               </div>
 
@@ -153,7 +162,10 @@
                   </option>
                 </select>
                 <label class="content-center text-red-400" v-show="planificaciones.length < 1">
-                  No hay planificacion para este día
+                  No hay PLANIFICACIÓN para este día
+                </label>
+                <label class="content-center text-red-400" v-show="reg.fch_pln_id == '0'">
+                  4. Seleccione Especialidad
                 </label>
               </div>
             </div>
