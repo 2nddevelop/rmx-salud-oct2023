@@ -111,20 +111,14 @@
             </td>
           </tr>
         </tbody>
+
         <tfoot>
           <tr>
             <td colspan="13">Son n {{ plural }}</td>
           </tr>
         </tfoot>
       </table>
-      <div>
-      <paginator
-        :current-page="currentPage"
-        :total-pages="totalPages"
-        :prev-page="prevPage"
-        :next-page="nextPage"
-      ></paginator>
-      </div>
+
     </div>
 
     <!-- Modal -->
@@ -340,8 +334,6 @@ import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import DataTable from 'datatables.net-vue3';
 import '@fortawesome/fontawesome-free/css/all.css';
 
-import Paginator from '../components/Paginator.vue';
-
 export default {
   data() {
     return {
@@ -371,9 +363,6 @@ export default {
       currentDate: new Date(),
       // filtro
       filtro: { fecha: '', centro_id: '0', especialidad_id: '0' },
-      // paginator
-      currentPage: 1,
-      itemsPerPage: 10,
 
       // disponibles horas
       lapso: 20 // 20 minutos
@@ -407,7 +396,6 @@ export default {
       } catch (error) {
         console.error("Error:", error.message);
       }
-      this.initDataTable();
     },
     async listarCentros() {
       this.centros = [];
@@ -443,14 +431,7 @@ export default {
         console.error("Error:", error.message);
       }
     },
-    initDataTable() {
-      if (this.dataTable) {
-        this.dataTable.destroy();
-      }
-      const dataTableOptions = {
-      };
-      this.dataTable = $(this.$refs.myTable).DataTable(dataTableOptions);
-    },
+
     newRegistro() {
       this.isEditing = false;
       this.reg = {
@@ -465,6 +446,7 @@ export default {
       };
       this.showModal = true;
     },
+
     editRegistro(reg) {
       this.listarConsultorios(reg.pln_cnt_id);
       this.isEditing = true;
@@ -560,36 +542,6 @@ export default {
       this.filtro.fecha = `${year}-${month}-${day}`;
     },
 
-
-    // paginator
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-      }
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-      }
-    },
-    watch: {
-      paginatedRegs() {
-        this.$nextTick(() => {
-          if (this.$refs.myTable) {
-            $(this.$refs.myTable).DataTable().destroy(); // Destruye DataTable existente antes de recrearlo
-            $(this.$refs.myTable).DataTable({
-              // Configuración de DataTables según tus necesidades
-              paging: true,
-              searching: true,
-              // ... más opciones según sea necesario
-            });
-          }
-        });
-      },
-    },
-    components: {
-      DataTable,
-    },
   },
 
   computed: {
@@ -602,16 +554,6 @@ export default {
       return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
     },
 
-    // paginator
-    totalPages() {
-      return Math.ceil(this.regs.length / this.itemsPerPage);
-    },
-
-    paginatedRegs() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.regs.slice(startIndex, endIndex);
-    },
   },
 
 };
