@@ -73,6 +73,7 @@
 </template>
 
 <script setup>
+
 import { RouterLink, RouterView } from 'vue-router'
 //import HelloWorld from './components/Encabezado.vue'
 import { ref } from 'vue';
@@ -113,6 +114,7 @@ const menuItems = ref([
     { id: 43, label: 'Fichero', link: '/fichasFichero', roles: [1, 2, 3, 4]  },
     { id: 44, label: 'Pantalla Admisiones', link: '/fichasPantallaAdmisiones', roles: [1, 2, 3, 4, 5]  },
     { id: 45, label: 'Pantalla Consultas', link: '/fichasPantalla', roles: [1, 2, 3, 4, 5]  },
+    { id: 45, label: 'Reporte', link: '/fichasReporte', roles: [1, 2, 3, 4, 5, 6]  },
   ]},
   { id: 5, label: 'Consulta', roles: [1, 4, 5], children: [
     // { id: 51, label: 'Signos Vitales', link: '/fichasSVitales', roles: [1, 4, 5]  },

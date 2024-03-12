@@ -196,6 +196,16 @@ const router = createRouter({
     },
 
     {
+      path: '/fichasReporte',
+      name: 'fichasReporte',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/fichas/FichasReporte.vue'),
+      meta: { requiresAuth: true }
+    },
+
+    {
       path: '/historiales',
       name: 'historiales',
       // route level code-splitting
