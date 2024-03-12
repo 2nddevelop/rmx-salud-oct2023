@@ -51,8 +51,8 @@
             <th>Tipo</th>
             <th>CI / Paciente</th>
             <th>Especialidad
-              <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros" name="esp_id"
-                id="esp_id" placeholder="Espcialidad" required>
+              <select v-model="filtro.especialidad_id" class="form-control input" @change="listarRegistros"
+                name="esp_id" id="esp_id" placeholder="Espcialidad" required>
                 <option value="0">-- todas --</option>
                 <option v-for="e in especialidades" :key="e.esp_id" :value="e.esp_id">{{ e.esp_descripcion }}</option>
               </select>
@@ -103,7 +103,7 @@
             </td>
             <td align="left">{{ r.tcli_codigo }}</td>
             <td align="left">{{ r.cli_data.cli_nit }} / {{ r.cli_data.cli_paterno }} {{ r.cli_data.cli_materno }} {{
-              r.cli_data.cli_nombres }} </td>
+            r.cli_data.cli_nombres }} </td>
             <td align="left" style="background-color: beige;">{{ r.esp_descripcion }}</td>
             <td align="left" style="background-color: beige;">{{ r.con_codigo }} </td>
             <td align="center">{{ r.fch_hora }} </td>
@@ -115,10 +115,10 @@
                 class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xxs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Adm</span>
               <span v-if="r.fch_estado == 'A'"
                 class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xxs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{
-                  r.fch_estado }}</span>
+            r.fch_estado }}</span>
               <span v-if="r.fch_estado == 'P'"
                 class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xxs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/10">{{
-                  r.fch_estado }}</span>
+            r.fch_estado }}</span>
               <span v-if="r.fch_estado == 'E'"
                 class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xxs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/10">En
                 Espera</span>
@@ -197,6 +197,9 @@
               <div class="grid grid-cols-5 gap-1">
                 <div class="form-group">
                   <input class="form-control" v-model="filtro.cli_nit" name="ci" id="ci" placeholder="CI">
+                  <label class="content-center text-red-400" v-show="clientes.length <= 1">
+                    1. Busque al PACIENTE
+                  </label>
                 </div>
                 <div class="form-group">
                   <input class="form-control" v-model="filtro.cli_paterno" name="paterno" id="paterno"
@@ -222,23 +225,29 @@
               </div>
 
               <label for="fch_cli_id" class="font-semibold">Paciente</label>
-              <select v-model="reg.fch_cli_id" @change="buscarHistorial(this)" class="form-control" name="fch_cli_id"
-                id="fch_cli_id" placeholder="Centro" size="5" required>
+              <select v-model="reg.fch_cli_id" @change="buscarHistorial(this); mostrarFicha()" class="form-control"
+                name="fch_cli_id" id="fch_cli_id" placeholder="Centro" size="5" required>
                 <option value="0">-- seleccione --</option>
                 <option v-for="c in clientes" :key="c.cli_id" :value="c.cli_id">
                   {{ c.cli_data.cli_paterno }} {{ c.cli_data.cli_materno }} {{ c.cli_data.cli_nombres }} &nbsp; &nbsp;
                   {{ c.cli_data.cli_nit }}
                 </option>
               </select>
+              <label class="content-center text-red-400" v-show="reg.fch_cli_id == '0'">
+                2. Seleccione PACIENTE
+              </label>
 
               <label for="fch_pln_id" class="font-semibold">Planificación</label>
-              <select v-model="reg.fch_pln_id" @change="mostrarFicha(this)" class="form-control" name="fch_pln_id"
+              <select v-model="reg.fch_pln_id" @change="mostrarFicha()" class="form-control" name="fch_pln_id"
                 id="fch_pln_id" placeholder="Planificacion" size="5" required>
                 <option value="0">-- seleccione --</option>
                 <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
                   [{{ p.esp_descripcion }}] {{ p.doc_data.doc_paterno }} [{{ p.con_descripcion }}]
                 </option>
               </select>
+              <label class="content-center text-red-400" v-show="reg.fch_pln_id == '0'">
+                3. Seleccione Especialidad
+              </label>
 
               <div class="grid grid-cols-2 gap-4">
                 <!-- div class="form-group">
@@ -247,21 +256,24 @@
                   </div -->
                 <div class="form-group">
                   <label for="kdx">Kardex Médico</label>
-                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico"
-                    style="background:beige;" disabled />
+                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx"
+                    placeholder="Kardex Medico" style="background:beige;" disabled />
                 </div>
                 <div class="form-group">
                   <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
                   <select v-model="reg.fch_tipo_atencion" class="form-control" name="fch_tipo_atencion"
-                    id="fch_tipo_atencion" placeholder="Tipo Atencion" required>
+                    id="fch_tipo_atencion" placeholder="Tipo Atencion" @change="mostrarFicha()" required>
                     <option value="0">-- seleccione --</option>
                     <option v-for="t in tiposClientes" :key="t.tcli_id" :value="t.tcli_id">{{ t.tcli_descripcion }}
                     </option>
                   </select>
+                  <label class="content-center text-red-400" v-show="reg.fch_tipo_atencion == '0'">
+                    4. Seleccione Tipo Atención
+                  </label>
                 </div>
               </div>
 
-              <div v-if="reg.fch_tipo_atencion > 0">
+              <div v-if="reg.fch_tipo_atencion > 0" v-show="fichasVisibles == 7">
                 <div class="grid grid-cols-5 gap-0">
                   <div v-show="1" v-for="d in disponibles"><!-- mostrar fichas -->
                     <template v-if="d.pln_fch_id == 0">
@@ -340,7 +352,7 @@
                     <option value="0">-- seleccione --</option>
                     <option v-for="p in planificaciones" :key="p.pln_id" :value="p.pln_id">
                       [{{ p.esp_descripcion }}] {{ p.pln_data.pln_consultorio }} - {{ p.pln_data.pln_medico }} [{{
-                        p.cnt_descripcion }}]
+            p.cnt_descripcion }}]
                     </option>
                   </select>
                 </div>
@@ -354,8 +366,8 @@
                 </div>
                 <div class="col-md-6">
                   <label for="kdx">Kardex Médico</label>
-                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx" placeholder="Kardex Medico"
-                    disabled />
+                  <input v-model="reg.fch_kdx_medico" class="form-control" name="kdx" id="kdx"
+                    placeholder="Kardex Medico" disabled />
                 </div>
                 <div class="form-group">
                   <label for="fch_tipo_atencion" class="font-semibold">Tipo Atencion</label>
@@ -383,8 +395,8 @@
     </div>
   </div>
 </template>
-  
-  
+
+
 <script>
 import clientesService from '../../services/clientesService';
 import planificacionesService from '../../services/planificacionesService';
@@ -422,6 +434,7 @@ export default {
       disponibles: [],
       pln_id: 0,
       lapso: 20, //lapso de consulta
+      fichasVisibles: 0
     };
   },
 
@@ -620,10 +633,22 @@ export default {
       }
     },
 
-    async mostrarFicha(registro) {
-      const sel = registro.reg.fch_pln_id;
-      const pln = this.planificaciones.find((element) => element.pln_id == sel);
-      this.disponibles = pln.pln_data_disponibles;
+    async mostrarFicha() {
+      this.fichasVisibles = 0;
+      if (this.reg.fch_cli_id > 0) {
+        this.fichasVisibles += 1;
+      }
+      if (this.reg.fch_tipo_atencion > 0) {
+        this.fichasVisibles += 2;
+      }
+      if (this.reg.fch_pln_id > 0) {
+        this.fichasVisibles += 4;
+      }
+      if (this.fichasVisibles == 7) {
+        const sel = this.reg.fch_pln_id;
+        const pln = this.planificaciones.find((element) => element.pln_id == sel);
+        this.disponibles = pln.pln_data_disponibles;
+      }
     },
 
     async printRegistro(reg) {
@@ -710,8 +735,8 @@ export default {
 
 };
 </script>
-  
-  
+
+
 <style>
 * {
   box-sizing: border-box;
@@ -849,10 +874,6 @@ export default {
   transition: all 0.3s ease;
 }
 
-.modal-footer button:hover {
-  b___ackground-color: #f0f0f0;
-}
-
 /* Form field styles */
 .form-group {
   margin-bottom: 15px;
@@ -865,4 +886,3 @@ export default {
   border-radius: 4px;
 }
 </style>
-  
