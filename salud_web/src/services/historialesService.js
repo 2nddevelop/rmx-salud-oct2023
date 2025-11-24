@@ -46,7 +46,7 @@ const historialesService = {
     try {
       const tk = localStorage.getItem('token');
       this.setAuthHeader(tk);
-      const response = await axios.put(API_URL + `/historial/${record.fch_id}`, record);
+      const response = await axios.put(API_URL + `/historial/${record.hc_id}`, record);
       return response.data;
     } catch (error) {
       throw error;

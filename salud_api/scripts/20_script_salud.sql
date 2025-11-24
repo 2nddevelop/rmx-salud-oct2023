@@ -281,12 +281,12 @@ create table rmx_sld_parametros (
   par_estado text default 'A'
 );
 insert into rmx_sld_parametros (par_codigo, par_descripcion, par_categoria, par_usr_id) values
-('CH', 'Chuquisaca', 'DPTO',  1);
-('R1', 'Red', 'RED',  1);
-('R2', 'Red', 'RED',  1);
-('R3', 'Red', 'RED',  1);
-('R3', 'Red', 'RED',  1);
-('TP1', 'Tipo Red 1', 'TIPO RED',  1);
-('TP2', 'Tipo Red 2', 'TIPO RED',  1);
-('TP3', 'Tipo Red 3', 'TIPO RED',  1);
+('CH', 'Chuquisaca', 'DPTO',  1),
+('R1', 'Red', 'RED',  1),
+('R2', 'Red', 'RED',  1),
+('R3', 'Red', 'RED',  1),
+('R3', 'Red', 'RED',  1),
+('TP1', 'Tipo Red 1', 'TIPO RED',  1),
+('TP2', 'Tipo Red 2', 'TIPO RED',  1),
+('TP3', 'Tipo Red 3', 'TIPO RED',  1),
 ('SC', 'Sucre ', 'MUNICIPIOS',  1);
